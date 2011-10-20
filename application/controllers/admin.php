@@ -133,9 +133,9 @@ class Admin extends CI_Controller {
 			case 'add':
 				// по адресу "/admin/users/add
 				// удаление пользователя через админку
-				$data['users'] = $this->user_model->get_short();
-				$data['content'] = 'add form';
-				$data['title'] = 'Пользователи';
+				//$data['users'] = $this->user_model->get_short();
+				$data['content'] = $this->load->view('/admin/edit_users_view', $data, TRUE);
+				$data['title'] = 'Создание учетной записи пользователя';
 				$this->load->view('/templates/admin_view', $data);
 				break;
 			
