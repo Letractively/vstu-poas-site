@@ -122,20 +122,33 @@ class Admin extends CI_Controller {
 		$data = NULL;
 		$this->load->model('user_model');
 
-		// по адресу "/admin/users": список всех пользователей
-		if( $this->uri->segment(3) == '' ) 
-		{
-			$data['users'] = $this->user_model->get_short();
-			$data['content'] = $this->load->view('/admin/users_view', $data, TRUE);
-			$data['title'] = 'Пользователи';
-			$this->load->view('/templates/admin_view', $data);
-		}
-		// по адресу "/admin/users/delete/<user_id>
-		else if( $this->uri->segment(3) == 'delete' )
-		{
-			// @todo Удаление пользователя через админку
-			echo "Опа, а тут тютю";
-		}
+		
+		switch($this->uri->segment(3)) {
+			case 'delete':
+				// по адресу "/admin/users/delete/<user_id> 
+				// удаление пользователя через админку				
+				$this->user_model->delete_user($this->uri->segment(4));
+				redirect('admin/users');
+				break;
+			case 'add':
+				// по адресу "/admin/users/add
+				// удаление пользователя через админку
+				$data['users'] = $this->user_model->get_short();
+				$data['content'] = 'add form';
+				$data['title'] = 'Пользователи';
+				$this->load->view('/templates/admin_view', $data);
+				break;
+			
+			case '':
+			default:
+				// по адресу "/admin/users": список всех пользователей
+				// он же при несуществующем методе
+				$data['users'] = $this->user_model->get_short();
+				$data['content'] = $this->load->view('/admin/users_view', $data, TRUE);
+				$data['title'] = 'Пользователи';
+				$this->load->view('/templates/admin_view', $data);
+				break;
+		}		
 	}
 	
 	

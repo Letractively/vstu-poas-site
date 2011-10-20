@@ -88,6 +88,15 @@ class User_model extends CI_Model {
 	}
 	
 	/**
+	 * Удалить пользователя по его идентификатору
+	 * @param $id - идентификатор удаляемого пользователя
+	 */
+	function delete_user($id) 
+	{
+		return $this->db->delete('users', array('id' => $id));	
+	}
+	
+	/**
 	 * Проверить, есть ли пользователь с данным именем логина в базе данных (занят ли логин) 
 	 * @param string $username - проверяемое имя логина
 	 */
