@@ -28,6 +28,7 @@ class Admin extends CI_Controller {
 	*/
 	function news()
 	{
+		// @todo проверка на админа или редактора новостей
 		$data = NULL;
 		$this->load->model(MODEL_NEWS);
 	
@@ -119,6 +120,7 @@ class Admin extends CI_Controller {
 	 */
 	function users()
 	{
+		// @todo проверка на администратора
 		$data = NULL;
 		$this->load->model(MODEL_USER);
 
@@ -175,16 +177,31 @@ class Admin extends CI_Controller {
 	 */
 	function projects()
 	{
+		// @todo проверка на преподавателя
 		$data = NULL;
 		$this->load->model(MODEL_PROJECT);
 		
 		switch($this->uri->segment(3)) {
+			case 'add':
+				if ($this->uri->segment(4) == 'action') 
+				{
+					$this->project_model->add_from_post();
+					redirect('admin/projects');
+				}
+				else 
+				{
+					// по адресу "/admin/add": добавление нового проекта
+					$data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
+					$data['title'] = 'Проекты';
+					$this->load->view('/templates/admin_view', $data);
+				}
+				break;
 			case '':
 			default:
 				// по адресу "/admin/projects": список всех проектов
 				// он же при несуществующем методе
-				//$data['content'] = $this->load->view('/admin/users_view', $data, TRUE);
-				$data['content'] = 'Проекты';
+				$data['projects'] = $this->project_model->get_short();
+				$data['content'] = $this->load->view('/admin/projects_view', $data, TRUE);
 				$data['title'] = 'Проекты';
 				$this->load->view('/templates/admin_view', $data);
 				break;
