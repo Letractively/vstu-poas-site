@@ -7,30 +7,38 @@ $roles = array('admin' => 'Администратор',
 $permissions = array ('news_editor' => 'Редактор новостей',
 					  'students_manager' => 'Менеджер студентов');
 // end:@todo
-$user = new stdClass();
-$user->login = '';
+//$user = new stdClass();
+if(!isset($user->login))		{ $user->login = ''; }
 $user->password = '';
 $user->password2 = '';
-$user->email = '';
-$user->name = '';
-$user->surname = '';
-$user->patronymic = '';
-$user->role = 'student';
-$user->id = 0;
+if(!isset($user->email))		{ $user->email = ''; }
+if(!isset($user->name))			{ $user->name = ''; }
+if(!isset($user->surname))		{ $user->surname = ''; }
+if(!isset($user->patronymic))	{ $user->patronymic = ''; }
+if(!isset($user->role))			{ $user->role = 'student'; }
+if(!isset($user->id))		
+
+//$user->id = 0;
 
 $user->permission_news_editor = FALSE;
 $user->permission_students_manager = FALSE;
 
 $button_title = 'Создать';
+if(!isset($passwordmessage)) 	{ $passwordmessage = ''; }
+if(!isset($loginmessage)) 		{ $loginmessage = ''; }
 
 $action = 'add';
-echo form_open('admin/news/'.$action.'/action');
+echo form_open('admin/users/'.$action.'/action');
 
 echo form_label('Логин', 'user_login', array('class'=>'inline-block'));
-echo form_input('user_login', $user->login, 'maxlength="40"').br(2);
+echo form_input('user_login', $user->login, 'maxlength="40"');
+echo form_label($loginmessage, 'login_message', array('class'=>'inline-block','style' => 'color:red;'));
+echo br(2);
 
 echo form_label('Пароль', 'user_password', array('class'=>'inline-block'));
-echo form_password('user_password', $user->password, 'maxlength="40"').br();
+echo form_password('user_password', $user->password, 'maxlength="40"');
+echo form_label($passwordmessage, 'password_message', array('class'=>'inline-block','style' => 'color:red;'));
+echo br();
 
 echo form_label('Повторите пароль', 'user_password2', array('class'=>'inline-block'));
 echo form_password('user_password2', $user->password2, 'maxlength="40"').br(2);

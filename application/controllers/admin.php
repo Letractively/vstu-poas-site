@@ -132,11 +132,30 @@ class Admin extends CI_Controller {
 				break;
 			case 'add':
 				// по адресу "/admin/users/add
-				// удаление пользователя через админку
-				//$data['users'] = $this->user_model->get_short();
-				$data['content'] = $this->load->view('/admin/edit_users_view', $data, TRUE);
-				$data['title'] = 'Создание учетной записи пользователя';
-				$this->load->view('/templates/admin_view', $data);
+				// добавление пользователя через админку
+				if ($this->uri->segment(4) == 'action')
+				{
+					if ($errors = $this->user_model->get_errors_add())
+					{
+						$data['content'] = $this->load->view('/admin/edit_user_view', $errors, TRUE);
+						$data['title'] = 'Создание учетной записи пользователя';
+						$this->load->view('/templates/admin_view', $data);
+					}
+					else 
+					{
+						$this->user_model->add_from_post();
+						redirect('admin/users');
+					}
+					
+				}
+				else {
+					// по адресу "/admin/users/add
+					// добавление пользователя через админку
+					//$data['users'] = $this->user_model->get_short();
+					$data['content'] = $this->load->view('/admin/edit_user_view', $data, TRUE);
+					$data['title'] = 'Создание учетной записи пользователя';
+					$this->load->view('/templates/admin_view', $data);
+				}
 				break;
 			
 			case '':
