@@ -120,7 +120,7 @@ class Admin extends CI_Controller {
 	function users()
 	{
 		$data = NULL;
-		$this->load->model('user_model');
+		$this->load->model(MODEL_USER);
 
 		
 		switch($this->uri->segment(3)) {
@@ -168,6 +168,27 @@ class Admin extends CI_Controller {
 				$this->load->view('/templates/admin_view', $data);
 				break;
 		}		
+	}
+	
+	/**
+	 * Работа с проектами
+	 */
+	function projects()
+	{
+		$data = NULL;
+		$this->load->model(MODEL_PROJECT);
+		
+		switch($this->uri->segment(3)) {
+			case '':
+			default:
+				// по адресу "/admin/projects": список всех проектов
+				// он же при несуществующем методе
+				//$data['content'] = $this->load->view('/admin/users_view', $data, TRUE);
+				$data['content'] = 'Проекты';
+				$data['title'] = 'Проекты';
+				$this->load->view('/templates/admin_view', $data);
+				break;
+		}
 	}
 	
 	
