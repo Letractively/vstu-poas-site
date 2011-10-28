@@ -196,6 +196,33 @@ class Admin extends CI_Controller {
 					$this->load->view('/templates/admin_view', $data);
 				}
 				break;
+			case 'edit':
+				if ($this->uri->segment(4) == 'action') 
+				{
+					$this->project_model->edit_from_post();
+					redirect('admin/projects');
+				}
+				else 
+				{
+					// по адресу "/admin/edit/{id}": добавление редактирование проекта
+					$id = $this->uri->segment(4);
+					$data = array();
+					$data['project'] = $this->project_model->get_project($id);
+					$data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
+					$data['title'] = 'Проекты';
+					$this->load->view('/templates/admin_view', $data);
+				}
+				break;
+			case 'delete':
+				// по адресу "/admin/news/delete": удаление проекта
+				$this->project_model->delete( $this->uri->segment(4) );
+				
+				$data['projects'] = $this->project_model->get_short();
+				$data['content'] = $this->load->view('/admin/projects_view', $data, TRUE);
+				$data['title'] = 'Проекты';
+				$data['message'] = $this->project_model->message;
+				$this->load->view('/templates/admin_view', $data);				
+				break;
 			case '':
 			default:
 				// по адресу "/admin/projects": список всех проектов
