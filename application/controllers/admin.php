@@ -192,7 +192,7 @@ class Admin extends CI_Controller {
 				{
 					// по адресу "/admin/add": добавление нового проекта
 					$data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
-					$data['title'] = 'Проекты';
+					$data['title'] = 'Создание нового проекта';
 					$this->load->view('/templates/admin_view', $data);
 				}
 				break;
@@ -209,7 +209,7 @@ class Admin extends CI_Controller {
 					$data = array();
 					$data['project'] = $this->project_model->get_project($id);
 					$data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
-					$data['title'] = 'Проекты';
+					$data['title'] = 'Изменение проекта';
 					$this->load->view('/templates/admin_view', $data);
 				}
 				break;
