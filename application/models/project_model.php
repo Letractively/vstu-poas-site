@@ -29,51 +29,62 @@ class Project_model extends CI_Model {
 	}
 	
 	/**
+	 * Получить информацию о проекте из данных, полученных методом POST
+	 * return Project - объект, содержащий собранную информацию о проекте
+	*/
+	function get_from_post() 
+	{
+		$project = new stdClass();
+		$project->name_ru = 		$this->input->post('project_name_ru');
+		$project->name_en = 		$this->input->post('project_name_en');
+		$project->description_ru = 	$this->input->post('project_description_ru');
+		$project->description_en = 	$this->input->post('project_description_en');
+		$project->url = 			$this->input->post('project_url');
+		$project->image = 			$this->input->post('project_image');
+		if ($this->input->post('project_id') != '') 
+		{
+			$project->id = 			$this->input->post('project_id');
+		}
+		// Не будем хранить пустоты зазря
+		if($project->name_en === '') { $project->name_en = null; }
+		if($project->description_en === '') { $project->description_en = null; }
+		if ($project->image == 0 ) {$project->image = null; }
+		
+		return $project;
+	}
+	/**
 	 * Добавить новый проект, используя данные, отправленные методом POST
 	 * @return int id - идентификатор добавленого проекта | FALSE
 	 */
-	function add_from_post() {
-		$data = array();
-		$project = array(
-			'name_ru' => $this->input->post('project_name_ru'),
-			'name_en' => $this->input->post('project_name_en'),
-			'description_ru' => $this->input->post('project_description_ru'),
-			'description_en' => $this->input->post('project_description_en'),
-			'url' => $this->input->post('project_url'),
-			'image' => $this->input->post('project_image')
-		);
-		// Не будем хранить пустоты зазря
-		if($project['name_en'] === '') { $project['name_en'] = null; }
-		if($project['description_en'] === '') { $project['description_en'] = null; }
-		if ($project['image'] == 0 ) {$project['image'] = null; }
+	function add_from_post() 
+	{
+		$project = $this->get_from_post();
 		if($this->db->insert(TABLE_PROJECTS, $project))
 		{
+			$this->message = 'Проект был успешно внесен в базу данных';
 			return $this->db->insert_id();
 		}
 		else
 		{
+			$this->message = 'Ошибка! Проект не удалось добавить проект';
 			return FALSE;
 		}
 	}
 	
 	function edit_from_post() 
 	{
-		$data = array();
-		$project = array(
-			'name_ru' => $this->input->post('project_name_ru'),
-			'name_en' => $this->input->post('project_name_en'),
-			'description_ru' => $this->input->post('project_description_ru'),
-			'description_en' => $this->input->post('project_description_en'),
-			'url' => $this->input->post('project_url'),
-			'image' => $this->input->post('project_image'),
-			'id' => $this->input->post('project_id')
-		);
-		// Не будем хранить пустоты зазря
-		if($project['name_en'] === '') { $project['name_en'] = null; }
-		if($project['description_en'] === '') { $project['description_en'] = null; }
+		$project = $this->get_from_post();
 		
-		$this->db->where('id', $project['id']);
-		return $this->db->update(TABLE_PROJECTS, $project);
+		$this->db->where('id', $project->id);
+		$response = $this->db->update(TABLE_PROJECTS, $project);
+		if ($response != 1) 
+		{
+			$this->message = 'Ошибка! Проект не был изменен';
+		}
+		else {
+			$this->message = 'Проект был успешно изменен';
+		}
+		return $response;
 	}
 	
 	/**

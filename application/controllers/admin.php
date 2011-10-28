@@ -186,7 +186,7 @@ class Admin extends CI_Controller {
 				if ($this->uri->segment(4) == 'action') 
 				{
 					$this->project_model->add_from_post();
-					redirect('admin/projects');
+					$this->_view_projects($this->project_model->message);
 				}
 				else 
 				{
@@ -200,7 +200,7 @@ class Admin extends CI_Controller {
 				if ($this->uri->segment(4) == 'action') 
 				{
 					$this->project_model->edit_from_post();
-					redirect('admin/projects');
+					$this->_view_projects($this->project_model->message);
 				}
 				else 
 				{
@@ -217,24 +217,27 @@ class Admin extends CI_Controller {
 				// по адресу "/admin/news/delete": удаление проекта
 				$this->project_model->delete( $this->uri->segment(4) );
 				
-				$data['projects'] = $this->project_model->get_short();
-				$data['content'] = $this->load->view('/admin/projects_view', $data, TRUE);
-				$data['title'] = 'Проекты';
-				$data['message'] = $this->project_model->message;
-				$this->load->view('/templates/admin_view', $data);				
+				$this->_view_projects($this->project_model->message);
 				break;
 			case '':
 			default:
 				// по адресу "/admin/projects": список всех проектов
 				// он же при несуществующем методе
-				$data['projects'] = $this->project_model->get_short();
-				$data['content'] = $this->load->view('/admin/projects_view', $data, TRUE);
-				$data['title'] = 'Проекты';
-				$this->load->view('/templates/admin_view', $data);
+				$this->_view_projects();
 				break;
 		}
 	}
 	
+	function _view_projects($message = null) {
+		$data['projects'] = $this->project_model->get_short();
+		$data['content'] = $this->load->view('/admin/projects_view', $data, TRUE);
+		$data['title'] = 'Проекты';
+		if($message != null) 
+		{
+			$data['message'] = $message;
+		}
+		$this->load->view('/templates/admin_view', $data);
+	}
 	
 	function logout()
 	{
