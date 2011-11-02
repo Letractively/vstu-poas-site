@@ -17,25 +17,8 @@ class Project_model extends CI_Model {
 	{
 		if (isset($id))
 		{
-			$projects = $this->db->select('id, name_ru')->get_where(TABLE_PROJECTS, array('id' => $id), 1)->result();
-			if( !$projects)
-			{
-				return FALSE;
-			}
-			return $projects[0];
-		}
-		
-		return $this->db->select('id, name_ru')->order_by('name_ru')->get(TABLE_PROJECTS)->result();
-	}
-	function get_detailed($id = null) 
-	{
-		if (isset($id))
-		{
-			$projects = $this->db->select('id,'. 
-										  'name_' . lang() . ' as name,' .
-										  'description_' . lang() . ' as description,' .
-										  'url'
-										  )
+			$projects = $this->db
+								 ->select('id, name_'.lang().' as name, url')
 								 ->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
 								 ->get_where(TABLE_PROJECTS, array('id' => $id), 1)
 								 ->result();
@@ -46,13 +29,49 @@ class Project_model extends CI_Model {
 			return $projects[0];
 		}
 		
-		return $this->db->select('id,'. 
-								 'name_' . lang() . ' as name,' .
-								 'description_' . lang() . ' as description,' .
-								 'url'
-								)
-						   ->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
-						   ->order_by('name_ru')->get(TABLE_PROJECTS)->result();
+		return $this->db
+						->select('id, name_'.lang().' as name, url')
+						->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
+						->order_by('name_'.lang())
+						->get(TABLE_PROJECTS)
+						->result();
+	}
+	/**
+	 * Получить детальную информацию о проекте
+	 * 
+	 * @param $id - id проекта
+	 * @return запись 
+	*/
+	function get_detailed($id) 
+	{
+		if (isset($id))
+		{
+			$projects = $this->db
+								 ->select('id,'. 
+										  'name_' . lang() . ' as name,' .
+										  'description_' . lang() . ' as description,' .
+										  'url'
+										  )
+								 ->get_where(TABLE_PROJECTS, array('id' => $id), 1)
+								 ->result();
+			// Если не нашлось проекта на требуемом языке - выдать русскую версию
+			if ($projects && ( ! isset($projects[0]->name) || $projects[0]->name == '' )) 
+			{
+				$projects = $this->db
+								 ->select('id,'. 
+										  'name_ru as name,' .
+										  'description_ru as description,' .
+										  'url'
+										  )
+								 ->get_where(TABLE_PROJECTS, array('id' => $id), 1)
+								 ->result();
+			}
+			if( !$projects)
+			{
+				return FALSE;
+			}
+			return $projects[0];
+		}		
 	}
 	/**
 	 * Получить информацию о проекте из данных, полученных методом POST

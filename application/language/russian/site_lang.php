@@ -2,3 +2,4 @@
 $lang['site_detail'] = 'подробнее';
 $lang['users'] = 'Пользователи';
 $lang['visit_site'] = 'Посетить сайт';
+$lang['projects_doesnt_exist'] = 'Проект не существует';

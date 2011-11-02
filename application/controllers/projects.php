@@ -12,12 +12,10 @@ class Projects extends CI_Controller {
 	}
 	
 	/// √лавна€ страница сайта
-	function index($id = null)
+	function index()
 	{
-		if (isset($id)) {
-		echo $id;
-		}
-		$data['projects'] = $this->project_model->get_detailed();
+		
+		$data['projects'] = $this->project_model->get_short();
 		$data['content'] = $this->load->view('projects_view', $data, TRUE);
 		$this->load->view('templates/main_view', $data);
 	}
@@ -38,13 +36,21 @@ class Projects extends CI_Controller {
 	
 	/**
 	 * @todo 
-	 * —траница просмотра одной новости целиком
+	 * —траница просмотра одного проекта целиком
 	 */
-	function show( $projectid )
+	function show ($id)
 	{
-		echo $projectid;
-		$data['content'] = $projectid;
-		$this->load->view('templates/main_view', $data);
+		$data['project'] = $this->project_model->get_detailed($id);
+		if (!$data['project']) 
+		{
+			$data['content'] = $this->lang->line('projects_doesnt_exist');
+			$this->load->view('templates/main_view', $data);
+		}
+		else 
+		{
+			$data['content'] = $this->load->view('project_view', $data, TRUE);
+			$this->load->view('templates/main_view', $data);
+		}
 	}
 	
 }
