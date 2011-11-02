@@ -3,10 +3,11 @@
 <?php 
 foreach ($projects as $project)
 {
-	echo '<b>' . $project->name_ru . '</b>';
+	echo '<div class="project">';
+	echo '<h3>' . anchor($project->url, $project->name, array('class'=>'link')). '</h3>';
+	echo $project->description;
+	echo '</div>';
 	echo br();
-	echo $project->description_ru;
-	echo br(2);
 }
 ?>
 

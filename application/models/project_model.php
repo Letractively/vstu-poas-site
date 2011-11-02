@@ -31,7 +31,11 @@ class Project_model extends CI_Model {
 	{
 		if (isset($id))
 		{
-			$projects = $this->db->select('*')->get_where(TABLE_PROJECTS, array('id' => $id), 1)->result();
+			$projects = $this->db->select('id,'. 
+										  'name_' . lang() . ' as name,' .
+										  'description_' . lang() . ' as description,' .
+										  'url'
+										  )->get_where(TABLE_PROJECTS, array('id' => $id), 1)->result();
 			if( !$projects)
 			{
 				return FALSE;
@@ -39,7 +43,11 @@ class Project_model extends CI_Model {
 			return $projects[0];
 		}
 		
-		return $this->db->select('*')->order_by('name_ru')->get(TABLE_PROJECTS)->result();
+		return $this->db->select('id,'. 
+								 'name_' . lang() . ' as name,' .
+								 'description_' . lang() . ' as description,' .
+								 'url'
+								)->order_by('name_ru')->get(TABLE_PROJECTS)->result();
 	}
 	/**
 	 * Получить информацию о проекте из данных, полученных методом POST
