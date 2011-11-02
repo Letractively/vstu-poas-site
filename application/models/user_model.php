@@ -63,17 +63,35 @@ class User_model extends CI_Model {
 	}
 	
 	/**
+	 * Проверить данные, введенные на форме edit_user_view на корректность
+	 * @return массив с ошибками
+	 */
+	function get_errors_add() {
+		$errors = array();
+		if ($this->input->post('user_password2') !== $this->input->post('user_password'))
+		{
+			$errors['passwordmessage'] = 'Введенные пароли не совпадают';
+		}
+		if ($this->is_username_exist($this->input->post('user_login')))
+		{
+			$errors['loginmessage'] = 'Данный логин уже используется';
+		}
+		// @todo обязательность заполнения всех полей
+		return $errors;
+	}
+	/**
 	 * Добавить нового пользователя, используя данные, отправленные методом POST
 	 * @return int id - идентификатор добавленого пользователя | FALSE
 	 */
 	function add_from_post()
 	{
+		$data = array();
 		$user = array(
-			'first_name' => $this->input->post('login_first_name'),
-			'last_name' => $this->input->post('login_last_name'),
-			'email' => $this->input->post('login_email'),
-			'username' => $this->input->post('login_username'),
-			'password' => $this->input->post('login_password'),
+			'username' => $this->input->post('user_login'),
+			'password' => md5($this->input->post('user_password')),
+			'email' => $this->input->post('user_email'),
+			'first_name' => $this->input->post('user_name'),
+			'last_name' => $this->input->post('user_surname'),
 			'group' => USER_GROUP_GENERAL
 		);
 		
@@ -103,7 +121,7 @@ class User_model extends CI_Model {
 	function is_username_exist( $username )
 	{
 		$this->db->from(TABLE_USERS)->where('username', $username);
-		return $this->db->count_all_results();
+		return $this->db->count_all_results() > 0;
 	}
 	
 	/**

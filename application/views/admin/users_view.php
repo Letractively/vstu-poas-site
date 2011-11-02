@@ -7,9 +7,9 @@ foreach($users as $user)
 	$button_delete = anchor('/admin/users/delete/'.$user->id,
 	img( '/images/admin/buttons/delete.png'),
 		array(	'class' => 'button_delete',
-				'title' => 'удалить пользователя '.$user->username)
+				'title' => 'Удалить пользователя '.$user->username)
 	);
-	echo anchor('admin/cities/edit/'.$user->username, $user->username, array('class' => 'user_short_view')).$button_delete.br();
+	echo anchor('admin/users/edit/'.$user->username, $user->username, array('class' => 'user_short_view')).$button_delete.br();
 }
 
 /* End of file cities_view.php */
