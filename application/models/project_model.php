@@ -35,7 +35,10 @@ class Project_model extends CI_Model {
 										  'name_' . lang() . ' as name,' .
 										  'description_' . lang() . ' as description,' .
 										  'url'
-										  )->get_where(TABLE_PROJECTS, array('id' => $id), 1)->result();
+										  )
+								 ->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
+								 ->get_where(TABLE_PROJECTS, array('id' => $id), 1)
+								 ->result();
 			if( !$projects)
 			{
 				return FALSE;
@@ -47,7 +50,9 @@ class Project_model extends CI_Model {
 								 'name_' . lang() . ' as name,' .
 								 'description_' . lang() . ' as description,' .
 								 'url'
-								)->order_by('name_ru')->get(TABLE_PROJECTS)->result();
+								)
+						   ->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
+						   ->order_by('name_ru')->get(TABLE_PROJECTS)->result();
 	}
 	/**
 	 * Получить информацию о проекте из данных, полученных методом POST

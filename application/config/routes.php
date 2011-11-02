@@ -39,7 +39,7 @@
 */
 
 $route['default_controller'] = "news";
-$route['404_override'] = '';
+$route['404_override'] = 'notfound';
 
 // @todo переделать, если кто придумает как
 $route['en/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5/$6/$7";
@@ -47,8 +47,10 @@ $route['en/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5/$6"; // Язык 
 $route['en/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5"; // Язык всегда первый параметр метода
 $route['en/(:any)/(:any)/(:any)'] = "$1/$2/$3"; // Язык всегда первый параметр метода
 $route['en/(:any)/(:any)'] = "$2/$3"; // Язык всегда первый параметр метода
-//$route['(en)/(:any)'] = "$2"; // Язык всегда первый параметр метода
+$route['(en)/(:any)'] = "$2"; // Язык всегда первый параметр метода
 $route['en'] = "/news"; // Язык всегда первый параметр метода
+$route['projects/(:num)'] = "projects/index/$1";
+$route['en/projects/(:num)'] = "en/projects/index/$2";
 //$route['(:any)/(:any)/(.*)'] = "$2/$1/$3";
 //$route['(:any)/(:any)'] = "$2/$1";
 

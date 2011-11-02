@@ -12,8 +12,11 @@ class Projects extends CI_Controller {
 	}
 	
 	/// Главная страница сайта
-	function index()
+	function index($id = null)
 	{
+		if (isset($id)) {
+		echo $id;
+		}
 		$data['projects'] = $this->project_model->get_detailed();
 		$data['content'] = $this->load->view('projects_view', $data, TRUE);
 		$this->load->view('templates/main_view', $data);
@@ -39,6 +42,7 @@ class Projects extends CI_Controller {
 	 */
 	function show( $projectid )
 	{
+		echo $projectid;
 		$data['content'] = $projectid;
 		$this->load->view('templates/main_view', $data);
 	}
