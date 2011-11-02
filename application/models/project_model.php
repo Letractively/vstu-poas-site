@@ -13,21 +13,34 @@ class Project_model extends CI_Model {
 	 * @param $id - id проекта, необязательный параметр
 	 * @return массив всех записей, запись с указанным id или FALSE
 	*/
-	function get_short($id = null)
+	function get_short ($id = null)
 	{
-		if( isset($id) )
+		if (isset($id))
 		{
-			$users = $this->db->select('id, name_ru')->get_where(TABLE_PROJECTS, array('id' => $id), 1)->result();
-			if( ! $users)
+			$projects = $this->db->select('id, name_ru')->get_where(TABLE_PROJECTS, array('id' => $id), 1)->result();
+			if( !$projects)
 			{
 				return FALSE;
 			}
-			return $users[0];
+			return $projects[0];
 		}
 		
 		return $this->db->select('id, name_ru')->order_by('name_ru')->get(TABLE_PROJECTS)->result();
 	}
-	
+	function get_detailed($id = null) 
+	{
+		if (isset($id))
+		{
+			$projects = $this->db->select('*')->get_where(TABLE_PROJECTS, array('id' => $id), 1)->result();
+			if( !$projects)
+			{
+				return FALSE;
+			}
+			return $projects[0];
+		}
+		
+		return $this->db->select('*')->order_by('name_ru')->get(TABLE_PROJECTS)->result();
+	}
 	/**
 	 * Получить информацию о проекте из данных, полученных методом POST
 	 * return Project - объект, содержащий собранную информацию о проекте
