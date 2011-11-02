@@ -28,6 +28,7 @@ class Admin extends CI_Controller {
 	*/
 	function news()
 	{
+		// @todo проверка на админа или редактора новостей
 		$data = NULL;
 		$this->load->model(MODEL_NEWS);
 	
@@ -119,8 +120,9 @@ class Admin extends CI_Controller {
 	 */
 	function users()
 	{
+		// @todo проверка на администратора
 		$data = NULL;
-		$this->load->model('user_model');
+		$this->load->model(MODEL_USER);
 
 		
 		switch($this->uri->segment(3)) {
@@ -132,11 +134,30 @@ class Admin extends CI_Controller {
 				break;
 			case 'add':
 				// по адресу "/admin/users/add
-				// удаление пользователя через админку
-				$data['users'] = $this->user_model->get_short();
-				$data['content'] = 'add form';
-				$data['title'] = 'Пользователи';
-				$this->load->view('/templates/admin_view', $data);
+				// добавление пользователя через админку
+				if ($this->uri->segment(4) == 'action')
+				{
+					if ($errors = $this->user_model->get_errors_add())
+					{
+						$data['content'] = $this->load->view('/admin/edit_user_view', $errors, TRUE);
+						$data['title'] = 'Создание учетной записи пользователя';
+						$this->load->view('/templates/admin_view', $data);
+					}
+					else 
+					{
+						$this->user_model->add_from_post();
+						redirect('admin/users');
+					}
+					
+				}
+				else {
+					// по адресу "/admin/users/add
+					// добавление пользователя через админку
+					//$data['users'] = $this->user_model->get_short();
+					$data['content'] = $this->load->view('/admin/edit_user_view', $data, TRUE);
+					$data['title'] = 'Создание учетной записи пользователя';
+					$this->load->view('/templates/admin_view', $data);
+				}
 				break;
 			
 			case '':
@@ -151,6 +172,72 @@ class Admin extends CI_Controller {
 		}		
 	}
 	
+	/**
+	 * Работа с проектами
+	 */
+	function projects()
+	{
+		// @todo проверка на преподавателя
+		$data = NULL;
+		$this->load->model(MODEL_PROJECT);
+		
+		switch($this->uri->segment(3)) {
+			case 'add':
+				if ($this->uri->segment(4) == 'action') 
+				{
+					$this->project_model->add_from_post();
+					$this->_view_projects($this->project_model->message);
+				}
+				else 
+				{
+					// по адресу "/admin/add": добавление нового проекта
+					$data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
+					$data['title'] = 'Создание нового проекта';
+					$this->load->view('/templates/admin_view', $data);
+				}
+				break;
+			case 'edit':
+				if ($this->uri->segment(4) == 'action') 
+				{
+					$this->project_model->edit_from_post();
+					$this->_view_projects($this->project_model->message);
+				}
+				else 
+				{
+					// по адресу "/admin/edit/{id}": добавление редактирование проекта
+					$id = $this->uri->segment(4);
+					$data = array();
+					$data['project'] = $this->project_model->get_project($id);
+					$data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
+					$data['title'] = 'Изменение проекта';
+					$this->load->view('/templates/admin_view', $data);
+				}
+				break;
+			case 'delete':
+				// по адресу "/admin/news/delete": удаление проекта
+				$this->project_model->delete( $this->uri->segment(4) );
+				
+				$this->_view_projects($this->project_model->message);
+				break;
+			case '':
+			default:
+				// по адресу "/admin/projects": список всех проектов
+				// он же при несуществующем методе
+				$this->_view_projects();
+				break;
+		}
+	}
+	
+	function _view_projects($message = null) {
+		$data['projects'] = $this->project_model->get_short();
+		$data['content'] = $this->load->view('/admin/projects_view', $data, TRUE);
+		$data['title'] = 'Проекты';
+		if($message != null) 
+		{
+			$data['message'] = $message;
+		}
+		$this->load->view('/templates/admin_view', $data);
+	}
 	
 	function logout()
 	{

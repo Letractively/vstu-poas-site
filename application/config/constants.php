@@ -43,6 +43,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 */
 define('TABLE_NEWS', 'news');
 define('TABLE_USERS', 'users');
+define('TABLE_PROJECTS', 'projects');
 
 
 /*
@@ -64,6 +65,7 @@ define('URL_NOT_CHANGE', 555000);	/// флаг того, что при обно�
 */
 define('MODEL_NEWS', 		'news_model');				/// новости
 define('MODEL_USER', 		'user_model');				/// пользователи
+define('MODEL_PROJECT', 	'project_model');			/// проекты
 
 /*
 |--------------------------------------------------------------------------

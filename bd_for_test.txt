@@ -66,3 +66,28 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `group`) VALUES
 (17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 'Александр', 'Сова', 555100);
+
+
+--
+-- Table structure for table `projects`
+--
+
+CREATE TABLE IF NOT EXISTS `projects` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name_ru` varchar(150) NOT NULL,
+  `name_en` varchar(150) DEFAULT NULL,
+  `description_ru` varchar(400) NOT NULL,
+  `description_en` varchar(400) DEFAULT NULL,
+  `url` varchar(150) NOT NULL,
+  `image` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `projects`
+--
+
+INSERT INTO `projects` (`id`, `name_ru`, `name_en`, `description_ru`, `description_en`, `url`, `image`) VALUES
+(1, 'У.М.Н.И.К', NULL, 'Выявление молодых учёных, стремящихся самореализоваться через инновационную деятельность, и стимулирование массового участия молодежи в научно-технической и инновационной деятельности путем организационной и финансовой поддержки инновационных проектов.', NULL, 'http://poas.vstu.local/projects/ymnik', NULL),
+(3, 'Старт', NULL, 'Создание и развитие малых инновационных предприятий. Финансирование инновационных проектов, находящихся на начальной стадии развития.', NULL, 'http://poas.vstu.local/projects/start', NULL),
+(4, 'Программа “Построитель персонифицированных образовательных коллекций OntoCollectionBuilder”', NULL, 'Программа предназначена для интеллектуальной поддержки процесса адаптивного поиска электронных образовательных ресурсов. Программа позволяет проводить поиск электронных образовательных ресурсов в репозитории на основе метаописаний ресурсов и характеристик пользователя, интегрировать ресурсы в персонифицированные образовательные коллекции. Функционирование программы осуществляется на основе логичес', NULL, 'http://poas.vstu.local/projects/ontocollectionbuilde', NULL);
