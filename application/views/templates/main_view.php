@@ -20,8 +20,9 @@
                         <h1><a href="">GLOBAL solutions</a></h1>
                         <nav>
                             <ul class="menu">
-                                <li class="first"><a class="current" href="/">Home</a></li>
-                                <li class="second"><a href="/">Кафедре</a></li>
+                                <li class="first"><a href="/news">Новости</a></li>
+                                <li class="second"><a href="/projects">Проекты</a></li>
+								<!--
                                 <li class="third"><a href="/">Services</a>
                                 	<ul>
                                     	<li><a href="/">Overview</a></li>
@@ -37,6 +38,7 @@
                                 </li>
                                 <li class="four"><a href="">Clients</a></li>
                                 <li class="five"><a href="">Contacts</a></li>
+								-->
                             </ul>
                         </nav>
                 	</div>
@@ -62,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="wrapper">
+                <!--div class="wrapper">
                 	<div class="grid_4">
                     	<div class="header-box">
                         	<h5 class="mt2 h5border border-1 p2">online chat</h5>
@@ -85,11 +87,13 @@
                         </div>
                     </div>
                 </div>
+				-->
             </header>
         
             <!--==============================content================================-->
             <section id="content">
             	 <?php if(isset($content)) echo $content; ?>
+				 <!--
                 <div class="row2-container">	
                     <div class="wrapper">
                     	<div class="grid_5 suffix_1">
@@ -148,6 +152,7 @@
                         </div>
                     </div>
                 </div>
+				-->
             </section>
             <!--==============================footer=================================-->
             <footer>
