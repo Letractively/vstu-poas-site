@@ -14,32 +14,19 @@ class Projects extends CI_Controller {
 	/// Главная страница сайта
 	function index()
 	{
-		
+		$data['title'] = 'Проекты - Сайт кафедры ПОАС';
 		$data['projects'] = $this->project_model->get_short();
 		$data['content'] = $this->load->view('projects_view', $data, TRUE);
 		$this->load->view('templates/main_view', $data);
 	}
-
 	
 	/**
-	 * @method 
-	 * Страница с новостями
-	 * @param [in] segment3 - номер страницы
-	 */ 
-	function get()
-	{
-		// @todo - страница с новостями (к примеру 10 новостей на каждой странице)
-		//$data['news'] = $this->news_model->get_short(1, 4);;
-		//$data['content'] = $this->load->view('news_last_view', $data, TRUE);
-		//$this->load->view('templates/main_view', $data);
-	}
-	
-	/**
-	 * @todo 
-	 * Страница просмотра одного проекта целиком
+	 * Отобразить данные о проекте
+	 * @param $id идентификатор проекта
 	 */
 	function show ($id)
 	{
+		$data['title'] = 'Проекты - Сайт кафедры ПОАС';
 		$data['project'] = $this->project_model->get_detailed($id);		
 		if (!$data['project']) 
 		{

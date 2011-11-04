@@ -43,6 +43,11 @@ $route['404_override'] = 'notfound';
 
 $route['en/projects/(:num)'] = "projects/show/$1";
 $route['projects/(:num)'] = "projects/show/$1";
+
+$route['en/users/(:num)'] = "users/show/$1";
+$route['users/(:num)'] = "users/show/$1";
+$route['en/users/(:num)/(:any)'] = "users/show/$1/$2";
+$route['users/(:num)/(:any)'] = "users/show/$1/$2";
 // @todo переделать, если кто придумает как
 
 $route['en/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5/$6/$7";

@@ -3,12 +3,12 @@ class Notfound extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->output->enable_profiler(TRUE);	// Отладка (содержимое после основного контента)
+		$this->output->enable_profiler(TRUE);	// РћС‚Р»Р°РґРєР° (СЃРѕРґРµСЂР¶РёРјРѕРµ РїРѕСЃР»Рµ РѕСЃРЅРѕРІРЅРѕРіРѕ РєРѕРЅС‚РµРЅС‚Р°)
 		$this->load->database('default');
 		lang();
 	}
 	
-	/// Главная страница сайта
+	/// Р“Р»Р°РІРЅР°СЏ СЃС‚СЂР°РЅРёС†Р° СЃР°Р№С‚Р°
 	function index()
 	{
 		$data['content'] = '<h3>404</h3><br> Sorry... <br> :\'(';
