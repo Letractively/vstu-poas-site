@@ -25,6 +25,9 @@
 <td>
 <font face="Arial" size="2">
 <a href="/">Главная</a><br><br>
+<a href="/news">Новости</a><br><br>
+<a href="/users">Все пользователи</a><br><br>
+<a href="/projects">Проекты</a><br><br>
 <?php if(isset($main_menu)) echo $main_menu; ?>
 </font>
 </td>
