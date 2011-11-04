@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 10, 2011 at 02:52 PM
+-- Generation Time: Nov 05, 2011 at 02:33 AM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -31,44 +31,19 @@ CREATE TABLE IF NOT EXISTS `news` (
   `time` datetime NOT NULL,
   `update` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `news`
 --
 
 INSERT INTO `news` (`id`, `url`, `name_ru`, `name_en`, `notice_ru`, `notice_en`, `text_ru`, `text_en`, `time`, `update`) VALUES
-(1, 'privet', 'Абра кодабра111', 'Abra 111', 'Короткое описание новости тут 111', 'blf bl bla 111', 'Тут текст новости первой на русском 111', 'Text of news on English!!!!! WOOOoooOooOOOooOOooOWWW it''s so cooooOooOOooOOl dsfb hjdsbf hjsbdhf bsdjh bshdjbf jhsdb fjhdsbfjhsdbf jhbdsfh 111', '2011-09-29 02:52:58', '2011-09-05 02:53:01'),
-(6, 'kakoy_ujas', 'Новая новость', 'Hello my friend', '&nbsp;Почему Путин&nbsp;-&nbsp;краб, Медведев - шмель, а Ленин - гриб?&nbsp;', 'I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.', '<p>Этот современный, многоэтажный отель расположен в центре города Волгограда. Он предлагает номера в классическом и античном стиле с бесплатным Wi-Fi</p>\r\n<p>А почему ывьь дывьа лывьад ьывдаь ыльалывалы аон стал такой ываываыва странный непонятно?</p>\r\n<p>Кто, когда и где! Да</p>', '<p>I have fixed the installer and pushed it a few minutes ago, thanks for that.</p><div>I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.&nbsp;I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.&nbsp;I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.</div>', '2011-10-09 04:57:49', '2011-10-09 04:57:49'),
-(4, 'privet1', 'Проба большая', '', 'Просто жесть какая большая проба', '', 'Полный текст статьи тут, даже с картинками в том числе', '', '2011-10-02 04:25:25', '2011-10-02 04:25:25'),
-(5, 'eshe_odna', 'Ещё одна', '', 'Ещё одна новость', '', 'Очень длинная<div><br></div><div><h3>Ранняя история с V&nbsp;в. н.&nbsp;э.</h3><p>Археологическими исследованиями установлено, что на месте Львова существовали поселения начиная с&nbsp;<a href="http://ru.wikipedia.org/wiki/V_%D0%B2%D0%B5%D0%BA" title="V век">V века</a>&nbsp;нашей эры. Во время раскопок 1990—1991&nbsp;гг. на территории позади&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9D%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D1%83%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D1%80%D0%B0%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D1%82%D0%B5%D0%B0%D1%82%D1%80_%D0%B8%D0%BC._%D0%9C%D0%B0%D1%80%D0%B8%D0%B8_%D0%97%D0%B0%D0%BD%D1%8C%D0%BA%D0%BE%D0%B2%D0%B5%D1%86%D0%BA%D0%BE%D0%B9" title="Национальный академический украинский драматический театр им. Марии Заньковецкой">театра им. Заньковецкой</a>, где в данный момент находится рынок Добробут, археологами были обнаружены свидетельства того, что на том месте непрерывно функционировало поселение городского типа начиная от VII—VIII веков. В частности, нашли ремесленный район, где кожемяки обрабатывали кожу. Кроме того, были найдены остатки ювелирного производства. Также в результате раскопок на площади Святого Духа возле&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D1%81%D1%82%D1%91%D0%BB_%D1%81%D0%B2%D1%8F%D1%82%D1%8B%D1%85_%D0%9F%D0%B5%D1%82%D1%80%D0%B0_%D0%B8_%D0%9F%D0%B0%D0%B2%D0%BB%D0%B0_%D0%BE%D1%80%D0%B4%D0%B5%D0%BD%D0%B0_%D0%B8%D0%B5%D0%B7%D1%83%D0%B8%D1%82%D0%BE%D0%B2_(%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2)" title="Костёл святых Петра и Павла ордена иезуитов (Львов)">костела Иезуитов</a>&nbsp;была найдена древнеславянская керамика VII—VIII веков. Похожие находки найдены возле&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9B%D0%B0%D1%82%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D1%81%D0%BE%D0%B1%D0%BE%D1%80_(%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2)" title="Латинский собор (Львов)">Кафедрального собора</a>. Археологами считается, что поселение или ряд поселений тянулись вдоль реки<a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D1%82%D0%B2%D0%B0_(%D0%BF%D1%80%D0%B8%D1%82%D0%BE%D0%BA_%D0%97%D0%B0%D0%BF%D0%B0%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE_%D0%91%D1%83%D0%B3%D0%B0)" title="Полтва (приток Западного Буга)">Полтвы</a>. Это был протогород, который предшествовал возникновению Львова.</p><p>Позже эти земли, возможно, принадлежали&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%B0%D1%8F_%D0%9C%D0%BE%D1%80%D0%B0%D0%B2%D0%B8%D1%8F" title="Великая Моравия">Великоморавскому государству</a>. В&nbsp;<a href="http://ru.wikipedia.org/wiki/X_%D0%B2%D0%B5%D0%BA" title="X век">X веке</a>&nbsp;на земли стали претендовать&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%94%D1%80%D0%B5%D0%B2%D0%BD%D0%B5%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B5_%D0%B3%D0%BE%D1%81%D1%83%D0%B4%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%BE" title="Древнерусское государство">Киевская Русь</a>&nbsp;и&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D1%8C%D1%88%D0%B0" title="Польша">Польша</a>&nbsp;(во время царствования<a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%88%D0%BA%D0%BE_I" title="Мешко I">Мешко I</a>). Предполагается, что Мешко владел этими землями с&nbsp;<a href="http://ru.wikipedia.org/wiki/960" title="960">960</a>&nbsp;до&nbsp;<a href="http://ru.wikipedia.org/wiki/980_%D0%B3%D0%BE%D0%B4" title="980 год">980 года</a>. Согласно летописи&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9D%D0%B5%D1%81%D1%82%D0%BE%D1%80_%D0%9B%D0%B5%D1%82%D0%BE%D0%BF%D0%B8%D1%81%D0%B5%D1%86" title="Нестор Летописец">Нестора</a>, в&nbsp;<a href="http://ru.wikipedia.org/wiki/981_%D0%B3%D0%BE%D0%B4" title="981 год">981 году</a>&nbsp;они были завоёваны&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%B8%D0%B9" title="Владимир Великий">Владимиром Великим</a>. Первое упоминание о Львове относится к&nbsp;<a href="http://ru.wikipedia.org/wiki/1256_%D0%B3%D0%BE%D0%B4" title="1256 год">1256 году</a>. Согласно наиболее распространённой версии Львов был основан лишь в&nbsp;<a href="http://ru.wikipedia.org/wiki/XIII_%D0%B2%D0%B5%D0%BA" title="XIII век">XIII веке</a>&nbsp;королём<sup><abbr title="на момент основания города он был ещё князем или уже королём? -- VAP+VYK 14 июня 2011">[<em>уточнить</em>]</abbr></sup>&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B0%D0%BD%D0%B8%D0%B8%D0%BB_%D0%93%D0%B0%D0%BB%D0%B8%D1%86%D0%BA%D0%B8%D0%B9" title="Даниил Галицкий">Даниилом Галицким</a>&nbsp;и был назван в честь его сына, Льва. Согласно другой версии, город был основан уже самим сыном Даниила Галицкого.</p><h3>[<a href="http://ru.wikipedia.org/w/index.php?title=%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2&amp;action=edit&amp;section=7" title="Править секцию: В составе Галицко-Волынского княжества (до 1349)">править</a>]В составе&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BB%D0%B8%D1%86%D0%BA%D0%BE-%D0%92%D0%BE%D0%BB%D1%8B%D0%BD%D1%81%D0%BA%D0%BE%D0%B5_%D0%BA%D0%BD%D1%8F%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%BE" title="Галицко-Волынское княжество">Галицко-Волынского княжества</a>&nbsp;(до 1349)</h3>  <br></div>', '', '2011-10-02 12:49:31', '2011-10-02 12:49:31');
+(1, 'privet', 'РђР±СЂР° РєРѕРґР°Р±СЂР°111', 'Abra 111', 'РљРѕСЂРѕС‚РєРѕРµ РѕРїРёСЃР°РЅРёРµ РЅРѕРІРѕСЃС‚Рё С‚СѓС‚ 111', 'blf bl bla 111', 'РўСѓС‚ С‚РµРєСЃС‚ РЅРѕРІРѕСЃС‚Рё РїРµСЂРІРѕР№ РЅР° СЂСѓСЃСЃРєРѕРј 111', 'Text of news on English!!!!! WOOOoooOooOOOooOOooOWWW it''s so cooooOooOOooOOl dsfb hjdsbf hjsbdhf bsdjh bshdjbf jhsdb fjhdsbfjhsdbf jhbdsfh 111', '2011-09-29 02:52:58', '2011-09-05 02:53:01'),
+(6, 'kakoy_ujas', 'РќРѕРІР°СЏ РЅРѕРІРѕСЃС‚СЊ', 'Hello my friend', '&nbsp;РџРѕС‡РµРјСѓ РџСѓС‚РёРЅ&nbsp;-&nbsp;РєСЂР°Р±, РњРµРґРІРµРґРµРІ - С€РјРµР»СЊ, Р° Р›РµРЅРёРЅ - РіСЂРёР±?&nbsp;', 'I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.', '<p>Р­С‚РѕС‚ СЃРѕРІСЂРµРјРµРЅРЅС‹Р№, РјРЅРѕРіРѕСЌС‚Р°Р¶РЅС‹Р№ РѕС‚РµР»СЊ СЂР°СЃРїРѕР»РѕР¶РµРЅ РІ С†РµРЅС‚СЂРµ РіРѕСЂРѕРґР° Р’РѕР»РіРѕРіСЂР°РґР°. РћРЅ РїСЂРµРґР»Р°РіР°РµС‚ РЅРѕРјРµСЂР° РІ РєР»Р°СЃСЃРёС‡РµСЃРєРѕРј Рё Р°РЅС‚РёС‡РЅРѕРј СЃС‚РёР»Рµ СЃ Р±РµСЃРїР»Р°С‚РЅС‹Рј Wi-Fi</p>\r\n<p>Рђ РїРѕС‡РµРјСѓ С‹РІСЊСЊ РґС‹РІСЊР° Р»С‹РІСЊР°Рґ СЊС‹РІРґР°СЊ С‹Р»СЊР°Р»С‹РІР°Р»С‹ Р°РѕРЅ СЃС‚Р°Р» С‚Р°РєРѕР№ С‹РІР°С‹РІР°С‹РІР° СЃС‚СЂР°РЅРЅС‹Р№ РЅРµРїРѕРЅСЏС‚РЅРѕ?</p>\r\n<p>РљС‚Рѕ, РєРѕРіРґР° Рё РіРґРµ! Р”Р°</p>', '<p>I have fixed the installer and pushed it a few minutes ago, thanks for that.</p><div>I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.&nbsp;I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.&nbsp;I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.</div>', '2011-10-09 04:57:49', '2011-10-09 04:57:49'),
+(4, 'privet1', 'РџСЂРѕР±Р° Р±РѕР»СЊС€Р°СЏ', '', 'РџСЂРѕСЃС‚Рѕ Р¶РµСЃС‚СЊ РєР°РєР°СЏ Р±РѕР»СЊС€Р°СЏ РїСЂРѕР±Р°', '', 'РџРѕР»РЅС‹Р№ С‚РµРєСЃС‚ СЃС‚Р°С‚СЊРё С‚СѓС‚, РґР°Р¶Рµ СЃ РєР°СЂС‚РёРЅРєР°РјРё РІ С‚РѕРј С‡РёСЃР»Рµ', '', '2011-10-02 04:25:25', '2011-10-02 04:25:25'),
+(5, 'eshe_odna', 'Р•С‰С‘ РѕРґРЅР°', '', 'Р•С‰С‘ РѕРґРЅР° РЅРѕРІРѕСЃС‚СЊ', '', 'РћС‡РµРЅСЊ РґР»РёРЅРЅР°СЏ<div><br></div><div><h3>Р Р°РЅРЅСЏСЏ РёСЃС‚РѕСЂРёСЏ СЃ V&nbsp;РІ. РЅ.&nbsp;СЌ.</h3><p>РђСЂС…РµРѕР»РѕРіРёС‡РµСЃРєРёРјРё РёСЃСЃР»РµРґРѕРІР°РЅРёСЏРјРё СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ, С‡С‚Рѕ РЅР° РјРµСЃС‚Рµ Р›СЊРІРѕРІР° СЃСѓС‰РµСЃС‚РІРѕРІР°Р»Рё РїРѕСЃРµР»РµРЅРёСЏ РЅР°С‡РёРЅР°СЏ СЃ&nbsp;<a href="http://ru.wikipedia.org/wiki/V_%D0%B2%D0%B5%D0%BA" title="V РІРµРє">V РІРµРєР°</a>&nbsp;РЅР°С€РµР№ СЌСЂС‹. Р’Рѕ РІСЂРµРјСЏ СЂР°СЃРєРѕРїРѕРє 1990вЂ”1991&nbsp;РіРі. РЅР° С‚РµСЂСЂРёС‚РѕСЂРёРё РїРѕР·Р°РґРё&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9D%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D1%83%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D1%80%D0%B0%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D1%82%D0%B5%D0%B0%D1%82%D1%80_%D0%B8%D0%BC._%D0%9C%D0%B0%D1%80%D0%B8%D0%B8_%D0%97%D0%B0%D0%BD%D1%8C%D0%BA%D0%BE%D0%B2%D0%B5%D1%86%D0%BA%D0%BE%D0%B9" title="РќР°С†РёРѕРЅР°Р»СЊРЅС‹Р№ Р°РєР°РґРµРјРёС‡РµСЃРєРёР№ СѓРєСЂР°РёРЅСЃРєРёР№ РґСЂР°РјР°С‚РёС‡РµСЃРєРёР№ С‚РµР°С‚СЂ РёРј. РњР°СЂРёРё Р—Р°РЅСЊРєРѕРІРµС†РєРѕР№">С‚РµР°С‚СЂР° РёРј. Р—Р°РЅСЊРєРѕРІРµС†РєРѕР№</a>, РіРґРµ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РЅР°С…РѕРґРёС‚СЃСЏ СЂС‹РЅРѕРє Р”РѕР±СЂРѕР±СѓС‚, Р°СЂС…РµРѕР»РѕРіР°РјРё Р±С‹Р»Рё РѕР±РЅР°СЂСѓР¶РµРЅС‹ СЃРІРёРґРµС‚РµР»СЊСЃС‚РІР° С‚РѕРіРѕ, С‡С‚Рѕ РЅР° С‚РѕРј РјРµСЃС‚Рµ РЅРµРїСЂРµСЂС‹РІРЅРѕ С„СѓРЅРєС†РёРѕРЅРёСЂРѕРІР°Р»Рѕ РїРѕСЃРµР»РµРЅРёРµ РіРѕСЂРѕРґСЃРєРѕРіРѕ С‚РёРїР° РЅР°С‡РёРЅР°СЏ РѕС‚ VIIвЂ”VIII РІРµРєРѕРІ. Р’ С‡Р°СЃС‚РЅРѕСЃС‚Рё, РЅР°С€Р»Рё СЂРµРјРµСЃР»РµРЅРЅС‹Р№ СЂР°Р№РѕРЅ, РіРґРµ РєРѕР¶РµРјСЏРєРё РѕР±СЂР°Р±Р°С‚С‹РІР°Р»Рё РєРѕР¶Сѓ. РљСЂРѕРјРµ С‚РѕРіРѕ, Р±С‹Р»Рё РЅР°Р№РґРµРЅС‹ РѕСЃС‚Р°С‚РєРё СЋРІРµР»РёСЂРЅРѕРіРѕ РїСЂРѕРёР·РІРѕРґСЃС‚РІР°. РўР°РєР¶Рµ РІ СЂРµР·СѓР»СЊС‚Р°С‚Рµ СЂР°СЃРєРѕРїРѕРє РЅР° РїР»РѕС‰Р°РґРё РЎРІСЏС‚РѕРіРѕ Р”СѓС…Р° РІРѕР·Р»Рµ&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D1%81%D1%82%D1%91%D0%BB_%D1%81%D0%B2%D1%8F%D1%82%D1%8B%D1%85_%D0%9F%D0%B5%D1%82%D1%80%D0%B0_%D0%B8_%D0%9F%D0%B0%D0%B2%D0%BB%D0%B0_%D0%BE%D1%80%D0%B4%D0%B5%D0%BD%D0%B0_%D0%B8%D0%B5%D0%B7%D1%83%D0%B8%D1%82%D0%BE%D0%B2_(%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2)" title="РљРѕСЃС‚С‘Р» СЃРІСЏС‚С‹С… РџРµС‚СЂР° Рё РџР°РІР»Р° РѕСЂРґРµРЅР° РёРµР·СѓРёС‚РѕРІ (Р›СЊРІРѕРІ)">РєРѕСЃС‚РµР»Р° РРµР·СѓРёС‚РѕРІ</a>&nbsp;Р±С‹Р»Р° РЅР°Р№РґРµРЅР° РґСЂРµРІРЅРµСЃР»Р°РІСЏРЅСЃРєР°СЏ РєРµСЂР°РјРёРєР° VIIвЂ”VIII РІРµРєРѕРІ. РџРѕС…РѕР¶РёРµ РЅР°С…РѕРґРєРё РЅР°Р№РґРµРЅС‹ РІРѕР·Р»Рµ&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9B%D0%B0%D1%82%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D1%81%D0%BE%D0%B1%D0%BE%D1%80_(%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2)" title="Р›Р°С‚РёРЅСЃРєРёР№ СЃРѕР±РѕСЂ (Р›СЊРІРѕРІ)">РљР°С„РµРґСЂР°Р»СЊРЅРѕРіРѕ СЃРѕР±РѕСЂР°</a>. РђСЂС…РµРѕР»РѕРіР°РјРё СЃС‡РёС‚Р°РµС‚СЃСЏ, С‡С‚Рѕ РїРѕСЃРµР»РµРЅРёРµ РёР»Рё СЂСЏРґ РїРѕСЃРµР»РµРЅРёР№ С‚СЏРЅСѓР»РёСЃСЊ РІРґРѕР»СЊ СЂРµРєРё<a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D1%82%D0%B2%D0%B0_(%D0%BF%D1%80%D0%B8%D1%82%D0%BE%D0%BA_%D0%97%D0%B0%D0%BF%D0%B0%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE_%D0%91%D1%83%D0%B3%D0%B0)" title="РџРѕР»С‚РІР° (РїСЂРёС‚РѕРє Р—Р°РїР°РґРЅРѕРіРѕ Р‘СѓРіР°)">РџРѕР»С‚РІС‹</a>. Р­С‚Рѕ Р±С‹Р» РїСЂРѕС‚РѕРіРѕСЂРѕРґ, РєРѕС‚РѕСЂС‹Р№ РїСЂРµРґС€РµСЃС‚РІРѕРІР°Р» РІРѕР·РЅРёРєРЅРѕРІРµРЅРёСЋ Р›СЊРІРѕРІР°.</p><p>РџРѕР·Р¶Рµ СЌС‚Рё Р·РµРјР»Рё, РІРѕР·РјРѕР¶РЅРѕ, РїСЂРёРЅР°РґР»РµР¶Р°Р»Рё&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%B0%D1%8F_%D0%9C%D0%BE%D1%80%D0%B0%D0%B2%D0%B8%D1%8F" title="Р’РµР»РёРєР°СЏ РњРѕСЂР°РІРёСЏ">Р’РµР»РёРєРѕРјРѕСЂР°РІСЃРєРѕРјСѓ РіРѕСЃСѓРґР°СЂСЃС‚РІСѓ</a>. Р’&nbsp;<a href="http://ru.wikipedia.org/wiki/X_%D0%B2%D0%B5%D0%BA" title="X РІРµРє">X РІРµРєРµ</a>&nbsp;РЅР° Р·РµРјР»Рё СЃС‚Р°Р»Рё РїСЂРµС‚РµРЅРґРѕРІР°С‚СЊ&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%94%D1%80%D0%B5%D0%B2%D0%BD%D0%B5%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B5_%D0%B3%D0%BE%D1%81%D1%83%D0%B4%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%BE" title="Р”СЂРµРІРЅРµСЂСѓСЃСЃРєРѕРµ РіРѕСЃСѓРґР°СЂСЃС‚РІРѕ">РљРёРµРІСЃРєР°СЏ Р СѓСЃСЊ</a>&nbsp;Рё&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D1%8C%D1%88%D0%B0" title="РџРѕР»СЊС€Р°">РџРѕР»СЊС€Р°</a>&nbsp;(РІРѕ РІСЂРµРјСЏ С†Р°СЂСЃС‚РІРѕРІР°РЅРёСЏ<a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%88%D0%BA%D0%BE_I" title="РњРµС€РєРѕ I">РњРµС€РєРѕ I</a>). РџСЂРµРґРїРѕР»Р°РіР°РµС‚СЃСЏ, С‡С‚Рѕ РњРµС€РєРѕ РІР»Р°РґРµР» СЌС‚РёРјРё Р·РµРјР»СЏРјРё СЃ&nbsp;<a href="http://ru.wikipedia.org/wiki/960" title="960">960</a>&nbsp;РґРѕ&nbsp;<a href="http://ru.wikipedia.org/wiki/980_%D0%B3%D0%BE%D0%B4" title="980 РіРѕРґ">980 РіРѕРґР°</a>. РЎРѕРіР»Р°СЃРЅРѕ Р»РµС‚РѕРїРёСЃРё&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9D%D0%B5%D1%81%D1%82%D0%BE%D1%80_%D0%9B%D0%B5%D1%82%D0%BE%D0%BF%D0%B8%D1%81%D0%B5%D1%86" title="РќРµСЃС‚РѕСЂ Р›РµС‚РѕРїРёСЃРµС†">РќРµСЃС‚РѕСЂР°</a>, РІ&nbsp;<a href="http://ru.wikipedia.org/wiki/981_%D0%B3%D0%BE%D0%B4" title="981 РіРѕРґ">981 РіРѕРґСѓ</a>&nbsp;РѕРЅРё Р±С‹Р»Рё Р·Р°РІРѕС‘РІР°РЅС‹&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%B8%D0%B9" title="Р’Р»Р°РґРёРјРёСЂ Р’РµР»РёРєРёР№">Р’Р»Р°РґРёРјРёСЂРѕРј Р’РµР»РёРєРёРј</a>. РџРµСЂРІРѕРµ СѓРїРѕРјРёРЅР°РЅРёРµ Рѕ Р›СЊРІРѕРІРµ РѕС‚РЅРѕСЃРёС‚СЃСЏ Рє&nbsp;<a href="http://ru.wikipedia.org/wiki/1256_%D0%B3%D0%BE%D0%B4" title="1256 РіРѕРґ">1256 РіРѕРґСѓ</a>. РЎРѕРіР»Р°СЃРЅРѕ РЅР°РёР±РѕР»РµРµ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅС‘РЅРЅРѕР№ РІРµСЂСЃРёРё Р›СЊРІРѕРІ Р±С‹Р» РѕСЃРЅРѕРІР°РЅ Р»РёС€СЊ РІ&nbsp;<a href="http://ru.wikipedia.org/wiki/XIII_%D0%B2%D0%B5%D0%BA" title="XIII РІРµРє">XIII РІРµРєРµ</a>&nbsp;РєРѕСЂРѕР»С‘Рј<sup><abbr title="РЅР° РјРѕРјРµРЅС‚ РѕСЃРЅРѕРІР°РЅРёСЏ РіРѕСЂРѕРґР° РѕРЅ Р±С‹Р» РµС‰С‘ РєРЅСЏР·РµРј РёР»Рё СѓР¶Рµ РєРѕСЂРѕР»С‘Рј? -- VAP+VYK 14 РёСЋРЅСЏ 2011">[<em>СѓС‚РѕС‡РЅРёС‚СЊ</em>]</abbr></sup>&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B0%D0%BD%D0%B8%D0%B8%D0%BB_%D0%93%D0%B0%D0%BB%D0%B8%D1%86%D0%BA%D0%B8%D0%B9" title="Р”Р°РЅРёРёР» Р“Р°Р»РёС†РєРёР№">Р”Р°РЅРёРёР»РѕРј Р“Р°Р»РёС†РєРёРј</a>&nbsp;Рё Р±С‹Р» РЅР°Р·РІР°РЅ РІ С‡РµСЃС‚СЊ РµРіРѕ СЃС‹РЅР°, Р›СЊРІР°. РЎРѕРіР»Р°СЃРЅРѕ РґСЂСѓРіРѕР№ РІРµСЂСЃРёРё, РіРѕСЂРѕРґ Р±С‹Р» РѕСЃРЅРѕРІР°РЅ СѓР¶Рµ СЃР°РјРёРј СЃС‹РЅРѕРј Р”Р°РЅРёРёР»Р° Р“Р°Р»РёС†РєРѕРіРѕ.</p><h3>[<a href="http://ru.wikipedia.org/w/index.php?title=%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2&amp;action=edit&amp;section=7" title="РџСЂР°РІРёС‚СЊ СЃРµРєС†РёСЋ: Р’ СЃРѕСЃС‚Р°РІРµ Р“Р°Р»РёС†РєРѕ-Р’РѕР»С‹РЅСЃРєРѕРіРѕ РєРЅСЏР¶РµСЃС‚РІР° (РґРѕ 1349)">РїСЂР°РІРёС‚СЊ</a>]Р’ СЃРѕСЃС‚Р°РІРµ&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BB%D0%B8%D1%86%D0%BA%D0%BE-%D0%92%D0%BE%D0%BB%D1%8B%D0%BD%D1%81%D0%BA%D0%BE%D0%B5_%D0%BA%D0%BD%D1%8F%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%BE" title="Р“Р°Р»РёС†РєРѕ-Р’РѕР»С‹РЅСЃРєРѕРµ РєРЅСЏР¶РµСЃС‚РІРѕ">Р“Р°Р»РёС†РєРѕ-Р’РѕР»С‹РЅСЃРєРѕРіРѕ РєРЅСЏР¶РµСЃС‚РІР°</a>&nbsp;(РґРѕ 1349)</h3>  <br></div>', '', '2011-10-02 12:49:31', '2011-10-02 12:49:31');
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(25) NOT NULL,
-  `password` char(32) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `first_name` varchar(32) NOT NULL,
-  `last_name` varchar(32) NOT NULL,
-  `group` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=19 ;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `group`) VALUES
-(17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 'Александр', 'Сова', 555100),
-(20, 'arkanif', 'c4ca4238a0b923820dcc509a6f75849b', '113em@mail.ru', 'Arkanif', 'Андреевич', 555100);
-
-
 
 --
 -- Table structure for table `projects`
@@ -90,27 +65,11 @@ CREATE TABLE IF NOT EXISTS `projects` (
 --
 
 INSERT INTO `projects` (`id`, `name_ru`, `name_en`, `description_ru`, `description_en`, `url`, `image`) VALUES
-(1, 'У.М.Н.И.К', NULL, 'Выявление молодых учёных, стремящихся самореализоваться через инновационную деятельность, и стимулирование массового участия молодежи в научно-технической и инновационной деятельности путем организационной и финансовой поддержки инновационных проектов.', NULL, 'http://www.fasie.ru/fund_programms/umnik/umnik-index.aspx', '0'),
-(3, 'Старт', 'Start', 'Создание и развитие малых инновационных предприятий. Финансирование инновационных проектов, находящихся на начальной стадии развития.', 'Creation and development of small innovative enterprises. Funding for innovative projects at the initial stage of development.', 'http://www.fasie.ru/fund_programms/Starts/start09-index.aspx', NULL),
-(4, 'Программа “Построитель персонифицированных образовательных коллекций OntoCollectionBuilder”', NULL, 'Программа предназначена для интеллектуальной поддержки процесса адаптивного поиска электронных образовательных ресурсов. Программа позволяет проводить поиск электронных образовательных ресурсов в репозитории на основе метаописаний ресурсов и характеристик пользователя, интегрировать ресурсы в персонифицированные образовательные коллекции. Функционирование программы осуществляется на основе логического вывода на онтологиях. В качестве базы данных и базы знаний программы используются онтологии в формате OWL-DL. ', NULL, NULL, NULL),
-(14, 'Система интеллектуальной поддержки инженерного анализа по методу конечных элементов jISFEA', NULL, 'Целью разработки интеллектуальной системы поддержки инженерного анализа по методу конечных элементов jISFEA являлось сокращение сроков проведения анализа за счет автоматизации таких неалгоритмических этапов как выбор типа конечного элемента и алгоритма расчета. Для разработанной системы была спроектирована база знаний в виде онтологии и алгоритмы поиска и адаптации прецедентов с использованием рассуждений на онтологии OWL-DL; получены свидетельства о государственной регистрации программы и базы данных. ', NULL, NULL, NULL),
-(12, 'Автоматизированная система «ИР-4»', NULL, 'Предназначена для измерения и анализа основных характеристик монолитных кристаллических фильтров 2 и 3 порядка. Система имеет встроенный интеллектуальный модуль, что позволяет автоматизировать выбор электрода фильтра 3 порядка для дальнейшей настройки изделия.', NULL, NULL, NULL);
-
-
--- phpMyAdmin SQL Dump
--- version 3.2.3
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Nov 04, 2011 at 12:20 PM
--- Server version: 5.1.40
--- PHP Version: 5.3.3
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
---
--- Database: `poas`
---
+(1, 'РЈ.Рњ.Рќ.Р.Рљ', NULL, 'Р’С‹СЏРІР»РµРЅРёРµ РјРѕР»РѕРґС‹С… СѓС‡С‘РЅС‹С…, СЃС‚СЂРµРјСЏС‰РёС…СЃСЏ СЃР°РјРѕСЂРµР°Р»РёР·РѕРІР°С‚СЊСЃСЏ С‡РµСЂРµР· РёРЅРЅРѕРІР°С†РёРѕРЅРЅСѓСЋ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚СЊ, Рё СЃС‚РёРјСѓР»РёСЂРѕРІР°РЅРёРµ РјР°СЃСЃРѕРІРѕРіРѕ СѓС‡Р°СЃС‚РёСЏ РјРѕР»РѕРґРµР¶Рё РІ РЅР°СѓС‡РЅРѕ-С‚РµС…РЅРёС‡РµСЃРєРѕР№ Рё РёРЅРЅРѕРІР°С†РёРѕРЅРЅРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё РїСѓС‚РµРј РѕСЂРіР°РЅРёР·Р°С†РёРѕРЅРЅРѕР№ Рё С„РёРЅР°РЅСЃРѕРІРѕР№ РїРѕРґРґРµСЂР¶РєРё РёРЅРЅРѕРІР°С†РёРѕРЅРЅС‹С… РїСЂРѕРµРєС‚РѕРІ.', NULL, 'http://www.fasie.ru/fund_programms/umnik/umnik-index.aspx', '0'),
+(3, 'РЎС‚Р°СЂС‚', 'Start', 'РЎРѕР·РґР°РЅРёРµ Рё СЂР°Р·РІРёС‚РёРµ РјР°Р»С‹С… РёРЅРЅРѕРІР°С†РёРѕРЅРЅС‹С… РїСЂРµРґРїСЂРёСЏС‚РёР№. Р¤РёРЅР°РЅСЃРёСЂРѕРІР°РЅРёРµ РёРЅРЅРѕРІР°С†РёРѕРЅРЅС‹С… РїСЂРѕРµРєС‚РѕРІ, РЅР°С…РѕРґСЏС‰РёС…СЃСЏ РЅР° РЅР°С‡Р°Р»СЊРЅРѕР№ СЃС‚Р°РґРёРё СЂР°Р·РІРёС‚РёСЏ.', 'Creation and development of small innovative enterprises. Funding for innovative projects at the initial stage of development.', 'http://www.fasie.ru/fund_programms/Starts/start09-index.aspx', NULL),
+(4, 'РџСЂРѕРіСЂР°РјРјР° вЂњРџРѕСЃС‚СЂРѕРёС‚РµР»СЊ РїРµСЂСЃРѕРЅРёС„РёС†РёСЂРѕРІР°РЅРЅС‹С… РѕР±СЂР°Р·РѕРІР°С‚РµР»СЊРЅС‹С… РєРѕР»Р»РµРєС†РёР№ OntoCollectionBuilderвЂќ', NULL, 'РџСЂРѕРіСЂР°РјРјР° РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ РёРЅС‚РµР»Р»РµРєС‚СѓР°Р»СЊРЅРѕР№ РїРѕРґРґРµСЂР¶РєРё РїСЂРѕС†РµСЃСЃР° Р°РґР°РїС‚РёРІРЅРѕРіРѕ РїРѕРёСЃРєР° СЌР»РµРєС‚СЂРѕРЅРЅС‹С… РѕР±СЂР°Р·РѕРІР°С‚РµР»СЊРЅС‹С… СЂРµСЃСѓСЂСЃРѕРІ. РџСЂРѕРіСЂР°РјРјР° РїРѕР·РІРѕР»СЏРµС‚ РїСЂРѕРІРѕРґРёС‚СЊ РїРѕРёСЃРє СЌР»РµРєС‚СЂРѕРЅРЅС‹С… РѕР±СЂР°Р·РѕРІР°С‚РµР»СЊРЅС‹С… СЂРµСЃСѓСЂСЃРѕРІ РІ СЂРµРїРѕР·РёС‚РѕСЂРёРё РЅР° РѕСЃРЅРѕРІРµ РјРµС‚Р°РѕРїРёСЃР°РЅРёР№ СЂРµСЃСѓСЂСЃРѕРІ Рё С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРє РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РёРЅС‚РµРіСЂРёСЂРѕРІР°С‚СЊ СЂРµСЃСѓСЂСЃС‹ РІ РїРµСЂСЃРѕРЅРёС„РёС†РёСЂРѕРІР°РЅРЅС‹Рµ РѕР±СЂР°Р·РѕРІР°С‚РµР»СЊРЅС‹Рµ РєРѕР»Р»РµРєС†РёРё. Р¤СѓРЅРєС†РёРѕРЅРёСЂРѕРІР°РЅРёРµ РїСЂРѕРіСЂР°РјРјС‹ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РЅР° РѕСЃРЅРѕРІРµ Р»РѕРіРёС‡РµСЃРєРѕРіРѕ РІС‹РІРѕРґР° РЅР° РѕРЅС‚РѕР»РѕРіРёСЏС…. Р’ РєР°С‡РµСЃС‚РІРµ Р±Р°Р·С‹ РґР°РЅРЅС‹С… Рё Р±Р°Р·С‹ Р·РЅР°РЅРёР№ РїСЂРѕРіСЂР°РјРјС‹ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ РѕРЅС‚РѕР»РѕРіРёРё РІ С„РѕСЂРјР°С‚Рµ OWL-DL. ', NULL, NULL, NULL),
+(14, 'РЎРёСЃС‚РµРјР° РёРЅС‚РµР»Р»РµРєС‚СѓР°Р»СЊРЅРѕР№ РїРѕРґРґРµСЂР¶РєРё РёРЅР¶РµРЅРµСЂРЅРѕРіРѕ Р°РЅР°Р»РёР·Р° РїРѕ РјРµС‚РѕРґСѓ РєРѕРЅРµС‡РЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ jISFEA', NULL, 'Р¦РµР»СЊСЋ СЂР°Р·СЂР°Р±РѕС‚РєРё РёРЅС‚РµР»Р»РµРєС‚СѓР°Р»СЊРЅРѕР№ СЃРёСЃС‚РµРјС‹ РїРѕРґРґРµСЂР¶РєРё РёРЅР¶РµРЅРµСЂРЅРѕРіРѕ Р°РЅР°Р»РёР·Р° РїРѕ РјРµС‚РѕРґСѓ РєРѕРЅРµС‡РЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ jISFEA СЏРІР»СЏР»РѕСЃСЊ СЃРѕРєСЂР°С‰РµРЅРёРµ СЃСЂРѕРєРѕРІ РїСЂРѕРІРµРґРµРЅРёСЏ Р°РЅР°Р»РёР·Р° Р·Р° СЃС‡РµС‚ Р°РІС‚РѕРјР°С‚РёР·Р°С†РёРё С‚Р°РєРёС… РЅРµР°Р»РіРѕСЂРёС‚РјРёС‡РµСЃРєРёС… СЌС‚Р°РїРѕРІ РєР°Рє РІС‹Р±РѕСЂ С‚РёРїР° РєРѕРЅРµС‡РЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° Рё Р°Р»РіРѕСЂРёС‚РјР° СЂР°СЃС‡РµС‚Р°. Р”Р»СЏ СЂР°Р·СЂР°Р±РѕС‚Р°РЅРЅРѕР№ СЃРёСЃС‚РµРјС‹ Р±С‹Р»Р° СЃРїСЂРѕРµРєС‚РёСЂРѕРІР°РЅР° Р±Р°Р·Р° Р·РЅР°РЅРёР№ РІ РІРёРґРµ РѕРЅС‚РѕР»РѕРіРёРё Рё Р°Р»РіРѕСЂРёС‚РјС‹ РїРѕРёСЃРєР° Рё Р°РґР°РїС‚Р°С†РёРё РїСЂРµС†РµРґРµРЅС‚РѕРІ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј СЂР°СЃСЃСѓР¶РґРµРЅРёР№ РЅР° РѕРЅС‚РѕР»РѕРіРёРё OWL-DL; РїРѕР»СѓС‡РµРЅС‹ СЃРІРёРґРµС‚РµР»СЊСЃС‚РІР° Рѕ РіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅРѕР№ СЂРµРіРёСЃС‚СЂР°С†РёРё РїСЂРѕРіСЂР°РјРјС‹ Рё Р±Р°Р·С‹ РґР°РЅРЅС‹С…. ', NULL, NULL, NULL),
+(12, 'РђРІС‚РѕРјР°С‚РёР·РёСЂРѕРІР°РЅРЅР°СЏ СЃРёСЃС‚РµРјР° В«РР -4В»', NULL, 'РџСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ РёР·РјРµСЂРµРЅРёСЏ Рё Р°РЅР°Р»РёР·Р° РѕСЃРЅРѕРІРЅС‹С… С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРє РјРѕРЅРѕР»РёС‚РЅС‹С… РєСЂРёСЃС‚Р°Р»Р»РёС‡РµСЃРєРёС… С„РёР»СЊС‚СЂРѕРІ 2 Рё 3 РїРѕСЂСЏРґРєР°. РЎРёСЃС‚РµРјР° РёРјРµРµС‚ РІСЃС‚СЂРѕРµРЅРЅС‹Р№ РёРЅС‚РµР»Р»РµРєС‚СѓР°Р»СЊРЅС‹Р№ РјРѕРґСѓР»СЊ, С‡С‚Рѕ РїРѕР·РІРѕР»СЏРµС‚ Р°РІС‚РѕРјР°С‚РёР·РёСЂРѕРІР°С‚СЊ РІС‹Р±РѕСЂ СЌР»РµРєС‚СЂРѕРґР° С„РёР»СЊС‚СЂР° 3 РїРѕСЂСЏРґРєР° РґР»СЏ РґР°Р»СЊРЅРµР№С€РµР№ РЅР°СЃС‚СЂРѕР№РєРё РёР·РґРµР»РёСЏ.', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -123,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `project_members` (
   `userid` int(10) unsigned NOT NULL,
   `projectid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `project_members`
@@ -131,4 +90,31 @@ CREATE TABLE IF NOT EXISTS `project_members` (
 
 INSERT INTO `project_members` (`id`, `userid`, `projectid`) VALUES
 (1, 17, 1),
-(2, 20, 1);
+(2, 20, 1),
+(3, 17, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(25) NOT NULL,
+  `password` char(32) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `first_name` varchar(32) NOT NULL,
+  `last_name` varchar(32) NOT NULL,
+  `group` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=25 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `group`) VALUES
+(17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 'РђР»РµРєСЃР°РЅРґСЂ', 'РЎРѕРІР°', 555100),
+(20, 'arkanif', 'c4ca4238a0b923820dcc509a6f75849b', '113em@mail.ru', 'Arkanif', 'РђРЅРґСЂРµРµРІРёС‡', 555100),
+(24, 'user', 'c4ca4238a0b923820dcc509a6f75849b', 'MY@EMAIL.COM', 'i', 'f', 555100);
