@@ -25,10 +25,10 @@ class Users extends CI_Controller {
 	 */
 	function show ($id, $page = 'contacts')
 	{
-		echo $page;
 		$data['title'] = 'Пользователи - Сайт кафедры ПОАС';
 		$data['id'] = $id;
-		$data['content'] = $this->user_model->get_user_info($id, $page);
+		$data['info'] = $this->user_model->get_user_info($id, $page);
+		$data['page'] = $page;
 		$data['content'] = $this->load->view('user_view', $data, TRUE);
 		$this->load->view('templates/main_view', $data);
 	}

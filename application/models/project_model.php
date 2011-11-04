@@ -9,7 +9,7 @@ class Project_model extends CI_Model {
 	/**
 	 * Получить основную информацию о всех проектах (или об одном проекте)
 	 * 
-	 * Получить только name_ru и id проектов
+	 * Получить только name, id проектов
 	 * @param $id - id проекта, необязательный параметр
 	 * @return массив всех записей, запись с указанным id или FALSE
 	*/
@@ -83,7 +83,7 @@ class Project_model extends CI_Model {
 	{
 		$this->db->select('users.id, first_name, last_name')
 				 ->from(TABLE_PROJECT_MEMBERS)
-				 ->join('users','users.id = project_members.userid')
+				 ->join(TABLE_USERS,'users.id = project_members.userid')
 				 ->where('projectid = ' . $id);
 		return $this->db->get()->result();
 	}

@@ -11,3 +11,4 @@ $lang['cv'] = 'CV';
 $lang['projects'] = 'Проекты';
 $lang['links'] = 'Ссылки';
 $lang['teaching'] = 'Преподавание';
+$lang['email'] = 'e-mail';

@@ -70,8 +70,63 @@ class User_model extends CI_Model {
 	 * @return данные или FALSE
 	 */
 	function get_user_info($id, $page)
-	{
+	{		
 		//@todo данные из базы
+		$data = FALSE;
+		switch ($page)
+		{
+			case 'contacts':
+				//@todo FIO, room, phone, email, site, skype' 
+				$records = $this->db->select('email,')->get_where(TABLE_USERS, array('id'=>$id))->result();
+				count($records) == 1 ? $data = $records[0] : FALSE;
+				break;
+			case 'projects':
+				
+				$projects = $this->get_user_projects($id);
+				// выбрать имя для отображения на сайте в зависимости от языка
+				$namefield = 'name_'.lang();
+				foreach ($projects as $project)
+				{
+					
+					if (isset($project->$namefield) && $project->$namefield !== '')
+					{
+						$project->name = $project->$namefield;
+					}
+					else 
+					{
+						$project->name = $project->name_ru;
+					}
+					// ни к чему передавать лишние данные
+					unset($project->name_ru);
+					unset($project->name_en);
+					
+					if (isset($project->url) && $project->url == '')
+					{
+						unset($project->url);
+					}
+				}
+				$data = $projects;
+				break;
+				
+		}
+		return $data;
+	}
+	
+	/**
+	 * Получить данные о проектах, в которых принимает участие пользователь
+	 * @param $id идентификатор пользователя
+	 * @return массив проектов или FALSE
+	 */
+	function get_user_projects($id) 
+	{
+		$data = $this->db->select('projectid,' . TABLE_PROJECTS . '.name_ru,' . TABLE_PROJECTS . '.name_en,' . TABLE_PROJECTS . '.url')
+						 ->from(TABLE_USERS)
+						 ->join(TABLE_PROJECT_MEMBERS, TABLE_USERS . '.id = userid')
+ 						 ->join(TABLE_PROJECTS, TABLE_PROJECTS . '.id = projectid')
+						 ->where('userid = ' . $id)
+						 ->get()
+						 ->result();
+		return count($data) > 0 ? $data : FALSE; 
 	}
 	
 	/**
