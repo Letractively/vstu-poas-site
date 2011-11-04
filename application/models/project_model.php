@@ -108,7 +108,7 @@ class Project_model extends CI_Model {
 		if($project->name_en === '') { $project->name_en = null; }
 		if($project->description_en === '') { $project->description_en = null; }
 		if ($project->image == 0 ) {$project->image = null; }
-		if ($project->image == '' ) {$project->url = null; }
+		if ($project->url == '' ) {$project->url = null; }
 		
 		return $project;
 	}
