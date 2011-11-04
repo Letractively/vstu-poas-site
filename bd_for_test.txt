@@ -1,0 +1,134 @@
+-- phpMyAdmin SQL Dump
+-- version 3.2.3
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Oct 10, 2011 at 02:52 PM
+-- Server version: 5.1.40
+-- PHP Version: 5.3.3
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `poas`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `news`
+--
+
+CREATE TABLE IF NOT EXISTS `news` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `url` varchar(25) NOT NULL,
+  `name_ru` varchar(50) DEFAULT NULL,
+  `name_en` varchar(50) DEFAULT NULL,
+  `notice_ru` varchar(400) DEFAULT NULL,
+  `notice_en` varchar(400) DEFAULT NULL,
+  `text_ru` text NOT NULL,
+  `text_en` text NOT NULL,
+  `time` datetime NOT NULL,
+  `update` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `news`
+--
+
+INSERT INTO `news` (`id`, `url`, `name_ru`, `name_en`, `notice_ru`, `notice_en`, `text_ru`, `text_en`, `time`, `update`) VALUES
+(1, 'privet', 'Абра кодабра111', 'Abra 111', 'Короткое описание новости тут 111', 'blf bl bla 111', 'Тут текст новости первой на русском 111', 'Text of news on English!!!!! WOOOoooOooOOOooOOooOWWW it''s so cooooOooOOooOOl dsfb hjdsbf hjsbdhf bsdjh bshdjbf jhsdb fjhdsbfjhsdbf jhbdsfh 111', '2011-09-29 02:52:58', '2011-09-05 02:53:01'),
+(6, 'kakoy_ujas', 'Новая новость', 'Hello my friend', '&nbsp;Почему Путин&nbsp;-&nbsp;краб, Медведев - шмель, а Ленин - гриб?&nbsp;', 'I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.', '<p>Этот современный, многоэтажный отель расположен в центре города Волгограда. Он предлагает номера в классическом и античном стиле с бесплатным Wi-Fi</p>\r\n<p>А почему ывьь дывьа лывьад ьывдаь ыльалывалы аон стал такой ываываыва странный непонятно?</p>\r\n<p>Кто, когда и где! Да</p>', '<p>I have fixed the installer and pushed it a few minutes ago, thanks for that.</p><div>I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.&nbsp;I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.&nbsp;I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.</div>', '2011-10-09 04:57:49', '2011-10-09 04:57:49'),
+(4, 'privet1', 'Проба большая', '', 'Просто жесть какая большая проба', '', 'Полный текст статьи тут, даже с картинками в том числе', '', '2011-10-02 04:25:25', '2011-10-02 04:25:25'),
+(5, 'eshe_odna', 'Ещё одна', '', 'Ещё одна новость', '', 'Очень длинная<div><br></div><div><h3>Ранняя история с V&nbsp;в. н.&nbsp;э.</h3><p>Археологическими исследованиями установлено, что на месте Львова существовали поселения начиная с&nbsp;<a href="http://ru.wikipedia.org/wiki/V_%D0%B2%D0%B5%D0%BA" title="V век">V века</a>&nbsp;нашей эры. Во время раскопок 1990—1991&nbsp;гг. на территории позади&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9D%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D1%83%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D1%80%D0%B0%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D1%82%D0%B5%D0%B0%D1%82%D1%80_%D0%B8%D0%BC._%D0%9C%D0%B0%D1%80%D0%B8%D0%B8_%D0%97%D0%B0%D0%BD%D1%8C%D0%BA%D0%BE%D0%B2%D0%B5%D1%86%D0%BA%D0%BE%D0%B9" title="Национальный академический украинский драматический театр им. Марии Заньковецкой">театра им. Заньковецкой</a>, где в данный момент находится рынок Добробут, археологами были обнаружены свидетельства того, что на том месте непрерывно функционировало поселение городского типа начиная от VII—VIII веков. В частности, нашли ремесленный район, где кожемяки обрабатывали кожу. Кроме того, были найдены остатки ювелирного производства. Также в результате раскопок на площади Святого Духа возле&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D1%81%D1%82%D1%91%D0%BB_%D1%81%D0%B2%D1%8F%D1%82%D1%8B%D1%85_%D0%9F%D0%B5%D1%82%D1%80%D0%B0_%D0%B8_%D0%9F%D0%B0%D0%B2%D0%BB%D0%B0_%D0%BE%D1%80%D0%B4%D0%B5%D0%BD%D0%B0_%D0%B8%D0%B5%D0%B7%D1%83%D0%B8%D1%82%D0%BE%D0%B2_(%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2)" title="Костёл святых Петра и Павла ордена иезуитов (Львов)">костела Иезуитов</a>&nbsp;была найдена древнеславянская керамика VII—VIII веков. Похожие находки найдены возле&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9B%D0%B0%D1%82%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D1%81%D0%BE%D0%B1%D0%BE%D1%80_(%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2)" title="Латинский собор (Львов)">Кафедрального собора</a>. Археологами считается, что поселение или ряд поселений тянулись вдоль реки<a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D1%82%D0%B2%D0%B0_(%D0%BF%D1%80%D0%B8%D1%82%D0%BE%D0%BA_%D0%97%D0%B0%D0%BF%D0%B0%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE_%D0%91%D1%83%D0%B3%D0%B0)" title="Полтва (приток Западного Буга)">Полтвы</a>. Это был протогород, который предшествовал возникновению Львова.</p><p>Позже эти земли, возможно, принадлежали&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%B0%D1%8F_%D0%9C%D0%BE%D1%80%D0%B0%D0%B2%D0%B8%D1%8F" title="Великая Моравия">Великоморавскому государству</a>. В&nbsp;<a href="http://ru.wikipedia.org/wiki/X_%D0%B2%D0%B5%D0%BA" title="X век">X веке</a>&nbsp;на земли стали претендовать&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%94%D1%80%D0%B5%D0%B2%D0%BD%D0%B5%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B5_%D0%B3%D0%BE%D1%81%D1%83%D0%B4%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%BE" title="Древнерусское государство">Киевская Русь</a>&nbsp;и&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D1%8C%D1%88%D0%B0" title="Польша">Польша</a>&nbsp;(во время царствования<a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%88%D0%BA%D0%BE_I" title="Мешко I">Мешко I</a>). Предполагается, что Мешко владел этими землями с&nbsp;<a href="http://ru.wikipedia.org/wiki/960" title="960">960</a>&nbsp;до&nbsp;<a href="http://ru.wikipedia.org/wiki/980_%D0%B3%D0%BE%D0%B4" title="980 год">980 года</a>. Согласно летописи&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9D%D0%B5%D1%81%D1%82%D0%BE%D1%80_%D0%9B%D0%B5%D1%82%D0%BE%D0%BF%D0%B8%D1%81%D0%B5%D1%86" title="Нестор Летописец">Нестора</a>, в&nbsp;<a href="http://ru.wikipedia.org/wiki/981_%D0%B3%D0%BE%D0%B4" title="981 год">981 году</a>&nbsp;они были завоёваны&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%B8%D0%B9" title="Владимир Великий">Владимиром Великим</a>. Первое упоминание о Львове относится к&nbsp;<a href="http://ru.wikipedia.org/wiki/1256_%D0%B3%D0%BE%D0%B4" title="1256 год">1256 году</a>. Согласно наиболее распространённой версии Львов был основан лишь в&nbsp;<a href="http://ru.wikipedia.org/wiki/XIII_%D0%B2%D0%B5%D0%BA" title="XIII век">XIII веке</a>&nbsp;королём<sup><abbr title="на момент основания города он был ещё князем или уже королём? -- VAP+VYK 14 июня 2011">[<em>уточнить</em>]</abbr></sup>&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B0%D0%BD%D0%B8%D0%B8%D0%BB_%D0%93%D0%B0%D0%BB%D0%B8%D1%86%D0%BA%D0%B8%D0%B9" title="Даниил Галицкий">Даниилом Галицким</a>&nbsp;и был назван в честь его сына, Льва. Согласно другой версии, город был основан уже самим сыном Даниила Галицкого.</p><h3>[<a href="http://ru.wikipedia.org/w/index.php?title=%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2&amp;action=edit&amp;section=7" title="Править секцию: В составе Галицко-Волынского княжества (до 1349)">править</a>]В составе&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BB%D0%B8%D1%86%D0%BA%D0%BE-%D0%92%D0%BE%D0%BB%D1%8B%D0%BD%D1%81%D0%BA%D0%BE%D0%B5_%D0%BA%D0%BD%D1%8F%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%BE" title="Галицко-Волынское княжество">Галицко-Волынского княжества</a>&nbsp;(до 1349)</h3>  <br></div>', '', '2011-10-02 12:49:31', '2011-10-02 12:49:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(25) NOT NULL,
+  `password` char(32) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `first_name` varchar(32) NOT NULL,
+  `last_name` varchar(32) NOT NULL,
+  `group` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=19 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `group`) VALUES
+(17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 'Александр', 'Сова', 555100),
+(20, 'arkanif', 'c4ca4238a0b923820dcc509a6f75849b', '113em@mail.ru', 'Arkanif', 'Андреевич', 555100);
+
+
+
+--
+-- Table structure for table `projects`
+--
+
+CREATE TABLE IF NOT EXISTS `projects` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name_ru` varchar(150) NOT NULL,
+  `name_en` varchar(150) DEFAULT NULL,
+  `description_ru` varchar(800) NOT NULL,
+  `description_en` varchar(800) DEFAULT NULL,
+  `url` varchar(150) DEFAULT NULL,
+  `image` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+
+--
+-- Dumping data for table `projects`
+--
+
+INSERT INTO `projects` (`id`, `name_ru`, `name_en`, `description_ru`, `description_en`, `url`, `image`) VALUES
+(1, 'У.М.Н.И.К', NULL, 'Выявление молодых учёных, стремящихся самореализоваться через инновационную деятельность, и стимулирование массового участия молодежи в научно-технической и инновационной деятельности путем организационной и финансовой поддержки инновационных проектов.', NULL, 'http://www.fasie.ru/fund_programms/umnik/umnik-index.aspx', '0'),
+(3, 'Старт', 'Start', 'Создание и развитие малых инновационных предприятий. Финансирование инновационных проектов, находящихся на начальной стадии развития.', 'Creation and development of small innovative enterprises. Funding for innovative projects at the initial stage of development.', 'http://www.fasie.ru/fund_programms/Starts/start09-index.aspx', NULL),
+(4, 'Программа “Построитель персонифицированных образовательных коллекций OntoCollectionBuilder”', NULL, 'Программа предназначена для интеллектуальной поддержки процесса адаптивного поиска электронных образовательных ресурсов. Программа позволяет проводить поиск электронных образовательных ресурсов в репозитории на основе метаописаний ресурсов и характеристик пользователя, интегрировать ресурсы в персонифицированные образовательные коллекции. Функционирование программы осуществляется на основе логического вывода на онтологиях. В качестве базы данных и базы знаний программы используются онтологии в формате OWL-DL. ', NULL, NULL, NULL),
+(14, 'Система интеллектуальной поддержки инженерного анализа по методу конечных элементов jISFEA', NULL, 'Целью разработки интеллектуальной системы поддержки инженерного анализа по методу конечных элементов jISFEA являлось сокращение сроков проведения анализа за счет автоматизации таких неалгоритмических этапов как выбор типа конечного элемента и алгоритма расчета. Для разработанной системы была спроектирована база знаний в виде онтологии и алгоритмы поиска и адаптации прецедентов с использованием рассуждений на онтологии OWL-DL; получены свидетельства о государственной регистрации программы и базы данных. ', NULL, NULL, NULL),
+(12, 'Автоматизированная система «ИР-4»', NULL, 'Предназначена для измерения и анализа основных характеристик монолитных кристаллических фильтров 2 и 3 порядка. Система имеет встроенный интеллектуальный модуль, что позволяет автоматизировать выбор электрода фильтра 3 порядка для дальнейшей настройки изделия.', NULL, NULL, NULL);
+
+
+-- phpMyAdmin SQL Dump
+-- version 3.2.3
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Nov 04, 2011 at 12:20 PM
+-- Server version: 5.1.40
+-- PHP Version: 5.3.3
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `poas`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_members`
+--
+
+CREATE TABLE IF NOT EXISTS `project_members` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) unsigned NOT NULL,
+  `projectid` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `project_members`
+--
+
+INSERT INTO `project_members` (`id`, `userid`, `projectid`) VALUES
+(1, 17, 1),
+(2, 20, 1);
