@@ -73,6 +73,20 @@ class Project_model extends CI_Model {
 			return $projects[0];
 		}		
 	}
+	
+	/**
+	 * Получить информацию обо всех участниках проекта
+	 * @param $id идентификатор проекта
+	 * return массив пользователей
+	*/
+	function get_members($id) 
+	{
+		$this->db->select('users.id, first_name, last_name')
+				 ->from(TABLE_PROJECT_MEMBERS)
+				 ->join('users','users.id = project_members.userid')
+				 ->where('projectid = ' . $id);
+		return $this->db->get()->result();
+	}
 	/**
 	 * Получить информацию о проекте из данных, полученных методом POST
 	 * return Project - объект, содержащий собранную информацию о проекте
@@ -94,6 +108,7 @@ class Project_model extends CI_Model {
 		if($project->name_en === '') { $project->name_en = null; }
 		if($project->description_en === '') { $project->description_en = null; }
 		if ($project->image == 0 ) {$project->image = null; }
+		if ($project->image == '' ) {$project->url = null; }
 		
 		return $project;
 	}

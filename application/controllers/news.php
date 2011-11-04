@@ -13,7 +13,8 @@ class News extends CI_Controller {
 	/// Главная страница сайта
 	function index()
 	{
-		$data['news'] = $this->news_model->get_short(1, 4);;
+		$data['title'] = "Сайт кафедры ПОАС";
+		$data['news'] = $this->news_model->get_short(1, 4);
 		$data['content'] = $this->load->view('news_last_view', $data, TRUE);
 		$this->load->view('templates/main_view', $data);
 	}
@@ -27,7 +28,7 @@ class News extends CI_Controller {
 	function get()
 	{
 		// @todo - страница с новостями (к примеру 10 новостей на каждой странице)
-		//$data['news'] = $this->news_model->get_short(1, 4);;
+		//$data['news'] = $this->news_model->get_short(1, 4);
 		//$data['content'] = $this->load->view('news_last_view', $data, TRUE);
 		//$this->load->view('templates/main_view', $data);
 	}
@@ -38,11 +39,11 @@ class News extends CI_Controller {
 	 */
 	function show( $url_of_news )
 	{
+		$data['title'] = "Новости - Сайт кафедры ПОАС";
 		$data['news'] = $this->{MODEL_NEWS}->get_by_url($url_of_news);
 		$data['content'] = $this->load->view('news_view', $data, TRUE);
 		$this->load->view('templates/main_view', $data);
 	}
-	
 }
 
 /* End of file admin.php */

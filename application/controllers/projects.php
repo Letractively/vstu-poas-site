@@ -3,7 +3,7 @@ class Projects extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->output->enable_profiler(TRUE);	// Отладка (содержимое после основного контента)
+		$this->output->enable_profiler(TRUE);	// РћС‚Р»Р°РґРєР° (СЃРѕРґРµСЂР¶РёРјРѕРµ РїРѕСЃР»Рµ РѕСЃРЅРѕРІРЅРѕРіРѕ РєРѕРЅС‚РµРЅС‚Р°)
 		$this->load->database('default');
 		$this->load->model('project_model');
 		//$this->load->model('user_model');
@@ -11,7 +11,7 @@ class Projects extends CI_Controller {
 		lang();
 	}
 	
-	/// Главная страница сайта
+	/// Р“Р»Р°РІРЅР°СЏ СЃС‚СЂР°РЅРёС†Р° СЃР°Р№С‚Р°
 	function index()
 	{
 		
@@ -23,12 +23,12 @@ class Projects extends CI_Controller {
 	
 	/**
 	 * @method 
-	 * Страница с новостями
-	 * @param [in] segment3 - номер страницы
+	 * РЎС‚СЂР°РЅРёС†Р° СЃ РЅРѕРІРѕСЃС‚СЏРјРё
+	 * @param [in] segment3 - РЅРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹
 	 */ 
 	function get()
 	{
-		// @todo - страница с новостями (к примеру 10 новостей на каждой странице)
+		// @todo - СЃС‚СЂР°РЅРёС†Р° СЃ РЅРѕРІРѕСЃС‚СЏРјРё (Рє РїСЂРёРјРµСЂСѓ 10 РЅРѕРІРѕСЃС‚РµР№ РЅР° РєР°Р¶РґРѕР№ СЃС‚СЂР°РЅРёС†Рµ)
 		//$data['news'] = $this->news_model->get_short(1, 4);;
 		//$data['content'] = $this->load->view('news_last_view', $data, TRUE);
 		//$this->load->view('templates/main_view', $data);
@@ -36,11 +36,11 @@ class Projects extends CI_Controller {
 	
 	/**
 	 * @todo 
-	 * Страница просмотра одного проекта целиком
+	 * РЎС‚СЂР°РЅРёС†Р° РїСЂРѕСЃРјРѕС‚СЂР° РѕРґРЅРѕРіРѕ РїСЂРѕРµРєС‚Р° С†РµР»РёРєРѕРј
 	 */
 	function show ($id)
 	{
-		$data['project'] = $this->project_model->get_detailed($id);
+		$data['project'] = $this->project_model->get_detailed($id);		
 		if (!$data['project']) 
 		{
 			$data['content'] = $this->lang->line('projects_doesnt_exist');
@@ -48,6 +48,7 @@ class Projects extends CI_Controller {
 		}
 		else 
 		{
+			$data['members'] = $this->project_model->get_members($id);
 			$data['content'] = $this->load->view('project_view', $data, TRUE);
 			$this->load->view('templates/main_view', $data);
 		}
