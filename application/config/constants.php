@@ -44,6 +44,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define('TABLE_NEWS', 'news');
 define('TABLE_USERS', 'users');
 define('TABLE_PROJECTS', 'projects');
+define('TABLE_PROJECT_MEMBERS', 'project_members');
 
 
 /*

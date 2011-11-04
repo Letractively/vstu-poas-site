@@ -3,3 +3,4 @@ $lang['site_detail'] = 'detail';
 $lang['users'] = 'Users';
 $lang['visit_site'] = 'Visit site';
 $lang['projects_doesnt_exist'] = 'Project doesn\'t exist';
+$lang['project_members'] = 'Project members';
