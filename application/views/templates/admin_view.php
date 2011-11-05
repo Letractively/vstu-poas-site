@@ -41,6 +41,7 @@
 			<li><a href="/admin">Главная</a></li>	
 			<li><a href="/admin/users">Пользователи</a></li>
 			<li><a href="/admin/projects">Проекты</a></li>
+			<li><a href="/admin/directions">Направления</a></li>
 			<li><a href="/admin/news">Новости</a></li>
 			<li><a href="/user/logout">Выйти</a></li>
 		</ul>	

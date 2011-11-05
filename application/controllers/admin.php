@@ -239,6 +239,32 @@ class Admin extends CI_Controller {
 		$this->load->view('/templates/admin_view', $data);
 	}
 	
+	function directions()
+	{
+		$data = NULL;
+		$this->load->model(MODEL_DIRECTION);
+		
+		switch($this->uri->segment(3)) {
+			case '':
+			default:
+				// по адресу "/admin/directions": список всех направлений
+				// он же при несуществующем методе
+				$this->_view_directions();
+				break;
+		}
+	}
+	
+	function _view_directions($message = null) 
+	{
+		$data['directions'] = 'directions';
+		$data['content'] = $this->load->view('admin/directions_view', $data, TRUE);
+		$data['title'] = 'Направления';
+		if($message != null)
+		{
+			$data['message'] = $message;
+		}
+		$this->load->view('/templates/admin_view', $data);
+	}
 	function logout()
 	{
 		$this->session->sess_destroy();
