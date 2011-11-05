@@ -6,12 +6,9 @@ class Projects extends CI_Controller {
 		$this->output->enable_profiler(TRUE);	// Отладка (содержимое после основного контента)
 		$this->load->database('default');
 		$this->load->model('project_model');
-		//$this->load->model('user_model');
-		//$this->load->model('news_model');
 		lang();
 	}
 	
-	/// Главная страница сайта
 	function index()
 	{
 		$data['title'] = 'Проекты - Сайт кафедры ПОАС';

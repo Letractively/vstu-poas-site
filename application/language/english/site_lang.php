@@ -12,3 +12,7 @@ $lang['projects'] = 'Projects';
 $lang['links'] = 'Links';
 $lang['teaching'] = 'Teaching';
 $lang['email'] = 'e-mail';
+$lang['directionheaderis'] = 'Header';
+$lang['directionheaderare'] = 'Headers';
+$lang['directionmemberis'] = 'Member';
+$lang['directionmembersare'] = 'Members';

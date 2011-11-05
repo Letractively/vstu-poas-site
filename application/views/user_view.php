@@ -36,15 +36,18 @@ switch($page)
 		// echo skype
 		break;
 	case 'projects':
-		foreach ($info as $project) 
+		if ($info)
 		{
-			echo anchor('/projects/' . $project->projectid, $project->name);
-			// anchor и внешние ссылки
-			if (isset($project->url)) 
+			foreach ($info as $project) 
 			{
-				echo ' <a href = "' . $project->url . '">'.$this->lang->line('visit_site').'</a>';
+				echo anchor('/projects/' . $project->projectid, $project->name);
+				// anchor и внешние ссылки
+				if (isset($project->url)) 
+				{
+					echo ' <a href = "' . $project->url . '">'.$this->lang->line('visit_site').'</a>';
+				}
+				echo br(2);
 			}
-			echo br(2);
 		}
 		break;
 }
