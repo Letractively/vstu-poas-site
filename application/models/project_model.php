@@ -126,7 +126,7 @@ class Project_model extends CI_Model {
 		}
 		else
 		{
-			$this->message = 'Ошибка! Проект не удалось добавить проект';
+			$this->message = 'Ошибка! Проект не удалось добавить';
 			return FALSE;
 		}
 	}

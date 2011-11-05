@@ -190,7 +190,7 @@ class Admin extends CI_Controller {
 				}
 				else 
 				{
-					// по адресу "/admin/add": добавление нового проекта
+					// по адресу "/admin/projects/add": добавление нового проекта
 					$data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
 					$data['title'] = 'Создание нового проекта';
 					$this->load->view('/templates/admin_view', $data);
@@ -204,7 +204,7 @@ class Admin extends CI_Controller {
 				}
 				else 
 				{
-					// по адресу "/admin/edit/{id}": добавление редактирование проекта
+					// по адресу "/admin/projects/edit/{id}": добавление редактирование проекта
 					$id = $this->uri->segment(4);
 					$data = array();
 					$data['project'] = $this->project_model->get_project($id);
@@ -214,7 +214,7 @@ class Admin extends CI_Controller {
 				}
 				break;
 			case 'delete':
-				// по адресу "/admin/news/delete": удаление проекта
+				// по адресу "/admin/projects/delete": удаление проекта
 				$this->project_model->delete( $this->uri->segment(4) );
 				
 				$this->_view_projects($this->project_model->message);
@@ -245,6 +245,43 @@ class Admin extends CI_Controller {
 		$this->load->model(MODEL_DIRECTION);
 		
 		switch($this->uri->segment(3)) {
+			case 'add':
+				if ($this->uri->segment(4) == 'action')
+				{
+					$this->direction_model->add_from_post();
+					$this->_view_directions($this->direction_model->message);
+				}
+				else
+				{
+					// по адресу "/admin/directions/add": добавление нового направления
+					$data['content'] = $this->load->view('/admin/edit_direction_view', $data, TRUE);
+					$data['title'] = 'Создание нового направления';
+					$this->load->view('/templates/admin_view', $data);
+				}
+				break;
+			case 'edit':
+				if ($this->uri->segment(4) == 'action')
+				{
+					$this->direction_model->edit_from_post();
+					$this->_view_directions($this->direction_model->message);
+				}
+				else
+				{
+					// по адресу "/admin/directions/edit/{id}": редактирование направления
+					$id = $this->uri->segment(4);
+					$data = array();
+					$data['direction'] = $this->direction_model->get_direction($id);
+					$data['content'] = $this->load->view('/admin/edit_direction_view', $data, TRUE);
+					$data['title'] = 'Изменение направления';
+					$this->load->view('/templates/admin_view', $data);
+				}
+				break;
+			case 'delete':
+				// по адресу "/admin/directions/delete": удаление проекта
+				$this->direction_model->delete( $this->uri->segment(4) );
+			
+				$this->_view_directions($this->direction_model->message);
+				break;
 			case '':
 			default:
 				// по адресу "/admin/directions": список всех направлений
@@ -256,7 +293,7 @@ class Admin extends CI_Controller {
 	
 	function _view_directions($message = null) 
 	{
-		$data['directions'] = 'directions';
+		$data['directions'] = $this->direction_model->get_short();
 		$data['content'] = $this->load->view('admin/directions_view', $data, TRUE);
 		$data['title'] = 'Направления';
 		if($message != null)
