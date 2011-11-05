@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 05, 2011 at 03:18 AM
+-- Generation Time: Nov 05, 2011 at 04:36 AM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -23,15 +23,20 @@ CREATE TABLE IF NOT EXISTS `directions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name_ru` varchar(300) NOT NULL,
   `name_en` varchar(300) DEFAULT NULL,
-  `description_ru` varchar(800) NOT NULL,
+  `description_ru` varchar(800) DEFAULT NULL,
   `description_en` varchar(800) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `directions`
 --
 
+INSERT INTO `directions` (`id`, `name_ru`, `name_en`, `description_ru`, `description_en`) VALUES
+(5, 'Современные информационные технологии в образовании', NULL, NULL, NULL),
+(2, 'Разработка математических моделей синтеза и анализа проектных решений в поисковом конструировании', NULL, '12312321312', NULL),
+(3, 'Развитие и применение ERP-систем', NULL, NULL, NULL),
+(4, 'Интеллектуальная поддержка инженерного анализа на основе онтологий, качественных рассуждений и рассуждений по прецедентам', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -45,12 +50,15 @@ CREATE TABLE IF NOT EXISTS `direction_members` (
   `directionid` int(10) unsigned NOT NULL,
   `ishead` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `direction_members`
 --
 
+INSERT INTO `direction_members` (`id`, `userid`, `directionid`, `ishead`) VALUES
+(1, 25, 3, 1),
+(2, 20, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -97,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `url` varchar(150) DEFAULT NULL,
   `image` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `projects`
@@ -147,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_name` varchar(32) NOT NULL,
   `group` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=25 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `users`
@@ -156,4 +164,5 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `group`) VALUES
 (17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 'Александр', 'Сова', 555100),
 (20, 'arkanif', 'c4ca4238a0b923820dcc509a6f75849b', '113em@mail.ru', 'Arkanif', 'Андреевич', 555100),
-(24, 'user', 'c4ca4238a0b923820dcc509a6f75849b', 'MY@EMAIL.COM', 'i', 'f', 555100);
+(24, 'user', 'c4ca4238a0b923820dcc509a6f75849b', 'MY@EMAIL.COM', 'i', 'f', 555100),
+(25, 'dvorjankin', 'c4ca4238a0b923820dcc509a6f75849b', 'dvam@vstu2.ru', 'Александр ', 'Дворянкин ', 555101);

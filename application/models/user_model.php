@@ -83,26 +83,29 @@ class User_model extends CI_Model {
 			case 'projects':
 				
 				$projects = $this->get_user_projects($id);
-				// выбрать имя для отображения на сайте в зависимости от языка
-				$namefield = 'name_'.lang();
-				foreach ($projects as $project)
+				if ($projects)
 				{
-					
-					if (isset($project->$namefield) && $project->$namefield !== '')
+					// выбрать имя для отображения на сайте в зависимости от языка
+					$namefield = 'name_'.lang();
+					foreach ($projects as $project)
 					{
-						$project->name = $project->$namefield;
-					}
-					else 
-					{
-						$project->name = $project->name_ru;
-					}
-					// ни к чему передавать лишние данные
-					unset($project->name_ru);
-					unset($project->name_en);
-					
-					if (isset($project->url) && $project->url == '')
-					{
-						unset($project->url);
+						
+						if (isset($project->$namefield) && $project->$namefield !== '')
+						{
+							$project->name = $project->$namefield;
+						}
+						else 
+						{
+							$project->name = $project->name_ru;
+						}
+						// ни к чему передавать лишние данные
+						unset($project->name_ru);
+						unset($project->name_en);
+						
+						if (isset($project->url) && $project->url == '')
+						{
+							unset($project->url);
+						}
 					}
 				}
 				$data = $projects;

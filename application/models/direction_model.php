@@ -38,6 +38,55 @@ class Direction_model extends CI_Model {
 	}
 	
 	/**
+	 * Получить детальную информацию о направлении
+	 *
+	 * @param $id - id направления
+	 * @return запись
+	 */
+	function get_detailed($id)
+	{
+		if (isset($id))
+		{
+			$directions = $this->db
+									->select('id,'.
+											 'name_' . lang() . ' as name,' .
+											 'description_' . lang() . ' as description')
+									->get_where(TABLE_DIRECTIONS, array('id' => $id), 1)
+									->result();
+			// Если не нашлось направления на требуемом языке - выдать русскую версию
+			if ($directions && ( ! isset($directions[0]->name) || $directions[0]->name == '' ))
+			{
+				$directions = $this->db
+										->select('id,'.
+												'name_ru as name,' .
+												'description_ru as description')
+										->get_where(TABLE_DIRECTIONS, array('id' => $id), 1)
+										->result();
+			}
+			if( !$directions)
+			{
+				return FALSE;
+			}
+			return $directions[0];
+		}
+	}
+	
+	/**
+	 * Получить информацию обо всех участниках направления
+	 * @param $id идентификатор направления
+	 * return массив пользователей
+	 */
+	function get_members($id)
+	{
+		$this->db
+				->select('users.id, first_name, last_name, ishead')
+				->from(TABLE_DIRECTION_MEMBERS)
+				->join(TABLE_USERS,'users.id = direction_members.userid')
+				->where('directionid = ' . $id);
+				return $this->db->get()->result();
+	}
+	
+	/**
 	 * Получить информацию о направлени из данных, полученных методом POST
 	 * return объект, содержащий собранную информацию о направлении
 	 */

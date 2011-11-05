@@ -12,3 +12,7 @@ $lang['projects'] = 'Проекты';
 $lang['links'] = 'Ссылки';
 $lang['teaching'] = 'Преподавание';
 $lang['email'] = 'e-mail';
+$lang['directionheaderis'] = 'Руководитель направления';
+$lang['directionheaderare'] = 'Руководители направления';
+$lang['directionmemberis'] = 'Заинтересован в направлении';
+$lang['directionmembersare'] = 'Заинтересованы в направлении';

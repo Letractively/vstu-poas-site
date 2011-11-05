@@ -44,6 +44,9 @@ $route['404_override'] = 'notfound';
 $route['en/projects/(:num)'] = "projects/show/$1";
 $route['projects/(:num)'] = "projects/show/$1";
 
+$route['en/directions/(:num)'] = "directions/show/$1";
+$route['directions/(:num)'] = "directions/show/$1";
+
 $route['en/users/(:num)'] = "users/show/$1";
 $route['users/(:num)'] = "users/show/$1";
 $route['en/users/(:num)/(:any)'] = "users/show/$1/$2";
