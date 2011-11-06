@@ -35,6 +35,30 @@ switch($page)
 		// echo site
 		// echo skype
 		break;
+    case 'interest':
+        if ($info)
+        {
+            foreach ($info as $direction) 
+            {
+                echo anchor('/directions/' . $direction->directionid, $direction->name);
+                if ($direction->ishead) 
+                {
+                    echo ' (' . $this->lang->line('ishead') . ')';
+                }
+                echo br(2);
+            }
+        }
+        break;
+    case 'publications':
+        if ($info)
+        {
+            foreach($info as $publication)
+            {
+                $data['publication'] = $publication;
+                $this->load->view('publication_view', $data);
+            }
+        }
+        break;
 	case 'projects':
 		if ($info)
 		{
