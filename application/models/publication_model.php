@@ -3,40 +3,17 @@
  * @class Publication_model
  * Модель публикаций.
  */
-
-class Publication_model extends CI_Model 
+require_once('super_model.php');
+class Publication_model extends Super_model 
 {
-	var $message = '';
-    
-    /**
-	 * Получить основную информацию обо всех публикациях (или об одной публикации)
-	 *
-	 * Получить только name, id публикации
-	 * @param $id - идентификатор публикации, необязательный параметр
-	 * @return массив всех записей, запись с указанным id или FALSE
-	 */
-	function get_short ($id = null)
-	{
-		if (isset($id))
-		{
-			$publications = $this->db
-							 ->select('id, name_'.lang().' as name')
-							 ->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
-							 ->get_where(TABLE_PUBLICATIONS, array('id' => $id), 1)
-							 ->result();
-			if( !$publications)
-			{
-				return FALSE;
-			}
-			return $publications[0];
-		}
-	
-		return $this->db
-					->select('id, name_'.lang().' as name')
-					->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
-					->order_by('name_'.lang())
-					->get(TABLE_PUBLICATIONS)
-					->result();
-	}
+    function get_short($id = null)
+    {
+        return $this->_get_short(TABLE_PUBLICATIONS, $id);
+    }
+    function get_detailed($id) {
+        $select1 = 'year, fulltext_ru, fulltext_en, abstract_ru, abstract_en, info_' . lang(). 'as info';
+        $select2 = 'year, fulltext_ru, fulltext_en, abstract_ru, abstract_en, info_ru as info';
+        return $this->_get_detailed($id, TABLE_PUBLICATIONS, $select1, $select2);
+    }
 }
 ?>
