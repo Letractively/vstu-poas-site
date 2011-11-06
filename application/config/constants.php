@@ -49,6 +49,8 @@ define('TABLE_DIRECTIONS','directions');
 define('TABLE_DIRECTION_MEMBERS','direction_members');
 define('TABLE_PUBLICATIONS', 'publications');
 define('TABLE_PUBLICATION_AUTHORS', 'publication_authors');
+define('TABLE_USER_COUSRES', 'user_courses');
+define('TABLE_PARTNERS', 'partners');
 
 
 /*
@@ -73,6 +75,7 @@ define('MODEL_USER', 		'user_model');				/// пользователи
 define('MODEL_PROJECT', 	'project_model');			/// проекты
 define('MODEL_DIRECTION',	'direction_model');			/// научные направления
 define('MODEL_PUBLICATION', 'publication_model');       /// публикации
+define('MODEL_PARTNERS',    'partner_model');           /// партнеры
 
 /*
 |--------------------------------------------------------------------------

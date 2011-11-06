@@ -248,6 +248,11 @@ class Admin extends CI_Controller {
     {
         $this->_page('publications', 'publication', MODEL_PUBLICATION);
     }
+    
+    function partners()
+    {
+        $this->_page('partners', 'partner', MODEL_PARTNERS);
+    }
     function _page($name, $singlename, $model)
 	{
 		$data = NULL;
