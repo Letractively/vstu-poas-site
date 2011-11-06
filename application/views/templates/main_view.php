@@ -52,7 +52,7 @@
 </td>
 </tr>
 <tr>
-<td colspan="2" align="center"><font size="2">Copyright © 2010, <?php  echo link_to_translate();?> </font></td>
+<td colspan="2" align="center"><font size="2">Copyright © 2011, <?php  echo link_to_translate();?> </font></td>
 
 </tr>
 </table>

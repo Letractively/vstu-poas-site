@@ -32,18 +32,20 @@
 	
 	<div id="header">	
 		<h1>POAS igniter <span>CMS</span></h1>
-		<p>Просто куча хлама</p>		
+		<p>Панель управления</p>		
 
 		<!-- ### Top Menu ### -->
 
 		<div id="topmenu">
 		<ul>
 			<li><a href="/admin">Главная</a></li>	
+            <li><a href="/admin/news">Новости</a></li>
 			<li><a href="/admin/users">Пользователи</a></li>
+            <li><a href="/admin/courses">Курсы</a></li>
 			<li><a href="/admin/projects">Проекты</a></li>
 			<li><a href="/admin/directions">Направления</a></li>
             <li><a href="/admin/publications">Публикации</a></li>
-			<li><a href="/admin/news">Новости</a></li>
+            <li><a href="/admin/partners">Партнеры</a></li>
 			<li><a href="/user/logout">Выйти</a></li>
 		</ul>	
 		</div>
@@ -100,7 +102,7 @@
 </div>	
 
 <div id="footer">
-	<p>Copyright &copy; 2011 Мой самый классный сайт, ну Вы понели. </p>
+	<p>&copy; 2011 ПОАС </p>
 </div>
 <div id="dialog_ui"></div>
 <p><br />Page rendered in {elapsed_time} seconds</p>
