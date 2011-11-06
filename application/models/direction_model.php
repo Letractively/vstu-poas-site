@@ -3,6 +3,7 @@
  * @class Direction_model
  * Модель направлений.
  */
+
 require_once('super_model.php');
 class Direction_model extends Super_model 
 {
@@ -13,7 +14,7 @@ class Direction_model extends Super_model
      */
     function get_short($id = null)
     {
-        return $this->_get_short(TABLE_DIRECTIONS, $id);
+        return $this->_get_short(TABLE_DIRECTIONS, null, $id);
     }
     
     /**
