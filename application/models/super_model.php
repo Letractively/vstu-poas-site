@@ -17,15 +17,16 @@ abstract class Super_model extends CI_Model{
 	 *
 	 * Получить только name, id записей
      * @param $table - имя таблицы базы данных
+     * @param $extraselect - дополнительные поля для SELECT-запроса
 	 * @param $id - id направления, необязательный параметр
 	 * @return массив всех записей, запись с указанным id или FALSE
 	 */
-    protected function _get_short($table, $id = null)
+    protected function _get_short($table, $extraselect, $id = null)
     {
         if (isset($id))
 		{
 			$records = $this->db
-							 ->select('id, name_'.lang().' as name')
+							 ->select($extraselect . ',id, name_'.lang().' as name ')
 							 ->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
 							 ->get_where($table, array('id' => $id), 1)
 							 ->result();
@@ -37,7 +38,7 @@ abstract class Super_model extends CI_Model{
 		}
 	
 		return $this->db
-					->select('id, name_'.lang().' as name')
+					->select($extraselect . ',id, name_'.lang().' as name')
 					->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
 					->order_by('name_'.lang())
 					->get($table)
