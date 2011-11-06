@@ -16,3 +16,7 @@ $lang['directionheaderis'] = 'Header';
 $lang['directionheaderare'] = 'Headers';
 $lang['directionmemberis'] = 'Member';
 $lang['directionmembersare'] = 'Members';
+$lang['publication_fulltext_ru'] = 'Text in Russian';
+$lang['publication_fulltext_en'] = 'Text in English';
+$lang['publication_abstract_ru'] = 'Abstract in Russian';
+$lang['publication_abstract_en'] = 'Abstract in English';
