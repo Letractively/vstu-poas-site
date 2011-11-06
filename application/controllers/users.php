@@ -5,7 +5,7 @@ class Users extends CI_Controller {
 		parent::__construct();
 		$this->output->enable_profiler(TRUE);	// Отладка (содержимое после основного контента)
 		$this->load->database('default');
-		$this->load->model('user_model');
+		$this->load->model(MODEL_USER);
 		//$this->load->model('news_model');
 		lang();
 	}
@@ -14,7 +14,8 @@ class Users extends CI_Controller {
 	function index()
 	{
 		$data['title'] = 'Пользователи - Сайт кафедры ПОАС';
-		$data['content'] = 'todo';
+        $data['users'] = $this->{MODEL_USER}->get_short();
+		$data['content'] = $this->load->view('users_view', $data, TRUE);
 		$this->load->view('templates/main_view', $data);
 	}
 	
@@ -27,7 +28,7 @@ class Users extends CI_Controller {
 	{
 		$data['title'] = 'Пользователи - Сайт кафедры ПОАС';
 		$data['id'] = $id;
-		$data['info'] = $this->user_model->get_user_info($id, $page);
+		$data['info'] = $this->{MODEL_USER}->get_user_info($id, $page);
 		$data['page'] = $page;
 		$data['content'] = $this->load->view('user_view', $data, TRUE);
 		$this->load->view('templates/main_view', $data);

@@ -76,10 +76,57 @@ class User_model extends CI_Model {
 		switch ($page)
 		{
 			case 'contacts':
-				//@todo FIO, room, phone, email, site, skype' 
+				//@todo FIO, room, phone, email, site, skype
 				$records = $this->db->select('email,')->get_where(TABLE_USERS, array('id'=>$id))->result();
 				count($records) == 1 ? $data = $records[0] : FALSE;
 				break;
+            case 'interest':
+                $directions = $this->get_user_directions($id);
+                if ($directions)
+				{
+					// выбрать имя для отображения на сайте в зависимости от языка
+					$namefield = 'name_' . lang();
+					foreach ($directions as $direction)
+					{						
+						if (isset($direction->$namefield) && $direction->$namefield !== '')
+						{
+							$direction->name = $direction->$namefield;
+						}
+						else 
+						{
+							$direction->name = $direction->name_ru;
+						}
+						// ни к чему передавать лишние данные
+						unset($direction->name_ru);
+						unset($direction->name_en);
+					}
+				}
+                $data = $directions;
+                break;
+            case 'publications':
+                $publications = $this->get_user_publications($id);
+                if ($publications)
+				{
+					// выбрать имя для отображения на сайте в зависимости от языка
+					$namefield = 'name_'.lang();
+					foreach ($publications as $publication)
+					{
+						
+						if (isset($publication->$namefield) && $publication->$namefield !== '')
+						{
+							$publication->name = $publication->$namefield;
+						}
+						else 
+						{
+							$publication->name = $publication->name_ru;
+						}
+						// ни к чему передавать лишние данные
+						unset($publication->name_ru);
+						unset($publication->name_en);
+					}
+				}
+                $data = $publications;
+                break;
 			case 'projects':
 				
 				$projects = $this->get_user_projects($id);
@@ -115,6 +162,39 @@ class User_model extends CI_Model {
 		return $data;
 	}
 	
+    function get_user_publications($id)
+    {
+        $select = 'publicationid,'.
+                  'year,'.
+                  'fulltext_ru,'.
+                  'fulltext_en,'.
+                  'abstract_ru,'.
+                  'abstract_en,'.
+                  'info_ru,'.
+                  'info_en,'.
+                  TABLE_PUBLICATIONS . '.name_ru,'.
+                  TABLE_PUBLICATIONS . '.name_en';
+                   
+        $data = $this->db->select($select)
+						 ->from(TABLE_USERS)
+						 ->join(TABLE_PUBLICATION_AUTHORS, TABLE_USERS . '.id = userid')
+ 						 ->join(TABLE_PUBLICATIONS, TABLE_PUBLICATIONS. '.id = publicationid')
+						 ->where('userid = ' . $id)
+						 ->get()
+						 ->result();
+		return count($data) > 0 ? $data : FALSE; 
+    }
+    function get_user_directions($id)
+    {
+        $data = $this->db->select('directionid,' . TABLE_DIRECTIONS . '.name_ru,' . TABLE_DIRECTIONS . '.name_en, ishead')
+						 ->from(TABLE_USERS)
+						 ->join(TABLE_DIRECTION_MEMBERS, TABLE_USERS . '.id = userid')
+ 						 ->join(TABLE_DIRECTIONS, TABLE_DIRECTIONS . '.id = directionid')
+						 ->where('userid = ' . $id)
+						 ->get()
+						 ->result();
+		return count($data) > 0 ? $data : FALSE; 
+    }
 	/**
 	 * Получить данные о проектах, в которых принимает участие пользователь
 	 * @param $id идентификатор пользователя
