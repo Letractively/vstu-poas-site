@@ -240,68 +240,78 @@ class Admin extends CI_Controller {
 	}
 	
 	function directions()
+    {
+        $this->_page('directions', 'direction', MODEL_DIRECTION);
+	}
+    
+    function publications()
+    {
+        $this->_page('publications', 'publication', MODEL_PUBLICATION);
+    }
+    function _page($name, $singlename, $model)
 	{
 		$data = NULL;
-		$this->load->model(MODEL_DIRECTION);
+		$this->load->model($model);
 		
 		switch($this->uri->segment(3)) {
 			case 'add':
 				if ($this->uri->segment(4) == 'action')
 				{
-					$this->direction_model->add_from_post();
-					$this->_view_directions($this->direction_model->message);
+					$this->$model->add_from_post();
+					$this->_view_page_list($name, $model, $this->$model->message);
 				}
 				else
 				{
-					// по адресу "/admin/directions/add": добавление нового направления
-					$data['content'] = $this->load->view('/admin/edit_direction_view', $data, TRUE);
-					$data['title'] = 'Создание нового направления';
+					// по адресу "/admin/$name/add": добавление нового 
+					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
+					$data['title'] = 'Создание нового ' . $singlename;          // creatingnew.$singlename;
 					$this->load->view('/templates/admin_view', $data);
 				}
 				break;
 			case 'edit':
 				if ($this->uri->segment(4) == 'action')
 				{
-					$this->direction_model->edit_from_post();
-					$this->_view_directions($this->direction_model->message);
+					$this->$model->edit_from_post();
+					$this->_view_page_list($name, $model, $this->$model->message);
 				}
 				else
 				{
-					// по адресу "/admin/directions/edit/{id}": редактирование направления
+					// по адресу "/admin/$name/edit/{id}": редактирование 
 					$id = $this->uri->segment(4);
 					$data = array();
-					$data['direction'] = $this->direction_model->get_direction($id);
-					$data['content'] = $this->load->view('/admin/edit_direction_view', $data, TRUE);
-					$data['title'] = 'Изменение направления';
+                    $methodname = 'get_' . $singlename;
+					$data[$singlename] = $this->$model->$methodname($id);
+					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
+					$data['title'] = 'Изменение ' . $singlename;
 					$this->load->view('/templates/admin_view', $data);
 				}
 				break;
 			case 'delete':
-				// по адресу "/admin/directions/delete": удаление проекта
-				$this->direction_model->delete( $this->uri->segment(4) );
+				// по адресу "/admin/$name/delete": удаление 
+				$this->$model->delete( $this->uri->segment(4) );
 			
-				$this->_view_directions($this->direction_model->message);
+				$this->_view_page_list($name, $model, $this->$model->message);
 				break;
 			case '':
 			default:
-				// по адресу "/admin/directions": список всех направлений
+				// по адресу "/admin/$name": список всех 
 				// он же при несуществующем методе
-				$this->_view_directions();
+				$this->_view_page_list($name, $model);
 				break;
 		}
 	}
-	
-	function _view_directions($message = null) 
-	{
-		$data['directions'] = $this->direction_model->get_short();
-		$data['content'] = $this->load->view('admin/directions_view', $data, TRUE);
-		$data['title'] = 'Направления';
+	function _view_page_list($name, $model, $message = null)
+    {
+        $data[$name] = $this->$model->get_short();
+		$data['content'] = $this->load->view('admin/' . $name . '_view', $data, TRUE);
+		$data['title'] = $name;
 		if($message != null)
 		{
 			$data['message'] = $message;
 		}
 		$this->load->view('/templates/admin_view', $data);
-	}
+    }
+	
 	function logout()
 	{
 		$this->session->sess_destroy();
