@@ -29,6 +29,7 @@ abstract class Super_model extends CI_Model{
 							 ->select($extraselect . ',id, name_'.lang().' as name ')
 							 ->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
 							 ->get_where($table, array('id' => $id), 1)
+                             ->order_by('id DESC')
 							 ->result();
 			if( !$records)
 			{
@@ -40,7 +41,7 @@ abstract class Super_model extends CI_Model{
 		return $this->db
 					->select($extraselect . ',id, name_'.lang().' as name')
 					->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
-					->order_by('name_'.lang())
+					->order_by('id DESC')
 					->get($table)
 					->result();
     }
