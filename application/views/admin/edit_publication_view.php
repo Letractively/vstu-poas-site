@@ -29,17 +29,11 @@ if (!isset($errors->yearforgotten))         {$errors->yearforgotten = false;}
 
 echo form_open('admin/publications/'.$action.'/action');
 
-$nameclass = 'inline-block not-null';
-if ($errors->nameforgotten)
-    $nameclass .= ' forgotten';
-echo form_label('Название публикации (русское)*', 'publication_name_ru', array('class'=>$nameclass));
-echo form_textarea('publication_name_ru', $publication->name_ru, 'maxlength="150" style = width:400px');
+echo form_label_adv('Название публикации (русское)*', 'publication_name_ru', 'inline-block not-null', $errors->nameforgotten, ' forgotten');
+echo form_textarea('publication_name_ru', $publication->name_ru, 'class="short"');
 echo br(2);
 
-$yearclass = 'inline-block not-null';
-if ($errors->yearforgotten)
-    $yearclass .= ' forgotten';
-echo form_label('Год публикации*', 'publication_year', array('class'=>$yearclass));
+echo form_label_adv('Год публикации*', 'publication_year', 'inline-block not-null', $errors->yearforgotten, ' forgotten');
 echo form_input('publication_year', $publication->year, 'maxlength="4" style = width:50px');
 echo br(2);
 
@@ -52,14 +46,14 @@ echo form_input('publication_abstract_ru', $publication->abstract_ru, 'maxlength
 echo br(2);
 
 echo form_label('Дополнительная информация (на русском)', 'publication_info_ru', array('class'=>'inline-block'));
-echo form_textarea('publication_info_ru', $publication->info_ru, 'maxlength="150" style = width:400px');
+echo form_textarea('publication_info_ru', $publication->info_ru, 'class="short"');
 echo br(2);
 
 echo '<a href="#" id="showhide_en">Английская версия</a>';
 echo '<div class="hideble">';
 echo '<hr>';
 echo form_label('Название публикации (английское)', 'publication_name_en', array('class'=>'inline-block'));
-echo form_textarea('publication_name_en', $publication->name_en, 'maxlength="150" style = width:400px');
+echo form_textarea('publication_name_en', $publication->name_en, 'class="short"');
 echo br(2);
 
 echo form_label('Ссылка, по которой можно найти текст публикации (на английском)', 'publication_fulltext_en', array('class'=>'inline-block'));
@@ -71,7 +65,7 @@ echo form_input('publication_abstract_en', $publication->abstract_en, 'maxlength
 echo br(2);
 
 echo form_label('Дополнительная информация (на английском)', 'publication_info_en', array('class'=>'inline-block'));
-echo form_textarea('publication_info_en', $publication->info_en, 'maxlength="150" style = width:400px');
+echo form_textarea('publication_info_en', $publication->info_en, 'class="short"');
 echo br(2);
 echo '</div>';
 
