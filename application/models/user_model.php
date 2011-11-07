@@ -14,7 +14,7 @@ class User_model extends Super_model {
 	function validate_from_post()
 	{
 		$this->db->select('group');
-		$this->db->where('username', $this->input->post('form_login_username'));
+		$this->db->where('login', $this->input->post('form_login_username'));
 		$this->db->where('password', $this->input->post('form_login_password'));
 		$query = $this->db->get('users');
 		
@@ -223,7 +223,10 @@ class User_model extends Super_model {
 	 * @return массив с ошибками
 	 */
 	function get_errors() {
+        // Не использовать родительский метод
 		$errors = null;
+        
+        // Пароли разные?
 		if ($this->input->post('user_password2') !== $this->input->post('user_password'))
 			$errors->differentpasswords = TRUE;
         
@@ -231,74 +234,59 @@ class User_model extends Super_model {
         
         if ($this->input->post('user_id'))
         {
+            // Если кто-то меняет логин на чужой - атата
             if ($this->input->post('user_login'))
                 if ($this->get_id_by_login($login) != $this->input->post('user_id'))
                     $errors->loginused = TRUE;
         }
         else
         {
+            // Если кто-то создает запись с существующим логином - атата
             if ($this->input->post('user_login'))
                 if ($this->is_login_exist($this->input->post('user_login')))
                     $errors->loginused = TRUE;
         }        
 		
-        if ($this->input->post('user_login') === '')
-            $errors->loginforgotten = TRUE;
+        // Пароль не забыли?
         if ($this->input->post('user_password') === '') 
         {
             $errors->passwordforgotten = TRUE;
             unset($errors->differentpasswords);
         }
+        
+        // А повторно ввести?
         if ($this->input->post('user_password2') === '') 
         {
             $errors->password2forgotten = TRUE;
             unset($errors->differentpasswords);
         }
+        
+        // Логин
+        if ($this->input->post('user_login') === '')
+            $errors->loginforgotten = TRUE;
+        // Имя
         if ($this->input->post('user_name') === '')
             $errors->nameforgotten = TRUE;
+        // Фамилия
         if ($this->input->post('user_surname') === '')
             $errors->surnameforgotten = TRUE;
+        // Отчество
         if ($this->input->post('user_patronymic') === '')
             $errors->patronymicforgotten = TRUE;
-		// @todo обязательность заполнения всех полей
+        
 		return $errors;
 	}
-	/**
+	
+    /**
 	 * Добавить нового пользователя, используя данные, отправленные методом POST
 	 * @return int id - идентификатор добавленого пользователя | FALSE
 	 */
 	function add_from_post()
 	{
         $user = $this->get_from_post();
+        // При создании записи хэшируем пароль
         $user->password = md5($user->password);
-        return $this->_add(TABLE_USERS, $user);
-		/*$data = array();
-		$user = array(
-			'username' => $this->input->post('user_login'),
-			'password' => md5($this->input->post('user_password')),
-			'email' => $this->input->post('user_email'),
-			'first_name' => $this->input->post('user_name'),
-			'last_name' => $this->input->post('user_surname'),
-			'group' => USER_GROUP_GENERAL
-		);
-		
-		if($this->db->insert('users', $user))
-		{
-			return $this->db->insert_id();
-		}
-		else
-		{
-			return FALSE;
-		}*/
-	}
-	
-	/**
-	 * Удалить пользователя по его идентификатору
-	 * @param $id - идентификатор удаляемого пользователя
-	 */
-	function delete_user($id) 
-	{
-		return $this->db->delete('users', array('id' => $id));	
+        return $this->_add(TABLE_USERS, $user);		
 	}
 	
 	/**
@@ -311,6 +299,11 @@ class User_model extends Super_model {
         return $this->db->count_all_results() > 0;
 	}
     
+    /**
+     * Получить идентификатор пользователя по логину
+     * @param $login логин
+     * @return id или -1
+     */
     function get_id_by_login($login)
     {
         $records = $this->db
@@ -370,16 +363,26 @@ class User_model extends Super_model {
 		}
 		return TRUE;
 	}
+    
+    /**
+	 * Удалить пользователя по его идентификатору
+     * 
+     * Удаляет пользователя из проектов, направлений, публикаций.
+	 * @param $id - идентификатор удаляемого пользователя
+	 */
     function delete($id)
     {
         $result = $this->_delete(TABLE_USERS, $id);
-        return $result;
+        $message = $this->message;
+        $projects = $this->_delete(TABLE_PROJECT_MEMBERS, $id, 'userid');
+        $directions = $this->_delete(TABLE_DIRECTION_MEMBERS, $id, 'userid');
+        $publications = $this->_delete(TABLE_PUBLICATION_AUTHORS, $id, 'userid');
+        $this->message = $message;
+        return $result && $projects && $directions && $publications;
     }
     function edit_from_post() 
     {        
         $user = $this->get_from_post();
-        print_r($user);
-        $user->password = md5($user->password);
         return $this->_edit(TABLE_USERS, $user);
     }
     function get_detailed($id) 
