@@ -262,22 +262,46 @@ class Admin extends CI_Controller {
 			case 'add':
 				if ($this->uri->segment(4) == 'action')
 				{
-					$this->$model->add_from_post();
-					$this->_view_page_list($name, $model, $this->$model->message);
+                    // Если на форме ввода есть ошибки - вернуться к ним
+                    if ($errors = $this->$model->get_errors())
+                    {
+                        $data['errors'] = $errors;
+                        $data[$singlename] = $this->$model->get_from_post();
+                        $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
+                        $data['title'] = 'Создание нового ' . $singlename;
+                        $this->load->view('/templates/admin_view', $data);
+                    }
+                    else
+                    {
+                        $this->$model->add_from_post();
+                        $this->_view_page_list($name, $model, $this->$model->message);
+                    }
 				}
 				else
 				{
 					// по адресу "/admin/$name/add": добавление нового 
 					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-					$data['title'] = 'Создание нового ' . $singlename;          // creatingnew.$singlename;
+					$data['title'] = 'Создание нового ' . $singlename;
 					$this->load->view('/templates/admin_view', $data);
 				}
 				break;
 			case 'edit':
 				if ($this->uri->segment(4) == 'action')
 				{
-					$this->$model->edit_from_post();
-					$this->_view_page_list($name, $model, $this->$model->message);
+                    // Если на форме ввода есть ошибки - вернуться к ним
+                    if ($errors = $this->$model->get_errors())
+                    {
+                        $data['errors'] = $errors;
+                        $data[$singlename] = $this->$model->get_from_post();
+                        $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
+                        $data['title'] = 'Изменение ' . $singlename;
+                        $this->load->view('/templates/admin_view', $data);
+                    }
+                    else
+                    {
+                        $this->$model->edit_from_post();
+                        $this->_view_page_list($name, $model, $this->$model->message);
+                    }
 				}
 				else
 				{

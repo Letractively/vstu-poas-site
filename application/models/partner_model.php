@@ -89,4 +89,19 @@ class Partner_model extends Super_model{
     {
         return $this->_delete(TABLE_PARTNERS, $id);
     }
+    
+    /**
+	 * Проверить данные, введенные на форме edit_partner_view на корректность
+	 * @return массив с ошибками
+	 */
+	function get_errors() {
+        $errors = null;
+        if ($this->input->post('partner_name_ru') == '')
+            $errors->nameforgotten = true;
+        if ($this->input->post('partner_short_ru') == '')
+            $errors->shortforgotten = true;
+        if ($this->input->post('partner_full_ru') == '')
+            $errors->fullforgotten = true;
+		return $errors;
+	}
 }

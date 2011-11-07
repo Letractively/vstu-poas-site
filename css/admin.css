@@ -70,7 +70,8 @@ img.alignleft {
 	text-decoration: none;
 	line-height: 100%;
 }
-
+#form_edit .not-null { font-weight: bold }
+#form_edit .forgotten { color : #ff0000}
 #header p {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	margin: 0px 0px 0px 5px;

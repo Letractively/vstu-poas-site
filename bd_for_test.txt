@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2011 at 02:06 AM
+-- Generation Time: Nov 07, 2011 at 03:08 AM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -104,19 +104,18 @@ CREATE TABLE IF NOT EXISTS `partners` (
   `name_en` varchar(300) DEFAULT NULL,
   `short_ru` text NOT NULL,
   `short_en` text,
-  `full_ru` text,
+  `full_ru` text NOT NULL,
   `full_en` text,
   `url` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `partners`
 --
 
 INSERT INTO `partners` (`id`, `name_ru`, `name_en`, `short_ru`, `short_en`, `full_ru`, `full_en`, `url`) VALUES
-(1, 'Неведомый партнеришка 2', NULL, '', NULL, NULL, NULL, NULL),
-(3, '123', NULL, '', NULL, NULL, NULL, NULL);
+(1, 'Партнер 1', NULL, 'Хр', NULL, 'ОК', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -133,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `url` varchar(150) DEFAULT NULL,
   `image` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `projects`
@@ -144,7 +143,8 @@ INSERT INTO `projects` (`id`, `name_ru`, `name_en`, `description_ru`, `descripti
 (3, 'Старт', 'Start', 'Создание и развитие малых инновационных предприятий. Финансирование инновационных проектов, находящихся на начальной стадии развития.', 'Creation and development of small innovative enterprises. Funding for innovative projects at the initial stage of development.', 'http://www.fasie.ru/fund_programms/Starts/start09-index.aspx', NULL),
 (4, 'Программа “Построитель персонифицированных образовательных коллекций OntoCollectionBuilder”', NULL, 'Программа предназначена для интеллектуальной поддержки процесса адаптивного поиска электронных образовательных ресурсов. Программа позволяет проводить поиск электронных образовательных ресурсов в репозитории на основе метаописаний ресурсов и характеристик пользователя, интегрировать ресурсы в персонифицированные образовательные коллекции. Функционирование программы осуществляется на основе логического вывода на онтологиях. В качестве базы данных и базы знаний программы используются онтологии в формате OWL-DL. ', NULL, NULL, NULL),
 (14, 'Система интеллектуальной поддержки инженерного анализа по методу конечных элементов jISFEA', NULL, 'Целью разработки интеллектуальной системы поддержки инженерного анализа по методу конечных элементов jISFEA являлось сокращение сроков проведения анализа за счет автоматизации таких неалгоритмических этапов как выбор типа конечного элемента и алгоритма расчета. Для разработанной системы была спроектирована база знаний в виде онтологии и алгоритмы поиска и адаптации прецедентов с использованием рассуждений на онтологии OWL-DL; получены свидетельства о государственной регистрации программы и базы данных. ', NULL, NULL, NULL),
-(12, 'Автоматизированная система «ИР-4»', NULL, 'Предназначена для измерения и анализа основных характеристик монолитных кристаллических фильтров 2 и 3 порядка. Система имеет встроенный интеллектуальный модуль, что позволяет автоматизировать выбор электрода фильтра 3 порядка для дальнейшей настройки изделия.', NULL, NULL, NULL);
+(12, 'Автоматизированная система «ИР-4»', NULL, 'Предназначена для измерения и анализа основных характеристик монолитных кристаллических фильтров 2 и 3 порядка. Система имеет встроенный интеллектуальный модуль, что позволяет автоматизировать выбор электрода фильтра 3 порядка для дальнейшей настройки изделия.', NULL, NULL, NULL),
+(16, 'Экспертная система «Миниэксперт» ', NULL, '', NULL, NULL, '0');
 
 -- --------------------------------------------------------
 
