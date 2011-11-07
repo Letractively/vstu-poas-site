@@ -85,7 +85,11 @@ class Direction_model extends Super_model
      */
     function delete($id)
     {
-        return $this->_delete(TABLE_DIRECTIONS, $id);
+        $result = $this->_delete(TABLE_DIRECTIONS, $id);
+        $message = $this->message;
+        $cascade = $this->_delete(TABLE_DIRECTION_MEMBERS, $id, 'directionid');
+        $this->message = $message;
+        return $cascade && $result;
     }
     
     /**

@@ -180,11 +180,12 @@ abstract class Super_model extends CI_Model{
 	 *
      * @param $table - имя таблицы базы данных
 	 * @param $id - идентификатор записи
+     * @param $field - атрибут, по которому происходит поиск
 	 * @return TRUE, если направление удалено, иначе FALSE
 	 */
-	protected final function _delete ($table, $id)
+	protected final function _delete ($table, $id, $field = 'id')
 	{
-		if( ! $this->db->delete($table, array('id' => $id)))
+		if( ! $this->db->delete($table, array($field => $id)))
 		{
 			$this->message = 'Произошла ошибка, запись удалить не удалось.';
 			return FALSE;
