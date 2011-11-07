@@ -1,7 +1,8 @@
 <?php
 echo anchor('/admin/projects/add', 'Добавить проект');
 echo br(2);
-
+$data['classes'] = array('','count','');
+$data['headers'] = array('Проект','Участников','');
 $data['rows'] = array();
 foreach($projects as $project)
 {
@@ -11,7 +12,9 @@ foreach($projects as $project)
 		array(	'class' => 'button_delete',
 				'title' => 'Удалить проект ' . $project->name)
 	);
-    $tablerow[] = anchor('admin/projects/edit/'.$project->id, $project->name);
+    $tablerow[] = anchor('admin/projects/edit/'.$project->id, 
+                            $project->name);
+    $tablerow[] = $project->memberscount ;
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;
 }
