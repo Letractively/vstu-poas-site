@@ -84,3 +84,22 @@
 		// Функция convert_accented_characters производит транслетирацию используя массив, объявленный в файле foreign_chars.php
 		return url_title(convert_accented_characters($str), 'underscore', TRUE); 
 	}
+    
+    /**
+     * Вывести label c указанным id и классом $class1.
+     * Если выполняется условие $condition, то класс дополняется
+     * строкой $class2
+     * @param $label_text текст метки
+     * @param $id идентификатор метки
+     * @param $class1 класс метки по-умолчанию
+     * @param $condition условие добавочного класса
+     * @param $class2 добавочный класс
+     * @return html-код
+     */
+    function form_label_adv($label_text, $id, $class1, $condition, $class2) 
+    {
+        $class = $class1;
+        if ($condition)
+            $class .= ' ' . $class2;
+        return form_label($label_text, $id, array('class' => $class));
+    }
