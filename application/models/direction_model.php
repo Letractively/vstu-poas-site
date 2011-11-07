@@ -102,5 +102,29 @@ class Direction_model extends Super_model
 				->where('directionid = ' . $id);
 				return $this->db->get()->result();
 	}
+    
+    /**
+     * Проверить название направления (заполнено ли)
+     * @return object Объект ошибок
+     */
+    function get_errors()
+    {
+        $rus = array(
+            'direction_name_ru' => 'nameruforgotten',
+        );
+        $eng = array(
+            'direction_name_en' => 'nameenforgotten',
+            'direction_description_en' => 'descriptionenforgotten',
+        );
+        
+        $errors = $this->_get_errors($rus, $eng);
+        
+        // Для английской версии обязательно должно быть имя.
+        // Поэтому указать описание как необходимое, проверить, а потом забыть про
+        // описание        
+        unset($errors->descriptionenforgotten);
+        
+        return $errors;
+    }
 }
 ?>
