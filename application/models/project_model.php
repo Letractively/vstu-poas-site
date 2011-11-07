@@ -14,7 +14,10 @@ class Project_model extends Super_model
      */
     function get_short($id = null)
     {
-        return $this->_get_short(TABLE_PROJECTS, 'url', $id);
+        return $this->_get_short(TABLE_PROJECTS, 
+                                 'url', 
+                                 'name_' . lang() . ',name_ru, id', 
+                                 $id);
     }
     
     /**

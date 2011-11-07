@@ -22,7 +22,7 @@ abstract class Super_model extends CI_Model{
 	 * @param $id - id направления, необязательный параметр
 	 * @return массив всех записей, запись с указанным id или FALSE
 	 */
-    protected final function _get_short($table, $extraselect, $id = null)
+    protected final function _get_short($table, $extraselect, $orderby, $id = null)
     {
         if (isset($id))
 		{
@@ -30,7 +30,6 @@ abstract class Super_model extends CI_Model{
 							 ->select($extraselect . ',id, name_'.lang().' as name ')
 							 ->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
 							 ->get_where($table, array('id' => $id), 1)
-                             ->order_by('id DESC')
 							 ->result();
 			if( !$records)
 			{
@@ -42,7 +41,7 @@ abstract class Super_model extends CI_Model{
 		return $this->db
 					->select($extraselect . ',id, name_'.lang().' as name')
 					->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
-					->order_by('id DESC')
+					->order_by($orderby)
 					->get($table)
 					->result();
     }

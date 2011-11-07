@@ -14,7 +14,10 @@ class Direction_model extends Super_model
      */
     function get_short($id = null)
     {
-        return $this->_get_short(TABLE_DIRECTIONS, null, $id);
+        return $this->_get_short(TABLE_DIRECTIONS, 
+                                 null, 
+                                 'name_' . lang() . ', name_ru, id', 
+                                 $id);
     }
     
     /**

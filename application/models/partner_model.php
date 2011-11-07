@@ -8,7 +8,10 @@ class Partner_model extends Super_model{
      */
     function get_short($id = null)
     {
-        return $this->_get_short(TABLE_PARTNERS, 'url, short_' . lang(), $id);
+        return $this->_get_short(TABLE_PARTNERS, 
+                                 'url, short_' . lang(),
+                                 'name_' . lang() . ', name_ru, id', 
+                                 $id);
     }
     
     /**
