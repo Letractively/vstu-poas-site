@@ -121,55 +121,7 @@ class Admin extends CI_Controller {
 	function users()
 	{
 		// @todo проверка на администратора
-		$data = NULL;
-		$this->load->model(MODEL_USER);
-
-		
-		switch($this->uri->segment(3)) {
-			case 'delete':
-				// по адресу "/admin/users/delete/<user_id> 
-				// удаление пользователя через админку				
-				$this->user_model->delete_user($this->uri->segment(4));
-				redirect('admin/users');
-				break;
-			case 'add':
-				// по адресу "/admin/users/add
-				// добавление пользователя через админку
-				if ($this->uri->segment(4) == 'action')
-				{
-					if ($errors = $this->user_model->get_errors_add())
-					{
-						$data['content'] = $this->load->view('/admin/edit_user_view', $errors, TRUE);
-						$data['title'] = 'Создание учетной записи пользователя';
-						$this->load->view('/templates/admin_view', $data);
-					}
-					else 
-					{
-						$this->user_model->add_from_post();
-						redirect('admin/users');
-					}
-					
-				}
-				else {
-					// по адресу "/admin/users/add
-					// добавление пользователя через админку
-					//$data['users'] = $this->user_model->get_short();
-					$data['content'] = $this->load->view('/admin/edit_user_view', $data, TRUE);
-					$data['title'] = 'Создание учетной записи пользователя';
-					$this->load->view('/templates/admin_view', $data);
-				}
-				break;
-			
-			case '':
-			default:
-				// по адресу "/admin/users": список всех пользователей
-				// он же при несуществующем методе
-				$data['users'] = $this->user_model->get_short();
-				$data['content'] = $this->load->view('/admin/users_view', $data, TRUE);
-				$data['title'] = 'Пользователи';
-				$this->load->view('/templates/admin_view', $data);
-				break;
-		}		
+        $this->_page('users', 'user', MODEL_USER);	
 	}
 	
 	/**

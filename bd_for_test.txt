@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2011 at 10:05 AM
+-- Generation Time: Nov 07, 2011 at 05:52 PM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `directions` (
   `description_ru` varchar(800) DEFAULT NULL,
   `description_en` varchar(800) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `directions`
@@ -38,7 +38,7 @@ INSERT INTO `directions` (`id`, `name_ru`, `name_en`, `description_ru`, `descrip
 (3, 'Развитие и применение ERP-систем', NULL, NULL, NULL),
 (4, 'Интеллектуальная поддержка инженерного анализа на основе онтологий, качественных рассуждений и рассуждений по прецедентам', NULL, NULL, NULL),
 (6, 'Поисковое конструирование и программирование для синтеза и оптимизации систем', NULL, NULL, NULL),
-(9, 'еще раз еще много много раз', NULL, NULL, NULL);
+(11, 'Оголтелая война с Айфонами', 'iphone war', NULL, 'eng');
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `direction_members` (
   `directionid` int(10) unsigned NOT NULL,
   `ishead` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `direction_members`
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `time` datetime NOT NULL,
   `update` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `news`
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `description_en` varchar(800) DEFAULT NULL,
   `url` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `projects`
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `project_members` (
   `userid` int(10) unsigned NOT NULL,
   `projectid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `project_members`
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `publications` (
   `abstract_en` varchar(300) DEFAULT NULL COMMENT 'Link to the document or NULL',
   `year` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `publications`
@@ -194,9 +194,7 @@ CREATE TABLE IF NOT EXISTS `publications` (
 
 INSERT INTO `publications` (`id`, `name_ru`, `name_en`, `info_ru`, `info_en`, `fulltext_ru`, `fulltext_en`, `abstract_ru`, `abstract_en`, `year`) VALUES
 (1, 'Модели и алгоритмы автоматической классификации объектов, описанных естественно-языковыми атрибутами', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2006),
-(2, 'poasassignment в быту', 'poasassignment в быту _en', 'info_ru', 'info_en', 'fail.ru_full', 'fail.ru_full _en', 'fail.ru_ab _en', 'fail.ru_ab _en', 2013),
-(4, 'Автоматизированное составление расписания занятий в образовательном учреждении', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2020),
-(7, 'Я и мой Moodle / Ерофеев А.А.', 'My Moodle', NULL, NULL, NULL, NULL, NULL, NULL, 2011);
+(4, 'Автоматизированное составление расписания занятий в образовательном учреждении', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2020);
 
 -- --------------------------------------------------------
 
@@ -209,14 +207,12 @@ CREATE TABLE IF NOT EXISTS `publication_authors` (
   `userid` int(10) unsigned NOT NULL,
   `publicationid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `publication_authors`
 --
 
-INSERT INTO `publication_authors` (`id`, `userid`, `publicationid`) VALUES
-(1, 24, 2);
 
 -- --------------------------------------------------------
 
@@ -226,24 +222,28 @@ INSERT INTO `publication_authors` (`id`, `userid`, `publicationid`) VALUES
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(25) NOT NULL,
-  `password` char(32) NOT NULL,
-  `email` varchar(50) NOT NULL,
+  `login` varchar(25) CHARACTER SET utf8 NOT NULL,
+  `password` char(32) CHARACTER SET utf8 NOT NULL,
+  `email` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `first_name` varchar(32) NOT NULL,
   `last_name` varchar(32) NOT NULL,
   `group` int(10) unsigned NOT NULL,
+  `name` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `surname` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `patronymic` varchar(30) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=26 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `group`) VALUES
-(17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 'Александр', 'Сова', 555100),
-(20, 'arkanif', 'c4ca4238a0b923820dcc509a6f75849b', '113em@mail.ru', 'Arkanif', 'Андреевич', 555100),
-(24, 'user', 'c4ca4238a0b923820dcc509a6f75849b', 'MY@EMAIL.COM', 'i', 'f', 555100),
-(25, 'dvorjankin', 'c4ca4238a0b923820dcc509a6f75849b', 'dvam@vstu2.ru', 'Александр ', 'Дворянкин ', 555101);
+INSERT INTO `users` (`id`, `login`, `password`, `email`, `first_name`, `last_name`, `group`, `name`, `surname`, `patronymic`) VALUES
+(17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 'Александр', 'Сова', 555100, 'Александр', 'Сова', 'Батькович'),
+(20, 'arkanif', '28c8edde3d61a0411511d3b1866f0636', '113em@mail.ru', 'Arkanif', 'Андреевич', 555100, 'Анатолий', 'Ерофеев', 'Батькович'),
+(25, 'dvorjankin', 'c4ca4238a0b923820dcc509a6f75849b', 'dvam@vstu2.ru', 'Александр ', 'Дворянкин ', 555101, 'Александр ', 'Дворянкин ', 'Михайлович'),
+(29, 'ivan', '2c42e5cf1cdbafea04ed267018ef1511', NULL, '', '', 0, 'ivan', 'ivan', 'ivan'),
+(28, 'agentcoba2', 'd9b1d7db4cd6e70935368a1efb10e377', NULL, '', '', 0, 'Вася', 'Васин', 'Василич');
 
 -- --------------------------------------------------------
 

@@ -4,8 +4,8 @@
  * Модель пользователей. 
  * Все пользователи поделены на группы - от гостей до администраторов (смотрите константы группы USER_GROUP)
  */
-
-class User_model extends CI_Model {
+require_once('super_model.php');
+class User_model extends Super_model {
 	
 	/**
 	 * Попытаться залогиниться, используя данные, отправленные методом POST
@@ -43,23 +43,29 @@ class User_model extends CI_Model {
 	/**
 	 * Получить основную информацию о всех пользователях (или об одном пользователе)
 	 * 
-	 * Получить только username'ы, id групп, и идентификаторы пользователей (потребляет меньше ресурсов, чем простая функция {@link get()})
 	 * @param [in] $id - id пользователя, необязательный параметр
 	 * @return array(int[0..n] => User)|FALSE
 	*/
 	function get_short($id = null)
 	{
-		if( isset($id) )
+		if (isset($id))
 		{
-			$users = $this->db->select('id, username, group')->get_where(TABLE_USERS, array('id' => $id), 1)->result();
-			if( ! $users)
+			$records = $this->db
+							 ->select('id, name, surname, patronymic')
+							 ->get_where(TABLE_USERS, array('id' => $id), 1)
+							 ->result();
+			if( !$records)
 			{
 				return FALSE;
 			}
-			return $users[0];
+			return $records[0];
 		}
-		
-		return $this->db->select('id, username, group')->order_by('username')->get(TABLE_USERS)->result();
+	
+		return $this->db
+					->select('id, name, surname, patronymic')
+					->order_by('surname, name, patronymic')
+					->get(TABLE_USERS)
+					->result();
 	}
 	
 	/**
@@ -216,16 +222,44 @@ class User_model extends CI_Model {
 	 * Проверить данные, введенные на форме edit_user_view на корректность
 	 * @return массив с ошибками
 	 */
-	function get_errors_add() {
-		$errors = array();
+	function get_errors() {
+		$errors = null;
 		if ($this->input->post('user_password2') !== $this->input->post('user_password'))
-		{
-			$errors['passwordmessage'] = 'Введенные пароли не совпадают';
-		}
-		if ($this->is_username_exist($this->input->post('user_login')))
-		{
-			$errors['loginmessage'] = 'Данный логин уже используется';
-		}
+			$errors->differentpasswords = TRUE;
+        
+        $login = $this->input->post('user_login');
+        
+        if ($this->input->post('user_id'))
+        {
+            if ($this->input->post('user_login'))
+                if ($this->get_id_by_login($login) != $this->input->post('user_id'))
+                    $errors->loginused = TRUE;
+        }
+        else
+        {
+            if ($this->input->post('user_login'))
+                if ($this->is_login_exist($this->input->post('user_login')))
+                    $errors->loginused = TRUE;
+        }        
+		
+        if ($this->input->post('user_login') === '')
+            $errors->loginforgotten = TRUE;
+        if ($this->input->post('user_password') === '') 
+        {
+            $errors->passwordforgotten = TRUE;
+            unset($errors->differentpasswords);
+        }
+        if ($this->input->post('user_password2') === '') 
+        {
+            $errors->password2forgotten = TRUE;
+            unset($errors->differentpasswords);
+        }
+        if ($this->input->post('user_name') === '')
+            $errors->nameforgotten = TRUE;
+        if ($this->input->post('user_surname') === '')
+            $errors->surnameforgotten = TRUE;
+        if ($this->input->post('user_patronymic') === '')
+            $errors->patronymicforgotten = TRUE;
 		// @todo обязательность заполнения всех полей
 		return $errors;
 	}
@@ -235,7 +269,10 @@ class User_model extends CI_Model {
 	 */
 	function add_from_post()
 	{
-		$data = array();
+        $user = $this->get_from_post();
+        $user->password = md5($user->password);
+        return $this->_add(TABLE_USERS, $user);
+		/*$data = array();
 		$user = array(
 			'username' => $this->input->post('user_login'),
 			'password' => md5($this->input->post('user_password')),
@@ -252,7 +289,7 @@ class User_model extends CI_Model {
 		else
 		{
 			return FALSE;
-		}
+		}*/
 	}
 	
 	/**
@@ -266,13 +303,25 @@ class User_model extends CI_Model {
 	
 	/**
 	 * Проверить, есть ли пользователь с данным именем логина в базе данных (занят ли логин) 
-	 * @param string $username - проверяемое имя логина
+	 * @param string $login - проверяемое имя логина
 	 */
-	function is_username_exist( $username )
+	function is_login_exist($login, $id = null)
 	{
-		$this->db->from(TABLE_USERS)->where('username', $username);
-		return $this->db->count_all_results() > 0;
+        $this->db->from(TABLE_USERS)->where('login', $login);
+        return $this->db->count_all_results() > 0;
 	}
+    
+    function get_id_by_login($login)
+    {
+        $records = $this->db
+                        ->select('id')
+                        ->get_where(TABLE_USERS,array('login' => $login))
+                        ->result();
+        if ($records)
+            return $records[0]->id;
+        else
+            return '-1';
+    }
 	
 	/**
 	 * Проверить, есть ли пользователь с таким адресом почты в базе данных
@@ -321,4 +370,34 @@ class User_model extends CI_Model {
 		}
 		return TRUE;
 	}
+    function delete($id)
+    {
+        $result = $this->_delete(TABLE_USERS, $id);
+        return $result;
+    }
+    function edit_from_post() 
+    {        
+        $user = $this->get_from_post();
+        print_r($user);
+        $user->password = md5($user->password);
+        return $this->_edit(TABLE_USERS, $user);
+    }
+    function get_detailed($id) 
+    {
+    }
+    function get_user($id){
+        return $this->_get_record($id, TABLE_USERS);
+    }
+    function get_from_post() 
+    {
+        $fields = array(
+            'login'     => 'user_login',
+            'password'     => 'user_password',
+            'surname' => 'user_surname',
+            'name' => 'user_name',
+            'patronymic' => 'user_patronymic'
+        );
+        $nulled_fields = array();
+        return $this->_get_from_post('user', $fields, $nulled_fields);
+    }
 }
