@@ -96,12 +96,29 @@ class Partner_model extends Super_model{
 	 */
 	function get_errors() {
         $errors = null;
+        // Должны быть заполнены поля имя, краткое описание и описание
+        // на русском языке
         if ($this->input->post('partner_name_ru') == '')
-            $errors->nameforgotten = true;
+            $errors->nameruforgotten = true;
         if ($this->input->post('partner_short_ru') == '')
-            $errors->shortforgotten = true;
+            $errors->shortruforgotten = true;
         if ($this->input->post('partner_full_ru') == '')
-            $errors->fullforgotten = true;
+            $errors->fullruforgotten = true;
+        
+        // Если пользователь ввел хотя бы одно английское поле - потребовать
+        // заполнение остальных
+        $en_version_started =   $this->input->post('partner_name_en') !== '' ||
+                                $this->input->post('partner_short_en') !== '' ||
+                                $this->input->post('partner_full_en') !== '';
+        if ($en_version_started)
+        {
+            if ($this->input->post('partner_name_en') == '')
+                $errors->nameenforgotten = true;
+            if ($this->input->post('partner_short_en') == '')
+                $errors->shortenforgotten = true;
+            if ($this->input->post('partner_full_en') == '')
+                $errors->fullenforgotten = true;
+        }
 		return $errors;
 	}
 }
