@@ -100,7 +100,7 @@ class Direction_model extends Super_model
 	function get_members($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, first_name, last_name, ishead')
+				->select(TABLE_USERS . '.id, name, surname, patronymic, ishead')
 				->from(TABLE_DIRECTION_MEMBERS)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_DIRECTION_MEMBERS . '.userid')
 				->where('directionid = ' . $id);

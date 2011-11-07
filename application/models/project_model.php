@@ -108,7 +108,7 @@ class Project_model extends Super_model
 	function get_members($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, first_name, last_name')
+				->select(TABLE_USERS . '.id, name, surname, patronymic')
 				->from(TABLE_PROJECT_MEMBERS)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PROJECT_MEMBERS . '.userid')
 				->where('projectid = ' . $id);

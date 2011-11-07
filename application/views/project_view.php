@@ -18,7 +18,7 @@ if (count($members) > 0)
 	echo heading($this->lang->line('project_members'), 3);
 	foreach($members as $member)
 	{
-		echo anchor('/users/'.$member->id, $member->first_name . ' '. $member->last_name).br();
+		echo anchor('/users/'.$member->id, $member->name . ' '. $member->surname).br();
 	}
 }
 echo '</div>';
