@@ -80,12 +80,14 @@ class Project_model extends Super_model
     
     /**
      * Удалить проект из базы данных
+     * Так же удаляет записи из таблицы "участники проекта"
      * @param int $id идентификатор проекта
      * @return TRUE, если проект удален, иначе FALSE 
      */
     function delete($id)
     {
-        return $this->_delete(TABLE_PROJECTS, $id);
+        $result = $this->_delete(TABLE_PROJECTS, $id);
+        $this->db->delete(TABLE_PROJECT_MEMBERS, array ('projectid' => $id));
     }
     
     /**
