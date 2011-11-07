@@ -2,7 +2,7 @@
 if( !isset($error_singup_admin)) $error_singup_admin = ""; 
 ?>
 <div id="form_login" class="form_login_admin">
-	<span id="form_login_title">Войти</span>
+	<span id="form_login_title">Войти в панель управления</span>
 	<?php
 
 	echo form_input('login_username', 'Логин');

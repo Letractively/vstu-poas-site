@@ -72,6 +72,8 @@ img.alignleft {
 }
 #form_edit .not-null { font-weight: bold }
 #form_edit .forgotten { color : #ff0000}
+#form_edit .inline-block { vertical-align: top}
+#form_edit .hideble {display: none}
 #header p {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	margin: 0px 0px 0px 5px;

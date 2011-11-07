@@ -65,7 +65,7 @@ class Publication_model extends Super_model
             'info_ru'     => '',
             'info_en'     => ''
         );
-        return $this->_get_from_post('project', $fields, $nulled_fields);
+        return $this->_get_from_post('publication', $fields, $nulled_fields);
     }
     
     /**
@@ -141,6 +141,15 @@ class Publication_model extends Super_model
 					->order_by('id DESC')
                     ->get()
 					->result();
+    }
+    
+    function get_errors() {
+        $errors = null;
+        if ($this->input->post('publication_name_ru') == '')
+            $errors->nameforgotten = true;
+        if ($this->input->post('publication_year') == '')
+            $errors->yearforgotten = true;
+        return $errors;
     }
 }
 ?>
