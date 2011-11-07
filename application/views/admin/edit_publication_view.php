@@ -20,7 +20,8 @@ if (!isset($publication->info_ru))          {$publication->info_ru = '';};
 if (!isset($publication->info_en))          {$publication->info_en = '';};
 if (!isset($publication->year)) 			{$publication->year = '';};
 
-
+if (!isset($errors->nameforgotten))         {$errors->nameforgotten = false;}
+if (!isset($errors->yearforgotten))         {$errors->yearforgotten = false;}
 
 
 
@@ -28,11 +29,17 @@ if (!isset($publication->year)) 			{$publication->year = '';};
 
 echo form_open('admin/publications/'.$action.'/action');
 
-echo form_label('Название публикации (русское)', 'publication_name_ru', array('class'=>'inline-block'));
+$nameclass = 'inline-block not-null';
+if ($errors->nameforgotten)
+    $nameclass .= ' forgotten';
+echo form_label('Название публикации (русское)*', 'publication_name_ru', array('class'=>$nameclass));
 echo form_textarea('publication_name_ru', $publication->name_ru, 'maxlength="150" style = width:400px');
 echo br(2);
 
-echo form_label('Год публикации', 'publication_year', array('class'=>'inline-block'));
+$yearclass = 'inline-block not-null';
+if ($errors->yearforgotten)
+    $yearclass .= ' forgotten';
+echo form_label('Год публикации*', 'publication_year', array('class'=>$yearclass));
 echo form_input('publication_year', $publication->year, 'maxlength="4" style = width:50px');
 echo br(2);
 
@@ -48,8 +55,9 @@ echo form_label('Дополнительная информация (на рус�
 echo form_textarea('publication_info_ru', $publication->info_ru, 'maxlength="150" style = width:400px');
 echo br(2);
 
+echo '<a href="#" id="showhide_en">Английская версия</a>';
+echo '<div class="hideble">';
 echo '<hr>';
-
 echo form_label('Название публикации (английское)', 'publication_name_en', array('class'=>'inline-block'));
 echo form_textarea('publication_name_en', $publication->name_en, 'maxlength="150" style = width:400px');
 echo br(2);
@@ -65,6 +73,7 @@ echo br(2);
 echo form_label('Дополнительная информация (на английском)', 'publication_info_en', array('class'=>'inline-block'));
 echo form_textarea('publication_info_en', $publication->info_en, 'maxlength="150" style = width:400px');
 echo br(2);
+echo '</div>';
 
 if( isset($publication->id) )
 {

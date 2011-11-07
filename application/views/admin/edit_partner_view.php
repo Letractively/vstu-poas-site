@@ -60,7 +60,8 @@ echo form_label('Изображение', 'partner_image', array('class'=>'inlin
 echo form_upload('partner_image', $partner->image);
 echo br(2);
 
-echo '<hr>';
+echo '<a href="#" id="showhide_en">Английская версия</a>';
+echo '<div class="hideble">';
 
 // Ввод английского имени партнера
 echo form_label('Имя партнера (английское)', 'partner_name_en', array('class'=>'inline-block'));
@@ -76,6 +77,7 @@ echo br(2);
 echo form_label('Описание партнера (английское)', 'partner_full_en', array('class'=>'inline-block'));
 echo form_textarea('partner_full_en', $partner->full_en);
 echo br(2);
+echo '</div>';
 
 if( isset($partner->id) )
 {
