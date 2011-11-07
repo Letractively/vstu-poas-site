@@ -168,8 +168,8 @@ abstract class Super_model extends CI_Model{
         foreach ($nulled_fields as $field => $null_value)
         {
             if($record->$field === $null_value) {
-                //$record->$field = null;
-                unset($record->$field);
+                $record->$field = null;
+                //unset($record->$field);
             }
         }
 		return $record;
