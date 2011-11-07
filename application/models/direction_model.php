@@ -109,20 +109,15 @@ class Direction_model extends Super_model
      */
     function get_errors()
     {
-        $rus = array(
-            'direction_name_ru' => 'nameruforgotten',
-        );
-        $eng = array(
-            'direction_name_en' => 'nameenforgotten',
-            'direction_description_en' => 'descriptionenforgotten',
-        );
-        
-        $errors = $this->_get_errors($rus, $eng);
-        
-        // Для английской версии обязательно должно быть имя.
-        // Поэтому указать описание как необходимое, проверить, а потом забыть про
-        // описание        
-        unset($errors->descriptionenforgotten);
+        // Тут проще проверить все самому, а не использовать $this->_get_errors($rus, $eng);
+        $errors = null;
+        if ($this->input->post('direction_name_ru') === '')
+            $errors->nameruforgotten = true;
+        if (    $this->input->post('direction_description_en') !== '' &&
+                $this->input->post('direction_name_en') === '')
+        {
+            $errors->nameenforgotten = true;
+        }
         
         return $errors;
     }
