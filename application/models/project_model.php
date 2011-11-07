@@ -87,48 +87,10 @@ class Project_model extends Super_model
      */
     function update_project_members($id, $members)
     {
-        // Если никого вообще нет - удалить по id проекта
-        if (!$members) 
-        {
-            $this->db->delete(TABLE_PROJECT_MEMBERS, array('projectid' => $id));
-            return;
-        }
-        $records = $this->db
-                                ->select('userid')
-                                ->get_where(TABLE_PROJECT_MEMBERS, array('projectid' => $id))
-                                ->result();
-        $old_members = array();
-        foreach ($records as $record)
-        {
-            $old_members[] = $record->userid;
-        }
-        // удалить устаревшие записи (тех, кто был записан в проект, а теперь
-        // его в списке нет
-            foreach($old_members as $old_member) 
-            {
-                // Если старого нет среди новых - удалить его
-                if (array_search($old_member, $members) === FALSE)
-                {
-                    $this->db->delete(TABLE_PROJECT_MEMBERS, array(
-                        'userid' => $old_member,
-                        'projectid' => $id));
-                    unset($old_member);
-                }
-            }
-        // добавить в базу новых участников проекта
-        if ($members)
-            foreach($members as $member)
-            {
-                // Если нового нет среди старых
-                if (array_search($member, $old_members) === FALSE)
-                {
-                    $record = new stdClass();
-                    $record->projectid = $id;
-                    $record->userid = $member;
-                    $this->db->insert(TABLE_PROJECT_MEMBERS, $record);
-                    unset($member);
-                }
-            }
+        $this->_update_connected_users(TABLE_PROJECT_MEMBERS, 
+                'projectid', 
+                $id, 
+                $members);
     }
     /**
      * Добавить проект, получаемый через POST-запрос

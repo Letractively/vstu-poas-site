@@ -45,7 +45,29 @@ class Direction_model extends Super_model
      */
     function get_direction($id)
     {
-        return $this->_get_record($id, TABLE_DIRECTIONS);
+        $direction = $this->_get_record($id, TABLE_DIRECTIONS);
+        $direction->members = $this->get_members($id);
+        $direction->users = $this->db
+                                    ->select('id,name,surname,patronymic')
+                                    ->from(TABLE_USERS)
+                                    ->order_by('surname,name,patronymic')
+                                    ->get()
+                                    ->result();
+        return $direction;
+    }
+    
+    /**
+     * Обновить список участников направления
+     * 
+     * @param type $id идентификатор направления
+     * @param $members массив идентификаторов участников направления
+     */
+    function update_project_members($id, $members)
+    {
+        $this->_update_connected_users(TABLE_DIRECTION_MEMBERS, 
+                'directionid', 
+                $id, 
+                $members);
     }
     
     /**
@@ -74,7 +96,9 @@ class Direction_model extends Super_model
      */
     function add_from_post()
     {        
-        return $this->_add(TABLE_DIRECTIONS, $this->get_from_post());
+        $direction =  $this->_add(TABLE_DIRECTIONS, $this->get_from_post());
+        $this->update_project_members($direction->id, $this->input->post('direction_members'));
+        return $direction;
     }
     
     /**
@@ -82,7 +106,9 @@ class Direction_model extends Super_model
 	 * @return объект, содержащий собранную информацию о направлении
 	 */
     function edit_from_post() {
-        return $this->_edit(TABLE_DIRECTIONS, $this->get_from_post());
+        $direction = $this->get_from_post();
+        $this->update_project_members($direction->id, $this->input->post('direction_members'));
+        return $this->_edit(TABLE_DIRECTIONS, $direction);
     }
     
     /**
@@ -110,7 +136,7 @@ class Direction_model extends Super_model
 				->select(TABLE_USERS . '.id, name, surname, patronymic, ishead')
 				->from(TABLE_DIRECTION_MEMBERS)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_DIRECTION_MEMBERS . '.userid')
-				->where('directionid = ' . $id);
+				->where('directionid = ' . $id);        
 				return $this->db->get()->result();
 	}
     
