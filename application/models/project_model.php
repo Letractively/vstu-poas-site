@@ -14,10 +14,17 @@ class Project_model extends Super_model
      */
     function get_short($id = null)
     {
-        return $this->_get_short(TABLE_PROJECTS, 
+        $result = $this->_get_short(TABLE_PROJECTS, 
                                  'url', 
                                  'name_' . lang() . ',name_ru, id', 
                                  $id);
+        if (is_array($result)) {
+            foreach($result as $record){
+                $this->db->from(TABLE_PROJECT_MEMBERS)->where('projectid', $record->id);
+                $record->memberscount = $this->db->count_all_results();
+            }
+        }
+        return $result; 
     }
     
     /**
@@ -38,7 +45,15 @@ class Project_model extends Super_model
      */
     function get_project($id)
     {
-        return $this->_get_record($id, TABLE_PROJECTS);
+        $project = $this->_get_record($id, TABLE_PROJECTS);
+        $project->members = $this->get_members($id);
+        $project->users = $this->db
+                                    ->select('id,name,surname,patronymic')
+                                    ->from(TABLE_USERS)
+                                    ->order_by('surname')
+                                    ->get()
+                                    ->result();
+        return $project;
     }
     
     /**
@@ -65,6 +80,57 @@ class Project_model extends Super_model
     }
     
     /**
+     * Обновить список участников проекта
+     * 
+     * @param type $id идентификатор проекта
+     * @param $members массив идентификаторов участников проекта
+     */
+    function update_project_members($id, $members)
+    {
+        // Если никого вообще нет - удалить по id проекта
+        if (!$members) 
+        {
+            $this->db->delete(TABLE_PROJECT_MEMBERS, array('projectid' => $id));
+            return;
+        }
+        $records = $this->db
+                                ->select('userid')
+                                ->get_where(TABLE_PROJECT_MEMBERS, array('projectid' => $id))
+                                ->result();
+        $old_members = array();
+        foreach ($records as $record)
+        {
+            $old_members[] = $record->userid;
+        }
+        // удалить устаревшие записи (тех, кто был записан в проект, а теперь
+        // его в списке нет
+            foreach($old_members as $old_member) 
+            {
+                // Если старого нет среди новых - удалить его
+                if (array_search($old_member, $members) === FALSE)
+                {
+                    $this->db->delete(TABLE_PROJECT_MEMBERS, array(
+                        'userid' => $old_member,
+                        'projectid' => $id));
+                    unset($old_member);
+                }
+            }
+        // добавить в базу новых участников проекта
+        if ($members)
+            foreach($members as $member)
+            {
+                // Если нового нет среди старых
+                if (array_search($member, $old_members) === FALSE)
+                {
+                    $record = new stdClass();
+                    $record->projectid = $id;
+                    $record->userid = $member;
+                    $this->db->insert(TABLE_PROJECT_MEMBERS, $record);
+                    unset($member);
+                }
+            }
+    }
+    /**
      * Добавить проект, получаемый через POST-запрос
      * @return int id - идентификатор добавленной записи | FALSE
      */
@@ -72,7 +138,9 @@ class Project_model extends Super_model
     {
         $project = $this->get_from_post();
         unset($project->image);
-        return $this->_add(TABLE_PROJECTS, $project);
+        $record = $this->_add(TABLE_PROJECTS, $project);
+        $this->update_project_members($record->id, $this->input->post('project_members'));
+        return $record;
     }
     
     /**
@@ -82,6 +150,7 @@ class Project_model extends Super_model
     function edit_from_post() {
         $project = $this->get_from_post();
         unset($project->image);
+        $this->update_project_members($project->id, $this->input->post('project_members'));
         return $this->_edit(TABLE_PROJECTS, $project);
     }
     

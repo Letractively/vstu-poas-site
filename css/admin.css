@@ -78,6 +78,7 @@ img.alignleft {
 #form_edit textarea.short {height:70px; width: 400px;}
 .admin-data-table .news {width : 300px;}
 .admin-data-table .users {width : 300px;}
+.admin-data-table .count {text-align: center;}
 #header p {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	margin: 0px 0px 0px 5px;

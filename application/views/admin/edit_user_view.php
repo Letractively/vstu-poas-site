@@ -19,15 +19,18 @@ else
 }
 if(!isset($user->login))		{ $user->login = ''; }
 if(!isset($user->password))		{ $user->password = ''; }
-if(!isset($user->email))		{ $user->email = ''; }
 if(!isset($user->name))			{ $user->name = ''; }
 if(!isset($user->surname))		{ $user->surname = ''; }
 if(!isset($user->patronymic))	{ $user->patronymic = ''; }
 if(!isset($user->role))			{ $user->role = 'student'; }
+
+
+// Контакты
 if(!isset($user->cab))          { $user->cab = ''; }
+if(!isset($user->email))		{ $user->email = ''; }
+if(!isset($user->skype))        { $user->skype = '';}
 if(!isset($user->phone))        { $user->phone = ''; }
 if(!isset($user->site))         { $user->site = ''; }
-
 
 if(!isset($errors->loginforgotten))         {$errors->loginforgotten = FALSE;}
 if(!isset($errors->passwordforgotten))      {$errors->passwordforgotten = FALSE;}
@@ -37,6 +40,7 @@ if(!isset($errors->surnameforgotten))       {$errors->surnameforgotten = FALSE;}
 if(!isset($errors->patronymicforgotten))    {$errors->patronymicforgotten = FALSE;}
 if(!isset($errors->loginused))              {$errors->loginused = FALSE;}
 if(!isset($errors->differentpasswords))     {$errors->differentpasswords = FALSE;}
+
 
 $user->password2 = '';
 
@@ -67,7 +71,6 @@ echo form_label_adv('Повторите пароль*', 'user_password2', 'inlin
 echo form_password('user_password2', $user->password2, 'maxlength="40"').br(2);
 
 
-
 echo form_label_adv('Фамилия*', 'user_surname', 'inline-block not-null', $errors->surnameforgotten, 'forgotten');
 echo form_input('user_surname', $user->surname, 'maxlength="40"').br();
 
@@ -77,9 +80,19 @@ echo form_input('user_name', $user->name, 'maxlength="40"').br();
 echo form_label_adv('Отчество*', 'user_patronymic', 'inline-block not-null', $errors->patronymicforgotten, 'forgotten');
 echo form_input('user_patronymic', $user->patronymic, 'maxlength="40"').br(2);
 
+echo 'Контакты<hr>';
 echo form_label('Адрес электроннй почты', 'user_email', array('class'=>'inline-block'));
 echo form_input('user_email', $user->email, 'maxlength="40"').br(2);
+/*
+echo form_label('Skype', 'user_skype', array('class'=>'inline-block'));
+echo form_input('user_skype', $user->skype, 'maxlength="40"').br(2);
 
+echo form_label('Телефон', 'user_phone', array('class'=>'inline-block'));
+echo form_input('user_phone', $user->phone, 'maxlength="40"').br(2);
+
+echo form_label('Сайт', 'user_site', array('class'=>'inline-block'));
+echo form_input('user_site', $user->site, 'maxlength="100"').br(2);
+*/
 if (count($roles) > 0)
 {
 	echo form_label('Роль', 'user_role', array('class'=>'inline-block'));

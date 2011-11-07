@@ -1,7 +1,6 @@
 <div id="form_edit">
 <?php
 
-
 if( !isset($project->id) )
 {
 	$action = 'add';
@@ -55,6 +54,21 @@ echo form_label('Изображение для проекта', 'project_image',
 echo form_upload('project_image', $project->image);
 echo br(2);
 
+$data['label'] = 'Участники проекта';
+$data['id'] = 'project_members';
+$data['users'] = array();
+foreach($project->users as $user)
+{
+    $data['users'][$user->id] = $user->surname.' '.$user->name.' '.$user->patronymic;
+}
+$data['select'] = array();
+foreach($project->members as $member)
+{
+    $data['select'][] = $member->id;
+}
+$this->load->view('admin/users_list_view', $data);
+echo br(2);
+
 echo '<a href="#" id="showhide_en">Английская версия</a>';
 if ($en_version_started)
     echo '<div class="hideble" style = "display:block;">';
@@ -62,7 +76,6 @@ else
     echo '<div class="hideble">';
 echo '<hr>';
 
-//echo form_label('Название проекта (английское)', 'project_name_en', array('class'=>'inline-block'));
 echo form_label_adv('Название проекта (английское)', 
                     'project_name_en', 
                     'inline-block', 
@@ -71,7 +84,6 @@ echo form_label_adv('Название проекта (английское)',
 echo form_input('project_name_en', $project->name_en, 'maxlength="300" style = width:400px');
 echo br(2);
 
-//echo form_label('Описание проекта (английское)', 'project_description_en', array('class'=>'inline-block'));
 echo form_label_adv('Описание проекта (английское)', 
                     'project_description_en', 
                     'inline-block', 
@@ -81,6 +93,8 @@ echo form_textarea('project_description_en', $project->description_en, 'class="s
 echo br(2);
 
 echo '</div>';
+
+
 
 
 if( isset($project->id) )

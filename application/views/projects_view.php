@@ -4,6 +4,7 @@
 foreach ($projects as $project)
 {
 	echo '<div class="project">';
+    //$count = ' (Участвует в проекте:' . $project->memberscount . ')';
 	echo heading(anchor('/projects/'.$project->id,$project->name), 3);
 	if (isset($project->url))
 	{
