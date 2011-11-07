@@ -231,6 +231,52 @@ abstract class Super_model extends CI_Model{
 		return $errors;
     }
     
+    protected final function _update_connected_users($table, $field, $id, $members)
+    {
+        // Если никого вообще нет - удалить по id проекта
+        if (!$members) 
+        {
+            $this->db->delete($table, array($field => $id));
+            return;
+        }
+        $records = $this->db
+                                ->select('userid')
+                                ->get_where($table, array($field => $id))
+                                ->result();
+        $old_members = array();
+        foreach ($records as $record)
+        {
+            $old_members[] = $record->userid;
+        }
+        // удалить устаревшие записи (тех, кто был записан в проект, а теперь
+        // его в списке нет
+            foreach($old_members as $old_member) 
+            {
+                // Если старого нет среди новых - удалить его
+                if (array_search($old_member, $members) === FALSE)
+                {
+                    $this->db->delete($table, array(
+                        'userid' => $old_member,
+                        $field => $id));
+                    unset($old_member);
+                }
+            }
+        // добавить в базу новых участников
+        if ($members)
+            foreach($members as $member)
+            {
+                // Если нового нет среди старых
+                if (array_search($member, $old_members) === FALSE)
+                {
+                    $record = new stdClass();
+                    $record->$field = $id;
+                    $record->userid = $member;
+                    $this->db->insert($table, $record);
+                    unset($member);
+                }
+            }
+    }
+    
 }
 
 ?>

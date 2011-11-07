@@ -35,6 +35,21 @@ echo form_label('Описание направления (русское)', 'dir
 echo form_textarea('direction_description_ru', $direction->description_ru, 'class="short"');
 echo br(2);
 
+$data['label'] = 'Заинтересованы в направлении';
+$data['id'] = 'direction_members';
+$data['users'] = array();
+foreach($direction->users as $user)
+{
+    $data['users'][$user->id] = $user->surname.' '.$user->name.' '.$user->patronymic;
+}
+$data['select'] = array();
+foreach($direction->members as $member)
+{
+    $data['select'][] = $member->id;
+}
+$this->load->view('admin/users_list_view', $data);
+echo br(2);
+
 echo '<a href="#" id="showhide_en">Английская версия</a>';
 if ($en_version_started)
     echo '<div class="hideble" style = "display:block;">';
