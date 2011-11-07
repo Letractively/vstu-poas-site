@@ -90,12 +90,18 @@ class Publication_model extends Super_model
     
     /**
      * Удалить публикацию из базы данных
+     * 
+     * Удалеяет так же все упоминания о публикации из таблицы авторов
      * @param int $id идентификатор публикации
      * @return TRUE, если публикация удалена, иначе FALSE 
      */
     function delete($id)
     {
-        return $this->_delete(TABLE_PUBLICATIONS, $id);
+        $result = $this->_delete(TABLE_PUBLICATIONS, $id);
+        $message = $this->message;
+        $cascade = $this->_delete(TABLE_PUBLICATION_AUTHORS, $id, 'publicationid');
+        $this->message = $message;
+        return $cascade && $result;
     }
     
     /**

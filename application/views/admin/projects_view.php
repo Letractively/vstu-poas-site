@@ -11,7 +11,7 @@ foreach($projects as $project)
 		array(	'class' => 'button_delete',
 				'title' => 'Удалить проект ' . $project->name)
 	);
-    $tablerow[] = anchor('admin/projects/edit/'.$project->name, $project->name);
+    $tablerow[] = anchor('admin/projects/edit/'.$project->id, $project->name);
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;
 }

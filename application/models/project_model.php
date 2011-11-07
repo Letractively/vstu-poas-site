@@ -94,7 +94,10 @@ class Project_model extends Super_model
     function delete($id)
     {
         $result = $this->_delete(TABLE_PROJECTS, $id);
-        return $this->_delete(TABLE_PROJECT_MEMBERS, $id) && $result;
+        $message = $this->message;
+        $cascade = $this->_delete(TABLE_PROJECT_MEMBERS, $id, 'projectid');
+        $this->message = $message;
+        return $cascade && $result;
     }
     
     /**
