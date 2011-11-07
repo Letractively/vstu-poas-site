@@ -2,6 +2,8 @@
 echo anchor('/admin/directions/add', 'Добавить направление');
 echo br(2);
 $data['rows'] = array();
+$data['headers'] = array('Направление','Участников','');
+$data['classes'] = array('direction','count','');
 foreach($directions as $direction)
 {
     $tablerow = array();
@@ -11,6 +13,7 @@ foreach($directions as $direction)
 					'title' => 'Удалить направление ' . $direction->name)
 	);
     $tablerow[] = anchor('admin/directions/edit/' . $direction->id,$direction->name);
+    $tablerow[] = $direction->memberscount;
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;
 }

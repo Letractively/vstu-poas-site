@@ -14,10 +14,17 @@ class Direction_model extends Super_model
      */
     function get_short($id = null)
     {
-        return $this->_get_short(TABLE_DIRECTIONS, 
+        $result = $this->_get_short(TABLE_DIRECTIONS, 
                                  null, 
                                  'name_' . lang() . ', name_ru, id', 
                                  $id);
+        if (is_array($result)) {
+            foreach($result as $record){
+                $this->db->from(TABLE_DIRECTION_MEMBERS)->where('directionid', $record->id);
+                $record->memberscount = $this->db->count_all_results();
+            }
+        }
+        return $result; 
     }
     
     /**
