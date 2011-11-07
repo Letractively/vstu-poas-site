@@ -115,12 +115,9 @@ class Admin extends CI_Controller {
 	
 	/**
 	 * Работа с пользователями
-	 * @param segment(3) - 'delete'
-	 * @param segment(4) - user_id
 	 */
 	function users()
 	{
-		// @todo проверка на администратора
         $this->_page('users', 'user', MODEL_USER);	
 	}
 	
@@ -131,20 +128,36 @@ class Admin extends CI_Controller {
 	{
         $this->_page('projects', 'project', MODEL_PROJECT);
 	}
-	
+    
+	/**
+     * Работа с научными направлениями
+     */
 	function directions()
     {
         $this->_page('directions', 'direction', MODEL_DIRECTION);
 	}
     
+    /**
+     * Работа с публикациями
+     */
     function publications()
     {
         $this->_page('publications', 'publication', MODEL_PUBLICATION);
     }
     
+    /**
+     * Работа с партнерами
+     */
     function partners()
     {
         $this->_page('partners', 'partner', MODEL_PARTNERS);
+    }
+    
+    function courses()
+    {
+        $data = NULL;
+		$this->load->model(MODEL_COURSES);
+        $this->_view_page_list('courses',MODEL_COURSES);
     }
     function _page($name, $singlename, $model)
 	{
@@ -222,7 +235,8 @@ class Admin extends CI_Controller {
 				break;
 		}
 	}
-	function _view_page_list($name, $model, $message = null)
+	
+    function _view_page_list($name, $model, $message = null)
     {
         $data[$name] = $this->$model->get_short();
 		$data['content'] = $this->load->view('admin/' . $name . '_view', $data, TRUE);

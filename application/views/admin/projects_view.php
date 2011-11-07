@@ -14,7 +14,7 @@ foreach($projects as $project)
 	);
     $tablerow[] = anchor('admin/projects/edit/'.$project->id, 
                             $project->name);
-    $tablerow[] = $project->memberscount ;
+    $tablerow[] = $project->memberscount;
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;
 }

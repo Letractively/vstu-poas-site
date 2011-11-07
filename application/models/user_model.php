@@ -48,6 +48,7 @@ class User_model extends Super_model {
 	*/
 	function get_short($id = null)
 	{
+        // Родительский метод не годится, он опирается на язык
 		if (isset($id))
 		{
 			$records = $this->db
