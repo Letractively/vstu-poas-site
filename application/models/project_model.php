@@ -66,8 +66,10 @@ class Project_model extends Super_model
      * @return int id - идентификатор добавленной записи | FALSE
      */
     function add_from_post()
-    {        
-        return $this->_add(TABLE_PROJECTS, $this->get_from_post());
+    {
+        $project = $this->get_from_post();
+        unset($project->image);
+        return $this->_add(TABLE_PROJECTS, $project);
     }
     
     /**
@@ -75,7 +77,9 @@ class Project_model extends Super_model
 	 * @return объект, содержащий собранную информацию о проекте
 	 */
     function edit_from_post() {
-        return $this->_edit(TABLE_PROJECTS, $this->get_from_post());
+        $project = $this->get_from_post();
+        unset($project->image);
+        return $this->_edit(TABLE_PROJECTS, $project);
     }
     
     /**
@@ -87,7 +91,7 @@ class Project_model extends Super_model
     function delete($id)
     {
         $result = $this->_delete(TABLE_PROJECTS, $id);
-        $this->db->delete(TABLE_PROJECT_MEMBERS, array ('projectid' => $id));
+        return $this->_delete(TABLE_PROJECT_MEMBERS, $id) && $result;
     }
     
     /**
@@ -104,5 +108,22 @@ class Project_model extends Super_model
 				->where('projectid = ' . $id);
 				return $this->db->get()->result();
 	}
+    
+    /**
+     * Проверить название и описание проекта (заполнены ли)
+     * @return object Объект ошибок
+     */
+    function get_errors()
+    {
+        $rus = array(
+            'project_name_ru' => 'nameruforgotten',
+            'project_description_ru' => 'descriptionruforgotten',
+        );
+        $eng = array(
+            'project_name_en' => 'nameenforgotten',
+            'project_description_en' => 'descriptionenforgotten',
+        );
+        return $this->_get_errors($rus, $eng);
+    }
 }
 ?>

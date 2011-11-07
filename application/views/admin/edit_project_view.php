@@ -19,36 +19,69 @@ if (!isset($project->description_en)) 	{$project->description_en = '';};
 if (!isset($project->url)) 				{$project->url = '';};
 if (!isset($project->image)) 			{$project->image = '';};
 
+// Заполнено ли хотя бы одно поле английской версии
+$en_version_started =   $project->name_en !== '' ||
+                        $project->description_en !== '';
 
+if (!isset($errors->nameruforgotten))           {$errors->nameruforgotten = false;};
+if (!isset($errors->descriptionruforgotten))    {$errors->descriptionruforgotten = false;};
 
-
-
-
+if (!isset($errors->nameenforgotten))           {$errors->nameenforgotten = false;};
+if (!isset($errors->descriptionenforgotten))    {$errors->descriptionenforgotten = false;};
 
 echo form_open('admin/projects/'.$action.'/action');
 
-echo form_label('Название проекта (русское)', 'project_name_ru', array('class'=>'inline-block'));
-echo form_input('project_name_ru', $project->name_ru, 'maxlength="150" style = width:400px');
-
+echo form_label_adv('Название проекта (русское)*', 
+                    'project_name_ru', 
+                    'inline-block not-null', 
+                    $errors->nameruforgotten, 
+                    'forgotten');
+echo form_input('project_name_ru', $project->name_ru, 'maxlength="300" style = width:400px');
 echo br(2);
-echo form_label('Описание проекта (русское)', 'project_description_ru', array('class'=>'inline-block'));
-echo form_textarea('project_description_ru', $project->description_ru);
 
+echo form_label_adv('Описание проекта (русское)*', 
+                    'project_description_ru', 
+                    'inline-block not-null', 
+                    $errors->descriptionruforgotten, 
+                    'forgotten');
+echo form_textarea('project_description_ru', $project->description_ru, 'class="short"');
 echo br(2);
+
 echo form_label('Ссылка на проект', 'project_url', array('class'=>'inline-block'));
 echo form_input('project_url', $project->url, 'style = width:400px');
-
 echo br(2);
-echo form_label('Название проекта (английское)', 'project_name_en', array('class'=>'inline-block'));
-echo form_input('project_name_en', $project->name_en, 'maxlength="150" style = width:400px');
 
-echo br(2);
-echo form_label('Описание проекта (английское)', 'project_description_en', array('class'=>'inline-block'));
-echo form_textarea('project_description_en', $project->description_en);
-
-echo br(2);
 echo form_label('Изображение для проекта', 'project_image', array('class'=>'inline-block'));
-// @todo изображение
+echo form_upload('project_image', $project->image);
+echo br(2);
+
+echo '<a href="#" id="showhide_en">Английская версия</a>';
+if ($en_version_started)
+    echo '<div class="hideble" style = "display:block;">';
+else
+    echo '<div class="hideble">';
+echo '<hr>';
+
+//echo form_label('Название проекта (английское)', 'project_name_en', array('class'=>'inline-block'));
+echo form_label_adv('Название проекта (английское)', 
+                    'project_name_en', 
+                    'inline-block', 
+                    $errors->nameenforgotten, 
+                    'not-null forgotten');
+echo form_input('project_name_en', $project->name_en, 'maxlength="300" style = width:400px');
+echo br(2);
+
+//echo form_label('Описание проекта (английское)', 'project_description_en', array('class'=>'inline-block'));
+echo form_label_adv('Описание проекта (английское)', 
+                    'project_description_en', 
+                    'inline-block', 
+                    $errors->descriptionenforgotten, 
+                    'not-null forgotten');
+echo form_textarea('project_description_en', $project->description_en, 'class="short"');
+echo br(2);
+
+echo '</div>';
+
 
 if( isset($project->id) )
 {

@@ -74,7 +74,7 @@ img.alignleft {
 #form_edit .forgotten { color : #ff0000}
 #form_edit .inline-block { vertical-align: top}
 #form_edit .hideble {display: none}
-#form_edit textarea.short {height:40px; width: 400px;}
+#form_edit textarea.short {height:70px; width: 400px;}
 #header p {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	margin: 0px 0px 0px 5px;
