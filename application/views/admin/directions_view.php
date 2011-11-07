@@ -1,20 +1,17 @@
 <?php
 echo anchor('/admin/directions/add', 'Добавить направление');
 echo br(2);
-echo '<table>';
+$data['rows'] = array();
 foreach($directions as $direction)
 {
-    echo '<tr><td>';
+    $tablerow = array();
 	$button_delete = anchor('/admin/directions/delete/' . $direction->id,
 			img( '/images/admin/buttons/delete.png'),
 			array(	'class' => 'button_delete',
 					'title' => 'Удалить направление ' . $direction->name)
 	);
-	echo anchor('admin/directions/edit/' . $direction->id,
-			$direction->name,
-			array('class' => 'direction_short_view')) . '</td><td>' . $button_delete.br();
-    echo '</td></tr>';
+    $tablerow[] = anchor('admin/directions/edit/' . $direction->id,$direction->name);
+    $tablerow[] = $button_delete;
+    $data['rows'][] = $tablerow;
 }
-echo '</table>';
-/* End of file directions_view.php */
-/* Location: ./application/views/admin/directions_view.php */
+$this->load->view('admin/table_view', $data);
