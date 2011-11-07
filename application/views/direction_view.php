@@ -23,12 +23,12 @@ if (count($members) > 0)
 		if ($member->ishead == true) 
 		{
 			$headcount++;
-			$heads .= anchor('/users/'.$member->id, $member->first_name . ' '. $member->last_name).br();
+			$heads .= anchor('/users/'.$member->id, $member->surname . ' '. $member->name).br();
 		}
 		else
 		{
 			$othercount++;
-			$others .= anchor('/users/'.$member->id, $member->first_name . ' '. $member->last_name).br();
+			$others .= anchor('/users/'.$member->id, $member->surname . ' '. $member->name).br();
 		}
 		 
 	}

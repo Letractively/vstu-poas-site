@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2011 at 05:52 PM
+-- Generation Time: Nov 07, 2011 at 06:38 PM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -52,15 +52,14 @@ CREATE TABLE IF NOT EXISTS `direction_members` (
   `directionid` int(10) unsigned NOT NULL,
   `ishead` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `direction_members`
 --
 
 INSERT INTO `direction_members` (`id`, `userid`, `directionid`, `ishead`) VALUES
-(1, 25, 3, 1),
-(2, 20, 3, 0);
+(1, 25, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -161,12 +160,15 @@ CREATE TABLE IF NOT EXISTS `project_members` (
   `userid` int(10) unsigned NOT NULL,
   `projectid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `project_members`
 --
 
+INSERT INTO `project_members` (`id`, `userid`, `projectid`) VALUES
+(9, 17, 2),
+(8, 30, 2);
 
 -- --------------------------------------------------------
 
@@ -207,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `publication_authors` (
   `userid` int(10) unsigned NOT NULL,
   `publicationid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `publication_authors`
@@ -225,25 +227,21 @@ CREATE TABLE IF NOT EXISTS `users` (
   `login` varchar(25) CHARACTER SET utf8 NOT NULL,
   `password` char(32) CHARACTER SET utf8 NOT NULL,
   `email` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `first_name` varchar(32) NOT NULL,
-  `last_name` varchar(32) NOT NULL,
   `group` int(10) unsigned NOT NULL,
   `name` varchar(30) CHARACTER SET utf8 NOT NULL,
   `surname` varchar(30) CHARACTER SET utf8 NOT NULL,
   `patronymic` varchar(30) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=30 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `login`, `password`, `email`, `first_name`, `last_name`, `group`, `name`, `surname`, `patronymic`) VALUES
-(17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 'Александр', 'Сова', 555100, 'Александр', 'Сова', 'Батькович'),
-(20, 'arkanif', '28c8edde3d61a0411511d3b1866f0636', '113em@mail.ru', 'Arkanif', 'Андреевич', 555100, 'Анатолий', 'Ерофеев', 'Батькович'),
-(25, 'dvorjankin', 'c4ca4238a0b923820dcc509a6f75849b', 'dvam@vstu2.ru', 'Александр ', 'Дворянкин ', 555101, 'Александр ', 'Дворянкин ', 'Михайлович'),
-(29, 'ivan', '2c42e5cf1cdbafea04ed267018ef1511', NULL, '', '', 0, 'ivan', 'ivan', 'ivan'),
-(28, 'agentcoba2', 'd9b1d7db4cd6e70935368a1efb10e377', NULL, '', '', 0, 'Вася', 'Васин', 'Василич');
+INSERT INTO `users` (`id`, `login`, `password`, `email`, `group`, `name`, `surname`, `patronymic`) VALUES
+(17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 555100, 'Александр', 'Сова', 'Батькович'),
+(25, 'dvorjankin', 'c4ca4238a0b923820dcc509a6f75849b', 'dvam@vstu2.ru', 555101, 'Александр ', 'Дворянкин ', 'Михайлович'),
+(30, 'arkanif', 'c4ca4238a0b923820dcc509a6f75849b', NULL, 555100, 'Анатолиус', 'Ерофеев', 'Батькович');
 
 -- --------------------------------------------------------
 
