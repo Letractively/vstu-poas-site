@@ -22,7 +22,7 @@ abstract class Super_model extends CI_Model{
 	 * @param $id - id направления, необязательный параметр
 	 * @return массив всех записей, запись с указанным id или FALSE
 	 */
-    protected function _get_short($table, $extraselect, $id = null)
+    protected final function _get_short($table, $extraselect, $id = null)
     {
         if (isset($id))
 		{
@@ -59,7 +59,7 @@ abstract class Super_model extends CI_Model{
      * 
 	 * @return запись
 	 */
-	protected function _get_detailed($id, $table, $extselect1, $extselect2)
+	protected final function _get_detailed($id, $table, $extselect1, $extselect2)
 	{
 		if (isset($id))
 		{
@@ -94,7 +94,7 @@ abstract class Super_model extends CI_Model{
      * @param $table - имя таблицы базы данных
 	 * @return массив всех записей, запись с указанным id или FALSE
 	 */
-    protected function _get_record($id, $table)
+    protected final function _get_record($id, $table)
     {
         $record = $this->db->select('*')->get_where($table, array('id' => $id), 1)->result();
 		if (!$record)
@@ -110,7 +110,7 @@ abstract class Super_model extends CI_Model{
      * @param $record - запись
 	 * @return int id - идентификатор добавленной записи | FALSE
 	 */
-	protected function _add($table, $record) 
+	protected final function _add($table, $record) 
 	{
 		if($this->db->insert($table, $record))
 		{
@@ -129,7 +129,7 @@ abstract class Super_model extends CI_Model{
      * @param $table - имя таблицы базы даных
      * @param $record - запись
 	 */
-    protected function _edit($table, $record)
+    protected final function _edit($table, $record)
 	{
 		$this->db->where('id', $record->id);
 		$response = $this->db->update($table, $record);
@@ -154,7 +154,7 @@ abstract class Super_model extends CI_Model{
      * 
 	 * @return объект, содержащий собранную информацию о записи
 	 */
-	protected function _get_from_post($name, $fields, $nulled_fields)
+	protected final function _get_from_post($name, $fields, $nulled_fields)
 	{
 		$record = new stdClass();
         foreach($fields as $field => $post)
@@ -169,7 +169,8 @@ abstract class Super_model extends CI_Model{
         foreach ($nulled_fields as $field => $null_value)
         {
             if($record->$field === $null_value) {
-                $record->$field = null;
+                //$record->$field = null;
+                unset($record->$field);
             }
         }
 		return $record;
@@ -182,7 +183,7 @@ abstract class Super_model extends CI_Model{
 	 * @param $id - идентификатор записи
 	 * @return TRUE, если направление удалено, иначе FALSE
 	 */
-	protected function _delete ($table, $id)
+	protected final function _delete ($table, $id)
 	{
 		if( ! $this->db->delete($table, array('id' => $id)))
 		{
@@ -195,6 +196,40 @@ abstract class Super_model extends CI_Model{
 		}
 		return TRUE;
 	}
+    
+    /**
+     * Проверить поля на заполненность.
+     * @param $necessary1 обязательные поля
+     * @param $necessary2 поля, обязательные, если одно из них заполнено
+     * @return ошибки 
+     */
+    protected final function _get_errors($necessary1, $necessary2)
+    {
+        $errors = null;
+        // Должны быть заполнены $necessary1
+        foreach ($necessary1 as $post => $field)
+        {
+            if ($this->input->post($post) == '')
+                $errors->$field = true;
+        }
+        
+        // Если пользователь ввел хотя бы одно поле $necessary2
+        // требовать все остальные
+        $necessary2_started = false;
+        foreach ($necessary2 as $post => $field)
+        {
+            $necessary2_started = $necessary2_started || $this->input->post($post) !== '';
+        }
+        if ($necessary2_started)
+        {
+            foreach ($necessary2 as $post => $field)
+            {
+                if ($this->input->post($post) == '')
+                    $errors->$field = true;
+            }
+        }
+		return $errors;
+    }
     
 }
 

@@ -177,66 +177,7 @@ class Admin extends CI_Controller {
 	 */
 	function projects()
 	{
-		// @todo проверка на преподавателя
-		$data = NULL;
-		$this->load->model(MODEL_PROJECT);
-		
-		switch($this->uri->segment(3)) {
-			case 'add':
-				if ($this->uri->segment(4) == 'action') 
-				{
-					$this->project_model->add_from_post();
-					$this->_view_projects($this->project_model->message);
-				}
-				else 
-				{
-					// по адресу "/admin/projects/add": добавление нового проекта
-					$data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
-					$data['title'] = 'Создание нового проекта';
-					$this->load->view('/templates/admin_view', $data);
-				}
-				break;
-			case 'edit':
-				if ($this->uri->segment(4) == 'action') 
-				{
-					$this->project_model->edit_from_post();
-					$this->_view_projects($this->project_model->message);
-				}
-				else 
-				{
-					// по адресу "/admin/projects/edit/{id}": добавление редактирование проекта
-					$id = $this->uri->segment(4);
-					$data = array();
-					$data['project'] = $this->project_model->get_project($id);
-					$data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
-					$data['title'] = 'Изменение проекта';
-					$this->load->view('/templates/admin_view', $data);
-				}
-				break;
-			case 'delete':
-				// по адресу "/admin/projects/delete": удаление проекта
-				$this->project_model->delete( $this->uri->segment(4) );
-				
-				$this->_view_projects($this->project_model->message);
-				break;
-			case '':
-			default:
-				// по адресу "/admin/projects": список всех проектов
-				// он же при несуществующем методе
-				$this->_view_projects();
-				break;
-		}
-	}
-	
-	function _view_projects($message = null) {
-		$data['projects'] = $this->project_model->get_short();
-		$data['content'] = $this->load->view('/admin/projects_view', $data, TRUE);
-		$data['title'] = 'Проекты';
-		if($message != null) 
-		{
-			$data['message'] = $message;
-		}
-		$this->load->view('/templates/admin_view', $data);
+        $this->_page('projects', 'project', MODEL_PROJECT);
 	}
 	
 	function directions()

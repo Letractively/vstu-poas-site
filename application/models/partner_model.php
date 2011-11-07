@@ -95,30 +95,16 @@ class Partner_model extends Super_model{
 	 * @return массив с ошибками
 	 */
 	function get_errors() {
-        $errors = null;
-        // Должны быть заполнены поля имя, краткое описание и описание
-        // на русском языке
-        if ($this->input->post('partner_name_ru') == '')
-            $errors->nameruforgotten = true;
-        if ($this->input->post('partner_short_ru') == '')
-            $errors->shortruforgotten = true;
-        if ($this->input->post('partner_full_ru') == '')
-            $errors->fullruforgotten = true;
-        
-        // Если пользователь ввел хотя бы одно английское поле - потребовать
-        // заполнение остальных
-        $en_version_started =   $this->input->post('partner_name_en') !== '' ||
-                                $this->input->post('partner_short_en') !== '' ||
-                                $this->input->post('partner_full_en') !== '';
-        if ($en_version_started)
-        {
-            if ($this->input->post('partner_name_en') == '')
-                $errors->nameenforgotten = true;
-            if ($this->input->post('partner_short_en') == '')
-                $errors->shortenforgotten = true;
-            if ($this->input->post('partner_full_en') == '')
-                $errors->fullenforgotten = true;
-        }
-		return $errors;
+        $rus = array(
+            'partner_name_ru' => 'nameruforgotten',
+            'partner_short_ru' => 'shortruforgotten',
+            'partner_full_ru' => 'fullruforgotten'
+        );
+        $eng = array(
+            'partner_name_en' => 'nameenforgotten',
+            'partner_short_en' => 'shortenforgotten',
+            'partner_full_en' => 'fullenforgotten'
+        );
+        return $this->_get_errors($rus, $eng);
 	}
 }
