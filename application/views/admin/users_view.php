@@ -9,9 +9,12 @@ foreach($users as $user)
 	$button_delete = anchor('/admin/users/delete/'.$user->id,
 	img( '/images/admin/buttons/delete.png'),
 		array(	'class' => 'button_delete',
-				'title' => 'Удалить пользователя '.$user->username)
+				'title' => 'Удалить пользователя '.$user->id)
 	);
-    $tablerow[] = anchor('admin/users/edit/'.$user->username, $user->username);
+    $tablerow[] = anchor(   'admin/users/edit/' . $user->id, 
+                                $user->surname . ' '.
+                                $user->name . ' ' .
+                                $user->patronymic);
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;
 }

@@ -72,6 +72,7 @@ img.alignleft {
 }
 #form_edit .not-null { font-weight: bold }
 #form_edit .forgotten { color : #ff0000}
+#form_edit .wrong-data {color : #ff0000}
 #form_edit .inline-block { vertical-align: top}
 #form_edit .hideble {display: none}
 #form_edit textarea.short {height:70px; width: 400px;}
