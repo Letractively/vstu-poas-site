@@ -29,10 +29,11 @@ echo form_label_adv(    'Название направления (русское
                         $errors->nameruforgotten, 
                         'forgotten');
 echo form_input('direction_name_ru', $direction->name_ru, 'maxlength="150" style = width:400px');
-
 echo br(2);
+
 echo form_label('Описание направления (русское)', 'direction_description_ru', array('class'=>'inline-block'));
 echo form_textarea('direction_description_ru', $direction->description_ru, 'class="short"');
+echo br(2);
 
 echo '<a href="#" id="showhide_en">Английская версия</a>';
 if ($en_version_started)
@@ -46,11 +47,9 @@ echo form_label_adv(    'Название направления (английс
                         $errors->nameenforgotten, 
                         'not-null forgotten');
 echo form_input('direction_name_en', $direction->name_en, 'maxlength="150" style = width:400px');
-
 echo br(2);
 echo form_label('Описание направления (английское)', 'direction_description_en', array('class'=>'inline-block'));
 echo form_textarea('direction_description_en', $direction->description_en, 'class="short"');
-
 echo '</div>';
 if( isset($direction->id) )
 {

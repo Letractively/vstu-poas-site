@@ -75,6 +75,8 @@ img.alignleft {
 #form_edit .inline-block { vertical-align: top}
 #form_edit .hideble {display: none}
 #form_edit textarea.short {height:70px; width: 400px;}
+.admin-data-table .news {width : 300px;}
+.admin-data-table .users {width : 300px;}
 #header p {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	margin: 0px 0px 0px 5px;
@@ -338,7 +340,7 @@ textarea {
 
 
 
-.button_delete img { width:11px; height:11px; margin-bottom:-2px; margin-left:50px}
+.button_delete img { width:11px; height:11px; margin-bottom:-2px; /*margin-left:50px*/}
 .city_short_view {width:230px; display: inline-block}
 .district_short_view {width:230px; display: inline-block}
 .hotel_short_view {width:230px; display: inline-block}

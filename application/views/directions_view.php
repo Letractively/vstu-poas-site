@@ -2,11 +2,11 @@
 
 <?php 
 foreach ($directions as $direction)
-{
+{    
 	echo '<div class="direction">';
 	echo heading(anchor('/directions/'.$direction->id, $direction->name), 3);
 	echo '</div>';
-	echo br();
+    echo br();	
 }
 ?>
 
