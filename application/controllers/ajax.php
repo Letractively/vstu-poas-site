@@ -22,7 +22,7 @@ class Ajax extends CI_Controller {
 	function login()
 	{
 		$this->load->model(MODEL_USER);
-		$user_group = $this->user_model->validate_from_post();
+		$user_group = $this->{MODEL_USER}->validate_from_post();
 		if($user_group)
 		{
 			echo json_encode(1);
