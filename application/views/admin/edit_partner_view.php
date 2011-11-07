@@ -85,7 +85,7 @@ echo form_label_adv('Имя партнера (английское)',
                     'inline-block', 
                     $errors->nameenforgotten, 
                     ' not-null forgotten');
-echo form_input('partner_name_en', $partner->name_en, 'maxlength="150" style = width:400px');
+echo form_input('partner_name_en', $partner->name_en, 'maxlength="300" style = width:400px');
 echo br(2);
 
 // Ввод краткого английского описания партнера
