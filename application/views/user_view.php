@@ -52,11 +52,15 @@ switch($page)
     case 'publications':
         if ($info)
         {
+            echo '<ol class="publications">';
             foreach($info as $publication)
             {
+                echo '<li>';
                 $data['publication'] = $publication;
                 $this->load->view('publication_view', $data);
+                echo '</li>'.br();
             }
+            echo '</ol>';
         }
         break;
 	case 'projects':

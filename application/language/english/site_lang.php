@@ -29,3 +29,4 @@ $lang['author'] = 'Author';
 $lang['authors'] = 'Authors';
 $lang['extra'] = 'Extra';
 $lang['info'] = 'Information';
+$lang['year'] = 'Year';
