@@ -47,13 +47,18 @@ class Project_model extends Super_model
     {
         $project = $this->_get_record($id, TABLE_PROJECTS);
         $project->members = $this->get_members($id);
-        $project->users = $this->db
-                                    ->select('id,name,surname,patronymic')
-                                    ->from(TABLE_USERS)
-                                    ->order_by('surname')
-                                    ->get()
-                                    ->result();
         return $project;
+    }
+    
+    function get_view_extra() {
+        $extra = null;
+        $extra->users = $this->db
+                                ->select('id,name,surname,patronymic')
+                                ->from(TABLE_USERS)
+                                ->order_by('surname,name,patronymic')
+                                ->get()
+                                ->result();
+        return $extra;
     }
     
     /**
@@ -68,7 +73,8 @@ class Project_model extends Super_model
             'description_ru' => 'project_description_ru',
             'description_en' => 'project_description_en',
             'url' => 'project_url',
-            'image' => 'project_image'
+            'image' => 'project_image',
+            'members' => 'project_members'
         );
         $nulled_fields = array(            
             'name_en' => '',
@@ -100,9 +106,10 @@ class Project_model extends Super_model
     {
         $project = $this->get_from_post();
         unset($project->image);
-        $record = $this->_add(TABLE_PROJECTS, $project);
-        $this->update_project_members($record->id, $this->input->post('project_members'));
-        return $record;
+        unset($project->members);
+        $id = $this->_add(TABLE_PROJECTS, $project);
+        $this->update_project_members($id, $this->input->post('project_members'));
+        return $id;
     }
     
     /**
@@ -112,6 +119,7 @@ class Project_model extends Super_model
     function edit_from_post() {
         $project = $this->get_from_post();
         unset($project->image);
+        unset($project->members);
         $this->update_project_members($project->id, $this->input->post('project_members'));
         return $this->_edit(TABLE_PROJECTS, $project);
     }
