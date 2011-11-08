@@ -110,4 +110,9 @@ class Partner_model extends Super_model{
         );
         return $this->_get_errors($rus, $eng);
 	}
+    
+    function exists($id)
+    {
+        return $this->_record_exists(TABLE_PARTNERS, $id);
+    }
 }

@@ -12,6 +12,7 @@ abstract class Super_model extends CI_Model{
     abstract function add_from_post();
     abstract function edit_from_post();
     abstract function delete($id);
+    abstract function exists($id);
     function get_view_extra() {return null;}
     function get_errors() {return null;}
     /**
@@ -232,6 +233,14 @@ abstract class Super_model extends CI_Model{
 		return $errors;
     }
     
+    /**
+     * Обновить таблицу участников
+     * 
+     * @param type $table таблица участников
+     * @param type $field поле, содержащее идентификатор записи
+     * @param type $id идентификатор записи
+     * @param type $members массив участников
+     */
     protected final function _update_connected_users($table, $field, $id, $members)
     {
         // Если никого вообще нет - удалить по id проекта
@@ -278,6 +287,19 @@ abstract class Super_model extends CI_Model{
             }
     }
     
+    /**
+     * Проверяет, существует ли в таблице запись с указанным атрибутом
+     * @param type $table таблица
+     * @param type $value значение
+     * @param type $field поле, по умолчанию id
+     * @return type количество вхождений или FALSE
+     */
+    protected final function _record_exists($table, $value, $field = 'id')
+    {
+        $this->db->from($table)->where($field, $value);
+        $count = $this->db->count_all_results();
+        return  $count > 0 ? $count : FALSE;
+    }
 }
 
 ?>

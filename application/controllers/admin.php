@@ -157,6 +157,8 @@ class Admin extends CI_Controller {
     {
         $data = NULL;
 		$this->load->model(MODEL_COURSES);
+        $this->lang->load('site', 'russian');
+        
         switch($this->uri->segment(3)) {
             case 'add':
                 $this->{MODEL_COURSES}->add_from_post();
@@ -170,10 +172,16 @@ class Admin extends CI_Controller {
                 }
                 else
                 {
+                    // проверить, а есть ли запись
+                    if (!$this->{MODEL_COURSES}->exists($this->uri->segment(4)))
+                    {
+                        $this->_view_page_list('courses', MODEL_COURSES, 'Запись не существует');
+                        return;
+                    }
                     $data['course'] = $this->{MODEL_COURSES}->get_course($this->uri->segment(4));
                     $data['extra'] = $this->{MODEL_COURSES}->get_view_extra();
                     $data['content'] = $this->load->view('/admin/edit_course_view', $data, TRUE);
-                    $data['title'] = 'Изменение ' . 'course';
+                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('course_a');
                     $this->load->view('/templates/admin_view', $data);
                 }
                 break;
@@ -186,10 +194,12 @@ class Admin extends CI_Controller {
         }
         
     }
+    
     function _page($name, $singlename, $model)
 	{
 		$data = NULL;
 		$this->load->model($model);
+        $this->lang->load('site', 'russian');
 		
 		switch($this->uri->segment(3)) {
 			case 'add':
@@ -202,7 +212,8 @@ class Admin extends CI_Controller {
                         $data[$singlename] = $this->$model->get_from_post();
                         $data['extra'] = $this->$model->get_view_extra();
                         $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-                        $data['title'] = 'Создание нового ' . $singlename;
+                        //$data['title'] = 'Создание нового ' . $singlename;
+                        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line($singlename.'_a');
                         $this->load->view('/templates/admin_view', $data);
                     }
                     else
@@ -216,7 +227,8 @@ class Admin extends CI_Controller {
 					// по адресу "/admin/$name/add": добавление нового 
                     $data['extra'] = $this->$model->get_view_extra();
 					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-					$data['title'] = 'Создание нового ' . $singlename;
+					//$data['title'] = 'Создание нового ' . $singlename;
+                    $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line($singlename.'_a');
 					$this->load->view('/templates/admin_view', $data);
 				}
 				break;
@@ -230,7 +242,8 @@ class Admin extends CI_Controller {
                         $data[$singlename] = $this->$model->get_from_post();
                         $data['extra'] = $this->$model->get_view_extra();
                         $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-                        $data['title'] = 'Изменение ' . $singlename;
+                        //$data['title'] = 'Изменение ' . $singlename;
+                        $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line($singlename.'_a');
                         $this->load->view('/templates/admin_view', $data);
                     }
                     else
@@ -243,12 +256,20 @@ class Admin extends CI_Controller {
 				{
 					// по адресу "/admin/$name/edit/{id}": редактирование 
 					$id = $this->uri->segment(4);
+                    // проверить, а есть ли запись
+                    if (!$this->$model->exists($id))
+                    {
+                        $this->_view_page_list($name, $model, 'Запись не существует');
+                        return;
+                    }
+                        
 					$data = array();
                     $methodname = 'get_' . $singlename;
 					$data[$singlename] = $this->$model->$methodname($id);
                     $data['extra'] = $this->$model->get_view_extra();
 					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-					$data['title'] = 'Изменение ' . $singlename;
+					//$data['title'] = 'Изменение ' . $singlename;
+                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line($singlename.'_a');
 					$this->load->view('/templates/admin_view', $data);
 				}
 				break;
@@ -271,7 +292,7 @@ class Admin extends CI_Controller {
     {
         $data[$name] = $this->$model->get_short();
 		$data['content'] = $this->load->view('admin/' . $name . '_view', $data, TRUE);
-		$data['title'] = $name;
+		$data['title'] = $this->lang->line($name);
 		if($message != null)
 		{
 			$data['message'] = $message;
