@@ -157,7 +157,19 @@ class Admin extends CI_Controller {
     {
         $data = NULL;
 		$this->load->model(MODEL_COURSES);
-        $this->_view_page_list('courses',MODEL_COURSES);
+        switch($this->uri->segment(3)) {
+            case 'add':
+                $this->{MODEL_COURSES}->add_from_post();
+                $this->_view_page_list('courses', MODEL_COURSES, $this->{MODEL_COURSES}->message);
+                break;
+            case 'delete':
+                $this->{MODEL_COURSES}->delete($this->uri->segment(4));
+                $this->_view_page_list('courses', MODEL_COURSES, $this->{MODEL_COURSES}->message);
+                break;
+            default:
+                $this->_view_page_list('courses',MODEL_COURSES);
+        }
+        
     }
     function _page($name, $singlename, $model)
 	{
