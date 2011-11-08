@@ -14,10 +14,17 @@ class Publication_model extends Super_model
      */
     function get_short($id = null)
     {
-        return $this->_get_short(TABLE_PUBLICATIONS, 
+        $result = $this->_get_short(TABLE_PUBLICATIONS, 
                                  'year', 
                                  'name_' . lang() . ', name_ru, id',
                                  $id);
+        if (is_array($result)) {
+            foreach($result as $record){
+                $this->db->from(TABLE_PUBLICATION_AUTHORS)->where('publicationid', $record->id);
+                $record->authorscount = $this->db->count_all_results();
+            }
+        }
+        return $result; 
     }
     
     /**

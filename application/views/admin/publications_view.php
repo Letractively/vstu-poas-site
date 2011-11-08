@@ -2,6 +2,8 @@
 echo anchor('/admin/publications/add', 'Добавить публикацию');
 echo br(2);
 $data['rows'] = array();
+$data['classes'] = array('publication', 'count', 'delete');
+$data['headers'] = array('Публикация', 'Авторов', '');
 foreach($publications as $publication)
 {
     $tablerow = array();
@@ -11,6 +13,7 @@ foreach($publications as $publication)
 					'title' => 'Удалить публикацию ' . $publication->name)
 	);
     $tablerow[] = anchor('admin/publications/edit/' . $publication->id,$publication->name);
+    $tablerow[] = $publication->authorscount;
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;
 }
