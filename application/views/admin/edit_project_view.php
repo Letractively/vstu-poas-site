@@ -27,7 +27,7 @@ if (!isset($errors->descriptionruforgotten))    {$errors->descriptionruforgotten
 if (!isset($errors->nameenforgotten))           {$errors->nameenforgotten = false;};
 if (!isset($errors->descriptionenforgotten))    {$errors->descriptionenforgotten = false;};
 
-echo form_open('admin/projects/'.$action.'/action');
+echo form_open_multipart('admin/projects/'.$action.'/action');
 
 echo form_label_adv('Название проекта (русское)*', 
                     'project_name_ru', 
@@ -96,9 +96,6 @@ echo form_textarea('project_description_en', $project->description_en, 'class="s
 echo br(2);
 
 echo '</div>';
-
-
-
 
 if( isset($project->id) )
 {
