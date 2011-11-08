@@ -16,6 +16,13 @@ if (!isset($direction->name_en)) 			{	$direction->name_en = ''; };
 if (!isset($direction->description_ru)) 	{	$direction->description_ru = ''; };
 if (!isset($direction->description_en)) 	{	$direction->description_en = ''; };
 
+// В этом массиве существующая запись получает своих участников
+if (!isset($direction->members))            {   $direction->members = array();};
+
+// В этих массивах еще не существующая запись получает своих участников
+if (!isset($direction->heads))              {   $direction->heads = array();};
+if (!isset($direction->not_heads))          {   $direction->not_heads = array();};
+
 if (!isset($errors->nameruforgotten))       {   $errors->nameruforgotten = false;};
 if (!isset($errors->nameenforgotten))       {   $errors->nameenforgotten = false;};
 
@@ -35,18 +42,42 @@ echo form_label('Описание направления (русское)', 'dir
 echo form_textarea('direction_description_ru', $direction->description_ru, 'class="short"');
 echo br(2);
 
-$data['label'] = 'Заинтересованы в направлении';
-$data['id'] = 'direction_members';
-$data['users'] = array();
-foreach($direction->users as $user)
+// Получить массив пользователей
+foreach($extra->users as $user)
 {
     $data['users'][$user->id] = $user->surname.' '.$user->name.' '.$user->patronymic;
 }
-$data['select'] = array();
-foreach($direction->members as $member)
+
+// Заполнить массивы выбранных участников
+
+$heads = array();
+$others = array();
+
+if(is_array($direction->heads))
+        $heads = $direction->heads;
+if(is_array($direction->not_heads))
+        $others = $direction->not_heads;
+if(is_array($direction->members ))
 {
-    $data['select'][] = $member->id;
+    foreach($direction->members as $member)
+    {
+        if ($member->ishead)
+            $heads[] = $member->id;
+        else
+            $others[] = $member->id;
+    }
 }
+// Вывести список руководителей
+$data['label'] = 'Руководители направления';
+$data['id'] = 'direction_heads';
+$data['select'] = $heads;
+$this->load->view('admin/users_list_view', $data);
+echo br(2);
+
+// Вывести список участников
+$data['label'] = 'Заинтересованы в направлении';
+$data['id'] = 'direction_members';
+$data['select'] = $others;
 $this->load->view('admin/users_list_view', $data);
 echo br(2);
 
