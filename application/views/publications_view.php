@@ -7,15 +7,20 @@ foreach ($years as $year)
     echo ' ';
 }
 echo br(2);
-echo '<ol type="1">';
-foreach ($publications as $publication)
+
+if(isset($publications))
 {
-    echo '<li>';
-    $data['publication'] = $publication;
-    $this->load->view('publication_view', $data);
-	echo '</li>' . br();
-    
+    echo '<ol type="1">';
+
+    foreach ($publications as $publication)
+    {
+        echo '<li>';
+        $data['publication'] = $publication;
+        $this->load->view('publication_view', $data);
+        echo '</li>' . br();
+
+    }
+    echo '</ol>';
 }
-echo '</ol>';
 /* End of file publications_view.php */
 /* Location: ./application/views/publications_view.php */

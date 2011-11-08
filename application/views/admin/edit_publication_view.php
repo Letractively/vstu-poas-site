@@ -10,16 +10,16 @@ else
 	$action = 'edit';
 	$button_title = 'Внести изменения в публикацию';
 }
-if (!isset($publication->name_ru)) 			{$publication->name_ru = '';};
-if (!isset($publication->name_en)) 			{$publication->name_en = '';};
-if (!isset($publication->fulltext_ru))      {$publication->fulltext_ru = '';};
-if (!isset($publication->fulltext_en))      {$publication->fulltext_en = '';};
-if (!isset($publication->abstract_ru))      {$publication->abstract_ru = '';};
-if (!isset($publication->abstract_en))      {$publication->abstract_en = '';};
-if (!isset($publication->info_ru))          {$publication->info_ru = '';};
-if (!isset($publication->info_en))          {$publication->info_en = '';};
-if (!isset($publication->year)) 			{$publication->year = '';};
-
+if (!isset($publication->name_ru)) 			{$publication->name_ru = '';}
+if (!isset($publication->name_en)) 			{$publication->name_en = '';}
+if (!isset($publication->fulltext_ru))      {$publication->fulltext_ru = '';}
+if (!isset($publication->fulltext_en))      {$publication->fulltext_en = '';}
+if (!isset($publication->abstract_ru))      {$publication->abstract_ru = '';}
+if (!isset($publication->abstract_en))      {$publication->abstract_en = '';}
+if (!isset($publication->info_ru))          {$publication->info_ru = '';}
+if (!isset($publication->info_en))          {$publication->info_en = '';}
+if (!isset($publication->year)) 			{$publication->year = '';}
+if (!isset($publication->authors))          {$publication->authors = array();}
 if (!isset($errors->nameforgotten))         {$errors->nameforgotten = false;}
 if (!isset($errors->yearforgotten))         {$errors->yearforgotten = false;}
 
@@ -47,6 +47,24 @@ echo br(2);
 
 echo form_label('Дополнительная информация (на русском)', 'publication_info_ru', array('class'=>'inline-block'));
 echo form_textarea('publication_info_ru', $publication->info_ru, 'class="short"');
+echo br(2);
+
+$data['label'] = 'Авторы публикации';
+$data['id'] = 'publication_authors';
+$data['users'] = array();
+foreach($extra->users as $user)
+{
+    $data['users'][$user->id] = $user->surname.' '.$user->name.' '.$user->patronymic;
+}
+$data['select'] = array();
+foreach($publication->authors as $author)
+{
+    if(isset($author->id))
+        $data['select'][] = $author->id;
+    else
+        $data['select'][] = $author;
+}
+$this->load->view('admin/users_list_view', $data);
 echo br(2);
 
 echo '<a href="#" id="showhide_en">Английская версия</a>';

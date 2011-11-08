@@ -45,7 +45,20 @@ class Publication_model extends Super_model
      */
     function get_publication($id)
     {
-        return $this->_get_record($id, TABLE_PUBLICATIONS);
+        $publication = $this->_get_record($id, TABLE_PUBLICATIONS);
+        $publication->authors=$this->get_authors($id);
+        return $publication;
+    }
+    
+    function get_view_extra() {
+        $extra = null;
+        $extra->users = $this->db
+                                ->select('id,name,surname,patronymic')
+                                ->from(TABLE_USERS)
+                                ->order_by('surname,name,patronymic')
+                                ->get()
+                                ->result();
+        return $extra;
     }
     
     /**
@@ -63,7 +76,8 @@ class Publication_model extends Super_model
             'abstract_en' => 'publication_abstract_en',
             'year'        => 'publication_year',
             'info_ru'     => 'publication_info_ru',
-            'info_en'     => 'publication_info_en'
+            'info_en'     => 'publication_info_en',
+            'authors'      => 'publication_authors'
         );
         $nulled_fields = array(            
             'name_ru'     => 'publication_name_ru',
@@ -79,12 +93,32 @@ class Publication_model extends Super_model
     }
     
     /**
+     * Обновить список авторов публикации
+     * 
+     * @param type $id идентификатор публикации
+     * @param $members массив идентификаторов авторов
+     */
+    function update_publication_authors($id, $members)
+    {
+        $this->_update_connected_users(TABLE_PUBLICATION_AUTHORS, 
+                'publicationid', 
+                $id, 
+                $members);
+    }
+    
+    /**
      * Добавить публикацию, получаемую через POST-запрос
      * @return int id - идентификатор добавленной записи | FALSE
      */
     function add_from_post()
-    {        
-        return $this->_add(TABLE_PUBLICATIONS, $this->get_from_post());
+    {   $publication = $this->get_from_post();
+        unset($publication->authors);
+        
+        if ($id = $this->_add(TABLE_PUBLICATIONS, $publication))
+        {
+            $this->update_publication_authors($id, $this->input->post('publication_authors'));
+        }
+        return $id;
     }
     
     /**
@@ -92,7 +126,11 @@ class Publication_model extends Super_model
 	 * @return объект, содержащий собранную информацию о публикации
 	 */
     function edit_from_post() {
-        return $this->_edit(TABLE_PUBLICATIONS, $this->get_from_post());
+        $publication = $this->get_from_post();
+        unset($publication->authors);
+        $result = $this->_edit(TABLE_PUBLICATIONS, $publication);
+        $this->update_publication_authors($publication->id, $this->input->post('publication_authors'));
+        return $result;
     }
     
     /**
@@ -119,7 +157,7 @@ class Publication_model extends Super_model
 	function get_authors($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, first_name, last_name')
+				->select(TABLE_USERS . '.id, name, surname')
 				->from(TABLE_PUBLICATION_AUTHORS)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PUBLICATION_AUTHORS . '.userid')
 				->where('publicationid = ' . $id);
