@@ -15,6 +15,7 @@ if(isset($publications))
     foreach ($publications as $publication)
     {
         echo '<li>';
+        unset($publication->year);      // И так понятно какой год
         $data['publication'] = $publication;
         $this->load->view('publication_view', $data);
         echo '</li>' . br();

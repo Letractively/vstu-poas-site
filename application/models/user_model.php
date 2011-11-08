@@ -114,6 +114,7 @@ class User_model extends Super_model {
                 $publications = $this->get_user_publications($id);
                 if ($publications)
 				{
+                    $this->load->model(MODEL_PUBLICATION);
 					// выбрать имя для отображения на сайте в зависимости от языка
 					$namefield = 'name_'.lang();
 					foreach ($publications as $publication)
@@ -130,6 +131,7 @@ class User_model extends Super_model {
 						// ни к чему передавать лишние данные
 						unset($publication->name_ru);
 						unset($publication->name_en);
+                        $publication->authors = $this->{MODEL_PUBLICATION}->get_authors($publication->publicationid);
 					}
 				}
                 $data = $publications;

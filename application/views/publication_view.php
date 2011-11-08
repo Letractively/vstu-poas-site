@@ -8,8 +8,9 @@ $has_author = isset($publication->authors)
         && is_array($publication->authors)
         && count($publication->authors) > 0;
 $has_info = isset($publication->info);
+$has_year = isset($publication->year);
 
-if(!$has_abstract && !$has_fulltext && !$has_author && !$has_info)
+if(!$has_abstract && !$has_fulltext && !$has_author && !$has_info && !$has_year)
     return;
 echo '<a href="#" class="toggleextra">' . $this->lang->line('extra') . '</a>';
 echo '<div class="extra" >';
@@ -70,4 +71,8 @@ if ($has_author)
 // Вывод дополнительной информации
 if ($has_info)
         echo $this->lang->line('info').':<br>'.$publication->info;
+
+// Вывод года и ссылки на все публикации этого года
+if ($has_year)
+        echo $this->lang->line('year'). ' : '.anchor('/publications/'.$publication->year, $publication->year);
 echo '</div>';
