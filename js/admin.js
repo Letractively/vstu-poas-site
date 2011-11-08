@@ -13,7 +13,7 @@ jQuery(document).ready(function($)
         $('.hideble').slideToggle(250);
         return false;
     })
-
+    
 	/** Объект класса js_obj_hidden изменяет свою 
 	 * видимость на странице (с невидим на виден при "включении" чекбокса и наоборот);
 	 * Связанный чекбокс должен имепть класс js_checkbox_hidden */ 

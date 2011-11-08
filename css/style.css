@@ -31,6 +31,7 @@ var{
 ol, ul {
 	list-style: none;
 }
+ol.publications { list-style: decimal; padding-left: 40px}
 blockquote, q {
 	quotes: none;
 }
@@ -62,3 +63,5 @@ body {
 }
 
 .body_table td {padding:7px}
+
+.extra {display: none;}
