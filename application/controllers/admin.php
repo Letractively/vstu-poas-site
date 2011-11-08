@@ -173,6 +173,7 @@ class Admin extends CI_Controller {
                     {
                         $data['errors'] = $errors;
                         $data[$singlename] = $this->$model->get_from_post();
+                        $data['extra'] = $this->$model->get_view_extra();
                         $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
                         $data['title'] = 'Создание нового ' . $singlename;
                         $this->load->view('/templates/admin_view', $data);
@@ -186,6 +187,7 @@ class Admin extends CI_Controller {
 				else
 				{
 					// по адресу "/admin/$name/add": добавление нового 
+                    $data['extra'] = $this->$model->get_view_extra();
 					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
 					$data['title'] = 'Создание нового ' . $singlename;
 					$this->load->view('/templates/admin_view', $data);
@@ -199,6 +201,7 @@ class Admin extends CI_Controller {
                     {
                         $data['errors'] = $errors;
                         $data[$singlename] = $this->$model->get_from_post();
+                        $data['extra'] = $this->$model->get_view_extra();
                         $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
                         $data['title'] = 'Изменение ' . $singlename;
                         $this->load->view('/templates/admin_view', $data);
@@ -216,6 +219,7 @@ class Admin extends CI_Controller {
 					$data = array();
                     $methodname = 'get_' . $singlename;
 					$data[$singlename] = $this->$model->$methodname($id);
+                    $data['extra'] = $this->$model->get_view_extra();
 					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
 					$data['title'] = 'Изменение ' . $singlename;
 					$this->load->view('/templates/admin_view', $data);

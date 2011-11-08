@@ -12,6 +12,7 @@ abstract class Super_model extends CI_Model{
     abstract function add_from_post();
     abstract function edit_from_post();
     abstract function delete($id);
+    function get_view_extra() {return null;}
     function get_errors() {return null;}
     /**
 	 * Получить основную информацию о всех записях
