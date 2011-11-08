@@ -14,19 +14,25 @@ function add_form(){
 }
 echo add_form();
 $data['rows'] = array();
-$data['classes'] = array('course','year','count','delete');
-$data['headers'] = array('Курс','Год','Количество студентов','');
+$data['classes'] = array('course','year','count','edit','delete');
+$data['headers'] = array('Курс','Год','Количество студентов','','');
 foreach($courses as $course)
 {
     $tablerow = array();
     $button_delete = anchor('/admin/courses/delete/' . $course->id,
 	img( '/images/admin/buttons/delete.png'),
 		array(	'class' => 'button_delete',
-				'title' => 'Удалить курс ')
+				'title' => 'Удалить курс')
+	);
+    $button_users = anchor('/admin/courses/edit/' . $course->id,
+	img( '/images/admin/buttons/users.png'),
+		array(	'class' => 'button_users',
+				'title' => 'Редактировать состав курса')
 	);
     $tablerow[] = $course->course;
     $tablerow[] = $course->year;
     $tablerow[] = $course->studentscount;
+    $tablerow[] = $button_users;
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;
 }
