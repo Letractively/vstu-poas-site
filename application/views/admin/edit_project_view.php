@@ -1,6 +1,5 @@
 <div id="form_edit">
 <?php
-
 if( !isset($project->id) )
 {
 	$action = 'add';
@@ -17,7 +16,7 @@ if (!isset($project->description_ru)) 	{$project->description_ru = '';};
 if (!isset($project->description_en)) 	{$project->description_en = '';};
 if (!isset($project->url)) 				{$project->url = '';};
 if (!isset($project->image)) 			{$project->image = '';};
-
+if (!isset($project->members))          {$project->members = array();};
 // Заполнено ли хотя бы одно поле английской версии
 $en_version_started =   $project->name_en !== '' ||
                         $project->description_en !== '';
@@ -57,14 +56,17 @@ echo br(2);
 $data['label'] = 'Участники проекта';
 $data['id'] = 'project_members';
 $data['users'] = array();
-foreach($project->users as $user)
+foreach($extra->users as $user)
 {
     $data['users'][$user->id] = $user->surname.' '.$user->name.' '.$user->patronymic;
 }
 $data['select'] = array();
 foreach($project->members as $member)
 {
-    $data['select'][] = $member->id;
+    if(isset($member->id))
+        $data['select'][] = $member->id;
+    else
+        $data['select'][] = $member;
 }
 $this->load->view('admin/users_list_view', $data);
 echo br(2);
