@@ -11,6 +11,9 @@
 </head> 
 <body leftmargin="0" topmargin="0" alink="red" link="#0051a4" vlink="#0051a4"> 
 <!-- Основная таблица -->
+<div id="admin-panel" style="height:25px; text-align: center; background-color: #BBBBBB">
+    <a href="/admin">Управление</a>
+</div>
 <table height="100%" border="1" align="center" width="65%" style="margin:0 auto;" class="body_table">
 <tr>
 <td colspan="2" bgcolor="#add2ea" background="/images/img/header.jpg" height="79">
