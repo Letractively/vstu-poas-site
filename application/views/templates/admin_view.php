@@ -46,7 +46,7 @@
 			<li><a href="/admin/directions">Направления</a></li>
             <li><a href="/admin/publications">Публикации</a></li>
             <li><a href="/admin/partners">Партнеры</a></li>
-			<li><a href="/user/logout">Выйти</a></li>
+			<li><a href="/admin/logout">Выйти</a></li>
 		</ul>	
 		</div>
 
