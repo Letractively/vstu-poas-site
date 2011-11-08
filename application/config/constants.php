@@ -49,7 +49,8 @@ define('TABLE_DIRECTIONS','directions');
 define('TABLE_DIRECTION_MEMBERS','direction_members');
 define('TABLE_PUBLICATIONS', 'publications');
 define('TABLE_PUBLICATION_AUTHORS', 'publication_authors');
-define('TABLE_USER_COUSRES', 'user_courses');
+define('TABLE_USER_COURSES', 'user_courses');
+define('TABLE_COURSES', 'courses');
 define('TABLE_PARTNERS', 'partners');
 
 
