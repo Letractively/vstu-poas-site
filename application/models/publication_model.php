@@ -211,5 +211,10 @@ class Publication_model extends Super_model
             $errors->yearforgotten = true;
         return $errors;
     }
+    
+    function exists($id)
+    {
+        return $this->_record_exists(TABLE_PUBLICATIONS, $id);
+    }
 }
 ?>

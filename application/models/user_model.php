@@ -406,4 +406,9 @@ class User_model extends Super_model {
         $nulled_fields = array();
         return $this->_get_from_post('user', $fields, $nulled_fields);
     }
+    
+    function exists($id)
+    {
+        return $this->_record_exists(TABLE_USERS, $id);
+    }
 }

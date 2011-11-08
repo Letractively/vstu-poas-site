@@ -247,5 +247,10 @@ class Direction_model extends Super_model
         
         return $errors;
     }
+    
+    function exists($id)
+    {
+        return $this->_record_exists(TABLE_DIRECTIONS, $id);
+    }
 }
 ?>

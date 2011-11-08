@@ -133,6 +133,11 @@ class Course_model extends Super_model{
         $extra->users = $this->{MODEL_USER}->get_short();
         return $extra;
     }
+    
+    function exists($id)
+    {
+        return $this->_record_exists(TABLE_COURSES, $id);
+    }
 
 }
 
