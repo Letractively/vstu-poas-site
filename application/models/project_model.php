@@ -33,8 +33,8 @@ class Project_model extends Super_model
      * @return проект
      */
     function get_detailed($id) {
-        $select1 = 'description_' . lang() . ' as description, url';
-        $select2 = 'description_ru as description, url';
+        $select1 = 'description_' . lang() . ' as description, url, image';
+        $select2 = 'description_ru as description, url, image';
         return $this->_get_detailed($id, TABLE_PROJECTS, $select1, $select2);
     }
     
@@ -108,10 +108,39 @@ class Project_model extends Super_model
         unset($project->image);
         unset($project->members);
         if ($id = $this->_add(TABLE_PROJECTS, $project))
+        {
             $this->update_project_members($id, $this->input->post('project_members'));
+            $this->upload_file($id);
+        }
         return $id;
     }
     
+    function upload_file($id) {
+        $config['upload_path'] = './uploads/projects/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']	= '1000';
+		$config['max_width']  = '1024';
+		$config['max_height']  = '768';
+		
+		$this->load->library('upload', $config);
+	
+		if ( ! $this->upload->do_upload('project_image'))
+		{
+			$error = array('error' => $this->upload->display_errors());
+			//@todo
+            $this->message .= '. При загрузке файла произошла ошибка';
+		}	
+		else
+		{
+			$upload_data = $this->upload->data();
+            
+            $this->db->where('id', $id);
+            $segments = explode('/',$upload_data['full_path']);
+            $segments = array_reverse($segments);
+            $record->image = $segments[2].'/'.$segments[1].'/'.$segments[0];
+            $response = $this->db->update(TABLE_PROJECTS, $record);
+		}
+    }
     /**
 	 * Получить информацию о проекте из данных, полученных методом POST
 	 * @return объект, содержащий собранную информацию о проекте
@@ -121,6 +150,7 @@ class Project_model extends Super_model
         unset($project->image);
         unset($project->members);
         $this->update_project_members($project->id, $this->input->post('project_members'));
+        $this->upload_file($project->id);
         return $this->_edit(TABLE_PROJECTS, $project);
     }
     
