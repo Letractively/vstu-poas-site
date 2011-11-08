@@ -1,5 +1,11 @@
 jQuery(document).ready( function($)
 {
+    // Переключение видимости дополнительной информации о публикации
+    $('.toggleextra').click(function() {
+        $(this).parent('li').children('.extra').slideToggle(250);
+        return false;
+    })
+    
 	// Попытка залогинится через форму авторизации (form_login_view.php)
 	$("#login_send_button").click( function()
 	{
@@ -9,7 +15,7 @@ jQuery(document).ready( function($)
 		$('#login_send_button').after('<img id="image_load_login_send" src="/images/load/round.gif" />');
 		
 		$.ajax({
-			data: { form_login_username: $('[name="login_username"]').val(),
+			data: {form_login_username: $('[name="login_username"]').val(),
 					form_login_password: $().crypt({method:"md5",source:$('[name="login_password"]').val()})
 		 	},
 			dataType: "JSON",

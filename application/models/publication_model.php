@@ -72,7 +72,7 @@ class Publication_model extends Super_model
             'name_en'     => 'publication_name_en',
             'fulltext_ru' => 'publication_fulltext_ru',
             'fulltext_en' => 'publication_fulltext_en',
-            'abstract_ru' => 'publication_abstract_en',
+            'abstract_ru' => 'publication_abstract_ru',
             'abstract_en' => 'publication_abstract_en',
             'year'        => 'publication_year',
             'info_ru'     => 'publication_info_ru',
@@ -157,7 +157,7 @@ class Publication_model extends Super_model
 	function get_authors($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, name, surname')
+				->select(TABLE_USERS . '.id, name, surname, patronymic')
 				->from(TABLE_PUBLICATION_AUTHORS)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PUBLICATION_AUTHORS . '.userid')
 				->where('publicationid = ' . $id);
@@ -187,14 +187,20 @@ class Publication_model extends Super_model
     }
     function get_by_year($year)
     {
-        return $this->db
-					->select('id, name_'.lang().' as name, fulltext_ru, fulltext_en, abstract_ru, abstract_en, info_ru, info_en')
+        $result = $this->db
+					->select('id, name_'.lang().' as name, fulltext_ru, fulltext_en, abstract_ru, abstract_en, info_'.lang().' as info')
                     ->from(TABLE_PUBLICATIONS)
 					->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""'.
                             ' AND year = ' . $year)
 					->order_by('id DESC')
                     ->get()
 					->result();
+        foreach($result as $record)
+        {
+            $record->authors = $this->get_authors($record->id);
+            $record->year = $year;
+        }
+        return $result;
     }
     
     function get_errors() {

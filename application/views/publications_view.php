@@ -10,7 +10,7 @@ echo br(2);
 
 if(isset($publications))
 {
-    echo '<ol type="1">';
+    echo '<ol class="publications">';
 
     foreach ($publications as $publication)
     {
