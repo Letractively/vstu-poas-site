@@ -107,8 +107,8 @@ class Project_model extends Super_model
         $project = $this->get_from_post();
         unset($project->image);
         unset($project->members);
-        $id = $this->_add(TABLE_PROJECTS, $project);
-        $this->update_project_members($id, $this->input->post('project_members'));
+        if ($id = $this->_add(TABLE_PROJECTS, $project))
+            $this->update_project_members($id, $this->input->post('project_members'));
         return $id;
     }
     

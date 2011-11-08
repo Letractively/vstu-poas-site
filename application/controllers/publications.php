@@ -22,10 +22,12 @@ class Publications extends CI_Controller {
         {
             $data['currentyear'] = $year;
         }
-        
-		$data['publications'] = $this->{MODEL_PUBLICATION}->get_by_year($data['currentyear']);
-		$data['content'] = $this->load->view('publications_view', $data, TRUE);
-		$this->load->view('templates/main_view', $data);
+        if ($data['currentyear'])
+        {
+            $data['publications'] = $this->{MODEL_PUBLICATION}->get_by_year($data['currentyear']);            
+        }
+        $data['content'] = $this->load->view('publications_view', $data, TRUE);
+        $this->load->view('templates/main_view', $data);
 	}
 	
 }
