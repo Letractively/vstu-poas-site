@@ -162,6 +162,21 @@ class Admin extends CI_Controller {
                 $this->{MODEL_COURSES}->add_from_post();
                 $this->_view_page_list('courses', MODEL_COURSES, $this->{MODEL_COURSES}->message);
                 break;
+            case 'edit':
+                if ($this->uri->segment(4) == 'action')
+                {
+                    $this->{MODEL_COURSES}->edit_from_post();
+                    $this->_view_page_list('courses', MODEL_COURSES, $this->{MODEL_COURSES}->message);
+                }
+                else
+                {
+                    $data['course'] = $this->{MODEL_COURSES}->get_course($this->uri->segment(4));
+                    $data['extra'] = $this->{MODEL_COURSES}->get_view_extra();
+                    $data['content'] = $this->load->view('/admin/edit_course_view', $data, TRUE);
+                    $data['title'] = 'Изменение ' . 'course';
+                    $this->load->view('/templates/admin_view', $data);
+                }
+                break;
             case 'delete':
                 $this->{MODEL_COURSES}->delete($this->uri->segment(4));
                 $this->_view_page_list('courses', MODEL_COURSES, $this->{MODEL_COURSES}->message);

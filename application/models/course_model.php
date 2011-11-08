@@ -13,8 +13,7 @@ class Course_model extends Super_model{
             foreach ($result as $record)
             {
                 $this->db
-                        ->from(TABLE_USERS)
-                        ->join(TABLE_USER_COURSES, TABLE_USERS.'.id = userid')
+                        ->from(TABLE_USER_COURSES)
                         ->where('courseid', $record->id);
                 $record->studentscount = $this->db->count_all_results();
             }
@@ -76,8 +75,65 @@ class Course_model extends Super_model{
                 return $this->_add(TABLE_COURSES, $course);
         }
     }
-    function edit_from_post() {}
-    function delete($id){}
+    
+    function edit_from_post() 
+    {
+        $course->id = $this->input->post('course_id');
+        $this->update_course_members($course->id, $this->input->post('course_members'));
+    }
+    
+    function update_course_members($id, $members)
+    {
+        $this->_update_connected_users(TABLE_USER_COURSES, 
+                'courseid', 
+                $id, 
+                $members);
+    }
+    
+    /**
+     * Удалить курс из базы данных
+     * Так же удаляет записи из таблицы "студенты курса"
+     * @param int $id идентификатор курса
+     * @return TRUE, если курс удален, иначе FALSE 
+     */
+    function delete($id)
+    {
+        $result = $this->_delete(TABLE_COURSES, $id);
+        $message = $this->message;
+        $cascade = $this->_delete(TABLE_USER_COURSES, $id, 'courseid');
+        $this->message = $message;
+        return $cascade && $result;
+    }
+    
+    function get_course($id) 
+    {
+        $course = $this->_get_record($id, TABLE_COURSES);
+        $course->members = $this->get_members($id);
+        
+        return $course;
+    }
+    
+    /**
+	 * Получить информацию обо всех студентах курса
+	 * @param int $id идентификатор курса
+	 * @return массив пользователей
+	 */
+	function get_members($id)
+	{
+		$this->db
+				->select(TABLE_USERS . '.id, name, surname, patronymic')
+				->from(TABLE_USER_COURSES)
+				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_USER_COURSES. '.userid')
+				->where('courseid = ' . $id);
+        return $this->db->get()->result();
+	}
+    
+    public function get_view_extra() {
+        $this->load->model(MODEL_USER);
+        $extra->users = $this->{MODEL_USER}->get_short();
+        return $extra;
+    }
+
 }
 
 ?>
