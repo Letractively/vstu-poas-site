@@ -61,13 +61,14 @@ foreach($extra->users as $user)
     $data['users'][$user->id] = $user->surname.' '.$user->name.' '.$user->patronymic;
 }
 $data['select'] = array();
-foreach($project->members as $member)
-{
-    if(isset($member->id))
-        $data['select'][] = $member->id;
-    else
-        $data['select'][] = $member;
-}
+if ($project->members)
+    foreach($project->members as $member)
+    {
+        if(isset($member->id))
+            $data['select'][] = $member->id;
+        else
+            $data['select'][] = $member;
+    }
 $this->load->view('admin/users_list_view', $data);
 echo br(2);
 
