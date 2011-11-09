@@ -105,8 +105,11 @@ class Project_model extends Super_model
      */
     function add_from_post()
     {
+        echo 'add';
         $project = $this->get_from_post();
         unset($project->members);
+        if ($this->input->post('project_image_action') == 'leave')
+            unset($project->image);
         if ($id = $this->_add(TABLE_PROJECTS, $project))
         {
             $this->update_project_members($id, $this->input->post('project_members'));
@@ -130,18 +133,14 @@ class Project_model extends Super_model
 		
 		$this->load->library('upload', $config);
 	
-        if (!isset($_POST['project_image']))
-        {
-            $_POST['image_action'] = 'leave';
-            return;
-        }
 		if ( ! $this->upload->do_upload('project_image'))
 		{
+            echo 'errors';
 			return $this->upload->display_errors('','');
 		}	
 		else
 		{
-            $_POST['image_action'] = 'add/update';
+            echo 'no errors';
             // Если ошибок не возникло - записать путь файла
             // в $_POST
 			$upload_data = $this->upload->data();
@@ -235,21 +234,25 @@ class Project_model extends Super_model
         );
         if (!$errors = $this->_get_errors($rus, $eng))
         {
-            $errors->imageuploaderror = $this->upload_file();
-            // Отсутствие файла ошибкой не является
-            if ($errors->imageuploaderror == $this->lang->line('upload_no_file_selected')) {
-                
-                echo $errors->imageuploaderror;
-                $errors = null;
-                $_POST['image_action'] = 'leave_me';
+            if ($this->input->post('project_image_action') == 'update')
+            {
+                // Попытка загрузить файл, если остальные данные в порядке и 
+                // пользователь выбрал радио-кнопку "обновить"
+                echo 'loading';
+                $errors->imageuploaderror = $this->upload_file();
+                print_r($errors->imageuploaderror);
+                if ($errors->imageuploaderror == '')
+                    $errors = null;
+                /*
+                // Отсутствие файла ошибкой не является
+                if ($errors->imageuploaderror == $this->lang->line('upload_no_file_selected')) {
+                    echo $errors->imageuploaderror;
+                    $errors = null;
+                    $_POST['project_image_action'] = 'leave';
+                }
+                 * 
+                 */
             }
-        }
-        else
-        {
-            // Если файл не загружали, то project_image не выставлен
-            // Использовать резервное значение в project_image_copy
-            $_POST['project_image'] = $_POST['project_image_copy'];
-            unset($_POST['image_action']);
         }
         return $errors;
     }
