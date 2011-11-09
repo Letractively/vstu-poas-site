@@ -80,7 +80,8 @@ class Project_model extends Super_model
             'name_en' => '',
             'description_en' => '',
             'url' => '',
-            'image' => 0
+            'image' =>''
+            
         );
         return $this->_get_from_post('project', $fields, $nulled_fields);
     }
@@ -105,17 +106,22 @@ class Project_model extends Super_model
     function add_from_post()
     {
         $project = $this->get_from_post();
-        unset($project->image);
         unset($project->members);
         if ($id = $this->_add(TABLE_PROJECTS, $project))
         {
             $this->update_project_members($id, $this->input->post('project_members'));
-            $this->upload_file($id);
         }
         return $id;
     }
     
-    function upload_file($id) {
+    /**
+     * Загрузить изображение проекта на сервер
+     * в случае успешного добавления путь файла 
+     * записывается в $_POST['project_image']
+     * 
+     * @return string ошибка загрузки файла
+     */
+    function upload_file() {
         $config['upload_path'] = './uploads/projects/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '1000';
@@ -124,22 +130,45 @@ class Project_model extends Super_model
 		
 		$this->load->library('upload', $config);
 	
+        if (!isset($_POST['project_image']))
+        {
+            $_POST['image_action'] = 'leave';
+            return;
+        }
 		if ( ! $this->upload->do_upload('project_image'))
 		{
-			$error = array('error' => $this->upload->display_errors());
-			//@todo
-            $this->message .= '. При загрузке файла произошла ошибка';
+			return $this->upload->display_errors('','');
 		}	
 		else
 		{
+            $_POST['image_action'] = 'add/update';
+            // Если ошибок не возникло - записать путь файла
+            // в $_POST
 			$upload_data = $this->upload->data();
             
-            $this->db->where('id', $id);
+            // Получаем корректный путь к файлу
             $segments = explode('/',$upload_data['full_path']);
             $segments = array_reverse($segments);
-            $record->image = $segments[2].'/'.$segments[1].'/'.$segments[0];
-            $response = $this->db->update(TABLE_PROJECTS, $record);
+            
+            $_POST['project_image'] = $segments[2].'/'.$segments[1].'/'.$segments[0];
 		}
+    }
+    
+    function delete_image($id, $image = null)
+    {
+        if ($image == null)
+        {
+            if($project = $this->get_detailed($id))
+            {
+                if($project->image)
+                    unlink($project->image);
+            }
+        }
+        else
+        {
+            unlink($image);
+        }
+        
     }
     /**
 	 * Получить информацию о проекте из данных, полученных методом POST
@@ -147,11 +176,16 @@ class Project_model extends Super_model
 	 */
     function edit_from_post() {
         $project = $this->get_from_post();
-        unset($project->image);
         unset($project->members);
         $this->update_project_members($project->id, $this->input->post('project_members'));
-        $this->upload_file($project->id);
-        return $this->_edit(TABLE_PROJECTS, $project);
+        
+        if ($_POST['image_action'] != 'leave')
+            $this->delete_image($project->id);
+        else
+            unset($project->image);
+        
+        $result = $this->_edit(TABLE_PROJECTS, $project);
+        return $result;
     }
     
     /**
@@ -162,6 +196,7 @@ class Project_model extends Super_model
      */
     function delete($id)
     {
+        $this->delete_image($id);
         $result = $this->_delete(TABLE_PROJECTS, $id);
         $message = $this->message;
         $cascade = $this->_delete(TABLE_PROJECT_MEMBERS, $id, 'projectid');
@@ -198,7 +233,25 @@ class Project_model extends Super_model
             'project_name_en' => 'nameenforgotten',
             'project_description_en' => 'descriptionenforgotten',
         );
-        return $this->_get_errors($rus, $eng);
+        if (!$errors = $this->_get_errors($rus, $eng))
+        {
+            $errors->imageuploaderror = $this->upload_file();
+            // Отсутствие файла ошибкой не является
+            if ($errors->imageuploaderror == $this->lang->line('upload_no_file_selected')) {
+                
+                echo $errors->imageuploaderror;
+                $errors = null;
+                $_POST['image_action'] = 'leave_me';
+            }
+        }
+        else
+        {
+            // Если файл не загружали, то project_image не выставлен
+            // Использовать резервное значение в project_image_copy
+            $_POST['project_image'] = $_POST['project_image_copy'];
+            unset($_POST['image_action']);
+        }
+        return $errors;
     }
     
     function exists($id)

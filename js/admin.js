@@ -1,6 +1,6 @@
 jQuery(document).ready(function($)
 {
-    $(".admin-data-table tr:even").css("background-color", "#e6e6d6");
+    $(".admin-data-table tr:even").css("background-color", "#e6e6d6");    
 	/** кнопки удаления срабатывают только после подтверждения */
 	$('a.button_delete').click( delete_confirm );
 

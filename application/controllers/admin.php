@@ -197,6 +197,12 @@ class Admin extends CI_Controller {
         
     }
     
+    /**
+     * Управляющая страницами функция.
+     * @param $name название страницы (напр. users)
+     * @param $singlename название страницы в единственном числе (напр user)
+     * @param $model модель, используемая на странице
+     */
     function _page($name, $singlename, $model)
 	{
 		$data = NULL;
@@ -205,36 +211,38 @@ class Admin extends CI_Controller {
 		
 		switch($this->uri->segment(3)) {
 			case 'add':
+                // по адресу "/admin/$name/add" происходит операция добавления
 				if ($this->uri->segment(4) == 'action')
 				{
-                    // Если на форме ввода есть ошибки - вернуться к ним
                     if ($errors = $this->$model->get_errors())
                     {
+                        // Если на форме ввода есть ошибки - вернуться к форме
                         $data['errors'] = $errors;
                         $data[$singlename] = $this->$model->get_from_post();
                         $data['extra'] = $this->$model->get_view_extra();
                         $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-                        //$data['title'] = 'Создание нового ' . $singlename;
                         $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line($singlename.'_a');
                         $this->load->view('/templates/admin_view', $data);
                     }
                     else
                     {
+                        // Если все данные введены верно - добавить запись в базу данных
                         $this->$model->add_from_post();
                         $this->_view_page_list($name, $model, $this->$model->message);
                     }
 				}
 				else
 				{
-					// по адресу "/admin/$name/add": добавление нового 
+                    // загрузить необходимые виду данные
                     $data['extra'] = $this->$model->get_view_extra();
+                    // вызвать вид (форму ввода данных)
 					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-					//$data['title'] = 'Создание нового ' . $singlename;
-                    $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line($singlename.'_a');
+					$data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line($singlename.'_a');
 					$this->load->view('/templates/admin_view', $data);
 				}
 				break;
 			case 'edit':
+                // по адресу "/admin/$name/add" происходит операция изменения 
 				if ($this->uri->segment(4) == 'action')
 				{
                     // Если на форме ввода есть ошибки - вернуться к ним
@@ -244,12 +252,12 @@ class Admin extends CI_Controller {
                         $data[$singlename] = $this->$model->get_from_post();
                         $data['extra'] = $this->$model->get_view_extra();
                         $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-                        //$data['title'] = 'Изменение ' . $singlename;
                         $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line($singlename.'_a');
                         $this->load->view('/templates/admin_view', $data);
                     }
                     else
                     {
+                        // Если ошибок нет
                         $this->$model->edit_from_post();
                         $this->_view_page_list($name, $model, $this->$model->message);
                     }
