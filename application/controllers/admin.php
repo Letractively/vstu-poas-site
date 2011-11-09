@@ -115,13 +115,72 @@ class Admin extends CI_Controller {
 		}
 	}
 	
+    /**
+     * Узнать, свободен ли логин.
+     * Используется библиотекой Form validation, см. config/form_validation.php
+     * @param $login интересующий систему логин
+     * @return bool TRUE, если логин свободен, иначе FALSE
+     */
+    function _login_unique($login)
+    {
+        $this->load->model(MODEL_USER);
+        $result = $this->{MODEL_USER}->is_login_exist($login);
+        if ($result){
+            $this->form_validation->set_message('_login_unique', 'Логин уже используется');
+        }
+        return !$result;
+    }
 	/**
 	 * Работа с пользователями
 	 */
 	function users()
 	{
-        $this->_page('users', 'user', MODEL_USER);	
-	}
+        //$this->_page('users', 'user', MODEL_USER);
+        $data = NULL;
+		$this->load->model(MODEL_USER);
+        $this->lang->load('site', 'russian');
+		$this->load->library('form_validation');
+		switch($this->uri->segment(3)) {
+			case 'add':
+                if($this->uri->segment(4) == 'action')
+                {
+                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                    if ($this->form_validation->run('admin/users') == FALSE)
+                    {
+                        $data['extra'] = $this->{MODEL_USER}->get_view_extra();
+                        $data['content'] = $this->load->view('admin/edit_user_view', $data, TRUE);
+                        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('user_a');
+                        $this->load->view('/templates/admin_view', $data);                        
+                    }
+                    else
+                    {
+                        $this->{MODEL_USER}->add_from_post();
+                        $this->_view_page_list('users', MODEL_USER, $this->{MODEL_USER}->message);
+                    }
+                }
+                else
+                {
+                    // загрузить необходимые виду данные
+                    $data['extra'] = $this->{MODEL_USER}->get_view_extra();
+                    $data['content'] = $this->load->view('/admin/edit_user_view', $data, TRUE);
+                    $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('user_a');
+                    $this->load->view('/templates/admin_view', $data);
+                }
+				break;
+			case 'edit':
+                
+				break;
+			case 'delete':
+				
+				break;
+			case '':
+			default:
+				// по адресу "/admin/$name": список всех 
+				// он же при несуществующем методе
+				$this->_view_page_list('users', MODEL_USER);
+				break;
+		}
+    }
 	
 	/**
 	 * Работа с проектами
@@ -152,32 +211,32 @@ class Admin extends CI_Controller {
      */
     function partners()
     {
-        $this->_page('partners', 'partner', MODEL_PARTNERS);
+        $this->_page('partners', 'partner', MODEL_PARTNER);
     }
     
     function courses()
     {
         $data = NULL;
-		$this->load->model(MODEL_COURSES);
+		$this->load->model(MODEL_COURSE);
         $this->lang->load('site', 'russian');
         
         switch($this->uri->segment(3)) {
             case 'add':
                 $this->{MODEL_COURSES}->add_from_post();
-                $this->_view_page_list('courses', MODEL_COURSES, $this->{MODEL_COURSES}->message);
+                $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSES}->message);
                 break;
             case 'edit':
                 if ($this->uri->segment(4) == 'action')
                 {
                     $this->{MODEL_COURSES}->edit_from_post();
-                    $this->_view_page_list('courses', MODEL_COURSES, $this->{MODEL_COURSES}->message);
+                    $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSES}->message);
                 }
                 else
                 {
                     // проверить, а есть ли запись
                     if (!$this->{MODEL_COURSES}->exists($this->uri->segment(4)))
                     {
-                        $this->_view_page_list('courses', MODEL_COURSES, 'Запись не существует');
+                        $this->_view_page_list('courses', MODEL_COURSE, 'Запись не существует');
                         return;
                     }
                     $data['course'] = $this->{MODEL_COURSES}->get_course($this->uri->segment(4));
@@ -189,10 +248,10 @@ class Admin extends CI_Controller {
                 break;
             case 'delete':
                 $this->{MODEL_COURSES}->delete($this->uri->segment(4));
-                $this->_view_page_list('courses', MODEL_COURSES, $this->{MODEL_COURSES}->message);
+                $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSES}->message);
                 break;
             default:
-                $this->_view_page_list('courses',MODEL_COURSES);
+                $this->_view_page_list('courses',MODEL_COURSE);
         }
         
     }
