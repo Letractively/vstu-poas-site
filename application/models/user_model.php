@@ -386,6 +386,11 @@ class User_model extends Super_model {
     function edit_from_post() 
     {        
         $user = $this->get_from_post();
+        // При редактировании записи вычисляется md5, 
+        // только если пароль изменился
+        $record = $this->_get_record($user->id, TABLE_USERS);
+        if ($record->password != $user->password)
+            $user->password = md5($user->password);
         return $this->_edit(TABLE_USERS, $user);
     }
     function get_detailed($id) 
