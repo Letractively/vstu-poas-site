@@ -299,7 +299,7 @@ abstract class Super_model extends CI_Model{
         $this->db->from($table)->where($field, $value);
         $count = $this->db->count_all_results();
         return  $count > 0 ? $count : FALSE;
-    }
+    }    
 }
 
 ?>

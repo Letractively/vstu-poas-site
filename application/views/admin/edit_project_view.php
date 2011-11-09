@@ -17,6 +17,7 @@ if (!isset($project->description_en)) 	{$project->description_en = '';};
 if (!isset($project->url)) 				{$project->url = '';};
 if (!isset($project->image)) 			{$project->image = '';};
 if (!isset($project->members))          {$project->members = array();};
+
 // Заполнено ли хотя бы одно поле английской версии
 $en_version_started =   $project->name_en !== '' ||
                         $project->description_en !== '';
@@ -26,6 +27,7 @@ if (!isset($errors->descriptionruforgotten))    {$errors->descriptionruforgotten
 
 if (!isset($errors->nameenforgotten))           {$errors->nameenforgotten = false;};
 if (!isset($errors->descriptionenforgotten))    {$errors->descriptionenforgotten = false;};
+if (!isset($errors->imageuploaderror))          {$errors->imageuploaderror = false;};
 
 echo form_open_multipart('admin/projects/'.$action.'/action');
 
@@ -49,9 +51,24 @@ echo form_label('Ссылка на проект', 'project_url', array('class'=>
 echo form_input('project_url', $project->url, 'style = width:400px');
 echo br(2);
 
+echo img(array('src' => $project->image, 'class' => 'project_image'));
+echo br(2);
+
+echo '<div>';
+if ($errors->imageuploaderror)
+    echo '<span class="wrong-data">' . $errors->imageuploaderror . '</span>'.br();
 echo form_label('Изображение для проекта', 'project_image', array('class'=>'inline-block'));
 echo form_upload('project_image', $project->image);
+echo form_hidden('project_image_copy', $project->image);
 echo br(2);
+
+//if($project->image != '')
+if($project->image != '')
+{
+    echo form_label('Удалить изображение', 'project_image_delete', array('class'=>'inline-block'));
+    echo form_checkbox(array('name'=>'project_image_delete', 'class' => 'hideupload js_checkbox_hidden')).br(2);
+}
+echo '</div>';
 
 $data['label'] = 'Участники проекта';
 $data['id'] = 'project_members';
