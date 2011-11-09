@@ -9,8 +9,8 @@ jQuery(document).ready(function($)
 	 * при изменении чекбокса с классом js_checkbox_visability */ 
 	$('.js_obj_visability').visability_with($('.js_checkbox_visability'));
 	
-    $('#showhide_en').click(function() {
-        $('.hideble').slideToggle(250);
+    $('.showhide').click(function() {
+        $(this).parent('div').children('.hideble').slideToggle(250);
         return false;
     })
     
@@ -18,12 +18,10 @@ jQuery(document).ready(function($)
         if($('input[value=update]').attr('checked') == 'checked') {
             $('input[name=project_image]').removeAttr('disabled');
             $('input[name=project_image]').animate({opacity:1}, 250);
-            //$('input[name=project_image]').slideToggle(250);
         }
         else{
             $('input[name=project_image]').attr('disabled', 'enabled');
             $('input[name=project_image]').animate({opacity:0}, 250);
-            //$('input[name=project_image]').slideToggle(250);
         }
         return true; 
     });

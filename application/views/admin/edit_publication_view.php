@@ -67,7 +67,8 @@ foreach($publication->authors as $author)
 $this->load->view('admin/users_list_view', $data);
 echo br(2);
 
-echo '<a href="#" id="showhide_en">Английская версия</a>';
+echo '<div class="english-version">';
+echo '<a href="#" class="showhide">Английская версия</a>';
 echo '<div class="hideble">';
 echo '<hr>';
 echo form_label('Название публикации (английское)', 'publication_name_en', array('class'=>'inline-block'));
@@ -85,7 +86,7 @@ echo br(2);
 echo form_label('Дополнительная информация (на английском)', 'publication_info_en', array('class'=>'inline-block'));
 echo form_textarea('publication_info_en', $publication->info_en, 'class="short"');
 echo br(2);
-echo '</div>';
+echo '</div></div>';
 
 if( isset($publication->id) )
 {

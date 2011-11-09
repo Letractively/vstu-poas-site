@@ -119,7 +119,8 @@ if ($project->members)
 $this->load->view('admin/users_list_view', $data);
 echo br(2);
 
-echo '<a href="#" id="showhide_en">Английская версия</a>';
+echo '<div class="english-version">';
+echo '<a href="#" class="showhide">Английская версия</a>';
 if ($en_version_started)
     echo '<div class="hideble" style = "display:block;">';
 else
@@ -142,7 +143,7 @@ echo form_label_adv('Описание проекта (английское)',
 echo form_textarea('project_description_en', $project->description_en, 'class="short"');
 echo br(2);
 
-echo '</div>';
+echo '</div></div>';
 
 if( isset($project->id) )
 {
