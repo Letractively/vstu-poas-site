@@ -76,8 +76,8 @@ define('MODEL_USER', 		'user_model');				/// пользователи
 define('MODEL_PROJECT', 	'project_model');			/// проекты
 define('MODEL_DIRECTION',	'direction_model');			/// научные направления
 define('MODEL_PUBLICATION', 'publication_model');       /// публикации
-define('MODEL_PARTNERS',    'partner_model');           /// партнеры
-define('MODEL_COURSES',     'course_model');            /// курсы
+define('MODEL_PARTNER',     'partner_model');           /// партнеры
+define('MODEL_COURSE',      'course_model');            /// курсы
 
 /*
 |--------------------------------------------------------------------------
