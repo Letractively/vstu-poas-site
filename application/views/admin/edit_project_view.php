@@ -54,41 +54,49 @@ echo br(2);
 echo img(array('src' => $project->image, 'class' => 'project_image'));
 echo br(2);
 
-/// форма для ввода файла
 if ($errors->imageuploaderror)
     echo '<span class="wrong-data">' . $errors->imageuploaderror . '</span>'.br();
-echo form_label('Изображение для проекта', 'project_image', array('class'=>'inline-block'));
+    // форма для ввода файла
+    // Для каждого файла должны быть определены
+    //
+    // - три радио кнопки (удалить, оставить, обновить) project_image_action
+    // - поле ввода файла project_image
+    // - скрытое поле с именем файла project_image_copy
 echo '<div>';
+echo form_label('Изображение для проекта', 'project_image', array('class'=>'inline-block'));
+
 echo br(2);
 $options = array(
     'name'=>'project_image_action',
     'class' => 'hideupload');
-// @todo javascript
+
+    // Кнопка "удалить файл"
 echo form_label('Удалить', 'project_image_action', array('class'=>'inline-block'));
 
 $doptions = $options;
 $doptions['value'] = 'delete';
-// Изображение нельзя удалить, если его нет
+// Файл нельзя удалить, если его нет
 if (!isset($project->id)  || $project->image == '' || $project->image == null)
     $doptions['disabled'] = TRUE;
 echo form_radio($doptions).br();
 
+    // Кнопка "оставить файл"
 echo form_label('Оставить', 'project_image_action', array('class'=>'inline-block'));
 
 $loptions = $options;
 $loptions['value'] = 'leave';
 $loptions['checked'] = TRUE;
-
-if (!isset($project->id))
-    $loptions['checked'] = TRUE;
 echo form_radio($loptions).br();
-
+    
+    // Кнопка "обновить файл"
 echo form_label('Обновить', 'project_image_action', array('class'=>'inline-block'));
 $uoptions = $options;
 $uoptions['value'] = 'update';
 echo form_radio($uoptions).' ';
 
-echo form_upload('project_image', $project->image).br(2);
+    // Ввод файла
+echo form_upload('project_image', $project->image, 'disabled="disabled"').br(2);
+    // Скрытая копия файла
 echo form_hidden('project_image_copy', $project->image);
 echo '</div>';
 

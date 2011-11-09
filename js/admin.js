@@ -14,6 +14,19 @@ jQuery(document).ready(function($)
         return false;
     })
     
+    $('input[name=project_image_action]').click(function(){
+        if($('input[value=update]').attr('checked') == 'checked') {
+            $('input[name=project_image]').removeAttr('disabled');
+            $('input[name=project_image]').animate({opacity:1}, 250);
+            //$('input[name=project_image]').slideToggle(250);
+        }
+        else{
+            $('input[name=project_image]').attr('disabled', 'enabled');
+            $('input[name=project_image]').animate({opacity:0}, 250);
+            //$('input[name=project_image]').slideToggle(250);
+        }
+        return true; 
+    });
 	/** Объект класса js_obj_hidden изменяет свою 
 	 * видимость на странице (с невидим на виден при "включении" чекбокса и наоборот);
 	 * Связанный чекбокс должен имепть класс js_checkbox_hidden */ 
