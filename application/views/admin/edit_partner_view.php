@@ -72,7 +72,8 @@ echo form_label('Изображение', 'partner_image', array('class'=>'inlin
 echo form_upload('partner_image', $partner->image);
 echo br(2);
 
-echo '<a href="#" id="showhide_en">Английская версия</a>';
+echo '<div class="english-version">';
+echo '<a href="#" class="showhide">Английская версия</a>';
 if ($en_version_started)
     echo '<div class="hideble" style = "display:block;">';
 else
@@ -105,7 +106,7 @@ echo form_label_adv('Описание партнера (английское)',
                     ' not-null forgotten');
 echo form_textarea('partner_full_en', $partner->full_en, 'class = "short"');
 echo br(2);
-echo '</div>';
+echo '</div></div>';
 
 if( isset($partner->id) )
 {

@@ -81,7 +81,8 @@ $data['select'] = $others;
 $this->load->view('admin/users_list_view', $data);
 echo br(2);
 
-echo '<a href="#" id="showhide_en">Английская версия</a>';
+echo '<div class="english-version">';
+echo '<a href="#" class="showhide">Английская версия</a>';
 if ($en_version_started)
     echo '<div class="hideble" style = "display:block;">';
 else
@@ -96,7 +97,7 @@ echo form_input('direction_name_en', $direction->name_en, 'maxlength="150" style
 echo br(2);
 echo form_label('Описание направления (английское)', 'direction_description_en', array('class'=>'inline-block'));
 echo form_textarea('direction_description_en', $direction->description_en, 'class="short"');
-echo '</div>';
+echo '</div></div>';
 if( isset($direction->id) )
 {
 	echo form_hidden('direction_id', $direction->id);

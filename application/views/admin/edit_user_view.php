@@ -44,7 +44,9 @@ if(!isset($errors->differentpasswords))     {$errors->differentpasswords = FALSE
 
 $user->password2 = '';
 
-if ($action == 'edit')
+if ($errors->passwordforgotten)
+    $user->password = '';
+if ($action == 'edit' && !$errors->differentpasswords && !$errors->password2forgotten)
 {
     $user->password2 = $user->password;
 }
@@ -80,7 +82,10 @@ echo form_input('user_name', $user->name, 'maxlength="40"').br();
 echo form_label_adv('Отчество*', 'user_patronymic', 'inline-block not-null', $errors->patronymicforgotten, 'forgotten');
 echo form_input('user_patronymic', $user->patronymic, 'maxlength="40"').br(2);
 
-echo 'Контакты<hr>';
+echo '<div class="contacts">';
+echo '<a href="#" class="showhide">Контакты</a>';
+echo '<div class="hideble">';
+echo '<hr>';
 echo form_label('Адрес электроннй почты', 'user_email', array('class'=>'inline-block'));
 echo form_input('user_email', $user->email, 'maxlength="40"').br(2);
 /*
@@ -93,6 +98,8 @@ echo form_input('user_phone', $user->phone, 'maxlength="40"').br(2);
 echo form_label('Сайт', 'user_site', array('class'=>'inline-block'));
 echo form_input('user_site', $user->site, 'maxlength="100"').br(2);
 */
+echo '</div></div><br>';
+
 if (count($roles) > 0)
 {
 	echo form_label('Роль', 'user_role', array('class'=>'inline-block'));
