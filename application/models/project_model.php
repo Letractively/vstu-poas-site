@@ -80,8 +80,8 @@ class Project_model extends Super_model
             'name_en' => '',
             'description_en' => '',
             'url' => '',
-            'image' =>''
-            
+            'image' =>'',
+            'image' => 0            
         );
         return $this->_get_from_post('project', $fields, $nulled_fields);
     }
@@ -178,11 +178,15 @@ class Project_model extends Super_model
         unset($project->members);
         $this->update_project_members($project->id, $this->input->post('project_members'));
         
-        if ($_POST['image_action'] != 'leave')
-            $this->delete_image($project->id);
-        else
+        if ($this->input->post('project_image_action') == 'leave')
             unset($project->image);
-        
+        else
+        {
+            if ($this->input->post('project_image_action') == 'delete')
+                $project->image = null;
+            $this->delete_image($project->id);
+        }
+                
         $result = $this->_edit(TABLE_PROJECTS, $project);
         return $result;
     }
@@ -238,21 +242,14 @@ class Project_model extends Super_model
             {
                 // Попытка загрузить файл, если остальные данные в порядке и 
                 // пользователь выбрал радио-кнопку "обновить"
-                echo 'loading';
                 $errors->imageuploaderror = $this->upload_file();
-                print_r($errors->imageuploaderror);
                 if ($errors->imageuploaderror == '')
                     $errors = null;
-                /*
-                // Отсутствие файла ошибкой не является
-                if ($errors->imageuploaderror == $this->lang->line('upload_no_file_selected')) {
-                    echo $errors->imageuploaderror;
-                    $errors = null;
-                    $_POST['project_image_action'] = 'leave';
-                }
-                 * 
-                 */
             }
+        }
+        if ($errors)
+        {
+            $_POST['project_image'] = $this->input->post('project_image_copy');
         }
         return $errors;
     }

@@ -63,17 +63,22 @@ echo br(2);
 $options = array(
     'name'=>'project_image_action',
     'class' => 'hideupload');
-
+// @todo javascript
 echo form_label('Удалить', 'project_image_action', array('class'=>'inline-block'));
+
 $doptions = $options;
 $doptions['value'] = 'delete';
-if (!isset($project->id))
+// Изображение нельзя удалить, если его нет
+if (!isset($project->id)  || $project->image == '' || $project->image == null)
     $doptions['disabled'] = TRUE;
 echo form_radio($doptions).br();
 
 echo form_label('Оставить', 'project_image_action', array('class'=>'inline-block'));
+
 $loptions = $options;
 $loptions['value'] = 'leave';
+$loptions['checked'] = TRUE;
+
 if (!isset($project->id))
     $loptions['checked'] = TRUE;
 echo form_radio($loptions).br();
