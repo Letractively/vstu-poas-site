@@ -54,20 +54,37 @@ echo br(2);
 echo img(array('src' => $project->image, 'class' => 'project_image'));
 echo br(2);
 
-echo '<div>';
+/// форма для ввода файла
 if ($errors->imageuploaderror)
     echo '<span class="wrong-data">' . $errors->imageuploaderror . '</span>'.br();
 echo form_label('Изображение для проекта', 'project_image', array('class'=>'inline-block'));
-echo form_upload('project_image', $project->image);
-echo form_hidden('project_image_copy', $project->image);
+echo '<div>';
 echo br(2);
+$options = array(
+    'name'=>'project_image_action',
+    'class' => 'hideupload');
 
-//if($project->image != '')
-if($project->image != '')
-{
-    echo form_label('Удалить изображение', 'project_image_delete', array('class'=>'inline-block'));
-    echo form_checkbox(array('name'=>'project_image_delete', 'class' => 'hideupload js_checkbox_hidden')).br(2);
-}
+echo form_label('Удалить', 'project_image_action', array('class'=>'inline-block'));
+$doptions = $options;
+$doptions['value'] = 'delete';
+if (!isset($project->id))
+    $doptions['disabled'] = TRUE;
+echo form_radio($doptions).br();
+
+echo form_label('Оставить', 'project_image_action', array('class'=>'inline-block'));
+$loptions = $options;
+$loptions['value'] = 'leave';
+if (!isset($project->id))
+    $loptions['checked'] = TRUE;
+echo form_radio($loptions).br();
+
+echo form_label('Обновить', 'project_image_action', array('class'=>'inline-block'));
+$uoptions = $options;
+$uoptions['value'] = 'update';
+echo form_radio($uoptions).' ';
+
+echo form_upload('project_image', $project->image).br(2);
+echo form_hidden('project_image_copy', $project->image);
 echo '</div>';
 
 $data['label'] = 'Участники проекта';
