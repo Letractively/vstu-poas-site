@@ -406,9 +406,14 @@ class User_model extends Super_model {
             'password'     => 'user_password',
             'surname' => 'user_surname',
             'name' => 'user_name',
-            'patronymic' => 'user_patronymic'
+            'patronymic' => 'user_patronymic',
+            'email' => 'user_email',
+            'photo' => 'user_photo'
         );
-        $nulled_fields = array();
+        $nulled_fields = array(
+            'email' => '',
+            'photo' => false
+        );
         return $this->_get_from_post('user', $fields, $nulled_fields);
     }
     

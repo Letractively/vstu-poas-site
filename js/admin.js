@@ -12,7 +12,10 @@ jQuery(document).ready(function($)
     $('.showhide').click(function() {
         $(this).parent('div').children('.hideble').slideToggle(250);
         return false;
-    })
+    });
+    
+    $('.hideble .error').parent('.hideble').css('display','block');
+    $('.hideble .error').parent('.hideble').parent('div').children('a').addClass('wrong-data');    
     
     $('input[name=project_image_action]').click(function(){
         if($('input[value=update]').attr('checked') == 'checked') {
