@@ -130,6 +130,44 @@ class Admin extends CI_Controller {
         }
         return !$result;
     }
+    
+    function _validate_photo($file)
+    {
+        $config['upload_path'] = './uploads/users/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']	= '1000';
+		$config['max_width']  = '1024';
+		$config['max_height']  = '768';
+		
+		$this->load->library('upload', $config);
+        
+        if ( ! $this->upload->do_upload('user_photo'))
+		{
+            // Если при добавлении файла произошла ошибка - закончить операцию
+            $errors = $this->upload->display_errors('','');
+            if ($errors != $this->lang->line('upload_no_file_selected'))
+            {
+                $this->form_validation->set_message('_validate_photo', $this->upload->display_errors('',''));
+                return FALSE;
+            }
+            else
+            {
+                return TRUE;
+            }
+		}	
+		else
+		{            
+            // Получаем корректный путь к файлу
+            $upload_data = $this->upload->data();
+            $segments = explode('/',$upload_data['full_path']);
+            $segments = array_reverse($segments);
+            
+            $record->name = $segments[2].'/'.$segments[1].'/'.$segments[0];
+            if($this->db->insert(TABLE_FILES, $record)){
+                $_POST['user_photo'] = $this->db->insert_id();
+            }
+		}
+    }
 	/**
 	 * Работа с пользователями
 	 */
@@ -145,7 +183,7 @@ class Admin extends CI_Controller {
                 if($this->uri->segment(4) == 'action')
                 {
                     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-                    if ($this->form_validation->run('admin/users') == FALSE)
+                    if ($this->form_validation->run('admin/users/add') == FALSE)
                     {
                         $data['extra'] = $this->{MODEL_USER}->get_view_extra();
                         $data['content'] = $this->load->view('admin/edit_user_view', $data, TRUE);
@@ -168,10 +206,46 @@ class Admin extends CI_Controller {
                 }
 				break;
 			case 'edit':
-                
+                if($this->uri->segment(4) == 'action')
+                {
+                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                    if ($this->form_validation->run('admin/users/edit') == FALSE)
+                    {
+                        $data['extra'] = $this->{MODEL_USER}->get_view_extra();
+                        $data['user'] = $this->{MODEL_USER}->get_from_post();
+                        $data['content'] = $this->load->view('admin/edit_user_view', $data, TRUE);
+                        $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('user_a');
+                        $this->load->view('/templates/admin_view', $data);                        
+                    }
+                    else
+                    {
+                        $this->{MODEL_USER}->edit_from_post();
+                        $this->_view_page_list('users', MODEL_USER, $this->{MODEL_USER}->message);
+                    }
+                }
+                else
+                {
+                    if (!$this->{MODEL_USER}->exists($this->uri->segment(4)))
+                    {
+                        $this->_view_page_list('users', MODEL_USER, 'Пользователь не существует');
+                        return;
+                    }
+                    // загрузить необходимые виду данные
+                    $data['extra'] = $this->{MODEL_USER}->get_view_extra();
+                    $data['user'] = $this->{MODEL_USER}->get_user($this->uri->segment(4));
+                    $data['content'] = $this->load->view('/admin/edit_user_view', $data, TRUE);
+                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('user_a');
+                    $this->load->view('/templates/admin_view', $data);
+                }
 				break;
 			case 'delete':
-				
+                if (!$this->{MODEL_USER}->exists($this->uri->segment(4)))
+                {
+                    $this->_view_page_list('users', MODEL_USER, 'Пользователь не существует');
+                    return;
+                }
+				$this->{MODEL_USER}->delete($this->uri->segment(4));
+                $this->_view_page_list('users', MODEL_USER, $this->{MODEL_USER}->message);
 				break;
 			case '':
 			default:
@@ -374,6 +448,37 @@ class Admin extends CI_Controller {
 		$this->session->sess_destroy();
         redirect($this->config->item('base_url'));
 	}
+    function _add_file($file) 
+    {
+        $config['upload_path'] = './uploads/projects/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']	= '1000';
+		$config['max_width']  = '1024';
+		$config['max_height']  = '768';
+		
+		$this->load->library('upload', $config);
+        
+        if ( ! $this->upload->do_upload('project_image'))
+		{
+            // Если при добавлении файла произошла ошибка - закончить операцию
+            $this->form_validation->set_message('_add_file', $this->upload->display_errors('',''));
+            return FALSE;
+		}	
+		else
+		{
+            // Если ошибок не возникло - запомнить путь к файлу в POST переменной
+            echo 'no errors';
+            
+            // Получаем корректный путь к файлу
+            $upload_data = $this->upload->data();
+            $segments = explode('/',$upload_data['full_path']);
+            $segments = array_reverse($segments);
+            
+            $_POST['project_image'] = $segments[2].'/'.$segments[1].'/'.$segments[0];
+            
+            return TRUE;
+		}
+    }
 }
 
 /* End of file admin.php */

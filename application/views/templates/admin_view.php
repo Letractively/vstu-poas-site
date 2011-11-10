@@ -12,11 +12,7 @@
 	
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js" type="text/javascript"></script>
 	
-	<script src="/js/elfinder-1.2/js/elfinder.full.js" type="text/javascript" charset="utf-8"></script>
-	<link rel="stylesheet" href="/js/elfinder-1.2/css/elfinder.css" type="text/css" media="screen" charset="utf-8" />
-	<script src="/js/elfinder-1.2/js/i18n/elfinder.ru.js" type="text/javascript" charset="utf-8"></script>
-	
-	
+		
 	<script src="/js/elrte-1.3/js/elrte.min.js"  type="text/javascript"></script>
 	<script src="/js/elrte-1.3/js/i18n/elrte.ru.js" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" href="/js/elrte-1.3/css/elrte.min.css" type="text/css" media="all" />
