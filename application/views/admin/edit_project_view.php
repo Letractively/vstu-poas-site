@@ -51,8 +51,7 @@ echo form_label('Ссылка на проект', 'project_url', array('class'=>
 echo form_input('project_url', $project->url, 'style = width:400px');
 echo br(2);
 
-echo img(array('src' => $project->image, 'class' => 'project_image'));
-echo br(2);
+
 
 if ($errors->imageuploaderror)
     echo '<span class="wrong-data">' . $errors->imageuploaderror . '</span>'.br();
@@ -64,7 +63,9 @@ if ($errors->imageuploaderror)
     // - скрытое поле с именем файла project_image_copy
 echo '<div>';
 echo form_label('Изображение для проекта', 'project_image', array('class'=>'inline-block'));
-
+echo img(array('src' => $project->image, 'class' => 'project_image'));
+echo '<div style="clear:both" />';
+echo br(2);
 echo br(2);
 $options = array(
     'name'=>'project_image_action',

@@ -28,6 +28,7 @@ jQuery(document).ready(function($)
         }
         return true; 
     });
+    
 	/** Объект класса js_obj_hidden изменяет свою 
 	 * видимость на странице (с невидим на виден при "включении" чекбокса и наоборот);
 	 * Связанный чекбокс должен имепть класс js_checkbox_hidden */ 
@@ -183,4 +184,8 @@ function toUrl(str) {
 		ww+=ch;
 	}
 	return(ww.replace(/[^a-zA-Z0-9_-]+/g, ''));
+}
+
+function startUpload(){
+    return true;
 }

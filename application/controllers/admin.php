@@ -296,33 +296,33 @@ class Admin extends CI_Controller {
         
         switch($this->uri->segment(3)) {
             case 'add':
-                $this->{MODEL_COURSES}->add_from_post();
-                $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSES}->message);
+                $this->{MODEL_COURSE}->add_from_post();
+                $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSE}->message);
                 break;
             case 'edit':
                 if ($this->uri->segment(4) == 'action')
                 {
-                    $this->{MODEL_COURSES}->edit_from_post();
-                    $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSES}->message);
+                    $this->{MODEL_COURSE}->edit_from_post();
+                    $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSE}->message);
                 }
                 else
                 {
                     // проверить, а есть ли запись
-                    if (!$this->{MODEL_COURSES}->exists($this->uri->segment(4)))
+                    if (!$this->{MODEL_COURSE}->exists($this->uri->segment(4)))
                     {
                         $this->_view_page_list('courses', MODEL_COURSE, 'Запись не существует');
                         return;
                     }
-                    $data['course'] = $this->{MODEL_COURSES}->get_course($this->uri->segment(4));
-                    $data['extra'] = $this->{MODEL_COURSES}->get_view_extra();
+                    $data['course'] = $this->{MODEL_COURSE}->get_course($this->uri->segment(4));
+                    $data['extra'] = $this->{MODEL_COURSE}->get_view_extra();
                     $data['content'] = $this->load->view('/admin/edit_course_view', $data, TRUE);
                     $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('course_a');
                     $this->load->view('/templates/admin_view', $data);
                 }
                 break;
             case 'delete':
-                $this->{MODEL_COURSES}->delete($this->uri->segment(4));
-                $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSES}->message);
+                $this->{MODEL_COURSE}->delete($this->uri->segment(4));
+                $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSE}->message);
                 break;
             default:
                 $this->_view_page_list('courses',MODEL_COURSE);
