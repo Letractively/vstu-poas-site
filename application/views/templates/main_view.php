@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="/css/style.css">
 	<script src="/js/jquery-ui/js/jquery-1.6.2.min.js" type="text/javascript"></script>	<!-- Заменить в релизе локальный вариант на этот! <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"  type="text/javascript"></script>-->
 	<script src="/js/site.js" type="text/javascript"></script>
+    <script src="/js/ajaxfileupload.js" type="text/javascript"></script>
 	<script src="/js/jquery/crypt.js" type="text/javascript"></script>	  
 </head> 
 <body leftmargin="0" topmargin="0" alink="red" link="#0051a4" vlink="#0051a4"> 
@@ -16,7 +17,7 @@
 </div>
 <table height="100%" border="1" align="center" width="65%" style="margin:0 auto;" class="body_table">
 <tr>
-<td colspan="2" bgcolor="#add2ea" background="/images/img/header.jpg" height="79">
+<td colspan="2" bgcolor="#add2ea" height="79">
 <h2><?php if(isset($title)) echo $title; ?></h2></td>
 </tr>
 <tr>

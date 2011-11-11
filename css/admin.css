@@ -77,6 +77,7 @@ img.alignleft {
 #form_edit .hideble {display: none}
 #form_edit textarea.short {height:70px; width: 400px;}
 #form_edit .error {font-weight: bold; color : #ff0000; padding-left: 215px;}
+/*#form_edit img {margin-left: 215px}*/
 .admin-data-table .news {width : 300px;}
 .admin-data-table .users {width : 300px;}
 .admin-data-table .count {text-align: center;}

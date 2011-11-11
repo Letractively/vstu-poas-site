@@ -42,3 +42,45 @@ jQuery(document).ready( function($)
 		});
 	});
 });
+
+function ajaxFileUpload()
+{
+    $("#loading").ajaxStart(function(){
+        $(this).show();
+    }).ajaxComplete(function(){
+        $(this).hide();
+    });
+
+    $.ajaxFileUpload
+    (
+        {
+            url:'http://igniter/doupload',
+            secureuri:false,
+            fileElementId:'fileToUpload',
+            dataType: 'json',
+            type:'POST',
+            data:{name:'logan', id:'id',fileElementId:'fileToUpload'},
+            success: function (data, status)
+            {
+                if(typeof(data.error) != 'undefined')
+                {
+                    if(data.error != '')
+                    {
+                        alert(data.error);
+                    }else
+                    {
+                        alert(data.msg);
+                        $('#mypic').attr('src', data.name);
+                    }
+                }
+            },
+            error: function (data, status, e)
+            {
+                alert(e);
+            }
+        }
+    )
+
+    return false;
+
+}
