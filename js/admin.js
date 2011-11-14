@@ -205,7 +205,7 @@ function startUpload(){
     return true;
 }
 
-function ajaxFileUpload(uploadid)
+function ajaxFileUpload(uploadid, field)
 {
     $("#loading").ajaxStart(function(){
         $(this).show();
@@ -221,7 +221,7 @@ function ajaxFileUpload(uploadid)
             dataType: 'json',
             fileElementId:uploadid,
             type:'POST',
-            data:{fileElementId:uploadid},
+            data:{fileElementId:uploadid, field:field},
             success: function (data, status)
             {
                 if(typeof(data.error) != 'undefined')
@@ -233,10 +233,10 @@ function ajaxFileUpload(uploadid)
                     else
                     {
                         alert('Файл был успешно загружен (id=' + data.id +')');
-                        $('#user_photo_image').attr('src',data.path);
-                        $('input[name=user_photo_id]').attr('value', data.id);
-                        $('input[name=user_photo_name]').attr('value', data.pathindatabase);
-                        $('#user_photo_image').parent('div').children('.service').hide();
+                        $('#'+field+'_image').attr('src',data.path);
+                        $('input[name='+field+'_id]').attr('value', data.id);
+                        $('input[name='+field+'_name]').attr('value', data.pathindatabase);
+                        $('#'+field+'_image').parent('div').children('.service').hide();
                     }
                 }
             },
