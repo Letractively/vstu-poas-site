@@ -1,6 +1,5 @@
 <div id="form_edit">
     <?php
-    print_r($partner);
     if(!isset($partner->id)){
         $action = 'add';
         $submit = 'Добавить запись';
@@ -54,10 +53,11 @@
     echo form_error('partner_url'); 
     echo br(2);
 
-// Ввод изображения
-echo form_label('Изображение', 'partner_image', array('class'=>'inline-block'));
-echo form_upload('partner_image', $partner->image);
-echo br(2);
+    $data['path'] = isset($partner->image_name) ? $partner->image_name : null;
+    $data['field'] = 'partner_image';
+    $data['fileid'] = $partner->image;
+    $data['label'] = 'Изображение';
+    $this->load->view('admin/subview/file_upload_view.php', $data);
 
 echo '<div class="english-version">';
 echo '<a href="#" class="showhide">Английская версия</a>';

@@ -32,7 +32,18 @@ class Partner_model extends Super_model{
      */
     function get_partner($id)
     {
-        return $this->_get_record($id, TABLE_PARTNERS);
+        $record = $this->db
+                            ->select(TABLE_PARTNERS.'.*, '.TABLE_FILES.'.name as image_name')
+                            ->from(TABLE_PARTNERS)
+                            ->join(TABLE_FILES, TABLE_PARTNERS.'.image='.TABLE_FILES.'.id','left')
+                            ->where(TABLE_PARTNERS.'.id', $id)
+                            ->get()
+                            ->result();
+		if (!$record)
+		{
+			return NULL;
+		}
+		return $record[0];
     }
     
     /**
@@ -49,7 +60,8 @@ class Partner_model extends Super_model{
             'full_ru' => 'partner_full_ru',
             'full_en' => 'partner_full_en',
             'url' => 'partner_url',
-            'image' => 'partner_image'
+            'image' => 'partner_image_id',
+            'image_name' => 'partner_image_name'
         );
         $nulled_fields = array(            
             'name_en' => '',
@@ -69,7 +81,7 @@ class Partner_model extends Super_model{
     function add_from_post()
     {
         $partner = $this->get_from_post();
-        unset($partner->image);
+        unset($partner->image_name);
         return $this->_add(TABLE_PARTNERS, $partner);
     }
     
@@ -79,7 +91,7 @@ class Partner_model extends Super_model{
 	 */
     function edit_from_post() {
         $partner = $this->get_from_post();
-        unset($partner->image);
+        unset($partner->image_name);
         return $this->_edit(TABLE_PARTNERS, $partner);
     }
     

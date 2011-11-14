@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Ноя 11 2011 г., 14:48
+-- Время создания: Ноя 14 2011 г., 15:06
 -- Версия сервера: 5.1.40
 -- Версия PHP: 5.3.3
 
@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `directions` (
   `name_en` varchar(300) DEFAULT NULL,
   `description_ru` varchar(800) DEFAULT NULL,
   `description_en` varchar(800) DEFAULT NULL,
+  `image` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
@@ -68,13 +69,13 @@ CREATE TABLE IF NOT EXISTS `directions` (
 -- Дамп данных таблицы `directions`
 --
 
-INSERT INTO `directions` (`id`, `name_ru`, `name_en`, `description_ru`, `description_en`) VALUES
-(5, 'Современные информационные технологии в образовании', NULL, NULL, NULL),
-(2, 'Разработка математических моделей синтеза и анализа проектных решений в поисковом конструировании', NULL, '12312321312', NULL),
-(3, 'Развитие и применение ERP-систем', NULL, NULL, NULL),
-(4, 'Интеллектуальная поддержка инженерного анализа на основе онтологий, качественных рассуждений и рассуждений по прецедентам', NULL, NULL, NULL),
-(6, 'Поисковое конструирование и программирование для синтеза и оптимизации систем', NULL, NULL, NULL),
-(11, 'Оголтелая война с Айфонами', 'iphone war', NULL, 'eng');
+INSERT INTO `directions` (`id`, `name_ru`, `name_en`, `description_ru`, `description_en`, `image`) VALUES
+(5, 'Современные информационные технологии в образовании', NULL, NULL, NULL, 0),
+(2, 'Разработка математических моделей синтеза и анализа проектных решений в поисковом конструировании', NULL, '12312321312', NULL, 0),
+(3, 'Развитие и применение ERP-систем', NULL, NULL, NULL, 0),
+(4, 'Интеллектуальная поддержка инженерного анализа на основе онтологий, качественных рассуждений и рассуждений по прецедентам', NULL, NULL, NULL, 0),
+(6, 'Поисковое конструирование и программирование для синтеза и оптимизации систем', NULL, NULL, NULL, 0),
+(11, 'Оголтелая война с Айфонами', 'iphone war', NULL, 'eng', 0);
 
 -- --------------------------------------------------------
 
@@ -96,16 +97,11 @@ CREATE TABLE IF NOT EXISTS `direction_members` (
 
 INSERT INTO `direction_members` (`id`, `userid`, `directionid`, `ishead`) VALUES
 (1, 25, 3, 1),
-(43, 30, 11, 0),
 (45, 25, 11, 1),
 (44, 17, 11, 0),
 (48, 17, 5, 0),
-(42, 30, 4, 1),
 (41, 25, 4, 0),
 (47, 25, 5, 1),
-(46, 30, 5, 0),
-(50, 30, 6, 0),
-(51, 43, 6, 0),
 (52, 17, 6, 0),
 (53, 25, 6, 1);
 
@@ -119,25 +115,12 @@ CREATE TABLE IF NOT EXISTS `files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(150) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Дамп данных таблицы `files`
 --
 
-INSERT INTO `files` (`id`, `name`) VALUES
-(5, 'uploads/users/path39462.png'),
-(6, 'uploads/users/path3946-8.png'),
-(7, 'uploads/users/maket.png'),
-(8, 'uploads/users/logo.png'),
-(9, 'uploads/users/f1.jpg'),
-(10, 'uploads/users/path30031.png'),
-(11, 'uploads/users/path3946-81.png'),
-(12, 'uploads/users/sitemap.png'),
-(13, 'uploads/users/db.png'),
-(14, 'uploads/users/path30032.png'),
-(15, 'uploads/users/path39463.png'),
-(16, 'uploads/users/path39464.png');
 
 -- --------------------------------------------------------
 
@@ -184,9 +167,9 @@ CREATE TABLE IF NOT EXISTS `partners` (
   `full_ru` text NOT NULL,
   `full_en` text,
   `url` varchar(300) DEFAULT NULL,
-  `image` varchar(150) DEFAULT NULL,
+  `image` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Дамп данных таблицы `partners`
@@ -196,7 +179,8 @@ INSERT INTO `partners` (`id`, `name_ru`, `name_en`, `short_ru`, `short_en`, `ful
 (1, 'Партнер 2', 'ОК', 'Хр', 'en_short', 'ОК', 'en_full', NULL, NULL),
 (2, 'Партнер главный', NULL, 'Кратко', NULL, 'Главное', NULL, NULL, NULL),
 (4, '$pon$or', NULL, 'Богат.', NULL, 'Хорош собой.', NULL, NULL, NULL),
-(5, 'Добрый доктор Айболит', NULL, 'Я лечу', NULL, 'Приходите. Прилетайте. Приплывайте.', NULL, NULL, NULL);
+(5, 'Добрый доктор Айболит', NULL, 'Я лечу', NULL, 'Приходите. Прилетайте. Приплывайте.', NULL, NULL, NULL),
+(6, '113', NULL, '1', NULL, '1', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -211,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `description_ru` varchar(800) NOT NULL,
   `description_en` varchar(800) DEFAULT NULL,
   `url` varchar(150) DEFAULT NULL,
-  `image` varchar(150) DEFAULT NULL,
+  `image` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=48 ;
 
@@ -221,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
 
 INSERT INTO `projects` (`id`, `name_ru`, `name_en`, `description_ru`, `description_en`, `url`, `image`) VALUES
 (1, 'Старт', 'Start', 'Создание и развитие малых инновационных предприятий. Финансирование инновационных проектов, находящихся на начальной стадии развития.', 'Creation and development of small innovative enterprises. Funding for innovative projects at the initial stage of development.', 'http://www.fasie.ru/fund_programms/Starts/start09-index.aspx', NULL),
-(2, 'У.М.Н.И.К', 'У.М.Н.И.К', 'Выявление молодых учёных, стремящихся самореализоваться через инновационную деятельность, и стимулирование массового участия молодежи в научно-технической и инновационной деятельности путем организационной и финансовой поддержки инновационных проектов.', 'Identification of young scientists, seeking to fulfill your potential through innovation and encouraging mass participation of youth in science, technology and innovation through organizational and financial support for innovative projects.', 'http://www.fasie.ru/fund_programms/umnik/umnik-index.aspx', 'uploads/projects/logo.png'),
+(2, 'У.М.Н.И.К', 'У.М.Н.И.К', 'Выявление молодых учёных, стремящихся самореализоваться через инновационную деятельность, и стимулирование массового участия молодежи в научно-технической и инновационной деятельности путем организационной и финансовой поддержки инновационных проектов.', 'Identification of young scientists, seeking to fulfill your potential through innovation and encouraging mass participation of youth in science, technology and innovation through organizational and financial support for innovative projects.', 'http://www.fasie.ru/fund_programms/umnik/umnik-index.aspx', NULL),
 (3, 'Программа “Построитель персонифицированных образовательных коллекций OntoCollectionBuilder”', NULL, 'Программа предназначена для интеллектуальной поддержки процесса адаптивного поиска электронных образовательных ресурсов. Программа позволяет проводить поиск электронных образовательных ресурсов в репозитории на основе метаописаний ресурсов и характеристик пользователя, интегрировать ресурсы в персонифицированные образовательные коллекции. Функционирование программы осуществляется на основе логического вывода на онтологиях. В качестве базы данных и базы знаний программы используются онтологии в формате OWL-DL.', NULL, NULL, NULL),
 (4, 'Автоматизированная система поддержки принятия решений при управлении водохозяйственной системой реки Эльба', NULL, 'Автоматизированная система поддержки принятия решений при управлении водохозяйственной системой реки Эльба была разработана в рамках европейского проекта RAMWASS с целью уменьшения разрушительных последствий паводков и сохранения экологического баланса реки Эльба. Для описания ситуации управления участком реки были разработана база знаний в виде онтологии OWL-DL. Для поддержки принятия решений используется механизм рассуждений по прецедентам, использующий специальные меру близости и показатель эффективности, а также алгоритмы поиска и адаптации прецедентов с использованием предложенной качественной модели. На разработанные базу знаний и программу были получены свидетельства о государственной регистрации.', NULL, NULL, NULL),
 (5, 'Автоматизированная система «ИР-4»', NULL, 'Предназначена для измерения и анализа основных характеристик монолитных кристаллических фильтров 2 и 3 порядка. Система имеет встроенный интеллектуальный модуль, что позволяет автоматизировать выбор электрода фильтра 3 порядка для дальнейшей настройки изделия.', NULL, NULL, NULL),
@@ -248,17 +232,13 @@ CREATE TABLE IF NOT EXISTS `project_members` (
 
 INSERT INTO `project_members` (`id`, `userid`, `projectid`) VALUES
 (9, 17, 2),
-(8, 30, 2),
-(56, 30, 5),
 (35, 17, 1),
-(34, 30, 1),
 (71, 25, 38),
 (57, 17, 5),
 (55, 25, 2),
 (67, 25, 33),
 (68, 17, 33),
-(70, 17, 37),
-(69, 30, 36);
+(70, 17, 37);
 
 -- --------------------------------------------------------
 
@@ -310,11 +290,7 @@ CREATE TABLE IF NOT EXISTS `publication_authors` (
 --
 
 INSERT INTO `publication_authors` (`id`, `userid`, `publicationid`) VALUES
-(18, 30, 12),
-(17, 30, 11),
-(19, 30, 13),
 (20, 17, 13),
-(21, 30, 14),
 (22, 25, 1),
 (23, 25, 4);
 
@@ -335,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `patronymic` varchar(30) NOT NULL,
   `photo` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
 
 --
 -- Дамп данных таблицы `users`
@@ -345,7 +321,9 @@ INSERT INTO `users` (`id`, `login`, `password`, `email`, `group`, `name`, `surna
 (17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 555100, 'Александр', 'Сова', 'Батькович', NULL),
 (25, 'dvorjankin', 'c4ca4238a0b923820dcc509a6f75849b', 'dvam@vstu2.ru', 555101, 'Александр', 'Дворянкин', 'Михайлович', NULL),
 (30, 'arkanif', 'c4ca4238a0b923820dcc509a6f75849b', '113em@mail.ru', 555100, 'Анатолиус', 'Ерофеев', 'Батькович', NULL),
-(43, '123', '202cb962ac59075b964b07152d234b70', NULL, 0, 'Иван', 'Иванов', 'Иванович', NULL);
+(43, '123', '202cb962ac59075b964b07152d234b70', NULL, 0, 'Иван', 'Иванов', 'Иванович', NULL),
+(44, 'jj', 'bf2bc2545a4a5f5683d9ef3ed0d977e0', NULL, 0, 'jj', 'jj', 'kk', NULL),
+(45, 'll', 'eaff0d95afc31f50a04c26c2a24c2c0b', NULL, 0, 'лл', 'лл', 'лл', NULL);
 
 -- --------------------------------------------------------
 

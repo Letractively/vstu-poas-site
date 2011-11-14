@@ -289,6 +289,7 @@ class User_model extends Super_model {
         $user = $this->get_from_post();
         // При создании записи хэшируем пароль
         $user->password = md5($user->password);
+        unset($user->photo_name);
         return $this->_add(TABLE_USERS, $user);		
 	}
 	

@@ -92,6 +92,7 @@
     $data['path'] = isset($user->photo_name) ? $user->photo_name : null;
     $data['field'] = 'user_photo';
     $data['fileid'] = $user->photo;
+    $data['label'] = 'Фотография';
     $this->load->view('admin/subview/file_upload_view',$data);
     
     echo form_label('Адрес электроннй почты', 'user_email', array('class' => 'inline-block'));
