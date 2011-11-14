@@ -285,7 +285,87 @@ class Admin extends CI_Controller {
      */
     function partners()
     {
-        $this->_page('partners', 'partner', MODEL_PARTNER);
+        //$this->_page('users', 'user', MODEL_USER);
+        $data = NULL;
+		$this->load->model(MODEL_PARTNER);
+        $this->lang->load('site', 'russian');
+		$this->load->library('form_validation');
+		switch($this->uri->segment(3)) {
+			case 'add':
+                if($this->uri->segment(4) == 'action')
+                {
+                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                    if ($this->form_validation->run('admin/partners/add') == FALSE)
+                    {
+                        $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
+                        $data['content'] = $this->load->view('admin/edit_partner_view', $data, TRUE);
+                        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('partner_a');
+                        $this->load->view('/templates/admin_view', $data);                        
+                    }
+                    else
+                    {
+                        $this->{MODEL_PARTNER}->add_from_post();
+                        $this->_view_page_list('partners', MODEL_PARTNER, $this->{MODEL_PARTNER}->message);
+                    }
+                }
+                else
+                {
+                    // загрузить необходимые виду данные
+                    $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
+                    $data['content'] = $this->load->view('/admin/edit_partner_view', $data, TRUE);
+                    $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('partner_a');
+                    $this->load->view('/templates/admin_view', $data);
+                }
+				break;
+			case 'edit':
+                if($this->uri->segment(4) == 'action')
+                {
+                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                    if ($this->form_validation->run('admin/partners/edit') == FALSE)
+                    {
+                        $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
+                        $data['partner'] = $this->{MODEL_PARTNER}->get_from_post();
+                        $data['content'] = $this->load->view('admin/edit_partner_view', $data, TRUE);
+                        $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('partner_a');
+                        $this->load->view('/templates/admin_view', $data);                        
+                    }
+                    else
+                    {
+                        $this->{MODEL_PARTNER}->edit_from_post();
+                        $this->_view_page_list('partners', MODEL_PARTNER, $this->{MODEL_PARTNER}->message);
+                    }
+                }
+                else
+                {
+                    if (!$this->{MODEL_PARTNER}->exists($this->uri->segment(4)))
+                    {
+                        $this->_view_page_list('partners', MODEL_PARTNER, 'Партнер не существует');
+                        return;
+                    }
+                    // загрузить необходимые виду данные
+                    $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
+                    $data['partner'] = $this->{MODEL_PARTNER}->get_partner($this->uri->segment(4));
+                    $data['content'] = $this->load->view('/admin/edit_partner_view', $data, TRUE);
+                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('user_a');
+                    $this->load->view('/templates/admin_view', $data);
+                }
+				break;
+			case 'delete':
+                if (!$this->{MODEL_PARTNER}->exists($this->uri->segment(4)))
+                {
+                    $this->_view_page_list('partners', MODEL_PARTNER, 'Партнер не существует');
+                    return;
+                }
+				$this->{MODEL_PARTNER}->delete($this->uri->segment(4));
+                $this->_view_page_list('partners', MODEL_PARTNER, $this->{MODEL_PARTNER}->message);
+				break;
+			case '':
+			default:
+				// по адресу "/admin/$name": список всех 
+				// он же при несуществующем методе
+				$this->_view_page_list('partners', MODEL_PARTNER);
+				break;
+		}
     }
     
     function courses()
