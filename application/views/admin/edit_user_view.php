@@ -37,7 +37,16 @@
     
     if (!isset($user->info_ru))     $user->info_ru = '';
     if (!isset($user->info_en))     $user->info_en = '';
-    
+    if (!isset($user->interests))   $users->interests = array();
+    for($i = 0; $i < 5; $i++)
+    {
+        $obj = new stdClass();
+        $obj->short = '';
+        $obj->full = '';
+        if (!isset($user->interests[$i]))   $user->interests[$i] = $obj;
+    }
+    if (!isset($user->teaching_ru))     $user->teaching_ru = '';
+    if (!isset($user->teaching_en))     $user->teaching_en = '';
     if(!isset($groups)) {
         $groups = array('Администратор','Препрдаватель','Студент');
     }
@@ -143,7 +152,18 @@
 <div class="hideble">
 <hr>
 <?php
-    echo 'todo';
+    for($i = 0; $i < 5; $i++)
+    {
+        $interest = $user->interests[$i];
+        echo form_label('Краткое название интереса', 'user_interest_short_' . $i, array('class' => 'inline-block'));
+        echo form_input('user_interest_short_' . $i, set_value('user_interest_short_' . $i, $interest->short), 'maxlength="10"');
+        echo form_error('user_interest_short_' . $i); 
+        echo br();
+        echo form_label('Полное название интереса', 'user_interest_full_' . $i, array('class' => 'inline-block'));
+        echo form_input('user_interest_full_' . $i, set_value('user_interest_full_' . $i, $interest->full), 'maxlength="100"');
+        echo form_error('user_interest_full_' . $i); 
+        echo br(2);
+    }
 ?>
 </div>
 </div>
@@ -206,6 +226,24 @@
     echo form_label('CV на английском', 'user_cv_en', array('class' => 'inline-block'));
     echo form_textarea('user_cv_en', set_value('user_cv_en', $user->cv_en), 'class="elrte_editor"');
     echo form_error('user_cv_en'); 
+    echo br(2);
+?>
+</div>
+</div>
+
+<div class="teaching">
+<a href="#" class="showhide">Преподавание</a>
+<div class="hideble">
+<hr>
+<?php
+    echo form_label('На русском', 'user_teaching_ru', array('class' => 'inline-block'));
+    echo form_textarea('user_teaching_ru', set_value('user_teaching_ru', $user->teaching_ru), 'class="elrte_editor"');
+    echo form_error('user_teaching_ru'); 
+    echo br(2);
+    
+    echo form_label('На английском', 'user_teaching_en', array('class' => 'inline-block'));
+    echo form_textarea('user_teaching_en', set_value('user_teaching_en', $user->teaching_en), 'class="elrte_editor"');
+    echo form_error('user_teaching_en'); 
     echo br(2);
 ?>
 </div>

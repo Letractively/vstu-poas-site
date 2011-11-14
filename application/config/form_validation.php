@@ -130,7 +130,68 @@ $config = array(
             'field' => 'user_info_en',
             'label' => 'Дополнительная информация (en)',
             'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_teaching_ru',
+            'label' => 'Преподавание',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_teaching_en',
+            'label' => 'Преподавание (en)',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_short_0',
+            'label' => 'Краткое название интереса',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_full_0',
+            'label' => 'Полное название интереса',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_short_1',
+            'label' => 'Краткое название интереса',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_full_1',
+            'label' => 'Полное название интереса',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_short_2',
+            'label' => 'Краткое название интереса',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_full_2',
+            'label' => 'Полное название интереса',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_short_3',
+            'label' => 'Краткое название интереса',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_full_3',
+            'label' => 'Полное название интереса',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_short_4',
+            'label' => 'Краткое название интереса',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_interest_full_4',
+            'label' => 'Полное название интереса',
+            'rules' => 'trim'
         )
+        
     )   
 );
 $admin_users_edit = $config['admin/users/add'];
