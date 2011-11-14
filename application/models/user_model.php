@@ -392,8 +392,8 @@ class User_model extends Super_model {
             'post_en' => 'user_post_en',
             'info_ru' => 'user_info_ru',
             'info_en' => 'user_info_en',
-            
-            
+            'teaching_ru' => 'user_teaching_ru',
+            'teaching_en' => 'user_teaching_en',
         );
         $nulled_fields = array(
             'email' => '',
@@ -411,6 +411,8 @@ class User_model extends Super_model {
             'post_en' => '',
             'info_ru' => '',
             'info_en' => '',
+            'teaching_ru' => '',
+            'teaching_en' => ''
         );
         $result = $this->_get_from_post('user', $fields, $nulled_fields);
         return $result;
