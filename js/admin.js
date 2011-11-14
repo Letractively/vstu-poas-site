@@ -232,9 +232,10 @@ function ajaxFileUpload(uploadid)
                     }
                     else
                     {
-                        alert(data.path + data.id);
+                        alert('Файл был успешно загружен (id=' + data.id +')');
                         $('#user_photo_image').attr('src',data.path);
                         $('input[name=user_photo_id]').attr('value', data.id);
+                        $('input[name=user_photo_name]').attr('value', data.pathindatabase);
                         $('#user_photo_image').parent('div').children('.service').hide();
                     }
                 }
