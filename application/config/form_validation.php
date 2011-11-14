@@ -90,4 +90,43 @@ $admin_users_edit[0] = array(
     'rules' => ''
 );
 $config['admin/users/edit'] = $admin_users_edit;
+
+$config['admin/partners/edit'] = array(
+    array(
+        'field' => 'partner_name_ru',
+        'label' => 'Имя партнера (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'partner_short_ru',
+        'label' => 'Краткое описание партнера (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'partner_full_ru',
+        'label' => 'Описание партнера (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'partner_url',
+        'label' => 'Ссылка на сайт партнера',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'partner_name_en',
+        'label' => 'Имя партнера (английское)',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'partner_short_en',
+        'label' => 'Краткое описание партнера (английское)',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'partner_full_en',
+        'label' => 'Описание партнера (английское)',
+        'rules' => 'trim'
+    )
+);
+$config['admin/partners/add'] = $config['admin/partners/edit'];
 ?>

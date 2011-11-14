@@ -83,7 +83,7 @@
     echo br(2);
 ?>
 
-<div class="contacts js_check_error">
+<div class="contacts">
     
     <a href="#" class="showhide">Контакты</a>
 <div class="hideble">
