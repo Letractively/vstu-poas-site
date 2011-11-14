@@ -38,7 +38,6 @@ class Ajax extends CI_Controller {
         $error = '';
         $path = '';
         $id = '';
-        
         $config['upload_path'] = './uploads/users/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '1000';
@@ -66,6 +65,7 @@ class Ajax extends CI_Controller {
         echo "{";
         echo				"error: '" . $error. "',\n";
         echo                "path:'" . $path . "',\n";
+        echo                "pathindatabase:'" . $file->name . "',\n";
         echo                "id:" . $id . "\n";
         echo "}";        
     }

@@ -391,7 +391,7 @@ class User_model extends Super_model {
         $record = $this->_get_record($user->id, TABLE_USERS);
         if ($record->password != $user->password)
             $user->password = md5($user->password);
-        
+        unset($user->photo_name);
         return $this->_edit(TABLE_USERS, $user);
     }
     function get_detailed($id) 
@@ -420,7 +420,8 @@ class User_model extends Super_model {
             'name' => 'user_name',
             'patronymic' => 'user_patronymic',
             'email' => 'user_email',
-            'photo' => 'user_photo_id'
+            'photo' => 'user_photo_id',
+            'photo_name' => 'user_photo_name'
         );
         $nulled_fields = array(
             'email' => '',
