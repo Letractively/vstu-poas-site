@@ -13,27 +13,20 @@ echo br(2);
 switch($page)
 {
 	case 'contacts':
-		// echo fio
-		// echo room
-		// echo phone
-		
-		//todo подумаль, надо ли видеть это гостю
-		
-		// снова anchor
-		//if (isset($user->email)) echo anchor('mailto:'.$user->email, $user->email);
-
-		if (isset($info->email))
-		{
-			echo $this->lang->line('email') 
-				 . ' :: <a href="mailto:' 
-			 	 . $info->email 
-				 . '">' 
-				 . $info->email 
-				 . '</a>';
-		}
-		
-		// echo site
-		// echo skype
+        echo '<div>';
+        echo $info->surname . ' ';
+        echo $info->name . ' ';
+        echo $info->patronymic . ' ';
+        echo br();
+        
+        echo $this->lang->line('rank') . '::' .$info->rank.br();
+        echo $this->lang->line('post') . '::' .$info->post.br();
+        echo $this->lang->line('address') . '::' .$info->address.br();
+        echo $this->lang->line('cabinet') . '::' .$info->cabinet.br();
+        echo $this->lang->line('phone') . '::' .$info->phone.br();
+        echo $this->lang->line('user_url') . '::' .$info->url.br();
+        echo $this->lang->line('email') . '::' .'<a href="mailto:'.$info->email.'">'.$info->email.'</a>';
+        echo '</div>';
 		break;
     case 'interest':
         if ($info)
@@ -78,6 +71,12 @@ switch($page)
 			}
 		}
 		break;
+    case 'cv':
+        if ($info)
+		{
+			echo $info->cv;
+		}
+        break;
 }
 echo '</div>';
 ?>

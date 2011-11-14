@@ -74,7 +74,7 @@ img.alignleft {
 #form_edit .forgotten { color : #ff0000}
 #form_edit .wrong-data {color : #ff0000}
 #form_edit .inline-block { vertical-align: top}
-#form_edit .hideble {display: none}
+/*#form_edit .hideble {display: none}*/
 #form_edit textarea.short {height:70px; width: 400px;}
 #form_edit .error {font-weight: bold; color : #ff0000; padding-left: 215px;}
 #form_edit img {margin-left: 215px}
@@ -346,7 +346,9 @@ textarea {
 
 
 
+
 .button_delete img { width:11px; height:11px; margin-bottom:-2px; /*margin-left:50px*/}
+
 .city_short_view {width:230px; display: inline-block}
 .district_short_view {width:230px; display: inline-block}
 .hotel_short_view {width:230px; display: inline-block}
