@@ -43,7 +43,7 @@ jQuery(document).ready( function($)
 	});
 });
 
-function ajaxFileUpload()
+function ajaxFileUpload(uploadid)
 {
     $("#loading").ajaxStart(function(){
         $(this).show();
@@ -56,7 +56,7 @@ function ajaxFileUpload()
         {
             url:'http://igniter/doupload',
             secureuri:false,
-            fileElementId:'fileToUpload',
+            fileElementId:uploadid,
             dataType: 'json',
             type:'POST',
             data:{name:'logan', id:'id',fileElementId:'fileToUpload'},

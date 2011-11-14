@@ -391,13 +391,25 @@ class User_model extends Super_model {
         $record = $this->_get_record($user->id, TABLE_USERS);
         if ($record->password != $user->password)
             $user->password = md5($user->password);
+        
         return $this->_edit(TABLE_USERS, $user);
     }
     function get_detailed($id) 
     {
     }
     function get_user($id){
-        return $this->_get_record($id, TABLE_USERS);
+        $record = $this->db
+                            ->select(TABLE_USERS.'.*, '.TABLE_FILES.'.name as photo_name')
+                            ->from(TABLE_USERS)
+                            ->join(TABLE_FILES, TABLE_USERS.'.photo='.TABLE_FILES.'.id','left')
+                            ->where(TABLE_USERS.'.id', $id)
+                            ->get()
+                            ->result();
+		if (!$record)
+		{
+			return NULL;
+		}
+		return $record[0];
     }
     function get_from_post() 
     {
@@ -408,13 +420,14 @@ class User_model extends Super_model {
             'name' => 'user_name',
             'patronymic' => 'user_patronymic',
             'email' => 'user_email',
-            'photo' => 'user_photo'
+            'photo' => 'user_photo_id'
         );
         $nulled_fields = array(
             'email' => '',
             'photo' => false
         );
-        return $this->_get_from_post('user', $fields, $nulled_fields);
+        $result = $this->_get_from_post('user', $fields, $nulled_fields);
+        return $result;
     }
     
     function exists($id)

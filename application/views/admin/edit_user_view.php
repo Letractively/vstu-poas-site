@@ -2,7 +2,7 @@
 <?php
     if(!isset($user->id)){
         $action = 'add';
-        $button = 'Добавить запись';
+        $submit = 'Добавить запись';
         
         $user->id           = null;
         $user->login        = '';
@@ -14,7 +14,7 @@
     }
     else {
         $action = 'edit';
-        $button = 'Применить изменения';
+        $submit = 'Применить изменения';
     }
     $user->passconf = $user->password;
     if (!isset($user->photo))       $user->photo = '';
@@ -89,10 +89,30 @@
 <div class="hideble">
 <hr>
 <?php
+    if(!isset($user->photo_name))
+    {
+        echo '<div class="service">Нет изображения</div>';
+        $user->photo_name = '';
+    }
+    else
+    {
+        echo '<div class="service"></div>';
+    }
+    $loadedimg = array('id'=>'user_photo_image', 'src'=>$user->photo_name);
+    
+    echo img($loadedimg).br();
+    //echo form_label('Удалить фотографию', 'user_photo_delete', array('class' => 'inline-block'));
+    //echo form_checkbox('user_photo_delete', '', FALSE).br();
+    
     echo form_label('Фотография', 'user_photo', array('class' => 'inline-block'));
-    echo form_upload('user_photo', set_value('user_photo', $user->photo));
-    echo form_error('user_photo'); 
-    echo br(2);
+    echo form_upload('user_photo_form', set_value('user_photo', $user->photo),'id="user_photo_form"');
+    
+    echo form_button('user_photo_load', 'Загрузить', 'id="user_photo_load" onclick="return ajaxFileUpload(\'user_photo_form\');"');
+    echo br();
+    $img = array('id'=>'loading', 'src'=>"/images/load/round.gif", 'style'=>'display:none;');
+    echo img($img);    
+    echo form_hidden('user_photo_id', $user->photo); 
+    echo br();
     
     echo form_label('Адрес электроннй почты', 'user_email', array('class' => 'inline-block'));
     echo form_input('user_email', set_value('user_email', $user->email), 'maxlength="40"');
@@ -144,7 +164,7 @@
     echo form_hidden('user_id', $user->id); 
 
     echo br(2); 
-    echo form_submit('user_submit', $button); 
+    echo form_submit('user_submit', $submit); 
     echo form_close(); 
 ?>
 

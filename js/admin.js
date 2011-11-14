@@ -14,6 +14,21 @@ jQuery(document).ready(function($)
         return false;
     });
     
+    $('input[name=user_photo_delete]').click(function(){
+        if($(this).attr('checked') == 'checked') 
+        {
+            $('#user_photo_image').css('opacity','0.5');
+            $('#user_photo_form').attr('disabled',true);
+            $('#user_photo_load').attr('disabled',true);
+        }
+        else
+        {
+            $('#user_photo_image').css('opacity','1');
+            $('#user_photo_form').attr('disabled',false);
+            $('#user_photo_load').attr('disabled',false);
+        }
+    });
+    
     $('.hideble .error').parent('.hideble').css('display','block');
     $('.hideble .error').parent('.hideble').parent('div').children('a').addClass('wrong-data');    
     
@@ -188,4 +203,49 @@ function toUrl(str) {
 
 function startUpload(){
     return true;
+}
+
+function ajaxFileUpload(uploadid)
+{
+    $("#loading").ajaxStart(function(){
+        $(this).show();
+    }).ajaxComplete(function(){
+        $(this).hide();
+    });
+
+    $.ajaxFileUpload
+    (
+        {
+            url:'http://igniter/ajax/upload',
+            secureuri:false,
+            dataType: 'json',
+            fileElementId:uploadid,
+            type:'POST',
+            data:{fileElementId:uploadid},
+            success: function (data, status)
+            {
+                if(typeof(data.error) != 'undefined')
+                {
+                    if(data.error != '')
+                    {
+                        alert(data.error);
+                    }
+                    else
+                    {
+                        alert(data.path + data.id);
+                        $('#user_photo_image').attr('src',data.path);
+                        $('input[name=user_photo_id]').attr('value', data.id);
+                        $('#user_photo_image').parent('div').children('.service').hide();
+                    }
+                }
+            },
+            error: function (data, status, e)
+            {
+                alert('error' + e);
+            }
+        }
+    )
+
+    return false;
+
 }
