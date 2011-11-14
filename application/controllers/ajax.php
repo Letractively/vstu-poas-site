@@ -33,20 +33,36 @@ class Ajax extends CI_Controller {
 		}
 	}
     
+    /**
+     * Сохраняет файл на сервере. Удаляет старый файл.
+     * использует POST-переменные:
+     * upload_path - куда сохранять файл
+     * allowed_types - разрешенные типы файлов
+     * max_size - максимальный разрешенный размер
+     * max_width - ширина, если это файл
+     * max_height - максимальная высота
+     * 
+     * table_name - имя таблицы, к которой будет относиться файл
+     * record_id - id записи в таблице table_name, к которой будет относится файл
+     * field_name - имя поля, в которое должен будет записаться id файла
+     * 
+     * результат в формате JSON:
+     * error - текст ошибки
+     * fullpath - полный путь к файлу
+     */
     function upload()
-    {
+    {        
         $error = '';
         $path = '';
         $id = '';
-        $config['upload_path'] = './uploads/users/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']	= '1000';
-		$config['max_width']  = '1024';
-		$config['max_height']  = '768';
+        $config['upload_path'] = $_POST['upload_path'];
+		$config['allowed_types'] = $_POST['allowed_types'];
+		$config['max_size']	= $_POST['max_size'];
+		$config['max_width']  = $_POST['max_width'];
+		$config['max_height']  = $_POST['max_height'];
 		
 		$this->load->library('upload', $config);
-        $elementName = $_POST['fileElementId'];
-        if ( ! $this->upload->do_upload($elementName))
+        if ( ! $this->upload->do_upload('file_form'))
 		{
             $error = $this->upload->display_errors('','');
 		}	
@@ -58,14 +74,18 @@ class Ajax extends CI_Controller {
             $segments = array_reverse($segments);
             $file->name = $segments[2].'/'.$segments[1].'/'.$segments[0];
             
+            // добавление записи в таблицу файлов
             $this->db->insert(TABLE_FILES, $file);
             $id = $this->db->insert_id();
-            $path = $this->config->item('base_url').$file->name;
+            $path = $this->config->item('base_url') . $file->name;
+            
+            // @todo
+            // удаление старого файла
+            // добавление нового
 		}
         echo "{";
         echo				"error: '" . $error. "',\n";
         echo                "path:'" . $path . "',\n";
-        echo                "pathindatabase:'" . $file->name . "',\n";
         echo                "id:" . $id . "\n";
         echo "}";        
     }

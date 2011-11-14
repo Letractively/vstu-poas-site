@@ -247,6 +247,21 @@ class Admin extends CI_Controller {
 				$this->{MODEL_USER}->delete($this->uri->segment(4));
                 $this->_view_page_list('users', MODEL_USER, $this->{MODEL_USER}->message);
 				break;
+            case 'edit_photo':
+                if (!$this->{MODEL_USER}->exists($this->uri->segment(4)))
+                {
+                    $this->_view_page_list('users', MODEL_USER, 'Пользователь не существует');
+                    return;
+                }                
+                $data['record_id'] = $this->uri->segment(4);
+                $data['table_name'] = TABLE_USERS;
+                $data['field_name'] = 'photo';
+                $data['file_url'] = $this->{MODEL_USER}->get_photo($this->uri->segment(4));
+                $data['upload_path'] = './uploads/users/';
+                $data['content'] = $this->load->view('upload_file', $data, TRUE);
+                $data['title'] = 'Редактирование фотографии пользователя';
+                $this->load->view('/templates/admin_view', $data);
+				break;
 			case '':
 			default:
 				// по адресу "/admin/$name": список всех 

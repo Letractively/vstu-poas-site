@@ -52,7 +52,7 @@ class User_model extends Super_model {
 		if (isset($id))
 		{
 			$records = $this->db
-							 ->select('id, name, surname, patronymic')
+							 ->select('id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
 							 ->get_where(TABLE_USERS, array('id' => $id), 1)
 							 ->result();
 			if( !$records)
@@ -63,7 +63,7 @@ class User_model extends Super_model {
 		}
 	
 		return $this->db
-					->select('id, name, surname, patronymic')
+					->select('id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
 					->order_by('surname, name, patronymic')
 					->get(TABLE_USERS)
 					->result();
@@ -77,14 +77,26 @@ class User_model extends Super_model {
 	 * @return данные или FALSE
 	 */
 	function get_user_info($id, $page)
-	{		
-		//@todo данные из базы
+	{
 		$data = FALSE;
 		switch ($page)
 		{
 			case 'contacts':
-				//@todo FIO, room, phone, email, site, skype
-				$records = $this->db->select('email,')->get_where(TABLE_USERS, array('id'=>$id))->result();
+				$records = $this->db
+                        ->select(   'email,'.
+                                    'surname_'.lang().' as surname,'.
+                                    'name_'.lang().' as name,'.
+                                    'patronymic_'.lang().' as patronymic,'.
+                                    'address_'.lang().' as address,'.
+                                    'cabinet,'.
+                                    'phone,'.
+                                    'url,'.
+                                    'skype,'.
+                                    'rank_'.lang().' as rank,'.
+                                    'post_'.lang().' as post'
+                                )
+                        ->get_where(TABLE_USERS, array('id'=>$id))
+                        ->result();
 				count($records) == 1 ? $data = $records[0] : FALSE;
 				break;
             case 'interest':
@@ -166,6 +178,10 @@ class User_model extends Super_model {
 				}
 				$data = $projects;
 				break;
+           case 'cv':
+                $records = $this->db->select('cv_'.lang().' as cv')->get_where(TABLE_USERS, array('id'=>$id))->result();
+				count($records) == 1 ? $data = $records[0] : FALSE;
+				break;
 				
 		}
 		return $data;
@@ -221,65 +237,6 @@ class User_model extends Super_model {
 		return count($data) > 0 ? $data : FALSE; 
 	}
 	
-	/**
-	 * Проверить данные, введенные на форме edit_user_view на корректность
-	 * @return массив с ошибками
-	 */
-	function get_errors() {
-        // Не использовать родительский метод
-		$errors = null;
-        
-        // Пароли разные?
-		if ($this->input->post('user_password2') !== $this->input->post('user_password'))
-			$errors->differentpasswords = TRUE;
-        
-        $login = $this->input->post('user_login');
-        
-        if ($this->input->post('user_id'))
-        {
-            // Если кто-то меняет логин на чужой - атата
-            if ($this->input->post('user_login'))
-                if ($this->get_id_by_login($login) != $this->input->post('user_id'))
-                    $errors->loginused = TRUE;
-        }
-        else
-        {
-            // Если кто-то создает запись с существующим логином - атата
-            if ($this->input->post('user_login'))
-                if ($this->is_login_exist($this->input->post('user_login')))
-                    $errors->loginused = TRUE;
-        }        
-		
-        // Пароль не забыли?
-        if ($this->input->post('user_password') === '') 
-        {
-            $errors->passwordforgotten = TRUE;
-            unset($errors->differentpasswords);
-        }
-        
-        // А повторно ввести?
-        if ($this->input->post('user_password2') === '') 
-        {
-            $errors->password2forgotten = TRUE;
-            unset($errors->differentpasswords);
-        }
-        
-        // Логин
-        if ($this->input->post('user_login') === '')
-            $errors->loginforgotten = TRUE;
-        // Имя
-        if ($this->input->post('user_name') === '')
-            $errors->nameforgotten = TRUE;
-        // Фамилия
-        if ($this->input->post('user_surname') === '')
-            $errors->surnameforgotten = TRUE;
-        // Отчество
-        if ($this->input->post('user_patronymic') === '')
-            $errors->patronymicforgotten = TRUE;
-        
-		return $errors;
-	}
-	
     /**
 	 * Добавить нового пользователя, используя данные, отправленные методом POST
 	 * @return int id - идентификатор добавленого пользователя | FALSE
@@ -289,7 +246,6 @@ class User_model extends Super_model {
         $user = $this->get_from_post();
         // При создании записи хэшируем пароль
         $user->password = md5($user->password);
-        unset($user->photo_name);
         return $this->_add(TABLE_USERS, $user);		
 	}
 	
@@ -392,11 +348,7 @@ class User_model extends Super_model {
         $record = $this->_get_record($user->id, TABLE_USERS);
         if ($record->password != $user->password)
             $user->password = md5($user->password);
-        unset($user->photo_name);
         return $this->_edit(TABLE_USERS, $user);
-    }
-    function get_detailed($id) 
-    {
     }
     function get_user($id){
         $record = $this->db
@@ -412,21 +364,53 @@ class User_model extends Super_model {
 		}
 		return $record[0];
     }
+    function get_detailed($id)
+    {}
     function get_from_post() 
     {
         $fields = array(
             'login'     => 'user_login',
             'password'     => 'user_password',
-            'surname' => 'user_surname',
-            'name' => 'user_name',
-            'patronymic' => 'user_patronymic',
+            'surname_ru' => 'user_surname_ru',
+            'name_ru' => 'user_name_ru',
+            'patronymic_ru' => 'user_patronymic_ru',
+            'surname_en' => 'user_surname_en',
+            'name_en' => 'user_name_en',
+            'patronymic_en' => 'user_patronymic_en',
             'email' => 'user_email',
-            'photo' => 'user_photo_id',
-            'photo_name' => 'user_photo_name'
+            'address_ru' => 'user_address_ru',
+            'address_en' => 'user_address_en',
+            'cv_ru' => 'user_cv_ru',
+            'cv_en' => 'user_cv_en',
+            'cabinet' => 'user_cabinet',
+            'skype' => 'user_skype',
+            'phone' => 'user_phone',
+            'url' => 'user_url',
+            'rank_ru' => 'user_rank_ru',
+            'rank_en' => 'user_rank_en',
+            'post_ru' => 'user_post_ru',
+            'post_en' => 'user_post_en',
+            'info_ru' => 'user_info_ru',
+            'info_en' => 'user_info_en',
+            
+            
         );
         $nulled_fields = array(
             'email' => '',
-            'photo' => false
+            'address_ru' => '',
+            'address_en' => '',
+            'cv_ru' => '',
+            'cv_en' => '',
+            'cabinet' => '',
+            'skype' => '',
+            'phone' => '',
+            'url' => '',
+            'rank_ru' => '',
+            'rank_en' => '',
+            'post_ru' => '',
+            'post_en' => '',
+            'info_ru' => '',
+            'info_en' => '',
         );
         $result = $this->_get_from_post('user', $fields, $nulled_fields);
         return $result;
@@ -435,5 +419,14 @@ class User_model extends Super_model {
     function exists($id)
     {
         return $this->_record_exists(TABLE_USERS, $id);
+    }
+    
+    function get_photo($id)
+    {
+        if ($user = $this->get_user($id))
+        {
+            return $user->photo_name;
+        }
+        return null;
     }
 }

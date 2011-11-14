@@ -29,8 +29,6 @@ jQuery(document).ready(function($)
         }
     });
     
-    $('.hideble .error').parent('.hideble').css('display','block');
-    $('.hideble .error').parent('.hideble').parent('div').children('a').addClass('wrong-data');    
     
     $('input[name=project_image_action]').click(function(){
         if($('input[value=update]').attr('checked') == 'checked') {
@@ -83,6 +81,11 @@ jQuery(document).ready(function($)
 		};
 	$('.elrte_editor').elrte(elrte_options);
 	$('.elrte_editor_mini').elrte(elrte_options_mini);
+    
+    
+    $('.hideble').css('display','none');
+    $('.hideble .error').parent('.hideble').css('display','block');
+    $('.hideble .error').parent('.hideble').parent('div').children('a').addClass('wrong-data');
 });
 
 /**
@@ -205,7 +208,26 @@ function startUpload(){
     return true;
 }
 
-function ajaxFileUpload(uploadid, field)
+/**
+ * upload_path - куда сохранять файл
+ * allowed_types - разрешенные типы файлов
+ * max_size - максимальный разрешенный размер
+ * max_width - ширина, если это файл
+ * max_height - максимальная высота
+ * 
+ * table_name - имя таблицы, к которой будет относиться файл
+ * record_id - id записи в таблице table_name, к которой будет относится файл
+ * field_name - имя поля, в которое должен будет записаться id файла
+ */
+function ajaxFileUpload(
+    upload_path,
+    allowed_types,
+    max_size,
+    max_width,
+    max_height,
+    table_name,
+    record_id,
+    field_name)
 {
     $("#loading").ajaxStart(function(){
         $(this).show();
@@ -219,9 +241,20 @@ function ajaxFileUpload(uploadid, field)
             url:'http://igniter/ajax/upload',
             secureuri:false,
             dataType: 'json',
-            fileElementId:uploadid,
+            fileElementId:'file_form',
             type:'POST',
-            data:{fileElementId:uploadid, field:field},
+            data:
+                {
+                    upload_path:upload_path,
+                    allowed_types:allowed_types,
+                    max_size:max_size,
+                    max_width:max_width,
+                    max_height:max_height,
+                    
+                    table_name:table_name,
+                    record_id:record_id,
+                    field_name:field_name
+                },
             success: function (data, status)
             {
                 if(typeof(data.error) != 'undefined')
@@ -233,16 +266,13 @@ function ajaxFileUpload(uploadid, field)
                     else
                     {
                         alert('Файл был успешно загружен (id=' + data.id +')');
-                        $('#'+field+'_image').attr('src',data.path);
-                        $('input[name='+field+'_id]').attr('value', data.id);
-                        $('input[name='+field+'_name]').attr('value', data.pathindatabase);
-                        $('#'+field+'_image').parent('div').children('.service').hide();
+                        $('#file_preview').attr('src',data.path);
                     }
                 }
             },
             error: function (data, status, e)
             {
-                alert('error' + e);
+                alert(e);
             }
         }
     )

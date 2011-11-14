@@ -17,18 +17,33 @@ $config = array(
             'rules' => 'trim|required||matches[user_password]'
         ),
         array(
-            'field' => 'user_name',
+            'field' => 'user_name_ru',
             'label' => 'Имя',
             'rules' => 'trim|required'
         ),
         array(
-            'field' => 'user_surname',
+            'field' => 'user_name_en',
+            'label' => 'Имя (en)',
+            'rules' => 'trim|required'
+        ),
+        array(
+            'field' => 'user_surname_ru',
             'label' => 'Фамилия',
             'rules' => 'trim|required'
         ),
         array(
-            'field' => 'user_patronymic',
+            'field' => 'user_surname_en',
+            'label' => 'Фамилия (en)',
+            'rules' => 'trim|required'
+        ),
+        array(
+            'field' => 'user_patronymic_ru',
             'label' => 'Отчество',
+            'rules' => 'trim|required'
+        ),
+        array(
+            'field' => 'user_patronymic_en',
+            'label' => 'Отчество (en)',
             'rules' => 'trim|required'
         ),
         array(
@@ -62,24 +77,59 @@ $config = array(
             'rules' => 'trim'
         ),
         array(
-            'field' => 'user_address',
+            'field' => 'user_address_ru',
             'label' => 'Адрес',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_address_en',
+            'label' => 'Адрес (en)',
             'rules' => 'trim'
         ),
         array(
             'field' => 'user_cv_ru',
             'label' => 'CV на русском',
-            'rules' => 'trim|numeric'
+            'rules' => 'trim'
         ),
         array(
-            'field' => 'user_photo',
-            'label' => 'Фотография',
-            'rules' => 'callback__validate_photo'
+            'field' => 'user_cv_en',
+            'label' => 'CV (en)',
+            'rules' => 'trim'
         ),
         array(
             'field' => 'user_id',
             'label' => 'User id',
             'rules' => ''
+        ),
+        array(
+            'field' => 'user_rank_ru',
+            'label' => 'Звание',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_rank_en',
+            'label' => 'Звание (en)',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_post_ru',
+            'label' => 'Должность',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_post_en',
+            'label' => 'Должность (en)',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_info_ru',
+            'label' => 'Дополнительная информация',
+            'rules' => 'trim'
+        ),
+        array(
+            'field' => 'user_info_en',
+            'label' => 'Дополнительная информация (en)',
+            'rules' => 'trim'
         )
     )   
 );
