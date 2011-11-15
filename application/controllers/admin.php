@@ -10,7 +10,7 @@ class Admin extends CI_Controller {
 		$this->load->database('default');
 		$this->load->model('user_model');
 		$this->user_model->check_admin();		// Проверка прав (является ли пользователь администратором)
-	}
+	} 
 	
 	/** Главная страница админки */
 	function index()
