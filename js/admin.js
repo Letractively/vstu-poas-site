@@ -238,7 +238,7 @@ function ajaxFileUpload(
     $.ajaxFileUpload
     (
         {
-            url:'http://igniter/ajax/upload',
+            url:'/ajax/upload',
             secureuri:false,
             dataType: 'json',
             fileElementId:'file_form',
