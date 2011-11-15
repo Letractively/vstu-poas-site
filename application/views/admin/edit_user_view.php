@@ -68,42 +68,42 @@
     echo br(2); 
 
     echo form_label('Пароль*', 'user_password', array('class' => 'inline-block'));
-    echo form_password('user_password', set_value('user_password', $user->password), 'maxlength="15"');
+    echo form_password('user_password', set_value('user_password', $user->password), 'maxlength="15" class="short"');
     echo form_error('user_password'); 
     echo br(); 
 
     echo form_label('Подтверждение пароля*', 'user_passconf', array('class' => 'inline-block'));
-    echo form_password('user_passconf', set_value('user_passconf', $user->passconf), 'maxlength="15"');
+    echo form_password('user_passconf', set_value('user_passconf', $user->passconf), 'maxlength="15" class="short"');
     echo form_error('user_passconf'); 
     echo br(2); 
 
     echo form_label('Фамилия*', 'user_surname_ru', array('class' => 'inline-block'));
-    echo form_input('user_surname_ru', set_value('user_surname_ru', $user->surname_ru), 'maxlength="30"');
+    echo form_input('user_surname_ru', set_value('user_surname_ru', $user->surname_ru), 'maxlength="30" class="short"');
     echo form_error('user_surname_ru'); 
     echo br(2); 
 
     echo form_label('Имя*', 'user_name_ru', array('class' => 'inline-block'));
-    echo form_input('user_name_ru', set_value('user_name_ru', $user->name_ru), 'maxlength="30"');
+    echo form_input('user_name_ru', set_value('user_name_ru', $user->name_ru), 'maxlength="30" class="short"');
     echo form_error('user_name_ru'); 
     echo br(2); 
 
     echo form_label('Отчество*', 'user_patronymic_ru', array('class' => 'inline-block'));
-    echo form_input('user_patronymic_ru', set_value('user_patronymic_ru', $user->patronymic_ru), 'maxlength="30"');
+    echo form_input('user_patronymic_ru', set_value('user_patronymic_ru', $user->patronymic_ru), 'maxlength="30" class="short"');
     echo form_error('user_patronymic_ru'); 
     echo br(2); 
 
     echo form_label('Фамилия (en)*', 'user_surname_en', array('class' => 'inline-block'));
-    echo form_input('user_surname_en', set_value('user_surname_en', $user->surname_en), 'maxlength="30"');
+    echo form_input('user_surname_en', set_value('user_surname_en', $user->surname_en), 'maxlength="30" class="short"');
     echo form_error('user_surname_en'); 
     echo br(2); 
 
     echo form_label('Имя (en)*', 'user_name_en', array('class' => 'inline-block'));
-    echo form_input('user_name_en', set_value('user_name_en', $user->name_en), 'maxlength="30"');
+    echo form_input('user_name_en', set_value('user_name_en', $user->name_en), 'maxlength="30" class="short"');
     echo form_error('user_name_en'); 
     echo br(2); 
 
     echo form_label('Отчество (en)*', 'user_patronymic_en', array('class' => 'inline-block'));
-    echo form_input('user_patronymic_en', set_value('user_patronymic_en', $user->patronymic_en), 'maxlength="30"');
+    echo form_input('user_patronymic_en', set_value('user_patronymic_en', $user->patronymic_en), 'maxlength="30" class="short"');
     echo form_error('user_patronymic_en'); 
     echo br(2);     
     
@@ -125,22 +125,22 @@
 <?php
 
     echo form_label('Звание', 'user_rank_ru', array('class' => 'inline-block'));
-    echo form_input('user_rank_ru', set_value('user_rank_ru', $user->rank_ru), 'maxlength="100"');
+    echo form_input('user_rank_ru', set_value('user_rank_ru', $user->rank_ru), 'maxlength="100" class="long"');
     echo form_error('user_rank_ru');
     echo br(2);  
     
     echo form_label('Звание (en)', 'user_rank_en', array('class' => 'inline-block'));
-    echo form_input('user_rank_en', set_value('user_rank_en', $user->rank_en), 'maxlength="100"');
+    echo form_input('user_rank_en', set_value('user_rank_en', $user->rank_en), 'maxlength="100" class="long"');
     echo form_error('user_rank_en');
     echo br(2);  
     
     echo form_label('Должность', 'user_post_ru', array('class' => 'inline-block'));
-    echo form_input('user_post_ru', set_value('user_post_ru', $user->post_ru), 'maxlength="100"');
+    echo form_input('user_post_ru', set_value('user_post_ru', $user->post_ru), 'maxlength="100" class="long"');
     echo form_error('user_post_ru');
     echo br(2);  
     
     echo form_label('Должность (en)', 'user_post_en', array('class' => 'inline-block'));
-    echo form_input('user_post_en', set_value('user_post_en', $user->post_en), 'maxlength="100"');
+    echo form_input('user_post_en', set_value('user_post_en', $user->post_en), 'maxlength="100" class="long"');
     echo form_error('user_post_en');
     echo br(2);  
 ?>
@@ -156,11 +156,11 @@
     {
         $interest = $user->interests[$i];
         echo form_label('Краткое название интереса', 'user_interest_short_' . $i, array('class' => 'inline-block'));
-        echo form_input('user_interest_short_' . $i, set_value('user_interest_short_' . $i, $interest->short), 'maxlength="10"');
+        echo form_input('user_interest_short_' . $i, set_value('user_interest_short_' . $i, $interest->short), 'maxlength="10" class="short"');
         echo form_error('user_interest_short_' . $i); 
         echo br();
         echo form_label('Полное название интереса', 'user_interest_full_' . $i, array('class' => 'inline-block'));
-        echo form_input('user_interest_full_' . $i, set_value('user_interest_full_' . $i, $interest->full), 'maxlength="100"');
+        echo form_input('user_interest_full_' . $i, set_value('user_interest_full_' . $i, $interest->full), 'maxlength="100" class="long"');
         echo form_error('user_interest_full_' . $i); 
         echo br(2);
     }
@@ -176,27 +176,27 @@
 <?php
     
     echo form_label('Адрес электроннй почты', 'user_email', array('class' => 'inline-block'));
-    echo form_input('user_email', set_value('user_email', $user->email), 'maxlength="40"');
+    echo form_input('user_email', set_value('user_email', $user->email), 'maxlength="40" class="short"');
     echo form_error('user_email'); 
     echo br(2);
     
     echo form_label('Телефон', 'user_phone', array('class' => 'inline-block'));
-    echo form_input('user_phone', set_value('user_phone', $user->phone), 'maxlength="20"');
+    echo form_input('user_phone', set_value('user_phone', $user->phone), 'maxlength="20" class="short"');
     echo form_error('user_phone'); 
     echo br(2);
     
     echo form_label('Кабинет', 'user_cabinet', array('class' => 'inline-block'));
-    echo form_input('user_cabinet', set_value('user_cabinet', $user->cabinet), 'maxlength="10"');
+    echo form_input('user_cabinet', set_value('user_cabinet', $user->cabinet), 'maxlength="10" class="short"');
     echo form_error('user_cabinet'); 
     echo br(2);
     
     echo form_label('Веб-сайт', 'user_url', array('class' => 'inline-block'));
-    echo form_input('user_url', set_value('user_url', $user->url), 'maxlength="150"');
+    echo form_input('user_url', set_value('user_url', $user->url), 'maxlength="150" class="long"');
     echo form_error('user_url'); 
     echo br(2);
     
     echo form_label('Skype', 'user_skype', array('class' => 'inline-block'));
-    echo form_input('user_skype', set_value('user_skype', $user->skype), 'maxlength="40"');
+    echo form_input('user_skype', set_value('user_skype', $user->skype), 'maxlength="40" class="short"');
     echo form_error('user_skype'); 
     echo br(2);
     
