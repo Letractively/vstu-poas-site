@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Ноя 15 2011 г., 11:13
+-- Время создания: Ноя 15 2011 г., 15:03
 -- Версия сервера: 5.1.40
 -- Версия PHP: 5.3.3
 
@@ -134,14 +134,15 @@ CREATE TABLE IF NOT EXISTS `interests` (
   `full` varchar(100) NOT NULL,
   `userid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Дамп данных таблицы `interests`
 --
 
 INSERT INTO `interests` (`id`, `short`, `full`, `userid`) VALUES
-(1, 'PHP', 'PHP Hypertext Preprocessor', 30);
+(2, 'PHP', 'PHP Hypertext Preprocessor', 30),
+(3, 'BPMN', 'Buisness Processes Modeling and Notation', 30);
 
 -- --------------------------------------------------------
 

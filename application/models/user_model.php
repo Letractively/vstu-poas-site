@@ -209,6 +209,16 @@ class User_model extends Super_model {
 						 ->result();
 		return count($data) > 0 ? $data : FALSE; 
     }
+    function get_user_interests($id)
+    {
+        $data = $this->db->select(TABLE_INTERESTS.'.short, '.TABLE_INTERESTS.'.full')
+						 ->from(TABLE_USERS)
+						 ->join(TABLE_INTERESTS, TABLE_USERS . '.id = userid')
+						 ->where('userid = ' . $id)
+						 ->get()
+						 ->result();
+		return count($data) > 0 ? $data : FALSE; 
+    }
     function get_user_directions($id)
     {
         $data = $this->db->select('directionid,' . TABLE_DIRECTIONS . '.name_ru,' . TABLE_DIRECTIONS . '.name_en, ishead')
@@ -385,6 +395,7 @@ class User_model extends Super_model {
 		{
 			return NULL;
 		}
+        $record[0]->interests = $this->get_user_interests($id);
 		return $record[0];
     }
     function get_detailed($id)
