@@ -246,8 +246,30 @@ class User_model extends Super_model {
         $user = $this->get_from_post();
         // При создании записи хэшируем пароль
         $user->password = md5($user->password);
-        return $this->_add(TABLE_USERS, $user);		
+        $id = $this->_add(TABLE_USERS, $user);
+        $this->add_interests_from_post($id);
+        return $id;
 	}
+    
+    function add_interests_from_post($id) 
+    {
+        $this->db->delete(TABLE_INTERESTS, array('userid' => $id));
+        for($i = 0; $i < 5; $i++)
+        {
+            $short = $this->input->post('user_interest_short_'.$i);
+            $full = $this->input->post('user_interest_full_'.$i);
+            $has_short = isset($short) && $short != '';
+            $has_full = isset($full) && $full != '';
+            if($has_short && $has_full)
+            {            
+                $interest = new stdClass();
+                $interest->userid = $id;
+                $interest->short = $short;
+                $interest->full = $full;
+                $this->db->insert(TABLE_INTERESTS, $interest);
+            }
+        }
+    }
 	
 	/**
 	 * Проверить, есть ли пользователь с данным именем логина в базе данных (занят ли логин) 
@@ -348,6 +370,7 @@ class User_model extends Super_model {
         $record = $this->_get_record($user->id, TABLE_USERS);
         if ($record->password != $user->password)
             $user->password = md5($user->password);
+        $this->add_interests_from_post($user->id);
         return $this->_edit(TABLE_USERS, $user);
     }
     function get_user($id){
