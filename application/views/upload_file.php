@@ -50,8 +50,6 @@
     echo form_button('file_load', 'Загрузить', 'id="file_load" onclick="return ajaxFileUpload('.$args.');"');
     echo br();
     
-    echo '<img id="file_preview" alt="Ваш файл" src="'.$file_url.'">';
-    //$loadedimg = array('id'=>'file_preview', 'src'=>'', 'alt' => 'Ваш файл');    
-    //echo img($loadedimg).br();
+    echo '<img id="file_preview" alt="Ваш файл" src="'.$this->config->item('base_url').$file_url.'">';
 ?>
 </div>

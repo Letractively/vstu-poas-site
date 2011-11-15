@@ -9,7 +9,7 @@
     {
         echo '<div class="service"></div>';
     }
-    $loadedimg = array('id'=>$field.'_image', 'src'=>$path);
+    $loadedimg = array('id'=>$field.'_image', 'src'=>$this->config->item('base_url').$path);
     
     echo img($loadedimg).br();
     

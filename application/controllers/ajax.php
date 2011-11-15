@@ -51,7 +51,7 @@ class Ajax extends CI_Controller {
      * fullpath - полный путь к файлу
      */
     function upload()
-    {        
+    {
         $error = '';
         $path = '';
         $id = '';
@@ -79,15 +79,28 @@ class Ajax extends CI_Controller {
             $id = $this->db->insert_id();
             $path = $this->config->item('base_url') . $file->name;
             
-            // @todo
-            // удаление старого файла
+            $field = $_POST['field_name'];
+            // удаление старого файла из таблицы table_name с id = record_id из поля field_name
+            $old = $this->db
+                            ->select($field)
+                            ->get_where($_POST['table_name'], array('id' => $_POST['record_id']))
+                            ->result();
+            if ($old) 
+            {
+                $this->load->model(MODEL_FILE);
+                $oldpath = $this->{MODEL_FILE}->delete_file($old[0]->$field);
+            }
             // добавление нового
+            
+            $record->$field = $id;
+            $this->db->where('id', $_POST['record_id']);
+            $this->db->update($_POST['table_name'], $record);            
 		}
         echo "{";
         echo				"error: '" . $error. "',\n";
         echo                "path:'" . $path . "',\n";
-        echo                "id:" . $id . "\n";
-        echo "}";        
+        echo                "id:'" . $id . "'\n";
+        echo "}";
     }
 }
 
