@@ -80,6 +80,7 @@ define('MODEL_DIRECTION',	'direction_model');			/// научные направ�
 define('MODEL_PUBLICATION', 'publication_model');       /// публикации
 define('MODEL_PARTNER',     'partner_model');           /// партнеры
 define('MODEL_COURSE',      'course_model');            /// курсы
+define('MODEL_FILE',      'file_model');            /// файлы
 
 /*
 |--------------------------------------------------------------------------

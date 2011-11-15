@@ -176,6 +176,7 @@ class Admin extends CI_Controller {
         //$this->_page('users', 'user', MODEL_USER);
         $data = NULL;
 		$this->load->model(MODEL_USER);
+        $this->load->model(MODEL_FILE);
         $this->lang->load('site', 'russian');
 		$this->load->library('form_validation');
 		switch($this->uri->segment(3)) {
@@ -259,6 +260,7 @@ class Admin extends CI_Controller {
                 $data['file_url'] = $this->{MODEL_USER}->get_photo($this->uri->segment(4));
                 $data['upload_path'] = './uploads/users/';
                 $data['content'] = $this->load->view('upload_file', $data, TRUE);
+                $data['content'] .= '<br><br><a href="admin/users"> К списку пользователей </a>';
                 $data['title'] = 'Редактирование фотографии пользователя';
                 $this->load->view('/templates/admin_view', $data);
 				break;
