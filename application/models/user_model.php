@@ -369,8 +369,9 @@ class User_model extends Super_model {
         $projects = $this->_delete(TABLE_PROJECT_MEMBERS, $id, 'userid');
         $directions = $this->_delete(TABLE_DIRECTION_MEMBERS, $id, 'userid');
         $publications = $this->_delete(TABLE_PUBLICATION_AUTHORS, $id, 'userid');
+        $interests = $this->_delete(TABLE_INTERESTS, $id, 'userid');
         $this->message = $message;
-        return $result && $projects && $directions && $publications;
+        return $result && $projects && $directions && $publications && $interests;
     }
     function edit_from_post() 
     {        
