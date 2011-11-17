@@ -383,6 +383,8 @@ class User_model extends Super_model {
     {
         $result = $this->_delete(TABLE_USERS, $id);
         $message = $this->message;
+        
+        $groups = $projects = $this->_delete(TABLE_USERS_GROUPS, $id, 'user_id');
         $projects = $this->_delete(TABLE_PROJECT_MEMBERS, $id, 'userid');
         $directions = $this->_delete(TABLE_DIRECTION_MEMBERS, $id, 'userid');
         $publications = $this->_delete(TABLE_PUBLICATION_AUTHORS, $id, 'userid');

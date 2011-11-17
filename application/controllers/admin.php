@@ -9,7 +9,7 @@ class Admin extends CI_Controller {
 		$this->output->enable_profiler(TRUE);	// Отладка (содержимое после основного контента)
 		$this->load->database('default');
 		$this->load->model('user_model');
-		$this->user_model->check_admin();		// Проверка прав (является ли пользователь администратором)
+		$this->user_model->check_admin();		// Проверка прав (является ли пользователь администратором)        
 	}
 	
 	/** Главная страница админки */
