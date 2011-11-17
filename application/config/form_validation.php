@@ -2,9 +2,9 @@
 $config = array(
     'admin/users/add' => array(
         array(
-            'field' => 'user_login',
+            'field' => 'user_username',
             'label' => 'Логин',
-            'rules' => 'trim|required|alpha_dash|callback__login_unique'
+            'rules' => 'trim|required|alpha_dash|callback__username_unique'
         ),
         array(
             'field' => 'user_password',
@@ -196,7 +196,7 @@ $config = array(
 );
 $admin_users_edit = $config['admin/users/add'];
 $admin_users_edit[0] = array(
-    'field' => 'user_login',
+    'field' => 'user_username',
     'label' => 'Логин',
     'rules' => ''
 );

@@ -118,15 +118,15 @@ class Admin extends CI_Controller {
     /**
      * Узнать, свободен ли логин.
      * Используется библиотекой Form validation, см. config/form_validation.php
-     * @param $login интересующий систему логин
+     * @param $username интересующий систему логин
      * @return bool TRUE, если логин свободен, иначе FALSE
      */
-    function _login_unique($login)
+    function _username_unique($username)
     {
         $this->load->model(MODEL_USER);
-        $result = $this->{MODEL_USER}->is_login_exist($login);
+        $result = $this->{MODEL_USER}->is_username_exist($username);
         if ($result){
-            $this->form_validation->set_message('_login_unique', 'Логин уже используется');
+            $this->form_validation->set_message('_username_unique', 'Логин уже используется');
         }
         return !$result;
     }

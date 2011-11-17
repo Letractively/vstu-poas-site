@@ -27,7 +27,7 @@
 ?>
 <?php
 
-    echo form_open_multipart('admin/partners/' . $action . '/action');
+    echo form_open('admin/partners/' . $action . '/action');
 
 // Ввод русского имени партнера (обязательный параметр)
     echo form_label('Имя партнера (русское)*', 'partner_name_ru', array('class' => 'inline-block'));
@@ -52,12 +52,6 @@
     echo form_input('partner_url', set_value('partner_url', $partner->url), 'maxlength="300"');
     echo form_error('partner_url'); 
     echo br(2);
-
-    $data['path'] = isset($partner->image_name) ? $partner->image_name : null;
-    $data['field'] = 'partner_image';
-    $data['fileid'] = $partner->image;
-    $data['label'] = 'Изображение';
-    $this->load->view('admin/subview/file_upload_view.php', $data);
 
 echo '<div class="english-version">';
 echo '<a href="#" class="showhide">Английская версия</a>';
