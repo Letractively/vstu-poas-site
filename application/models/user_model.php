@@ -260,7 +260,12 @@ class User_model extends Super_model {
         unset($user->username);
         unset($user->password);
         unset($user->email);
-        $id = $this->ion_auth->register($username, $password, $email, (array)$user);
+        $id = $this->ion_auth->register(
+                $username, 
+                $password, 
+                $email, 
+                (array)$user,
+                array($this->input->post('user_group')));
         if ($id !== FALSE)
         {
             $this->message = 'Запись была успешно внесена в базу данных';
