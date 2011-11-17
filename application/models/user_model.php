@@ -14,7 +14,7 @@ class User_model extends Super_model {
 	function validate_from_post()
 	{
 		$this->db->select('group');
-		$this->db->where('login', $this->input->post('form_login_username'));
+		$this->db->where('username', $this->input->post('form_login_username'));
 		$this->db->where('password', $this->input->post('form_login_password'));
 		$query = $this->db->get('users');
 		
@@ -283,24 +283,24 @@ class User_model extends Super_model {
 	
 	/**
 	 * Проверить, есть ли пользователь с данным именем логина в базе данных (занят ли логин) 
-	 * @param string $login - проверяемое имя логина
+	 * @param string $username - проверяемое имя логина
 	 */
-	function is_login_exist($login, $id = null)
+	function is_username_exist($username, $id = null)
 	{
-        $this->db->from(TABLE_USERS)->where('login', $login);
+        $this->db->from(TABLE_USERS)->where('username', $username);
         return $this->db->count_all_results() > 0;
 	}
     
     /**
      * Получить идентификатор пользователя по логину
-     * @param $login логин
+     * @param $username логин
      * @return id или -1
      */
-    function get_id_by_login($login)
+    function get_id_by_username($username)
     {
         $records = $this->db
                         ->select('id')
-                        ->get_where(TABLE_USERS,array('login' => $login))
+                        ->get_where(TABLE_USERS,array('username' => $username))
                         ->result();
         if ($records)
             return $records[0]->id;
@@ -404,7 +404,7 @@ class User_model extends Super_model {
     function get_from_post() 
     {
         $fields = array(
-            'login'     => 'user_login',
+            'username'     => 'user_username',
             'password'     => 'user_password',
             'surname_ru' => 'user_surname_ru',
             'name_ru' => 'user_name_ru',

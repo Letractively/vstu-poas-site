@@ -5,7 +5,7 @@
         $submit = 'Добавить запись';
         
         $user->id               = null;
-        $user->login            = '';
+        $user->username         = '';
         $user->password         = '';
         $user->surname_ru       = '';
         $user->name_ru          = '';
@@ -56,15 +56,15 @@
     
     echo form_open_multipart('admin/users/'.$action.'/action'); 
     // Редактирование логина недопустимо
-    echo form_label('Логин*', 'user_login', array('class' => 'inline-block'));
+    echo form_label('Логин*', 'user_username', array('class' => 'inline-block'));
     if ($action === 'add')
-        echo form_input('user_login', set_value('user_login', $user->login), 'maxlength="20"');
+        echo form_input('user_username', set_value('user_username', $user->username), 'maxlength="20"');
     else
     {
-        echo $user->login;
-        echo form_hidden('user_login',$user->login);
+        echo $user->username;
+        echo form_hidden('user_username',$user->username);
     }
-    echo form_error('user_login'); 
+    echo form_error('user_username'); 
     echo br(2); 
 
     echo form_label('Пароль*', 'user_password', array('class' => 'inline-block'));
