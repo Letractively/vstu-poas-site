@@ -254,10 +254,22 @@ class User_model extends Super_model {
 	function add_from_post()
 	{
         $user = $this->get_from_post();
-        // При создании записи хэшируем пароль
-        $user->password = md5($user->password);
-        $id = $this->_add(TABLE_USERS, $user);
-        $this->add_interests_from_post($id);
+        $username = $user->username;
+        $password = $user->password;
+        $email = $user->email;
+        unset($user->username);
+        unset($user->password);
+        unset($user->email);
+        $id = $this->ion_auth->register($username, $password, $email, (array)$user);
+        if ($id !== FALSE)
+        {
+            $this->message = 'Запись была успешно внесена в базу данных';
+            $this->add_interests_from_post($id);
+        }
+        else 
+        {
+            $this->message = 'Ошибка! Запись не удалось добавить';
+        }
         return $id;
 	}
     
@@ -371,6 +383,7 @@ class User_model extends Super_model {
         $publications = $this->_delete(TABLE_PUBLICATION_AUTHORS, $id, 'userid');
         $interests = $this->_delete(TABLE_INTERESTS, $id, 'userid');
         $this->message = $message;
+        //@todo удалять файлы
         return $result && $projects && $directions && $publications && $interests;
     }
     function edit_from_post() 

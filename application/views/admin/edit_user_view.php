@@ -47,8 +47,9 @@
     }
     if (!isset($user->teaching_ru))     $user->teaching_ru = '';
     if (!isset($user->teaching_en))     $user->teaching_en = '';
+    //@todo получать из базы
     if(!isset($groups)) {
-        $groups = array('Администратор','Препрдаватель','Студент');
+        $groups = array('1' => 'Администратор', '2' => 'Студент', '3' => 'Преподаватель');
     }
 ?>
     
