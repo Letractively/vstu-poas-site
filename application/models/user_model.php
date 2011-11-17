@@ -195,8 +195,8 @@ class User_model extends Super_model {
                   'fulltext_en,'.
                   'abstract_ru,'.
                   'abstract_en,'.
-                  'info_ru,'.
-                  'info_en,'.
+                  TABLE_PUBLICATIONS . '.info_ru,'.
+                  TABLE_PUBLICATIONS . '.info_en,'.
                   TABLE_PUBLICATIONS . '.name_ru,'.
                   TABLE_PUBLICATIONS . '.name_en';
                    
