@@ -8,7 +8,6 @@ if( !isset($error_singup_admin)) $error_singup_admin = "";
 	echo form_input('login_username', 'Логин');
 	echo form_password('login_password', 'Пароль');
 	echo anchor('#none', "Отправить", array('id' => 'login_send_button'));
-	//echo anchor('user/signup', 'Создать профиль'); 
 	echo '<p id="error_login_admin">'.$error_singup_admin.'</p>';
 	?>
 </div>  
@@ -16,4 +15,4 @@ if( !isset($error_singup_admin)) $error_singup_admin = "";
 
 <?php
 /* End of file login.php */
-/* Location: ./application/views/admin/login.php */
+/* Location: ./application/views/login_view.php */

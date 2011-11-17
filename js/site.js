@@ -6,7 +6,7 @@ jQuery(document).ready( function($)
         return false;
     })
     
-	// Попытка залогинится через форму авторизации (form_login_view.php)
+	// Попытка залогинится через форму авторизации (login_view.php)
 	$("#login_send_button").click( function()
 	{
 		$('#error_login_admin').html('');
@@ -16,7 +16,7 @@ jQuery(document).ready( function($)
 		
 		$.ajax({
 			data: {form_login_username: $('[name="login_username"]').val(),
-					form_login_password: $().crypt({method:"md5",source:$('[name="login_password"]').val()})
+					form_login_password: $('[name="login_password"]').val()
 		 	},
 			dataType: "JSON",
 			type:'POST',
@@ -29,7 +29,7 @@ jQuery(document).ready( function($)
 				}
 				else
 				{
-					$('#error_login_admin').html('Неправильный логин или пароль');
+					$('#error_login_admin').html(data);
 					$('#image_load_login_send').remove();
 					$('#login_send_button').css('display', displayModeOfButton);
 				}		
@@ -37,7 +37,7 @@ jQuery(document).ready( function($)
 			error:function(data){
 				$('#image_load_login_send').remove();
 				$('#login_send_button').css('display', displayModeOfButton);
-				$('#error_login_admin').html("Произошла непоправимая ошибка при попытке войти на сайт. Расскажите об этом всем! И да воцарит провасудие - виновный будет наказан");
+				$('#error_login_admin').html("Произошла ошибка при попытке авторизоваться");
 			}
 		});
 	});

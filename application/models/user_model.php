@@ -8,39 +8,6 @@ require_once('super_model.php');
 class User_model extends Super_model {
 	
 	/**
-	 * Попытаться залогиниться, используя данные, отправленные методом POST
-	 * @return int group - группа пользователя (если залогиниться не удалось, то это USER_GROUP_GUEST)
-	 */
-	function validate_from_post()
-	{
-		$this->db->select('group');
-		$this->db->where('username', $this->input->post('form_login_username'));
-		$this->db->where('password', $this->input->post('form_login_password'));
-		$query = $this->db->get('users');
-		
-		if($query->num_rows != 1)
-		{
-			return FALSE;
-		}
-		
-		$result = $query->result();
-		$user_group = $result[0]->group;
-		
-		if($user_group)
-		{
-			$this->load->library('session');
-			$data = array(
-				'username' => $this->input->post('form_login_username'),
-				'group' => $user_group
-			);
-			$this->session->set_userdata($data);
-		}
-		return $user_group;
-	}	
-	
-	
-	
-	/**
 	 * Получить основную информацию о всех пользователях (или об одном пользователе)
 	 * 
 	 * @param [in] $id - id пользователя, необязательный параметр
@@ -346,33 +313,7 @@ class User_model extends Super_model {
 		if( !isset($logged_group) ) return FALSE;
 		return $logged_group;
 	}
-	
-	/**
-	 * @return bool - TRUE, если текущий пользователь принадлежит к группе администраторов
-	 */
-	function is_admin()
-	{
-		return $this->logged_group() == USER_GROUP_ADMIN;
-	}
-	
-	/**
-	 * Проверить, является ли текущий пользователь администратором.
-	 * Если нет - остановить сценарий и открыть страницу с запросом логина и пароля администратора.
-	 * 
-	 * param [in] Array data - данные для вьювера с запросом логина и пароля администратора
-	 */
-	function check_admin( $data = NULL )
-	{
-		if( !$this->is_admin() )
-		{
-			$data['content'] = $this->load->view('/admin/login_view', $data, TRUE);
-			echo $this->load->view('templates/main_view', $data, TRUE);
-			//redirect('/');
-			die();
-		}
-		return TRUE;
-	}
-    
+	    
     /**
 	 * Удалить пользователя по его идентификатору
      * 
