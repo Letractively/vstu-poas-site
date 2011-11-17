@@ -1,0 +1,305 @@
+<?php
+/**
+ * @class Super_model
+ * Модель-предок.
+ */
+
+
+abstract class Super_model extends CI_Model{
+    var $message ='';
+    abstract function get_short($id);
+    abstract function get_detailed($id);
+    abstract function add_from_post();
+    abstract function edit_from_post();
+    abstract function delete($id);
+    abstract function exists($id);
+    function get_view_extra() {return null;}
+    function get_errors() {return null;}
+    /**
+	 * Получить основную информацию о всех записях
+	 *
+	 * Получить только name, id записей
+     * @param $table - имя таблицы базы данных
+     * @param $extraselect - дополнительные поля для SELECT-запроса
+	 * @param $id - id направления, необязательный параметр
+	 * @return массив всех записей, запись с указанным id или FALSE
+	 */
+    protected final function _get_short($table, $extraselect, $orderby, $id = null)
+    {
+        if (isset($id))
+		{
+			$records = $this->db
+							 ->select($extraselect . ',id, name_'.lang().' as name ')
+							 ->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
+							 ->get_where($table, array('id' => $id), 1)
+							 ->result();
+			if( !$records)
+			{
+				return FALSE;
+			}
+			return $records[0];
+		}
+	
+		return $this->db
+					->select($extraselect . ',id, name_'.lang().' as name')
+					->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
+					->order_by($orderby)
+					->get($table)
+					->result();
+    }
+    
+    /**
+	 * Получить детальную информацию о записи
+	 *     
+	 * @param $id - идентификатор записи    
+     * @param $table - имя таблицы базы данных
+     * @param $extselect1 - часть первого SELECT-запроса. Должны быть 
+     * перечислены требуемые поля с учетом языка. id и name_XX не указывать.
+     * @param $extselect2 - часть второго SELECT-запроса. Должны быть 
+     * перечислены требуемые русские поля. id и name_ru не указывать.
+     * 
+	 * @return запись
+	 */
+	protected final function _get_detailed($id, $table, $extselect1, $extselect2)
+	{
+		if (isset($id))
+		{
+			$records = $this->db
+                                ->select('id,'.
+                                         'name_' . lang() . ' as name,' .
+                                         $extselect1)
+                                ->get_where($table, array('id' => $id), 1)
+                                ->result();
+			// Если не нашлось направления на требуемом языке - выдать русскую версию
+			if ($records && ( ! isset($records[0]->name) || $records[0]->name == '' ))
+			{
+				$records = $this->db
+										->select('id,'.
+												'name_ru as name,' .
+												$extselect2)
+										->get_where($table, array('id' => $id), 1)
+										->result();
+			}
+			if( !$records)
+			{
+				return FALSE;
+			}
+			return $records[0];
+		}
+	}
+    
+    /**
+	 * Получить запись из таблицы базы данных
+	 *
+	 * @param $id - идентификатор записи
+     * @param $table - имя таблицы базы данных
+	 * @return массив всех записей, запись с указанным id или FALSE
+	 */
+    protected final function _get_record($id, $table)
+    {
+        $record = $this->db->select('*')->get_where($table, array('id' => $id), 1)->result();
+		if (!$record)
+		{
+			return NULL;
+		}
+		return $record[0];
+    }
+    
+    /**
+	 * Добавить новую запись
+     * @param $table - имя таблицы базы даных
+     * @param $record - запись
+	 * @return int id - идентификатор добавленной записи | FALSE
+	 */
+	protected final function _add($table, $record) 
+	{
+		if($this->db->insert($table, $record))
+		{
+			$this->message = 'Запись была успешно внесена в базу данных';
+			return $this->db->insert_id();
+		}
+		else
+		{
+			$this->message = 'Ошибка! Запись не удалось добавить';
+			return FALSE;
+		}
+	}
+    
+    /**
+	 * Изменить запись
+     * @param $table - имя таблицы базы даных
+     * @param $record - запись
+	 */
+    protected final function _edit($table, $record)
+	{
+		$this->db->where('id', $record->id);
+		$response = $this->db->update($table, $record);
+		if ($response != 1)
+		{
+			$this->message = 'Ошибка! Запись не была изменено';
+		}
+		else {
+			$this->message = 'Запись была успешно изменена';
+		}
+		return $response;
+	}
+    
+    /**
+	 * Получить информацию о записи из данных, полученных методом POST
+     * 
+     * @param $name - имя сущности (direction, project, user, publication...)
+     * @param array $fields - массив передаваемых POST-запросом данных в формате
+     * (имя поля таблицы => имя POST-переменной)
+     * @param array $nulled_fields - массив проверяемых на пустоту полей в
+     * формате (имя поля таблицы => значение, считаемое нулевым)
+     * 
+	 * @return объект, содержащий собранную информацию о записи
+	 */
+	protected final function _get_from_post($name, $fields, $nulled_fields)
+	{
+		$record = new stdClass();
+        foreach($fields as $field => $post)
+        {
+            $record->$field = $this->input->post($post);
+        }
+		if ($this->input->post($name . '_id') != '')
+		{
+			$record->id = 			$this->input->post($name . '_id');
+		}
+		// Не будем хранить пустоты зазря
+        foreach ($nulled_fields as $field => $null_value)
+        {
+            if($record->$field === $null_value) {
+                $record->$field = null;
+                //unset($record->$field);
+            }
+        }
+		return $record;
+	}
+    
+    /**
+	 * Удалить запись из базы
+	 *
+     * @param $table - имя таблицы базы данных
+	 * @param $id - идентификатор записи
+     * @param $field - атрибут, по которому происходит поиск
+	 * @return TRUE, если направление удалено, иначе FALSE
+	 */
+	protected final function _delete ($table, $id, $field = 'id')
+	{
+		if( ! $this->db->delete($table, array($field => $id)))
+		{
+			$this->message = 'Произошла ошибка, запись удалить не удалось.';
+			return FALSE;
+		}
+		else
+		{
+			$this->message = 'Запись удалена успешно (id был равен ' . $id . ').';
+		}
+		return TRUE;
+	}
+    
+    /**
+     * Проверить поля на заполненность.
+     * @param $necessary1 обязательные поля
+     * @param $necessary2 поля, обязательные, если одно из них заполнено
+     * @return ошибки 
+     */
+    protected final function _get_errors($necessary1, $necessary2)
+    {
+        $errors = null;
+        // Должны быть заполнены $necessary1
+        foreach ($necessary1 as $post => $field)
+        {
+            if ($this->input->post($post) == '')
+                $errors->$field = true;
+        }
+        
+        // Если пользователь ввел хотя бы одно поле $necessary2
+        // требовать все остальные
+        $necessary2_started = false;
+        foreach ($necessary2 as $post => $field)
+        {
+            $necessary2_started = $necessary2_started || $this->input->post($post) !== '';
+        }
+        if ($necessary2_started)
+        {
+            foreach ($necessary2 as $post => $field)
+            {
+                if ($this->input->post($post) == '')
+                    $errors->$field = true;
+            }
+        }
+		return $errors;
+    }
+    
+    /**
+     * Обновить таблицу участников
+     * 
+     * @param type $table таблица участников
+     * @param type $field поле, содержащее идентификатор записи
+     * @param type $id идентификатор записи
+     * @param type $members массив участников
+     */
+    protected final function _update_connected_users($table, $field, $id, $members)
+    {
+        // Если никого вообще нет - удалить по id проекта
+        if (!$members) 
+        {
+            $this->db->delete($table, array($field => $id));
+            return;
+        }
+        $records = $this->db
+                                ->select('userid')
+                                ->get_where($table, array($field => $id))
+                                ->result();
+        $old_members = array();
+        foreach ($records as $record)
+        {
+            $old_members[] = $record->userid;
+        }
+        // удалить устаревшие записи (тех, кто был записан в проект, а теперь
+        // его в списке нет
+            foreach($old_members as $old_member) 
+            {
+                // Если старого нет среди новых - удалить его
+                if (array_search($old_member, $members) === FALSE)
+                {
+                    $this->db->delete($table, array(
+                        'userid' => $old_member,
+                        $field => $id));
+                    unset($old_member);
+                }
+            }
+        // добавить в базу новых участников
+        if ($members)
+            foreach($members as $member)
+            {
+                // Если нового нет среди старых
+                if (array_search($member, $old_members) === FALSE)
+                {
+                    $record = new stdClass();
+                    $record->$field = $id;
+                    $record->userid = $member;
+                    $this->db->insert($table, $record);
+                    unset($member);
+                }
+            }
+    }
+    
+    /**
+     * Проверяет, существует ли в таблице запись с указанным атрибутом
+     * @param type $table таблица
+     * @param type $value значение
+     * @param type $field поле, по умолчанию id
+     * @return type количество вхождений или FALSE
+     */
+    protected final function _record_exists($table, $value, $field = 'id')
+    {
+        $this->db->from($table)->where($field, $value);
+        $count = $this->db->count_all_results();
+        return  $count > 0 ? $count : FALSE;
+    }    
+}
+
+?>
