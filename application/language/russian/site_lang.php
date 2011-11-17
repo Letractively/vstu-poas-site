@@ -47,3 +47,5 @@ $lang['user_url'] = 'Сайт';
 $lang['cabinet'] = 'Кабинет';
 $lang['address'] = 'Адрес';
 $lang['phone'] = 'Телефон';
+$lang['errornotadmin'] = 'Доступ закрыт';
+$lang['authorization'] = 'Authorization';

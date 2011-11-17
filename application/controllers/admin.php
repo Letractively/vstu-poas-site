@@ -9,9 +9,41 @@ class Admin extends CI_Controller {
 		$this->output->enable_profiler(TRUE);	// Отладка (содержимое после основного контента)
 		$this->load->database('default');
 		$this->load->model('user_model');
-		$this->user_model->check_admin();		// Проверка прав (является ли пользователь администратором)        
+        $this->_check_admin();
+		//$this->user_model->check_admin();		// Проверка прав (является ли пользователь администратором)        
 	}
-	
+    
+	function _check_admin()
+    {
+        $this->lang->load('site', 'russian');
+        if (!$this->ion_auth->logged_in())
+        {
+            // Если не авторизован - предложить форму авторизации
+            $data['content'] = $this->load->view('/login_view', NULL, TRUE);
+            $data['title'] = 'Авторизация пользователя';
+			echo $this->load->view('templates/main_view', $data, TRUE);
+            die();
+            return FALSE;
+        }
+        else
+        {
+            if ($this->ion_auth->is_admin()) 
+            {
+                // Если авторизован и администратор - пропустить пользователя
+                return TRUE;
+            }
+            else
+            {
+                // Если авторизован, но не администратор - вывести сообщение про недостаточный 
+                // уровень доступа
+                $data['content'] = $this->lang->line('errornotadmin');
+                $data['title'] = $this->lang->line('errornotadmin');
+                echo $this->load->view('templates/main_view', $data, TRUE);
+                die('NOT ADMIN');
+                return FALSE;
+            }
+        }
+    }
 	/** Главная страница админки */
 	function index()
 	{
@@ -542,12 +574,7 @@ class Admin extends CI_Controller {
 		}
 		$this->load->view('/templates/admin_view', $data);
     }
-	
-	function logout()
-	{
-		$this->session->sess_destroy();
-        redirect($this->config->item('base_url'));
-	}
+    
     function _add_file($file) 
     {
         $config['upload_path'] = './uploads/projects/';
@@ -567,7 +594,7 @@ class Admin extends CI_Controller {
 		else
 		{
             // Если ошибок не возникло - запомнить путь к файлу в POST переменной
-            echo 'no errors';
+            //echo 'no errors';
             
             // Получаем корректный путь к файлу
             $upload_data = $this->upload->data();

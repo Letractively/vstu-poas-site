@@ -21,16 +21,19 @@ class Ajax extends CI_Controller {
 	 */
 	function login()
 	{
-		$this->load->model(MODEL_USER);
-		$user_group = $this->{MODEL_USER}->validate_from_post();
-		if($user_group)
-		{
-			echo json_encode(1);
-		}
-		else
-		{
-			echo json_encode(0);
-		}
+        $this->load->model(MODEL_ION_AUTH);
+        $logged = $this->{MODEL_ION_AUTH}->login(
+                        $this->input->post('form_login_username'),
+                        $this->input->post('form_login_password'),
+                        TRUE);
+        if(!$logged) 
+        {
+            echo json_encode($this->ion_auth->errors());
+        }
+        else
+        {
+            echo json_encode(1);
+        }
 	}
     
     /**

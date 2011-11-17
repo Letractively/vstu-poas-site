@@ -47,3 +47,5 @@ $lang['user_url'] = 'Site';
 $lang['cabinet'] = 'Cabinet';
 $lang['address'] = 'Address';
 $lang['phone'] = 'Phone';
+$lang['errornotadmin'] = 'You have no permission';
+$lang['authorization'] = 'Авторизация пользователя';
