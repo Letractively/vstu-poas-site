@@ -53,7 +53,7 @@ class Publication_model extends Super_model
     function get_view_extra() {
         $extra = null;
         $extra->users = $this->db
-                                ->select('id,name,surname,patronymic')
+                                ->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
                                 ->from(TABLE_USERS)
                                 ->order_by('surname,name,patronymic')
                                 ->get()
@@ -157,7 +157,7 @@ class Publication_model extends Super_model
 	function get_authors($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, name, surname, patronymic')
+				->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
 				->from(TABLE_PUBLICATION_AUTHORS)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PUBLICATION_AUTHORS . '.userid')
 				->where('publicationid = ' . $id);

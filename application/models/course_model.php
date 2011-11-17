@@ -121,7 +121,7 @@ class Course_model extends Super_model{
 	function get_members($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, name, surname, patronymic')
+				->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
 				->from(TABLE_USER_COURSES)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_USER_COURSES. '.userid')
 				->where('courseid = ' . $id);

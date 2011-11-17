@@ -53,7 +53,7 @@ class Project_model extends Super_model
     function get_view_extra() {
         $extra = null;
         $extra->users = $this->db
-                                ->select('id,name,surname,patronymic')
+                                ->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
                                 ->from(TABLE_USERS)
                                 ->order_by('surname,name,patronymic')
                                 ->get()
@@ -226,7 +226,7 @@ class Project_model extends Super_model
 	function get_members($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, name, surname, patronymic')
+				->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
 				->from(TABLE_PROJECT_MEMBERS)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PROJECT_MEMBERS . '.userid')
 				->where('projectid = ' . $id);
