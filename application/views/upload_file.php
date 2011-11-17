@@ -8,7 +8,7 @@
     $args .= ',';
     // allowed_types
     $args .= "'";
-    $args .= isset($allowed_types) ? $allowed_types : 'gif|jpg|png';
+    $args .= isset($allowed_types) ? $allowed_types : 'gif|jpg|png|jpeg';
     $args .= "'";
     $args .= ',';
     // max_size
@@ -43,6 +43,8 @@
     $args .= "'";
 ?>
 <?php 
+    if (isset($max_width) && isset($max_height))
+        echo 'Максимальный размер изображения ' . $max_width . ' на ' . $max_height . br();
     $img = array('id'=>'loading', 'src'=>"/images/load/round.gif", 'style'=>'display:none;');
     echo img($img).br();
     
@@ -50,6 +52,6 @@
     echo form_button('file_load', 'Загрузить', 'id="file_load" onclick="return ajaxFileUpload('.$args.');"');
     echo br();
     
-    echo '<img id="file_preview" alt="Ваш файл" src="'.$this->config->item('base_url').$file_url.'">';
+    echo '<img id="file_preview" class= "minipic" alt="Ваш файл" src="'.$this->config->item('base_url').$file_url.'">';
 ?>
 </div>

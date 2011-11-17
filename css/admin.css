@@ -353,7 +353,7 @@ textarea {
 .district_short_view {width:230px; display: inline-block}
 .hotel_short_view {width:230px; display: inline-block}
 .attention { color:#a90000 }
-
+.minipic {max-height: 100px; max-width: 100px;}
 #form_edit label.inline-block { display: inline-block; width:215px}
 #form_edit label.inline { display:inline; width:auto;}
 #form_edit input[type=text]{ margin-right: 10px ;}

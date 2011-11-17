@@ -259,9 +259,12 @@ class Admin extends CI_Controller {
                 $data['field_name'] = 'photo';
                 $data['file_url'] = $this->{MODEL_USER}->get_photo($this->uri->segment(4));
                 $data['upload_path'] = './uploads/users/';
+                $data['max_width'] = '800';
+                $data['max_height'] = '600';
                 $data['content'] = $this->load->view('upload_file', $data, TRUE);
                 $data['content'] .= '<br><br><a href="admin/users"> К списку пользователей </a>';
-                $data['title'] = 'Редактирование фотографии пользователя';
+                $user = $this->{MODEL_USER}->get_short($this->uri->segment(4));
+                $data['title'] = 'Редактирование фотографии пользователя <br>"' . $user->surname . ' ' . $user->name . ' ' . $user->patronymic . '"';
                 $this->load->view('/templates/admin_view', $data);
 				break;
 			case '':
