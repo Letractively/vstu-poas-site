@@ -99,7 +99,7 @@ echo form_radio($uoptions).' ';
 echo form_upload('project_image', $project->image, 'disabled="disabled"').br(2);
     // Скрытая копия файла
 echo form_hidden('project_image_copy', $project->image);
-echo '</div>';
+echo '</div></div>';
 
 $data['label'] = 'Участники проекта';
 $data['id'] = 'project_members';

@@ -55,6 +55,9 @@ define('TABLE_PARTNERS', 'partners');
 define('TABLE_FILES', 'files');
 define('TABLE_INTERESTS', 'interests');
 
+define('TABLE_GROUPS', 'groups');
+define('TABLE_USERS_GROUPS', 'users_groups');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -80,7 +83,9 @@ define('MODEL_DIRECTION',	'direction_model');			/// научные направ�
 define('MODEL_PUBLICATION', 'publication_model');       /// публикации
 define('MODEL_PARTNER',     'partner_model');           /// партнеры
 define('MODEL_COURSE',      'course_model');            /// курсы
-define('MODEL_FILE',        'file_model');            /// файлы
+define('MODEL_FILE',        'file_model');              /// файлы
+
+define('MODEL_ION_AUTH',    'ion_auth_model');          /// библиотека авторизации
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +95,10 @@ define('MODEL_FILE',        'file_model');            /// файлы
 define('USER_GROUP_GUEST', 0);			/// неавторизованный пользователь
 define('USER_GROUP_ADMIN', 555100);		/// администраторы
 define('USER_GROUP_GENERAL', 555101);	/// обычный авторизованный пользователь
+
+define('ION_USER_ADMIN', 1);
+define('ION_USER_STUDENT', 2);
+define('ION_USER_LECTURER', 3);
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
