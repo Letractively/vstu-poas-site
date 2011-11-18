@@ -1,8 +1,8 @@
 <?php
 echo anchor('/admin/projects/add', 'Добавить проект');
 echo br(2);
-$data['classes'] = array('','count','');
-$data['headers'] = array('Проект','Участников','');
+$data['classes'] = array('','count','','');
+$data['headers'] = array('Проект','Участников','','');
 $data['rows'] = array();
 foreach($projects as $project)
 {
@@ -12,9 +12,15 @@ foreach($projects as $project)
 		array(	'class' => 'button_delete',
 				'title' => 'Удалить проект ' . $project->name)
 	);
+    $button_users = anchor('/admin/projects/memers/' . $project->id,
+	img( '/images/admin/buttons/users.png'),
+		array(	'class' => 'button_users',
+				'title' => 'Редактировать состав участников проекта')
+	);
     $tablerow[] = anchor('admin/projects/edit/'.$project->id, 
                             $project->name);
     $tablerow[] = $project->memberscount;
+    $tablerow[] = $button_users;
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;
 }

@@ -31,84 +31,33 @@ if (!isset($errors->imageuploaderror))          {$errors->imageuploaderror = fal
 
 echo form_open_multipart('admin/projects/'.$action.'/action');
 
-echo form_label_adv('Название проекта (русское)*', 
-                    'project_name_ru', 
-                    'inline-block not-null', 
-                    $errors->nameruforgotten, 
-                    'forgotten');
-echo form_input('project_name_ru', $project->name_ru, 'maxlength="300" style = width:400px');
+echo form_label('Название проекта (русское)*', 'project_name_ru', array('class' => 'inline-block'));
+echo form_input('project_name_ru', set_value('project_name_ru', $project->name_ru), 'class="long"');
+echo form_error('project_name_ru');
 echo br(2);
 
-echo form_label_adv('Описание проекта (русское)*', 
-                    'project_description_ru', 
-                    'inline-block not-null', 
-                    $errors->descriptionruforgotten, 
-                    'forgotten');
-echo form_textarea('project_description_ru', $project->description_ru, 'class="short"');
+
+echo form_label('Описание проекта (русское)*', 'project_description_ru', array('class' => 'inline-block'));
+echo form_textarea('project_description_ru', set_value('project_description_ru',$project->description_ru), 'class="short"');
+echo form_error('project_description_ru');
 echo br(2);
 
 echo form_label('Ссылка на проект', 'project_url', array('class'=>'inline-block'));
-echo form_input('project_url', $project->url, 'style = width:400px');
+echo form_input('project_url', set_value('project_url', $project->url), 'class = "long"');
+echo form_error('project_url');
 echo br(2);
 
 
-
-if ($errors->imageuploaderror)
-    echo '<span class="wrong-data">' . $errors->imageuploaderror . '</span>'.br();
-    // форма для ввода файла
-    // Для каждого файла должны быть определены
-    //
-    // - три радио кнопки (удалить, оставить, обновить) project_image_action
-    // - поле ввода файла project_image
-    // - скрытое поле с именем файла project_image_copy
-echo '<div>';
-echo form_label('Изображение для проекта', 'project_image', array('class'=>'inline-block'));
-echo img(array('src' => $project->image, 'class' => 'project_image'));
-echo '<div style="clear:both" />';
-echo br(2);
-echo br(2);
-$options = array(
-    'name'=>'project_image_action',
-    'class' => 'hideupload');
-
-    // Кнопка "удалить файл"
-echo form_label('Удалить', 'project_image_action', array('class'=>'inline-block'));
-
-$doptions = $options;
-$doptions['value'] = 'delete';
-// Файл нельзя удалить, если его нет
-if (!isset($project->id)  || $project->image == '' || $project->image == null)
-    $doptions['disabled'] = TRUE;
-echo form_radio($doptions).br();
-
-    // Кнопка "оставить файл"
-echo form_label('Оставить', 'project_image_action', array('class'=>'inline-block'));
-
-$loptions = $options;
-$loptions['value'] = 'leave';
-$loptions['checked'] = TRUE;
-echo form_radio($loptions).br();
-    
-    // Кнопка "обновить файл"
-echo form_label('Обновить', 'project_image_action', array('class'=>'inline-block'));
-$uoptions = $options;
-$uoptions['value'] = 'update';
-echo form_radio($uoptions).' ';
-
-    // Ввод файла
-echo form_upload('project_image', $project->image, 'disabled="disabled"').br(2);
-    // Скрытая копия файла
-echo form_hidden('project_image_copy', $project->image);
-echo '</div></div>';
-
+/*
 $data['label'] = 'Участники проекта';
-$data['id'] = 'project_members';
+$data['id'] = 'project_members[]';
 $data['users'] = array();
 foreach($extra->users as $user)
 {
     $data['users'][$user->id] = $user->surname.' '.$user->name.' '.$user->patronymic;
 }
 $data['select'] = array();
+$data['select'] = set_value('project_members', $project->members);
 if ($project->members)
     foreach($project->members as $member)
     {
@@ -117,8 +66,10 @@ if ($project->members)
         else
             $data['select'][] = $member;
     }
+
 $this->load->view('admin/users_list_view', $data);
 echo br(2);
+*/
 
 echo '<div class="english-version">';
 echo '<a href="#" class="showhide">Английская версия</a>';
@@ -128,20 +79,14 @@ else
     echo '<div class="hideble">';
 echo '<hr>';
 
-echo form_label_adv('Название проекта (английское)', 
-                    'project_name_en', 
-                    'inline-block', 
-                    $errors->nameenforgotten, 
-                    'not-null forgotten');
-echo form_input('project_name_en', $project->name_en, 'maxlength="300" style = width:400px');
+echo form_label('Название проекта (английское)', 'project_name_en', array('class' => 'inline-block'));
+echo form_input('project_name_en', set_value('project_name_en', $project->name_en), 'class="long"');
+echo form_error('project_name_en');
 echo br(2);
 
-echo form_label_adv('Описание проекта (английское)', 
-                    'project_description_en', 
-                    'inline-block', 
-                    $errors->descriptionenforgotten, 
-                    'not-null forgotten');
-echo form_textarea('project_description_en', $project->description_en, 'class="short"');
+echo form_label('Описание проекта (английское)', 'project_description_en', array('class' => 'inline-block'));
+echo form_textarea('project_description_en', set_value('project_description_en', $project->description_en), 'class="short"');
+echo form_error('project_description_en');
 echo br(2);
 
 echo '</div></div>';

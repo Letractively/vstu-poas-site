@@ -30,7 +30,7 @@ function add_form($coursesnames){
 echo add_form($coursesnames);
 $data['rows'] = array();
 $data['classes'] = array('course','year','count','edit','delete');
-$data['headers'] = array('Курс','Год','Количество студентов','','');
+$data['headers'] = array('Курс','Год','Cтудентов','','');
 foreach($courses as $course)
 {
     $tablerow = array();
