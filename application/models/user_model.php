@@ -343,12 +343,17 @@ class User_model extends Super_model {
         // При редактировании записи создается новый пароль
         // только если пароль изменился
         $record = $this->_get_record($user->id, TABLE_USERS);
-        if ($record->password != $user->password)
-        {
-            $user->password = md5($user->password);
-        }
+        $password = $user->password;        
         $this->add_interests_from_post($user->id);
-        return $this->_edit(TABLE_USERS, $user);
+        unset($user->password);
+        $result = $this->_edit(TABLE_USERS, $user);
+        // Обновить пароль пользователя, если он был изменен
+        if ($record->password != $password)
+        {
+            $this->force_change_password($user->id, $password);
+        }
+        $this->message .= '. '.$this->ion_auth->messages();
+        return $result;
     }
     function get_user($id){
         $record = $this->db
@@ -432,4 +437,43 @@ class User_model extends Super_model {
         }
         return null;
     }
+    
+    public function force_change_password($id, $new)
+	{
+		$this->ion_auth->trigger_events('pre_change_password');
+		
+	    $this->ion_auth->trigger_events('extra_where');
+		
+	    $query = $this->db->select('id, password, salt')
+			      ->where('id', $id)
+			      ->limit(1)
+			      ->get(TABLE_USERS);
+
+	    $result = $query->row();
+
+	    $db_password = $result->password;
+	    $new	     = $this->ion_auth->hash_password($new, $result->salt);
+	    
+        //store the new password and reset the remember code so all remembered instances have to re-login
+        $data = array(
+                'password' => $new,
+                'remember_code' => NULL,
+                 );
+
+        $this->ion_auth->trigger_events('extra_where');
+        $this->db->update(TABLE_USERS, $data, array('id' => $id));
+
+        $return = $this->db->affected_rows() == 1;
+        if ($return)
+        {
+            $this->ion_auth->trigger_events(array('post_change_password', 'post_change_password_successful'));
+            $this->ion_auth->set_message('password_change_successful');
+        }
+        else
+        {
+            $this->ion_auth->trigger_events(array('post_change_password', 'post_change_password_unsuccessful'));
+            $this->ion_auth->set_error('password_change_unsuccessful');
+        }
+        return $return;	    
+	}
 }
