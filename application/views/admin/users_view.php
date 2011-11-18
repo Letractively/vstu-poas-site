@@ -4,6 +4,7 @@ echo anchor('/admin/users/add', 'Добавить пользователя');
 echo br(2);
 $data['rows'] = array();
 $data['classes'] = array('users', '', '', '');
+$data['headers'] = array('ФИО','Группа','','');
 foreach($users as $user)
 {
     $tablerow = array();

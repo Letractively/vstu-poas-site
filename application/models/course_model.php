@@ -1,6 +1,7 @@
 <?php
 require_once('super_model.php');
 class Course_model extends Super_model{
+    
     function get_short($id = null) 
     {
         $result =  $this->db
@@ -23,7 +24,7 @@ class Course_model extends Super_model{
     function get_detailed($id){}
     function add_from_post()
     {
-        $course->course = $this->input->post('course_course') + 1; 
+        $course->course = $this->input->post('course_course'); 
         $course->course = (string)$course->course;
         $course->year = $this->input->post('course_year');
         
@@ -38,20 +39,37 @@ class Course_model extends Super_model{
             $this->message = 'Неправильный год';
             return FALSE;
         }
-        if($course->course == 7)    // Добавить сразу все курсы за определенный год
+        $coursesnames = array(
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            'pg1',
+            'pg2',
+            'pg3',
+            'pg4',
+            'd1',
+            'd2',
+            'd3'
+            );
+        if($course->course == 'all')    // Добавить сразу все курсы за определенный год
         {
             $errors = array();
-            for($i = 1; $i <= 6; $i++)
+            foreach($coursesnames as $coursename)
+            //for($i = 1; $i <= 6; $i++)
             {
-                $course->course = (string)$i;
-                $this->db->from(TABLE_COURSES)->where('course', (string)$i)->where('year', $course->year);
+                //$course->course = (string)$i;
+                $course->course = $coursename;
+                $this->db->from(TABLE_COURSES)->where('course', $coursename)->where('year', $course->year);
                 if ($this->db->count_all_results() > 0)
                 {
-                    $errors[] = $i;
+                    $errors[] = $coursename;
                 }
                 else
                     if (!$this->_add(TABLE_COURSES, $course))
-                        $errors[] = $i;
+                        $errors[] = $coursename;
             }
             if (count($errors) == 0)
                 $this->message = 'Записи были успешно внесены в базу данных';
