@@ -397,8 +397,13 @@ class Admin extends CI_Controller {
                 }
 				break;
 			case 'delete':
-				break;
-            case 'edit_photo':
+                if (!$this->{MODEL_PROJECT}->exists($this->uri->segment(4)))
+                {
+                    $this->_view_page_list('projects', MODEL_PROJECT, 'Проект не существует');
+                    return;
+                }
+				$this->{MODEL_PROJECT}->delete($this->uri->segment(4));
+                $this->_view_page_list('projects', MODEL_PROJECT, $this->{MODEL_PROJECT}->message);
 				break;
 			case '':
 			default:
