@@ -13,13 +13,17 @@
         $user->surname_en       = '';
         $user->name_en          = '';
         $user->patronymic_en    = '';
-                        
+        $user->group            = 2;                
     }
     else {
         $action = 'edit';
         $submit = 'Применить изменения';
     }
     $user->passconf = $user->password;
+    if (!isset($user->groups->group_id))
+        $user->group = 2;
+    else
+        $user->group = $user->groups->group_id;
     if (!isset($user->rank_ru))     $user->rank_ru = '';
     if (!isset($user->rank_en))     $user->rank_en = '';
     if (!isset($user->post_ru))     $user->post_ru = '';
@@ -38,6 +42,9 @@
     if (!isset($user->info_ru))     $user->info_ru = '';
     if (!isset($user->info_en))     $user->info_en = '';
     if (!isset($user->interests))   $users->interests = array();
+    
+    
+    
     for($i = 0; $i < 5; $i++)
     {
         $obj = new stdClass();
@@ -49,12 +56,11 @@
     if (!isset($user->teaching_en))     $user->teaching_en = '';
     //@todo получать из базы
     if(!isset($groups)) {
-        $groups = array('1' => 'Администратор', '2' => 'Студент', '3' => 'Преподаватель');
+        $groups = array(1 => 'Администратор', 2 => 'Студент', 3 => 'Преподаватель');
     }
 ?>
     
 <?php
-    
     echo form_open_multipart('admin/users/'.$action.'/action'); 
     // Редактирование логина недопустимо
     echo form_label('Логин*', 'user_username', array('class' => 'inline-block'));
@@ -106,12 +112,12 @@
     echo form_label('Отчество (en)*', 'user_patronymic_en', array('class' => 'inline-block'));
     echo form_input('user_patronymic_en', set_value('user_patronymic_en', $user->patronymic_en), 'maxlength="30" class="short"');
     echo form_error('user_patronymic_en'); 
-    echo br(2);     
+    echo br(2);
     
     echo form_label('Роль*', 'user_group', array('class'=>'inline-block'));
     echo '<select name="user_group">';
     foreach ($groups as $groupid => $group) {
-        echo '<option value="'.$groupid.'"'.set_select('user_group', $groupid).'>'.$group.'</option>';
+        echo '<option value="'.$groupid.'"'.set_select('user_group', $groupid, $groupid == $user->group).'>'.$group.'</option>';
     }
     echo '</select>';
     echo br(2);
