@@ -157,10 +157,26 @@ class Admin extends CI_Controller {
     {
         $this->load->model(MODEL_USER);
         $result = $this->{MODEL_USER}->is_username_exist($username);
-        if ($result){
+        if ($result)
+        {
             $this->form_validation->set_message('_username_unique', 'Логин уже используется');
         }
         return !$result;
+    }
+    
+    /*
+     * Проверка, заполнены ли все поля для английской версии проекта
+     */
+    function _project_en($string)
+    {
+        $name_en = $this->input->post('project_name_en');
+        $description_en = $this->input->post('project_description_en');
+        if ($name_en == '' ^ $description_en == '')
+        {
+            $this->form_validation->set_message('_project_en', 'Необходимо заполнить все поля для английской версии');
+            return FALSE;
+        }
+        return TRUE;        
     }
     
     function _validate_photo($file)
@@ -313,7 +329,53 @@ class Admin extends CI_Controller {
 	 */
 	function projects()
 	{
-        $this->_page('projects', 'project', MODEL_PROJECT);
+        //$this->_page('projects', 'project', MODEL_PROJECT);
+        //$this->_page('users', 'user', MODEL_USER);
+        $data = NULL;
+		$this->load->model(MODEL_PROJECT);
+        $this->load->model(MODEL_FILE);
+        $this->lang->load('site', 'russian');
+		$this->load->library('form_validation');
+		switch($this->uri->segment(3)) {
+			case 'add':
+                if($this->uri->segment(4) == 'action')
+                {
+                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                    if ($this->form_validation->run('admin/projects') == FALSE)
+                    {
+                        $data['extra'] = $this->{MODEL_PROJECT}->get_view_extra();
+                        $data['content'] = $this->load->view('admin/edit_project_view', $data, TRUE);
+                        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('project_a');
+                        $this->load->view('/templates/admin_view', $data);                        
+                    }
+                    else
+                    {
+                        $this->{MODEL_PROJECT}->add_from_post();
+                        $this->_view_page_list('projects', MODEL_PROJECT, $this->{MODEL_PROJECT}->message);
+                    }
+                }
+                else
+                {
+                    // загрузить необходимые виду данные
+                    $data['extra'] = $this->{MODEL_PROJECT}->get_view_extra();
+                    $data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
+                    $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('project_a');
+                    $this->load->view('/templates/admin_view', $data);
+                }
+				break;
+			case 'edit':
+				break;
+			case 'delete':
+				break;
+            case 'edit_photo':
+				break;
+			case '':
+			default:
+				// по адресу "/admin/$name": список всех 
+				// он же при несуществующем методе
+				$this->_view_page_list('projects', MODEL_PROJECT);
+				break;
+		}
 	}
     
 	/**
@@ -347,7 +409,7 @@ class Admin extends CI_Controller {
                 if($this->uri->segment(4) == 'action')
                 {
                     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-                    if ($this->form_validation->run('admin/partners/add') == FALSE)
+                    if ($this->form_validation->run('admin/partners') == FALSE)
                     {
                         $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
                         $data['content'] = $this->load->view('admin/edit_partner_view', $data, TRUE);
@@ -373,7 +435,7 @@ class Admin extends CI_Controller {
                 if($this->uri->segment(4) == 'action')
                 {
                     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-                    if ($this->form_validation->run('admin/partners/edit') == FALSE)
+                    if ($this->form_validation->run('admin/partners') == FALSE)
                     {
                         $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
                         $data['partner'] = $this->{MODEL_PARTNER}->get_from_post();

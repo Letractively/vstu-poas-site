@@ -202,7 +202,7 @@ $admin_users_edit[0] = array(
 );
 $config['admin/users/edit'] = $admin_users_edit;
 
-$config['admin/partners/edit'] = array(
+$config['admin/partners'] = array(
     array(
         'field' => 'partner_name_ru',
         'label' => 'Имя партнера (русское)',
@@ -239,5 +239,36 @@ $config['admin/partners/edit'] = array(
         'rules' => 'trim'
     )
 );
-$config['admin/partners/add'] = $config['admin/partners/edit'];
+$config['admin/projects'] = array(
+    array(
+        'field' => 'project_name_ru',
+        'label' => 'Название проекта (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'project_description_ru',
+        'label' => 'Описание проекта (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'project_url',
+        'label' => 'Ссылка на проект',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'project_members[]',
+        'label' => 'Участники проекта',
+        'rules' => ''
+    ),
+    array(
+        'field' => 'project_name_en',
+        'label' => 'Название проекта (английское)',
+        'rules' => 'trim|callback__project_en'
+    ),
+    array(
+        'field' => 'project_description_en',
+        'label' => 'Описание проекта (английское)',
+        'rules' => 'trim|callback__project_en'
+    )    
+);
 ?>

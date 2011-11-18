@@ -105,18 +105,15 @@ class Project_model extends Super_model
      */
     function add_from_post()
     {
-        echo 'add';
         $project = $this->get_from_post();
         unset($project->members);
-        
-        // Если файл остается нетронутым - не задавать поле
-        if ($this->input->post('project_image_action') == 'leave')
-            unset($project->image);
+        unset($project->image);
+        $id = $this->_add(TABLE_PROJECTS, $project);
         // Если файл загружен - не удалять из записи для вставки
-        if ($id = $this->_add(TABLE_PROJECTS, $project))
-        {
-            $this->update_project_members($id, $this->input->post('project_members'));
-        }
+        //if ($id = $this->_add(TABLE_PROJECTS, $project))
+        //{
+        //    $this->update_project_members($id, $this->input->post('project_members'));
+        //}
         return $id;
     }
     
