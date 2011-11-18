@@ -12,7 +12,7 @@ foreach($projects as $project)
 		array(	'class' => 'button_delete',
 				'title' => 'Удалить проект ' . $project->name)
 	);
-    $button_users = anchor('/admin/projects/memers/' . $project->id,
+    $button_users = anchor('/admin/projects/members/' . $project->id,
 	img( '/images/admin/buttons/users.png'),
 		array(	'class' => 'button_users',
 				'title' => 'Редактировать состав участников проекта')
