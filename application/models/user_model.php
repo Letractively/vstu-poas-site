@@ -26,13 +26,16 @@ class User_model extends Super_model {
 			{
 				return FALSE;
 			}
+            $record[0]->groups = $this->ion_auth->get_users_groups($id);
 			return $records[0];
 		}
 	
 		return $this->db
-					->select('id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
-					->order_by('surname, name, patronymic')
-					->get(TABLE_USERS)
+					->select(TABLE_USERS.'.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic, group_id')
+                    ->from(TABLE_USERS)
+                    ->join(TABLE_USERS_GROUPS, TABLE_USERS.'.id = '.TABLE_USERS_GROUPS.'.user_id', 'LEFT')
+					->order_by('surname, name_'.lang(),', patronymic')
+					->get()
 					->result();
 	}
 	
@@ -337,11 +340,13 @@ class User_model extends Super_model {
     function edit_from_post() 
     {        
         $user = $this->get_from_post();
-        // При редактировании записи вычисляется md5, 
+        // При редактировании записи создается новый пароль
         // только если пароль изменился
         $record = $this->_get_record($user->id, TABLE_USERS);
         if ($record->password != $user->password)
+        {
             $user->password = md5($user->password);
+        }
         $this->add_interests_from_post($user->id);
         return $this->_edit(TABLE_USERS, $user);
     }
