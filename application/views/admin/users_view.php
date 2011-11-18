@@ -1,8 +1,9 @@
 <?php
+$groups = array('Не определено', 'Администратор', 'Студент', 'Преподаватель');
 echo anchor('/admin/users/add', 'Добавить пользователя');
 echo br(2);
 $data['rows'] = array();
-$data['classes'] = array('users', '', '');
+$data['classes'] = array('users', '', '', '');
 foreach($users as $user)
 {
     $tablerow = array();
@@ -20,6 +21,9 @@ foreach($users as $user)
                                 $user->surname . ' '.
                                 $user->name . ' ' .
                                 $user->patronymic);
+    if (!isset($user->group_id))
+        $user->group_id = 0;
+    $tablerow[] = $groups[$user->group_id];
     $tablerow[] = $button_edit_photo;
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;
