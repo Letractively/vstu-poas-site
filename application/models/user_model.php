@@ -267,6 +267,36 @@ class User_model extends Super_model {
             }
         }
     }
+    
+    function update_group($id)
+    {
+        $result = $this->db
+                            ->select('id, group_id')
+                            ->from(TABLE_USERS_GROUPS)
+                            ->where('user_id = ' . $id)
+                            ->get()
+                            ->result();
+        if ($result)
+        {
+            if($result[0]->group_id != $this->input->post('user_group'))
+            {
+                if ($this->input->post('user_group') >= 1 && $this->input->post('user_group') <= 3)
+                {
+                    $record->group_id = $this->input->post('user_group');
+                    $this->db->update(TABLE_USERS_GROUPS,$record, array('id' => $result[0]->id));
+                }
+            }
+        }
+        else
+        {
+            if ($this->input->post('user_group') >= 1 && $this->input->post('user_group') <= 3)
+            {
+                $record->group_id = $this->input->post('user_group');
+                $record->user_id = $id;
+                $this->db->insert(TABLE_USERS_GROUPS, $record);
+            }
+        }
+    }
 	
 	/**
 	 * Проверить, есть ли пользователь с данным именем логина в базе данных (занят ли логин) 
@@ -345,6 +375,7 @@ class User_model extends Super_model {
         $record = $this->_get_record($user->id, TABLE_USERS);
         $password = $user->password;        
         $this->add_interests_from_post($user->id);
+        $this->update_group($user->id);
         unset($user->password);
         $result = $this->_edit(TABLE_USERS, $user);
         // Обновить пароль пользователя, если он был изменен
@@ -368,10 +399,22 @@ class User_model extends Super_model {
 			return NULL;
 		}
         $record[0]->interests = $this->get_user_interests($id);
+        $record[0]->groups = $this->get_user_groups($id);
 		return $record[0];
     }
     function get_detailed($id)
     {}
+    function get_user_groups($id) 
+    {
+        // В нашей системе пользователь может быть только в одной группе
+        $result = $this->db
+                            ->select('group_id')
+                            ->from(TABLE_USERS_GROUPS)
+                            ->where('user_id ='.$id)
+                            ->get()
+                            ->result();
+        return $result ? $result[0] : FALSE;
+    }
     function get_from_post() 
     {
         $fields = array(
