@@ -364,6 +364,37 @@ class Admin extends CI_Controller {
                 }
 				break;
 			case 'edit':
+                if($this->uri->segment(4) == 'action')
+                {
+                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                    if ($this->form_validation->run('admin/projects') == FALSE)
+                    {
+                        $data['extra'] = $this->{MODEL_PROJECT}->get_view_extra();
+                        $data['project'] = $this->{MODEL_PROJECT}->get_from_post();
+                        $data['content'] = $this->load->view('admin/edit_project_view', $data, TRUE);
+                        $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('project_a');
+                        $this->load->view('/templates/admin_view', $data);                        
+                    }
+                    else
+                    {
+                        $this->{MODEL_PROJECT}->edit_from_post();
+                        $this->_view_page_list('projects', MODEL_PROJECT, $this->{MODEL_PROJECT}->message);
+                    }
+                }
+                else
+                {
+                    if (!$this->{MODEL_PROJECT}->exists($this->uri->segment(4)))
+                    {
+                        $this->_view_page_list('projects', MODEL_PROJECT, 'Проект не существует');
+                        return;
+                    }
+                    // загрузить необходимые виду данные
+                    $data['extra'] = $this->{MODEL_PROJECT}->get_view_extra();
+                    $data['project'] = $this->{MODEL_PROJECT}->get_project($this->uri->segment(4));
+                    $data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
+                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('project_a');
+                    $this->load->view('/templates/admin_view', $data);
+                }
 				break;
 			case 'delete':
 				break;
