@@ -176,24 +176,24 @@ class Project_model extends Super_model
     function edit_from_post() {
         $project = $this->get_from_post();
         unset($project->members);
-        $this->update_project_members($project->id, $this->input->post('project_members'));
+        //$this->update_project_members($project->id, $this->input->post('project_members'));
         
         // Если файл остается нетронутым - не задавать поле
-        if ($this->input->post('project_image_action') == 'leave')
-        {
-            unset($project->image);
-        }
+        //if ($this->input->post('project_image_action') == 'leave')
+        //{
+        //unset($project->image);
+        //}
         // Если файл удален или записан новый,
         // то удалить старый файл. имя старого файла хранится в скрытой копии поля
-        else
-        {
+        //else
+        //{
             // Если файл удален, то обнулять поле
-            if ($this->input->post('project_image_action') == 'delete')
-                $project->image = null;
+        //    if ($this->input->post('project_image_action') == 'delete')
+        //        $project->image = null;
             
-            if (file_exists($this->input->post('project_image_copy')))
-                unlink($this->input->post('project_image_copy'));
-        }
+        //    if (file_exists($this->input->post('project_image_copy')))
+        //        unlink($this->input->post('project_image_copy'));
+        //}
                 
         $result = $this->_edit(TABLE_PROJECTS, $project);
         return $result;
