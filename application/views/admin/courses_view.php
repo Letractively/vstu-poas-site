@@ -1,9 +1,24 @@
 <?php
-
-function add_form(){
+$coursesnames = array(
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            4 => 4,
+            5 => 5,
+            6 => 6,
+            'pg1' => '1 - аспирантура',
+            'pg2' => '2 - аспирантура',
+            'pg3' => '3 - аспирантура',
+            'pg4' => '4 - аспирантура',
+            'd1' => '1 - докторантура',
+            'd2' => '2 - докторантура',
+            'd3' => '3 - докторантура',
+            'all' => 'все'
+            );
+function add_form($coursesnames){
     $html = form_open('admin/courses/add/');
     $html .= form_label('Курс ', 'course_course', array('class'=>'inline-block'));
-    $html .= form_dropdown('course_course', array(1,2,3,4,5,6,'все'));
+    $html .= form_dropdown('course_course', $coursesnames);
     $html .= ' ';
     $html .= form_label('Год ', 'course_year', array('class'=>'inline-block'));
     $html .= form_input('course_year', '', 'maxlength="4"');
@@ -12,7 +27,7 @@ function add_form(){
     $html .= form_close();
     return $html;
 }
-echo add_form();
+echo add_form($coursesnames);
 $data['rows'] = array();
 $data['classes'] = array('course','year','count','edit','delete');
 $data['headers'] = array('Курс','Год','Количество студентов','','');
@@ -29,7 +44,7 @@ foreach($courses as $course)
 		array(	'class' => 'button_users',
 				'title' => 'Редактировать состав курса')
 	);
-    $tablerow[] = $course->course;
+    $tablerow[] = $coursesnames[$course->course];
     $tablerow[] = $course->year;
     $tablerow[] = $course->studentscount;
     $tablerow[] = $button_users;
@@ -38,4 +53,4 @@ foreach($courses as $course)
 }
 $this->load->view('admin/table_view', $data);
 if (count($courses) > 10)
-    echo add_form();
+    echo add_form($coursesnames);
