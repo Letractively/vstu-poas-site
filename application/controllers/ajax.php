@@ -120,6 +120,12 @@ class Ajax extends CI_Controller {
         }
     }
     
+    /**
+     * Возвращает список участников по
+     * имени таблицы, имени поля для указания идентификатора пользователей,
+     * имени поля для указания идентификатора второй сущности (проекта и т.д.)
+     * идентификатору второй сущности
+     */
     function get_members() 
     {   
         if ($this->ion_auth->is_admin())
@@ -140,9 +146,77 @@ class Ajax extends CI_Controller {
         }
     }
     
-    function add_members() 
+    /**
+     * Обновляет состав участников
+     * Получает название таблицы, идентификатор сущности, название поля
+     * Новый список получает в POST-переменной users[]
+     */
+    function update_members() 
     {
-        
+        if ($this->ion_auth->is_admin())
+        {
+            $this->_update_connected_users($this->input->post('table'),
+                    $this->input->post('fkfield'), 
+                    $this->input->post('fk'),
+                    $this->input->post('userfield'),
+                    $this->input->post('users'));
+            $f = fopen('log.txt', 'w');
+            fputs($f, json_encode($_POST));
+            fclose($f);
+        }
+    }
+    /**
+     * Обновить таблицу участников
+     * 
+     * @param type $table таблица участников
+     * @param type $field поле, содержащее идентификатор записи
+     * @param type $id идентификатор записи
+     * @param type $members массив участников
+     */
+    function _update_connected_users($table, $field, $id, $userfield, $members)
+    {
+        // Если никого вообще нет - удалить по id проекта
+        if (!$members) 
+        {
+            $this->db->delete($table, array($field => $id));
+            return;
+        }
+        $records = $this->db
+                                ->select($userfield)
+                                ->get_where($table, array($field => $id))
+                                ->result();
+        $old_members = array();
+        foreach ($records as $record)
+        {
+            $old_members[] = $record->userid;
+        }
+        // удалить устаревшие записи (тех, кто был записан в проект, а теперь
+        // его в списке нет
+            foreach($old_members as $old_member) 
+            {
+                // Если старого нет среди новых - удалить его
+                if (array_search($old_member, $members) === FALSE)
+                {
+                    $this->db->delete($table, array(
+                        $userfield => $old_member,
+                        $field => $id));
+                    unset($old_member);
+                }
+            }
+        // добавить в базу новых участников
+        if ($members)
+            foreach($members as $member)
+            {
+                // Если нового нет среди старых
+                if (array_search($member, $old_members) === FALSE)
+                {
+                    $record = new stdClass();
+                    $record->$field = $id;
+                    $record->userid = $member;
+                    $this->db->insert($table, $record);
+                    unset($member);
+                }
+            }
     }
 }
 

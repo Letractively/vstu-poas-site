@@ -1,6 +1,5 @@
 jQuery(document).ready(function($)
 {
-		
     $(".admin-data-table tr:even").css("background-color", "#e6e6d6");    
 	/** кнопки удаления срабатывают только после подтверждения */
 	$('a.button_delete').click( delete_confirm );
@@ -261,6 +260,7 @@ function usersSelector(
 {
     var users;          // Список всех пользователей
     var members;        // Список всех участников
+    // получить список всех пользователей
     $.ajax({
 			data: {},
 			dataType: "JSON",
@@ -268,6 +268,8 @@ function usersSelector(
 			url:'/ajax/get_all_users/',
 			success:function(data){
                 users = data;
+                
+                // получить список всех участников
                 $.ajax({
                         data: {
                             table:table,
@@ -280,8 +282,9 @@ function usersSelector(
                         url:'/ajax/get_members/',
                         success:function(data){
                             members = data;
-                            //alertObj(users);
-                            var html = '<select multiple="" name="users" class="users-selector">';
+                            var html = 
+                                '<form name="users" method="post" action="/ajax/update_members/">' +
+                                '<select multiple="" name="users[]" class="users-selector">';
                             for (k in users){
                                 var selected = '';
                                 if ($.inArray(users[k].id, members) != -1)
@@ -298,7 +301,14 @@ function usersSelector(
                                         users[k].patronymic + 
                                         '</option>';
                             }
-                            //alertObj(html);
+                            html += '</select>';
+                            html += '<input type="hidden" name="table" value="' + table + '"/>';
+                            html += '<input type="hidden" name="fkfield" value="' + fkfield + '"/>';
+                            html += '<input type="hidden" name="userfield" value="' + userfield + '"/>';
+                            html += '<input type="hidden" name="fk" value="' + fk + '"/>';
+                            html += '</form>';
+                            
+                            // отобразить окошко со списком пользователей
                             $('#dialog_ui').html(html);
                             $("#dialog_ui").dialog({
                                 modal: true,
@@ -308,6 +318,8 @@ function usersSelector(
                                 {
                                     "Сохранить": function()
                                     {
+                                        $('#dialog_ui form[name=users]').ajaxForm();
+                                        $('#dialog_ui form[name=users]').submit();
                                         $(this).dialog("close");
                                     },
                                     "Отмена": function()
