@@ -105,6 +105,45 @@ class Ajax extends CI_Controller {
         echo                "id:'" . $id . "'\n";
         echo "}";
     }
+    
+    function get_all_users()
+    {   
+        if ($this->ion_auth->is_admin())
+        {
+            $users = $this->db
+                                ->select(TABLE_USERS . '.id, name_ru as name, surname_ru as surname, patronymic_ru as patronymic')
+                                ->from(TABLE_USERS)
+                                ->order_by('surname,name,patronymic')
+                                ->get()
+                                ->result();
+            echo json_encode($users);
+        }
+    }
+    
+    function get_members() 
+    {   
+        if ($this->ion_auth->is_admin())
+        {
+            $field = $_POST['userfield'];
+            $members = $this->db
+                                ->select($_POST['userfield'])
+                                ->from($_POST['table'])
+                                ->where($_POST['fkfield'], $_POST['fk'])
+                                ->get()
+                                ->result();
+            $res = array();
+            foreach ($members as $member) 
+            {
+                $res[]=$member->$field;
+            }
+            echo json_encode($res);
+        }
+    }
+    
+    function add_members() 
+    {
+        
+    }
 }
 
 /* End of file ajax.php */

@@ -1,5 +1,6 @@
 jQuery(document).ready(function($)
 {
+		
     $(".admin-data-table tr:even").css("background-color", "#e6e6d6");    
 	/** кнопки удаления срабатывают только после подтверждения */
 	$('a.button_delete').click( delete_confirm );
@@ -14,35 +15,7 @@ jQuery(document).ready(function($)
         return false;
     });
     
-    $('input[name=user_photo_delete]').click(function(){
-        if($(this).attr('checked') == 'checked') 
-        {
-            $('#user_photo_image').css('opacity','0.5');
-            $('#user_photo_form').attr('disabled',true);
-            $('#user_photo_load').attr('disabled',true);
-        }
-        else
-        {
-            $('#user_photo_image').css('opacity','1');
-            $('#user_photo_form').attr('disabled',false);
-            $('#user_photo_load').attr('disabled',false);
-        }
-    });
-    
-    
-    $('input[name=project_image_action]').click(function(){
-        if($('input[value=update]').attr('checked') == 'checked') {
-            $('input[name=project_image]').removeAttr('disabled');
-            $('input[name=project_image]').animate({opacity:1}, 250);
-        }
-        else{
-            $('input[name=project_image]').attr('disabled', 'enabled');
-            $('input[name=project_image]').animate({opacity:0}, 250);
-        }
-        return true; 
-    });
-    
-	/** Объект класса js_obj_hidden изменяет свою 
+    /** Объект класса js_obj_hidden изменяет свою 
 	 * видимость на странице (с невидим на виден при "включении" чекбокса и наоборот);
 	 * Связанный чекбокс должен имепть класс js_checkbox_hidden */ 
 	$('.js_obj_hidden').hidden_with( $('.js_checkbox_hidden'), 'inline-block', false );
@@ -276,7 +249,82 @@ function ajaxFileUpload(
             }
         }
     )
-
     return false;
+}
 
+function usersSelector(
+    title,
+    table,
+    userfield,
+    fkfield,
+    fk)
+{
+    var users;          // Список всех пользователей
+    var members;        // Список всех участников
+    $.ajax({
+			data: {},
+			dataType: "JSON",
+			type:'POST',
+			url:'/ajax/get_all_users/',
+			success:function(data){
+                users = data;
+                $.ajax({
+                        data: {
+                            table:table,
+                            userfield:userfield,
+                            fkfield:fkfield,
+                            fk:fk
+                        },
+                        dataType: "JSON",
+                        type:'POST',
+                        url:'/ajax/get_members/',
+                        success:function(data){
+                            members = data;
+                            //alertObj(users);
+                            var html = '<select multiple="" name="users" class="users-selector">';
+                            for (k in users){
+                                var selected = '';
+                                if ($.inArray(users[k].id, members) != -1)
+                                    selected = 'selected="selected"';
+                                html += '<option value="' + 
+                                        users[k].id + 
+                                        '"' + 
+                                        selected + 
+                                        '>' + 
+                                        users[k].surname + 
+                                        ' ' + 
+                                        users[k].name + 
+                                        ' ' + 
+                                        users[k].patronymic + 
+                                        '</option>';
+                            }
+                            //alertObj(html);
+                            $('#dialog_ui').html(html);
+                            $("#dialog_ui").dialog({
+                                modal: true,
+                                position: ["center","center"],
+                                title: title,
+                                buttons: 
+                                {
+                                    "Сохранить": function()
+                                    {
+                                        $(this).dialog("close");
+                                    },
+                                    "Отмена": function()
+                                    {
+                                        //document.location.href = link_to_delete;
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            });
+                        },
+                        error:function(data){
+                        }
+                });
+			},
+			error:function(data){
+			}
+    });   
+    
+	return false;
 }
