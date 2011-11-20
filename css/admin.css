@@ -360,5 +360,11 @@ textarea {
 #form_edit input[type=text]{ margin-right: 10px ;}
 #form_edit input[type=text].short{ width: 100px ;}
 #form_edit input[type=text].long{ width: 300px ;}
+#dialog_ui form {
+    margin:0;
+    padding:0;
+    background-color: #ffffff;
+    border: 0px;
+}
 
 #city_of_hotels_to_view {margin-bottom: 25px}
