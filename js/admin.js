@@ -251,6 +251,15 @@ function ajaxFileUpload(
     return false;
 }
 
+/**
+ * Отображает и отвечает за функционирование окна выбора пользователей
+ * title - заголовок окна
+ * table - таблица связи пользователей с прочими сущностями 
+ * (напр. пользователь-проект, пользователь-курс, пользователь-направление)
+ * userfield - название поля, которое содержит id пользователя
+ * fkfield - название поля, которое содержит id второй сущности
+ * fk - id второй сущности
+ */
 function usersSelector(
     title,
     table,
@@ -320,11 +329,10 @@ function usersSelector(
                                     {
                                         $('#dialog_ui form[name=users]').ajaxForm();
                                         $('#dialog_ui form[name=users]').submit();
-                                        $(this).dialog("close");
+                                        window.location.reload();
                                     },
                                     "Отмена": function()
                                     {
-                                        //document.location.href = link_to_delete;
                                         $(this).dialog("close");
                                     }
                                 }

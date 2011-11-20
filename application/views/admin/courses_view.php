@@ -39,10 +39,12 @@ foreach($courses as $course)
 		array(	'class' => 'button_delete',
 				'title' => 'Удалить курс')
 	);
-    $button_users = anchor('/admin/courses/edit/' . $course->id,
-	img( '/images/admin/buttons/users.png'),
-		array(	'class' => 'button_users',
-				'title' => 'Редактировать состав курса')
+    $button_users = anchor(
+        '#',
+        img( '/images/admin/buttons/users.png'),
+            array(	'class' => 'button_users',
+                    'title' => 'Редактировать состав курса',
+                    'onclick' => 'usersSelector(\'Cостав курса\', \'' . TABLE_USER_COURSES . '\',\'userid\', \'courseid\', \''.$course->id.'\')')
 	);
     $tablerow[] = $coursesnames[$course->course];
     $tablerow[] = $course->year;
