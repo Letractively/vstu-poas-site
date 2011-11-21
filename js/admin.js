@@ -184,7 +184,7 @@ function startUpload(){
  * upload_path - куда сохранять файл
  * allowed_types - разрешенные типы файлов
  * max_size - максимальный разрешенный размер
- * max_width - ширина, если это файл
+ * max_width - ширина, если это изображение
  * max_height - максимальная высота
  * 
  * table_name - имя таблицы, к которой будет относиться файл
@@ -238,7 +238,7 @@ function ajaxFileUpload(
                     else
                     {
                         alert('Файл был успешно загружен (id=' + data.id +')');
-                        $('#file_preview').attr('src',data.path);
+                        $('#file_preview').attr('src', data.path);
                     }
                 }
             },
@@ -347,4 +347,71 @@ function usersSelector(
     });   
     
 	return false;
+}
+
+/**
+ * upload_path - куда сохранять файл
+ * allowed_types - разрешенные типы файлов
+ * max_size - максимальный разрешенный размер
+ * max_width - ширина, если это файл
+ * max_height - максимальная высота
+ * 
+ * table_name - имя таблицы, к которой будет относиться файл
+ * record_id - id записи в таблице table_name, к которой будет относится файл
+ * field_name - имя поля, в которое должен будет записаться id файла
+ */
+function fileLoader(
+    upload_path,
+    allowed_types,
+    max_size,
+    max_width,
+    max_height,
+    table_name,
+    field_name,
+    record_id,
+    image_url
+    ){
+    
+    // отобразить окошко со списком пользователей
+    var html = '';
+    html += '<img id="loading" src="/images/load/round.gif" style="display:none;">';
+    html += '<br>';
+    html += '<input type="file" id="file_form" value=" " name="file_form">';
+    html += '<br>';
+    html += '<img id="file_preview" class= "minipic" alt="Ваш файл" src="' + image_url + '">';
+    //html += '<button onclick="" id="file_load" type="button" name="file_load">Загрузить</button>';
+    $('#dialog_ui').html(html);
+    $("#dialog_ui").dialog({
+        modal: true,
+        position: ["center","center"],
+        title: 'Изображение пользователя',
+        buttons: 
+        {
+            "Загрузить": function()
+            {
+                ajaxFileUpload(
+                    upload_path,
+                    allowed_types,
+                    max_size,
+                    max_width,
+                    max_height,
+                    table_name,
+                    record_id,
+                    field_name);
+            },
+            "Удалить": function()
+            {
+                
+            },
+            "Закрыть": function()
+            {
+                $(this).dialog("close");
+            }
+        },
+        beforeClose:function(){
+            window.location.reload();
+            return true;
+        }
+    });
+    return false;
 }
