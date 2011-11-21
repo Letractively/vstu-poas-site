@@ -106,6 +106,43 @@ class Ajax extends CI_Controller {
         echo "}";
     }
     
+    function delete_file()
+    {        
+        if ($this->ion_auth->is_admin())
+        {
+            //$f = fopen('log.txt', 'w');
+            $table = $this->input->post('table');
+            $id = $this->input->post('id');
+            $field = $this->input->post('field');
+            $res = $this->db
+                    ->select($field)
+                    ->from($table)
+                    ->where('id', $id)->get()->result();
+            //fputs($f, json_encode($res));
+            if ($res)
+            {
+                $fileid = $res[0]->$field;
+                //fputs($f, "\n".$fileid);
+                if ($fileid)
+                {
+                    //fputs($f, "\n not null");
+                    $this->load->model(MODEL_FILE);
+                    $record->$field = null;
+
+                    $this->db->where('id', $id);
+                    $this->db->update($table, $record);
+                    $this->{MODEL_FILE}->delete_file($fileid);
+                    echo "Файл был успешно удален";
+                    return;
+                }
+                echo "У пользователя нет изображения";
+                return;
+            }
+            echo "Пользователь не найден";
+            return;
+        }
+    }
+    
     function get_all_users()
     {   
         if ($this->ion_auth->is_admin())
