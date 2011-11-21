@@ -348,7 +348,29 @@ function usersSelector(
     
 	return false;
 }
-
+function ajaxFileDelete(
+    table_name,
+    record_id,
+    field_name){
+        
+    $.ajax({
+        data: { table: table_name,
+                id: record_id,
+                field: field_name
+        },
+        dataType: "HTML",
+        type:'POST',
+        url:'/ajax/delete_file/',
+        success:function(data){
+            alert(data);
+            $('#file_preview').attr('src', '');	
+        },
+        error:function(data){
+            alert("Произошла ошибка при попытке удалить файл");
+        }
+    });
+    return false;
+}
 /**
  * upload_path - куда сохранять файл
  * allowed_types - разрешенные типы файлов
@@ -401,7 +423,10 @@ function fileLoader(
             },
             "Удалить": function()
             {
-                
+                ajaxFileDelete(
+                    table_name,
+                    record_id,
+                    field_name);
             },
             "Закрыть": function()
             {
