@@ -267,5 +267,17 @@ class Project_model extends Super_model
     {
         return $this->_record_exists(TABLE_PROJECTS, $id);
     }
+    
+    /**
+     * Получить путь к изображению проекта
+     * @param $id id проекта
+     * @return путь к файлу или null
+     */
+    function get_image($id)
+    {
+        $project = $this->get_project($id);
+        $this->load->model(MODEL_FILE);
+        return $this->{MODEL_FILE}->get_file_path($project->image);
+    }
 }
 ?>
