@@ -67,7 +67,7 @@ echo '<hr>';
     echo form_error('partner_name_en'); 
     echo br(2);
 
-// Ввод краткого английского описания партнера (обязательный параметр)
+// Ввод краткого английского описания партнера
     echo form_label('Краткое описание партнера (английское)', 'partner_short_en', array('class' => 'inline-block'));
     echo form_textarea('partner_short_en', set_value('partner_short_en', $partner->short_en), 'maxlength="800" class="short"');
     echo form_error('partner_short_en'); 

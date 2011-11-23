@@ -179,6 +179,28 @@ class Admin extends CI_Controller {
         return TRUE;        
     }
     
+    /*
+     * Проверить заполненность полей для английской версии проекта.
+     * @param $string
+     * @return TRUE, если заполнены все поля или ни одно из полей
+     */
+    function _partner_en($string)
+    {
+        $name_en = $this->input->post('partner_name_en');
+        $short_en = $this->input->post('partner_short_en');
+        $full_en = $this->input->post('partner_full_en');
+        if ( $name_en == '' && $short_en == '' && $full_en == '' ||
+                $name_en != '' && $short_en != '' && $full_en != '')
+        {
+            return TRUE;
+        }
+        else
+        {
+            $this->form_validation->set_message('_partner_en', 'Необходимо заполнить все поля для английской версии');
+            return FALSE;
+        }
+    }
+    
     function _validate_photo($file)
     {
         $config['upload_path'] = './uploads/users/';

@@ -226,17 +226,17 @@ $config['admin/partners'] = array(
     array(
         'field' => 'partner_name_en',
         'label' => 'Имя партнера (английское)',
-        'rules' => 'trim'
+        'rules' => 'trim|callback__partner_en'
     ),
     array(
         'field' => 'partner_short_en',
         'label' => 'Краткое описание партнера (английское)',
-        'rules' => 'trim'
+        'rules' => 'trim|callback__partner_en'
     ),
     array(
         'field' => 'partner_full_en',
         'label' => 'Описание партнера (английское)',
-        'rules' => 'trim'
+        'rules' => 'trim|callback__partner_en'
     )
 );
 $config['admin/projects'] = array(
