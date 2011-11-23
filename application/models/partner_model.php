@@ -59,17 +59,14 @@ class Partner_model extends Super_model{
             'short_en' => 'partner_short_en',
             'full_ru' => 'partner_full_ru',
             'full_en' => 'partner_full_en',
-            'url' => 'partner_url',
-            'image' => 'partner_image_id',
-            'image_name' => 'partner_image_name'
+            'url' => 'partner_url'
         );
         $nulled_fields = array(            
             'name_en' => '',
             'short_en' => '',
             'full_ru' => '',
             'full_en' => '',
-            'url' => '',
-            'image' => 0
+            'url' => ''
         );
         return $this->_get_from_post('partner', $fields, $nulled_fields);
     }
