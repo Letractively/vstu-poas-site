@@ -403,7 +403,7 @@ function fileLoader(
     html += '<img id="file_preview" class= "minipic" alt="Ваш файл" src="' + image_url + '">';
     //html += '<button onclick="" id="file_load" type="button" name="file_load">Загрузить</button>';
     $('#dialog_ui').html(html);
-    $("#dialog_ui").dialog({
+    $('#dialog_ui').dialog({
         modal: true,
         position: ["center","center"],
         title: 'Изображение пользователя',

@@ -33,9 +33,8 @@ class Partner_model extends Super_model{
     function get_partner($id)
     {
         $record = $this->db
-                            ->select(TABLE_PARTNERS.'.*, '.TABLE_FILES.'.name as image_name')
+                            ->select('*')
                             ->from(TABLE_PARTNERS)
-                            ->join(TABLE_FILES, TABLE_PARTNERS.'.image='.TABLE_FILES.'.id','left')
                             ->where(TABLE_PARTNERS.'.id', $id)
                             ->get()
                             ->result();
@@ -123,5 +122,17 @@ class Partner_model extends Super_model{
     function exists($id)
     {
         return $this->_record_exists(TABLE_PARTNERS, $id);
+    }
+    
+    /**
+     * Получить путь к изображению проекта
+     * @param $id id проекта
+     * @return путь к файлу или null
+     */
+    function get_image($id)
+    {
+        $partner = $this->get_partner($id);
+        $this->load->model(MODEL_FILE);
+        return $this->{MODEL_FILE}->get_file_path($partner->image);
     }
 }
