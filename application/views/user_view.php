@@ -2,7 +2,7 @@
 
 echo '<div class="user_profile">';
 
-$pages = array('contacts', 'interest', 'publications', 'cv', 'projects', 'links', 'teaching');
+$pages = array('contacts', 'cv', 'interest', 'publications', 'projects', 'links', 'teaching');
 foreach($pages as $pagename)
 {
 	echo anchor('/users/' . $id . '/' . $pagename, $this->lang->line($pagename));
@@ -13,12 +13,15 @@ echo br(2);
 switch($page)
 {
 	case 'contacts':
+        echo '<div class="photo">';
+        echo '<img src="/'.$info->photo.'">';
+        echo '</div>';
         echo '<div>';
         echo $info->surname . ' ';
         echo $info->name . ' ';
         echo $info->patronymic . ' ';
         echo br();
-        
+
         echo $this->lang->line('rank') . '::' .$info->rank.br();
         echo $this->lang->line('post') . '::' .$info->post.br();
         echo $this->lang->line('address') . '::' .$info->address.br();
@@ -31,10 +34,10 @@ switch($page)
     case 'interest':
         if ($info)
         {
-            foreach ($info as $direction) 
+            foreach ($info as $direction)
             {
                 echo anchor('/directions/' . $direction->directionid, $direction->name);
-                if ($direction->ishead) 
+                if ($direction->ishead)
                 {
                     echo ' (' . $this->lang->line('ishead') . ')';
                 }
@@ -59,11 +62,11 @@ switch($page)
 	case 'projects':
 		if ($info)
 		{
-			foreach ($info as $project) 
+			foreach ($info as $project)
 			{
 				echo anchor('/projects/' . $project->projectid, $project->name);
 				// anchor и внешние ссылки
-				if (isset($project->url)) 
+				if (isset($project->url))
 				{
 					echo ' <a href = "' . $project->url . '">'.$this->lang->line('visit_site').'</a>';
 				}

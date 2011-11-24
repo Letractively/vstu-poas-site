@@ -1,17 +1,20 @@
 <div class="usercard">
     <?php
-        $surname = 'Васин';
-        $name = 'Вася';
-        $patronimyc = 'Васевич';
-        $rank = 'д.т.н.';
-        $email = '<a href=mailto:e-mail@mail.e>e-mail@mail.e</a>';
-        $interests = array('Android' => 'Программирования под Android', 'AI' => 'Artificial Intelligence');
-        $src = '/images/site/nophoto.jpg'
+        if (isset($email) && $email != '')
+            $email = '<a href=mailto:'.$email.'>'.$email.'</a>';
+        if (!isset($interests))
+            $interests = array();
+        if (!isset($photo) || $photo == '' || $photo == NULL)
+            $src = '/images/site/nophoto.jpg';
+        else
+            $src = '/'.$photo;
     ?>
     <div class="userphoto">
-        <img src="<?php echo $src?>">
+        <?php echo anchor('/users/' . $id, '<img src="' . $src . '">');?>
     </div>
-    <p class="fio"><?php echo $surname . ' ' . $name . ' ' . $patronimyc; ?></p>
+    <p class="fio">
+        <?php echo anchor('/users/' . $id, $surname . ' ' . $name . ' ' . $patronymic); ?>
+    </p>
     <br>
     <?php echo $rank; ?>
     <br>

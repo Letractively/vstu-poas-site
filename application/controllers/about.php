@@ -26,12 +26,23 @@ class About extends CI_Controller{
      */
     function students($form = 'bachelor', $year = null)
     {
+        if (!is_numeric($year))
+            $year = null;
         lang();
         $this->load->model(MODEL_COURSE);
         $data['form'] = $form;
         $data['years'] = $this->{MODEL_COURSE}->get_years_by_form($form);
+        if ($year == null)
+            if(count($data['years']) > 0)
+                $data['currentyear'] = $data['years'][0];
+            else
+                $data['currentyear'] = '';
+        else
+            $data['currentyear'] = $year;
 		$data['content'] = $this->load->view('about/student_form', $data, TRUE);
-        //$data['content'] .= $this->load->view('templates/user_card', $data, TRUE);
+        $user_cards = $this->{MODEL_COURSE}->get_user_cards($form, $year);
+        foreach($user_cards as $user_card)
+            $data['content'] .= $this->load->view('templates/user_card', (array)$user_card, TRUE);
         $data['title'] = $this->lang->line('page_students');
 		$this->load->view('templates/main_view', $data);
     }
