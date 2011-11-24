@@ -75,3 +75,7 @@ $lang['page_bachelors'] = 'Бакалавры';
 $lang['page_masters'] = 'Магистры';
 $lang['page_pgs'] = 'Аспиранты';
 $lang['page_docs'] = 'Докторанты';
+$lang['page_education_index'] = 'Учебная деятельность';
+$lang['page_education_bachelor'] = 'Бакалавриат';
+$lang['page_education_magistracy'] = 'Магистратура';
+$lang['page_education_pgdoc'] = 'Аспирантура и докторантура';
