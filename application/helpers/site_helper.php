@@ -103,3 +103,19 @@
             $class .= ' ' . $class2;
         return form_label($label_text, $id, array('class' => $class));
     }
+    
+    /**
+     * Вывести ссылку на страницу с учетом языка
+     * @param $name 
+     * @param $path путь к странце без учета языка. Путь должен начинаться с "/"
+     * @param $attrs строка дополнительных свойств ссылки
+     */
+    function menu_item($name, $path, $attrs = '')
+    {
+        $ci = & get_instance();
+        $ci->lang->load('site');
+        if (lang() == 'ru')
+            echo '<a href="' . $path . '" ' . $attrs . ' >'.$ci->lang->line($name) . '</a>';
+        else
+            echo '<a href="/en' . $path . '" ' . $attrs . ' >'.$ci->lang->line($name) . '</a>';
+    }

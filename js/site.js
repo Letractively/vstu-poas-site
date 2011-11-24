@@ -5,6 +5,10 @@ jQuery(document).ready( function($)
         $(this).parent('li').children('.extra').slideToggle(250);
         return false;
     })
+    $('.site-menu .submenu').click(function() {
+        $(this).siblings('ul').slideToggle(200);
+        return false;
+    });
     
 	// Попытка залогинится через форму авторизации (login_view.php)
 	$("#login_send_button").click( function()

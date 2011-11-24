@@ -65,3 +65,5 @@ body {
 .body_table td {padding:7px}
 
 .extra {display: none;}
+.site-menu ul { padding-left: 15px; display:none; padding-top: 5px;}
+.site-menu li {padding-bottom: 5px;}
