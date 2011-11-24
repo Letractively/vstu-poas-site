@@ -25,21 +25,59 @@
 
 <td bgcolor="#f0f0f0" width="18%" valign="top">
 <!-- Таблица меню -->
-<table cellpadding="10">
+<!--<table cellpadding="10">
 <tr>
-<td>
+<td>-->
 <font face="Arial" size="2">
-<a href="/">Главная</a><br><br>
-<a href="/news">Новости</a><br><br>
-<a href="/users">Все пользователи</a><br><br>
-<a href="/projects">Проекты</a><br><br>
-<a href="/publications">Публикации</a><br><br>
-<a href="/directions">Направления</a><br><br>
+<ul class="site-menu">
+    <li>
+        <?php menu_item('page_main', '/')?>
+    </li>
+    <li>
+        <?php menu_item('page_news', '/news')?>
+    </li>
+    <li>
+        <?php menu_item('page_about', '#', 'class = "submenu"')?>
+        <ul>
+            <li>
+                <?php menu_item('page_history', '/about/history')?>
+            </li>
+            <li>
+                <?php menu_item('page_students', '/about/students')?>
+            </li>
+            <li>
+                <?php menu_item('page_staff', '/about/staff')?>
+            </li>
+            <li>
+                <?php menu_item('page_education', '/about/education')?>
+            </li>
+            <li>
+                <?php menu_item('page_scientific', '/about/scientific')?>
+            </li>
+            <li>
+                <?php menu_item('page_international', '/about/international')?>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <?php menu_item('page_projects', '/projects')?>
+    </li>
+    <li>
+        <?php menu_item('page_publications', '/publications')?>
+    </li>
+    <li>        
+        <?php menu_item('page_directions', '/directions')?>
+    </li>
+    <br>
+    <li>
+        <?php menu_item('page_users', '/users')?>
+    </li>
+</ul>
 <?php if(isset($main_menu)) echo $main_menu; ?>
 </font>
-</td>
+<!--</td>
 </tr>
-</table>
+</table>-->
 <!-- Конец таблицы меню -->
 </td>
 <td valign="top">
