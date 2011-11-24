@@ -1,20 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html lang="<?=lang();?>?>"> 
-<head> 
+<html lang="<?=lang();?>?>">
+<head>
 	<title><?php if(isset($title)) echo $title; ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 	<link rel="stylesheet" href="/css/style.css">
 	<script src="/js/jquery-ui/js/jquery-1.6.2.min.js" type="text/javascript"></script>	<!-- Заменить в релизе локальный вариант на этот! <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"  type="text/javascript"></script>-->
 	<script src="/js/site.js" type="text/javascript"></script>
     <script src="/js/ajaxfileupload.js" type="text/javascript"></script>
-	<script src="/js/jquery/crypt.js" type="text/javascript"></script>	  
-</head> 
-<body leftmargin="0" topmargin="0" alink="red" link="#0051a4" vlink="#0051a4"> 
+	<script src="/js/jquery/crypt.js" type="text/javascript"></script>
+</head>
+<body leftmargin="0" topmargin="0" alink="red" link="#0051a4" vlink="#0051a4">
 <!-- Основная таблица -->
 <div id="admin-panel" style="height:25px; text-align: center; background-color: #BBBBBB">
     <a href="/admin">Управление</a>&nbsp;
-    <?php if ($this->ion_auth->logged_in()) echo '<a href="/logout">Выйти</a>'?>
+    <?php if (isset($this->ion_auth) && $this->ion_auth->logged_in()) echo '<a href="/logout">Выйти</a>'?>
 </div>
 <table height="100%" border="1" align="center" width="65%" style="margin:0 auto;" class="body_table">
 <tr>
@@ -63,15 +63,22 @@
         </ul>
     </li>
     <li>
+        <?php menu_item('page_partners', '/partners')?>
+    </li>
+    <li>
+        <?php menu_item('page_contacts', '/contacts')?>
+    </li>
+    <br>
+    <br>
+    <li>
         <?php menu_item('page_projects', '/projects')?>
     </li>
     <li>
         <?php menu_item('page_publications', '/publications')?>
     </li>
-    <li>        
+    <li>
         <?php menu_item('page_directions', '/directions')?>
     </li>
-    <br>
     <li>
         <?php menu_item('page_users', '/users')?>
     </li>
@@ -103,6 +110,6 @@
 </tr>
 </table>
 <!-- Конец основной таблицы -->
-</body> 
+</body>
 
-</html> 
+</html>
