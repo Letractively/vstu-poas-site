@@ -54,13 +54,15 @@ $route['users/(:num)/(:any)'] = "users/show/$1/$2";
 
 $route['en/publications/(:num)'] = "publications/index/$1";
 $route['publications/(:num)'] = "publications/index/$1";
+
+//$route['en/about/(:any)'] = "about/$1";
 // @todo переделать, если кто придумает как
 
 $route['en/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5/$6/$7";
 $route['en/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5/$6"; // Язык всегда первый параметр метода
 $route['en/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5"; // Язык всегда первый параметр метода
 $route['en/(:any)/(:any)/(:any)'] = "$1/$2/$3"; // Язык всегда первый параметр метода
-$route['en/(:any)/(:any)'] = "$2/$3"; // Язык всегда первый параметр метода
+$route['en/(:any)/(:any)'] = "$1/$2"; // Язык всегда первый параметр метода
 $route['(en)/(:any)'] = "$2"; // Язык всегда первый параметр метода
 $route['en'] = "/news"; // Язык всегда первый параметр метода
 

@@ -37,6 +37,9 @@
         <?php menu_item('page_news', '/news')?>
     </li>
     <li>
+        <?php menu_item('page_conferences', '/conferences')?>
+    </li>
+    <li>
         <?php menu_item('page_about', '#', 'class = "submenu"')?>
         <ul>
             <li>
