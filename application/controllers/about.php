@@ -61,4 +61,30 @@ class About extends CI_Controller{
         $data['title'] = $this->lang->line('page_staff');
 		$this->load->view('templates/main_view', $data);
     }
+
+    function education($section = 'index')
+    {
+        $data['section'] = $section;
+        $data['content'] = $this->load->view('about/education_submenu', '', TRUE);
+        switch ($section)
+        {
+            case 'index':
+                $data['content'] .= $this->load->view('static/education_index_'.lang(), '', TRUE);
+                $data['title'] = $this->lang->line('page_education_index');
+                break;
+            case 'bachelor':
+                $data['content'] .= $this->load->view('static/education_bachelor_'.lang(), '', TRUE);
+                $data['title'] = $this->lang->line('page_education_bachelor');
+                break;
+            case 'magistracy':
+                $data['content'] .= $this->load->view('static/education_magistracy_'.lang(), '', TRUE);
+                $data['title'] = $this->lang->line('page_education_magistracy');
+                break;
+            case 'pgdoc':
+                $data['content'] .= $this->load->view('static/education_pgdoc_'.lang(), '', TRUE);
+                $data['title'] = $this->lang->line('page_education_pgdoc');
+                break;
+        }
+        $this->load->view('templates/main_view', $data);
+    }
 }

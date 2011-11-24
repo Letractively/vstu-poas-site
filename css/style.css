@@ -87,3 +87,6 @@ body {
 .user_profile .fio{font-weight: bold;}
 .user_profile .photo {float:right; height:200px;}
 div.user_profile .photo img {max-height: 200px; max-width: 150px; margin: 0px 20px}
+
+/*Стили для страниц учебной деятельности*/
+div.education-submenu {text-align: center; font-weight: bold; margin-bottom: 20px;}
