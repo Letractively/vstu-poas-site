@@ -1,8 +1,8 @@
 <?php
 require_once('super_model.php');
 class Course_model extends Super_model{
-    
-    function get_short($id = null) 
+
+    function get_short($id = null)
     {
         $result =  $this->db
 					->select('id, course, year')
@@ -24,16 +24,16 @@ class Course_model extends Super_model{
     function get_detailed($id){}
     function add_from_post()
     {
-        $course->course = $this->input->post('course_course'); 
+        $course->course = $this->input->post('course_course');
         $course->course = (string)$course->course;
         $course->year = $this->input->post('course_year');
-        
+
         if ($course->year == '')
         {
             $this->message = 'Не указан год';
             return FALSE;
         }
-        
+
         if (!is_numeric($course->year))
         {
             $this->message = 'Неправильный год';
@@ -85,7 +85,7 @@ class Course_model extends Super_model{
         {
             $this->db->from(TABLE_COURSES)->where('course', $course->course)->where('year', $course->year);
             if ($this->db->count_all_results() > 0)
-            {        
+            {
                 $this->message = 'Такой курс уже существует';
                 return FALSE;
             }
@@ -93,26 +93,26 @@ class Course_model extends Super_model{
                 return $this->_add(TABLE_COURSES, $course);
         }
     }
-    
-    function edit_from_post() 
+
+    function edit_from_post()
     {
         $course->id = $this->input->post('course_id');
         $this->update_course_members($course->id, $this->input->post('course_members'));
     }
-    
+
     function update_course_members($id, $members)
     {
-        $this->_update_connected_users(TABLE_USER_COURSES, 
-                'courseid', 
-                $id, 
+        $this->_update_connected_users(TABLE_USER_COURSES,
+                'courseid',
+                $id,
                 $members);
     }
-    
+
     /**
      * Удалить курс из базы данных
      * Так же удаляет записи из таблицы "студенты курса"
      * @param int $id идентификатор курса
-     * @return TRUE, если курс удален, иначе FALSE 
+     * @return TRUE, если курс удален, иначе FALSE
      */
     function delete($id)
     {
@@ -122,15 +122,15 @@ class Course_model extends Super_model{
         $this->message = $message;
         return $cascade && $result;
     }
-    
-    function get_course($id) 
+
+    function get_course($id)
     {
         $course = $this->_get_record($id, TABLE_COURSES);
         $course->members = $this->get_members($id);
-        
+
         return $course;
     }
-    
+
     /**
 	 * Получить информацию обо всех студентах курса
 	 * @param int $id идентификатор курса
@@ -145,16 +145,57 @@ class Course_model extends Super_model{
 				->where('courseid = ' . $id);
         return $this->db->get()->result();
 	}
-    
+
     public function get_view_extra() {
         $this->load->model(MODEL_USER);
         $extra->users = $this->{MODEL_USER}->get_short();
         return $extra;
     }
-    
+
     function exists($id)
     {
         return $this->_record_exists(TABLE_COURSES, $id);
+    }
+    /**
+     * Получить все года, в которых есть студенты определенной формы обучения
+     * @return упорядоченный по убыванию массив лет
+     */
+    function get_years_by_form($form)
+    {
+        $where = '1=1';
+        switch($form)
+        {
+            case 'bachelor':
+                $where = "course='1' OR course='2' OR course='3' OR course='4'";
+                break;
+            case 'master':
+                $where = "course='5' OR course='6'";
+                break;
+            case 'pg':
+                $where = "course='pg1' OR course='pg2' OR course='pg3' OR course='pg4'";
+                break;
+            case 'doc':
+                $where = "course='d1' OR course='d2' OR course='d3'";
+                break;
+        }
+        $records = $this->db
+                    ->select('year')
+                    ->distinct()
+                    ->from(TABLE_COURSES)
+                    ->join(TABLE_USER_COURSES, TABLE_USER_COURSES.'.courseid='.TABLE_COURSES.'.id')
+                    ->where($where, NULL, FALSE)
+                    ->order_by('year DESC')
+                    ->get()
+                    ->result();
+        /**
+         * SELECT DISTINCT year FROM `courses` JOIN user_courses ON courseid=courses.id where course='1' OR course='2' ...
+         */
+        $years = array();
+        foreach ($records as $record)
+        {
+            $years[] = $record->year;
+        }
+        return $years;
     }
 
 }

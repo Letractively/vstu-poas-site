@@ -2,33 +2,33 @@
 	/**
 	 * Получить текущий используемый язык
 	 * @return string - 'ru' | 'en'
-	 */ 
-	
+	 */
+
 	function lang($is_full_name = FALSE)
 	{
 		$ci = & get_instance();
-		if( ! isset($ci->curr_lang) ) 
+		if( ! isset($ci->curr_lang) )
 		{
 			$ci->curr_lang = $ci->uri->segment(1);
-			
+
 			if( $ci->curr_lang != 'en' )
 			{
 				$ci->curr_lang = 'ru';
 				$ci->config->config['language'] = 'russian';
 			}
-			else 
+			else
 			{
 				$ci->config->config['language']  = 'english';
 			}
 			$ci->lang->load('site');
 		}
-		
+
 			//if( $ci->curr_lang == 'ru' ) return 'russian';
 		//	if( $ci->curr_lang == 'en' ) return 'english';
 
 		return $ci->curr_lang;
 	}
-	
+
 	/**
 	 * Языковой префикс url-адреса.
 	 * Если русский язык - префикс отсутствует. Если английский, то префикс - 'en'
@@ -41,7 +41,7 @@
 		if( $ci->curr_lang == 'ru' ) return '';
 		return '/'.$ci->curr_lang;
 	}
-	
+
 	/**
 	 * Получить код ссылки на эту же страницу на другом языке.
 	 */
@@ -52,23 +52,23 @@
 		{
 			return '<a href="'.substr($url, 3 ).'">Переключится на русский</a>';
 		}
-		
+
 		return '<a href="/en'.$url.'">Переключится на английский</a>';
 	}
-	
-	
-	
-	
+
+
+
+
 	// Этой функцией удобно отлаживать ajax запросы. Выводит строку в файл
 	function debug($string) {
 		$file = fopen ('C://debug.txt','a+');
-		$time = date ('H:i:s'); 
+		$time = date ('H:i:s');
 		fputs ($file, "\n");
 		fputs ($file, "$time: ".$string);
 		fclose ($file);
 	}
-	
-	
+
+
 	/**
 	 * Перевести строку в валидный url-адрес (+ЧПУ)
 	 * @param string $str - исходная строка (возможно, с кириллическими символами)
@@ -78,13 +78,13 @@
 		$ci = get_instance();
 		$ci->load->helper('url');
 		$ci->load->helper('text');
-		
+
 		// Транслетерируем в латинский алфавит и переводим
 		// все символы в допустимый для URL вид. Параметр underscore - пробелы заменять на символ '_'.
 		// Функция convert_accented_characters производит транслетирацию используя массив, объявленный в файле foreign_chars.php
-		return url_title(convert_accented_characters($str), 'underscore', TRUE); 
+		return url_title(convert_accented_characters($str), 'underscore', TRUE);
 	}
-    
+
     /**
      * Вывести label c указанным id и классом $class1.
      * Если выполняется условие $condition, то класс дополняется
@@ -96,17 +96,17 @@
      * @param $class2 добавочный класс
      * @return html-код
      */
-    function form_label_adv($label_text, $id, $class1, $condition, $class2) 
+    function form_label_adv($label_text, $id, $class1, $condition, $class2)
     {
         $class = $class1;
         if ($condition)
             $class .= ' ' . $class2;
         return form_label($label_text, $id, array('class' => $class));
     }
-    
+
     /**
      * Вывести ссылку на страницу с учетом языка
-     * @param $name 
+     * @param $name метка строки в словаре
      * @param $path путь к странце без учета языка. Путь должен начинаться с "/"
      * @param $attrs строка дополнительных свойств ссылки
      */
@@ -119,3 +119,4 @@
         else
             echo '<a href="/en' . $path . '" ' . $attrs . ' >'.$ci->lang->line($name) . '</a>';
     }
+    

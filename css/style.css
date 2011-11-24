@@ -69,3 +69,12 @@ body {
 .site-menu li {padding-bottom: 5px;}
 #contacts-image img {max-width: 300px; max-height: 300px; float: left; padding-right:20px;}
 #contacts-info {font-size:90%; height:300px;}
+
+.student-form-select {text-align: center;}
+.student-form-select .current {font-weight: bold;}
+/*Стили для карточки пользователя*/
+.usercard {text-align:right; border: 1px dashed #aaaaff; height:150px; vertical-align: middle; margin-bottom: 10px;}
+.usercard .fio {font-weight: bold;}
+.usercard abbr { border-bottom: 1px dashed blue;}
+.usercard .userphoto {float:right; padding-left: 20px;}
+.usercard .userphoto img {max-height: 150px; max-width: 150px;}
