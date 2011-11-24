@@ -31,10 +31,10 @@
 <font face="Arial" size="2">
 <ul class="site-menu">
     <li>
-        <?php menu_item('page_main', '/')?>
+        <?php menu_item('page_main', '/');?>
     </li>
     <li>
-        <?php menu_item('page_news', '/news')?>
+        <?php menu_item('page_news', '/news');?>
     </li>
     <li>
         <?php menu_item('page_conferences', '/conferences')?>
