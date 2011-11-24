@@ -34,7 +34,10 @@ class About extends CI_Controller{
         $data['years'] = $this->{MODEL_COURSE}->get_years_by_form($form);
         if ($year == null)
             if(count($data['years']) > 0)
+            {
                 $data['currentyear'] = $data['years'][0];
+                $year = $data['years'][0];
+            }
             else
                 $data['currentyear'] = '';
         else

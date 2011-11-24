@@ -73,9 +73,17 @@ body {
 .student-form-select {text-align: center;}
 .student-form-select .current {font-weight: bold;}
 .student-form-select .year-select {text-align: left;}
+
 /*Стили для карточки пользователя*/
 .usercard {text-align:right; border: 1px dashed #aaaaff; height:150px; vertical-align: middle; margin-bottom: 10px;}
 .usercard .fio {font-weight: bold;}
 .usercard abbr { border-bottom: 1px dashed blue;}
 .usercard .userphoto {float:right; padding-left: 20px; width: 150px; height:150px;  text-align: center;}
 .usercard .userphoto img {max-height: 150px; max-width: 150px;}
+
+/*Стили для профиля пользователя*/
+.user_profile .contacts{text-align: right;}
+.user_profile span.field {color:#6699ff}
+.user_profile .fio{font-weight: bold;}
+.user_profile .photo {float:right; height:200px;}
+div.user_profile .photo img {max-height: 200px; max-width: 150px; margin: 0px 20px}

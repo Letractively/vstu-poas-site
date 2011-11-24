@@ -1,5 +1,14 @@
 <?php // Отобразить пользователя
 
+function get_value($value, $default)
+{
+    if($value == '' || $value == null || !isset($value))
+        return $default;
+    return $value;
+}
+function span($content, $class){
+    return '<span class='.$class.'>'.$content.'</span>';
+}
 echo '<div class="user_profile">';
 
 $pages = array('contacts', 'cv', 'interest', 'publications', 'projects', 'links', 'teaching');
@@ -14,21 +23,33 @@ switch($page)
 {
 	case 'contacts':
         echo '<div class="photo">';
+        if ($info->photo == null || !isset($info->photo) || $info->photo == '')
+                $info->photo = 'images/site/nophoto.jpg';
         echo '<img src="/'.$info->photo.'">';
         echo '</div>';
-        echo '<div>';
+        echo '<div class="contacts">';
+        echo '<div class="fio">';
         echo $info->surname . ' ';
         echo $info->name . ' ';
         echo $info->patronymic . ' ';
-        echo br();
+        echo '</div>';
 
-        echo $this->lang->line('rank') . '::' .$info->rank.br();
-        echo $this->lang->line('post') . '::' .$info->post.br();
-        echo $this->lang->line('address') . '::' .$info->address.br();
-        echo $this->lang->line('cabinet') . '::' .$info->cabinet.br();
-        echo $this->lang->line('phone') . '::' .$info->phone.br();
-        echo $this->lang->line('user_url') . '::' .$info->url.br();
-        echo $this->lang->line('email') . '::' .'<a href="mailto:'.$info->email.'">'.$info->email.'</a>';
+        if ($info->groups->group_id == ION_USER_LECTURER)
+        {
+            echo span($this->lang->line('rank'), 'field') . '::' .get_value($info->rank,'---').br();
+            echo span($this->lang->line('post'), 'field') . '::' .get_value($info->post,'---').br();
+        }
+        echo span($this->lang->line('address'), 'field') . '::' .get_value($info->address,'---').br();
+        echo span($this->lang->line('cabinet'), 'field') . '::' .get_value($info->cabinet,'---').br();
+        echo span($this->lang->line('phone'), 'field') . '::' .get_value($info->phone,'---').br();
+        if (isset($info->url))
+            echo span($this->lang->line('user_url'), 'field') . '::' .'<a href="' .$info->url.'">'.$info->url.'</a>'.br();
+        else
+            echo span($this->lang->line('user_url'), 'field') . '::' . '---'.br();
+        if (isset($info->email))
+            echo span($this->lang->line('email'), 'field') . '::' .'<a href="mailto:'.$info->email.'">'.$info->email.'</a>';
+        else
+            echo span($this->lang->line('email'), 'field') . '::' . '---'.br();
         echo '</div>';
 		break;
     case 'interest':
