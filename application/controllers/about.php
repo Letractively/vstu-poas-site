@@ -49,4 +49,16 @@ class About extends CI_Controller{
         $data['title'] = $this->lang->line('page_students');
 		$this->load->view('templates/main_view', $data);
     }
+
+    function staff()
+    {
+        lang();
+        $this->load->model(MODEL_USER);
+        $user_cards = $this->{MODEL_USER}->get_staff_cards();
+        $data['content'] = '';
+        foreach($user_cards as $user_card)
+            $data['content'] .= $this->load->view('templates/user_card', (array)$user_card, TRUE);
+        $data['title'] = $this->lang->line('page_staff');
+		$this->load->view('templates/main_view', $data);
+    }
 }
