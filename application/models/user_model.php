@@ -534,4 +534,51 @@ class User_model extends Super_model {
         }
         return $return;
 	}
+
+    /**
+     * Вернуть массив данных преподавателей для карточки
+     * @return массив преподавателей
+     */
+    function get_staff_cards()
+    {
+        $users = $this->db
+                            ->select('name_'.lang().' as name,'.
+                                    'surname_'.lang().' as surname,'.
+                                    'patronymic_'.lang().' as patronymic,'.
+                                    'rank_'.lang().' as rank,'.
+                                    'post_'.lang().' as post,'.
+                                    'email,'.
+                                    TABLE_USERS.'.id')
+                            ->from(TABLE_USERS)
+                            ->join(TABLE_USERS_GROUPS, TABLE_USERS.'.id = '.TABLE_USERS_GROUPS.'.user_id')
+                            ->where('group_id', ION_USER_LECTURER)
+                            ->get()
+                            ->result();
+        if (!$users)
+            return null;
+        else
+        {
+            foreach ($users as $user)
+            {
+                $interests = $this->get_user_interests($user->id);
+                if(is_array($interests))
+                {
+                    foreach ($interests as $interest)
+                    {
+                        // на всякий случай, если в базе не достает метки или расшифровки
+                        if ($interest->short == '' || $interest->short == null)
+                            $interest->short = $interest->full;
+                        if ($interest->full == '' || $interest->full == null)
+                            $interest->full = $interest->short;
+                        $user->interests[$interest->short] = $interest->full;
+                    }
+                }
+                else
+                    $user->interests = array();
+                $user->photo = $this->get_photo($user->id);
+            }
+            return $users;
+        }
+
+    }
 }
