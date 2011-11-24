@@ -71,6 +71,7 @@ class User_model extends Super_model {
                 foreach($records as $record)
                 {
                     $record->photo = $this->get_photo($id);
+                    $record->groups = $this->get_user_groups($id);
                 }
 				break;
             case 'interest':

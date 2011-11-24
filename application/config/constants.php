@@ -100,5 +100,6 @@ define('ION_USER_ADMIN', 1);
 define('ION_USER_STUDENT', 2);
 define('ION_USER_LECTURER', 3);
 
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
