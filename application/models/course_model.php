@@ -156,28 +156,14 @@ class Course_model extends Super_model{
     {
         return $this->_record_exists(TABLE_COURSES, $id);
     }
+
     /**
      * Получить все года, в которых есть студенты определенной формы обучения
      * @return упорядоченный по убыванию массив лет
      */
     function get_years_by_form($form)
     {
-        $where = '1=1';
-        switch($form)
-        {
-            case 'bachelor':
-                $where = "course='1' OR course='2' OR course='3' OR course='4'";
-                break;
-            case 'master':
-                $where = "course='5' OR course='6'";
-                break;
-            case 'pg':
-                $where = "course='pg1' OR course='pg2' OR course='pg3' OR course='pg4'";
-                break;
-            case 'doc':
-                $where = "course='d1' OR course='d2' OR course='d3'";
-                break;
-        }
+        $where = $this->get_sql_where_to_form($form);
         $records = $this->db
                     ->select('year')
                     ->distinct()
@@ -196,6 +182,87 @@ class Course_model extends Super_model{
             $years[] = $record->year;
         }
         return $years;
+    }
+
+    /**
+     * Вернуть данные студентов курса для карточки пользователя на сайте
+     * @param $form форма обучения
+     * @param $year год обучения
+     * @return массив пользователей
+     */
+    function get_user_cards($form, $year)
+    {
+        $where = '(' . $this->get_sql_where_to_form($form) . ')';
+        if ($year != '' && $year != null)
+            $where .= ' AND ' . TABLE_COURSES . '.year=' . $year;
+        $users = $this->db
+                        ->select(   'name_'.lang().' as name,'.
+                                    'surname_'.lang().' as surname,'.
+                                    'patronymic_'.lang().' as patronymic,'.
+                                    'rank_'.lang().' as rank,'.
+                                    'post_'.lang().' as post,'.
+                                    'email,'.
+                                    TABLE_USERS.'.id')
+                        ->distinct()
+                        ->from(TABLE_USERS)
+                        ->join(TABLE_USER_COURSES, TABLE_USERS.'.id = '.TABLE_USER_COURSES.'.userid')
+                        ->join(TABLE_COURSES, TABLE_USER_COURSES.'.courseid='.TABLE_COURSES.'.id')
+                        ->where($where, NULL, FALSE)
+                        ->order_by('surname,name,patronymic')
+                        ->get()
+                        ->result();
+        if (!$users)
+            return array();
+        else
+        {
+            $this->load->model(MODEL_USER);
+            foreach ($users as $user)
+            {
+                $interests = $this->{MODEL_USER}->get_user_interests($user->id);
+                if(is_array($interests))
+                {
+                    foreach ($interests as $interest)
+                    {
+                        // на всякий случай, если в базе не достает метки или расшифровки
+                        if ($interest->short == '' || $interest->short == null)
+                            $interest->short = $interest->full;
+                        if ($interest->full == '' || $interest->full == null)
+                            $interest->full = $interest->short;
+                        $user->interests[$interest->short] = $interest->full;
+                    }
+                }
+                else
+                    $user->interests = array();
+                $user->photo = $this->{MODEL_USER}->get_photo($user->id);
+            }
+            return ($users);
+        }
+    }
+
+    /**
+     * Вернуть SQL - запрос для условия выборки из таблицы по форме обучения
+     * @param $form форма обучения {bachelor, master, pg, doc}
+     * @return SQL - запрос вида course='1' OR course='2' ...
+     */
+    function get_sql_where_to_form($form)
+    {
+        $where = '1=1';
+        switch($form)
+        {
+            case 'bachelor':
+                $where = "course='1' OR course='2' OR course='3' OR course='4'";
+                break;
+            case 'master':
+                $where = "course='5' OR course='6'";
+                break;
+            case 'pg':
+                $where = "course='pg1' OR course='pg2' OR course='pg3' OR course='pg4'";
+                break;
+            case 'doc':
+                $where = "course='d1' OR course='d2' OR course='d3'";
+                break;
+        }
+        return $where;
     }
 
 }
