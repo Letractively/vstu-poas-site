@@ -87,4 +87,38 @@ class About extends CI_Controller{
         }
         $this->load->view('templates/main_view', $data);
     }
+
+    function scientific($section = 'index')
+    {
+        $data['section'] = $section;
+        $data['content'] = $this->load->view('about/scientific_submenu', $data, TRUE);
+        switch ($section)
+        {
+            case 'index':
+                $data['content'] .= $this->load->view('static/scientific_index_'.lang(), '', TRUE);
+                $data['title'] = $this->lang->line('page_scientific_index');
+                break;
+            case 'publications':
+                $data['content'] .= $this->load->view('static/scientific_publications_'.lang(), '', TRUE);
+                $data['title'] = $this->lang->line('scientific_publications_');
+                break;
+            case 'projects':
+                $data['content'] .= $this->load->view('static/scientific_projects_'.lang(), '', TRUE);
+                $data['title'] = $this->lang->line('scientific_projects_');
+                break;
+            case 'directions':
+                $data['content'] .= $this->load->view('static/scientific_directions_'.lang(), '', TRUE);
+                $data['title'] = $this->lang->line('scientific_directions_');
+                break;
+        }
+        $this->load->view('templates/main_view', $data);
+    }
+
+    function international()
+    {
+        lang();
+        $data['content'] = 'Нет инфомации';
+        $data['title'] = $this->lang->line('page_international');
+        $this->load->view('templates/main_view', $data);
+    }
 }
