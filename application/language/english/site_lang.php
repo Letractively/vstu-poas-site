@@ -79,3 +79,7 @@ $lang['page_education_index'] = 'Educational activities';
 $lang['page_education_bachelor'] = 'Undergraduate';
 $lang['page_education_magistracy'] = 'Magistracy';
 $lang['page_education_pgdoc'] = 'Postgraduate and PhD';
+$lang['page_scientific_index'] = 'Scientific activities';
+$lang['page_scientific_publications'] = 'Publications';
+$lang['page_scientific_projects'] = 'Projects';
+$lang['page_scientific_directions'] = 'Diretions';

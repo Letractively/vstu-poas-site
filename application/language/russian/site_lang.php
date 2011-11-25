@@ -79,3 +79,7 @@ $lang['page_education_index'] = 'Учебная деятельность';
 $lang['page_education_bachelor'] = 'Бакалавриат';
 $lang['page_education_magistracy'] = 'Магистратура';
 $lang['page_education_pgdoc'] = 'Аспирантура и докторантура';
+$lang['page_scientific_index'] = 'Научная деятельность';
+$lang['page_scientific_publications'] = 'Публикации';
+$lang['page_scientific_projects'] = 'Проекты';
+$lang['page_scientific_directions'] = 'Направления';
