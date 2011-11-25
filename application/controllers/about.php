@@ -65,7 +65,7 @@ class About extends CI_Controller{
     function education($section = 'index')
     {
         $data['section'] = $section;
-        $data['content'] = $this->load->view('about/education_submenu', '', TRUE);
+        $data['content'] = $this->load->view('about/education_submenu', $data, TRUE);
         switch ($section)
         {
             case 'index':

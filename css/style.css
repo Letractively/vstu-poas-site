@@ -89,4 +89,5 @@ body {
 div.user_profile .photo img {max-height: 200px; max-width: 150px; margin: 0px 20px}
 
 /*Стили для страниц учебной деятельности*/
-div.education-submenu {text-align: center; font-weight: bold; margin-bottom: 20px;}
+div.education-submenu {text-align: center; margin-bottom: 20px;}
+div.education-submenu .selected {font-weight: bold;}
