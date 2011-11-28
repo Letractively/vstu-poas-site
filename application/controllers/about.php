@@ -123,6 +123,7 @@ class About extends CI_Controller{
                 if (is_numeric($param))
                 {
                     $data['project'] = $this->{MODEL_PROJECT}->get_detailed($param);
+                    $data['image'] = $this->{MODEL_PROJECT}->get_image($param);
                     if (!$data['project'])
                     {
                         $data['content'] = $this->lang->line('project_doesnt_exist');
