@@ -1,12 +1,12 @@
 <?php // Отобразить все направления?>
 
-<?php 
+<?php
 foreach ($directions as $direction)
-{    
+{
 	echo '<div class="direction">';
-	echo heading(anchor('/directions/'.$direction->id, $direction->name), 3);
+	echo heading(anchor('/about/scientific/directions/'.$direction->id, $direction->name), 3);
 	echo '</div>';
-    echo br();	
+    echo br();
 }
 ?>
 

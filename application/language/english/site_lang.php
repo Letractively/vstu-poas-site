@@ -83,3 +83,5 @@ $lang['page_scientific_index'] = 'Scientific activities';
 $lang['page_scientific_publications'] = 'Publications';
 $lang['page_scientific_projects'] = 'Projects';
 $lang['page_scientific_directions'] = 'Diretions';
+$lang['direction_doesnt_exist'] = 'Direction doesn\'t exist';
+$lang['project_doesnt_exist'] = 'Project doesn\'t exist';

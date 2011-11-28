@@ -83,3 +83,5 @@ $lang['page_scientific_index'] = 'Научная деятельность';
 $lang['page_scientific_publications'] = 'Публикации';
 $lang['page_scientific_projects'] = 'Проекты';
 $lang['page_scientific_directions'] = 'Направления';
+$lang['direction_doesnt_exist'] = 'Направление не существует';
+$lang['project_doesnt_exist'] = 'Проект не существует';
