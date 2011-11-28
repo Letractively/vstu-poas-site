@@ -88,7 +88,7 @@ class About extends CI_Controller{
         $this->load->view('templates/main_view', $data);
     }
 
-    function scientific($section = 'index')
+    function scientific($section = 'index', $param = null)
     {
         $data['section'] = $section;
         $data['content'] = $this->load->view('about/scientific_submenu', $data, TRUE);
@@ -100,15 +100,55 @@ class About extends CI_Controller{
                 break;
             case 'publications':
                 $data['content'] .= $this->load->view('static/scientific_publications_'.lang(), '', TRUE);
-                $data['title'] = $this->lang->line('scientific_publications_');
+                $data['title'] = $this->lang->line('page_scientific_publications');
                 break;
             case 'projects':
-                $data['content'] .= $this->load->view('static/scientific_projects_'.lang(), '', TRUE);
-                $data['title'] = $this->lang->line('scientific_projects_');
+                $this->load->model(MODEL_PROJECT);
+                $data['title'] = $this->lang->line('page_scientific_projects');
+                if (is_numeric($param))
+                {
+                    $data['project'] = $this->{MODEL_PROJECT}->get_detailed($param);
+                    if (!$data['project'])
+                    {
+                        $data['content'] = $this->lang->line('project_doesnt_exist');
+                        $this->load->view('templates/main_view', $data);
+                    }
+                    else
+                    {
+                        $data['members'] = $this->{MODEL_PROJECT}->get_members($param);
+                        $data['content'] = $this->load->view('project_view', $data, TRUE);
+                        $this->load->view('templates/main_view', $data);
+                    }
+                    return;
+                }
+
+
+                $data['projects'] = $this->{MODEL_PROJECT}->get_short();
+                $data['content'] .= $this->load->view('projects_view', $data, TRUE);
                 break;
             case 'directions':
-                $data['content'] .= $this->load->view('static/scientific_directions_'.lang(), '', TRUE);
-                $data['title'] = $this->lang->line('scientific_directions_');
+                $this->load->model(MODEL_DIRECTION);
+                $data['title'] = $this->lang->line('page_scientific_directions');
+                if (is_numeric($param))
+                {
+                    $data['direction'] = $this->{MODEL_DIRECTION}->get_detailed($param);
+                    if (!$data['direction'])
+                    {
+                        $data['content'] = $this->lang->line('direction_doesnt_exist');
+                        $this->load->view('templates/main_view', $data);
+                    }
+                    else
+                    {
+                        $data['members'] = $this->direction_model->get_members($param);
+                        $data['content'] = $this->load->view('direction_view', $data, TRUE);
+                        $this->load->view('templates/main_view', $data);
+                    }
+                    return;
+                }
+
+
+                $data['directions'] = $this->{MODEL_DIRECTION}->get_short();
+                $data['content'] .= $this->load->view('directions_view', $data, TRUE);
                 break;
         }
         $this->load->view('templates/main_view', $data);
