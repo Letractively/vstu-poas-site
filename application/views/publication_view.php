@@ -4,7 +4,7 @@ echo '<p>' . $publication->name . '</p><br>';
 
 $has_abstract = isset($publication->abstract_ru) || isset($publication->abstract_en);
 $has_fulltext = isset($publication->fulltext_ru) || isset($publication->fulltext_en);
-$has_author = isset($publication->authors) 
+$has_author = isset($publication->authors)
         && is_array($publication->authors)
         && count($publication->authors) > 0;
 $has_info = isset($publication->info);
@@ -32,7 +32,7 @@ if ($has_abstract)
 if ($has_fulltext)
 {
     if ($has_abstract && $has_fulltext)
-        echo ', '.strtolower($this->lang->line('fulltext')) . ' (';
+        echo ', '.$this->lang->line('fulltext') . ' (';
     else
         echo $this->lang->line('fulltext') . ' (';
     if (isset($publication->fulltext_ru))
@@ -54,11 +54,11 @@ if ($has_author)
     else
         echo $this->lang->line('authors').':';
     for ($i = 0; $i <count($publication->authors); $i++) {
-        
-        $author =  $publication->authors[$i]->surname 
-                . ' ' 
+
+        $author =  $publication->authors[$i]->surname
+                . ' '
                 . mb_substr($publication->authors[$i]->name, 0, 1)
-                . '. ' 
+                . '. '
                 . mb_substr($publication->authors[$i]->patronymic, 0, 1)
                 . '.';
         echo anchor('/users/' . $publication->authors[$i]->id, $author);

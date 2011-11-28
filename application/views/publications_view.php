@@ -3,7 +3,7 @@
 if (isset($currentyear))    {echo heading($currentyear, 3);}
 foreach ($years as $year)
 {
-    echo anchor('/publications/' . $year, $year );
+    echo anchor('/about/scientific/publications/' . $year, $year );
     echo ' ';
 }
 echo br(2);
