@@ -8,23 +8,23 @@ class Partner_model extends Super_model{
      */
     function get_short($id = null)
     {
-        return $this->_get_short(TABLE_PARTNERS, 
-                                 'url, short_' . lang(),
-                                 'name_' . lang() . ', name_ru, id', 
+        return $this->_get_short(TABLE_PARTNERS,
+                                 'url, short_' . lang() . ' as short,',
+                                 'name_' . lang() . ', name_ru, id',
                                  $id);
     }
-    
+
     /**
      * Получить информацию о партнере для представления
      * @param int $id идентификатор партнера
      * @return партнер
      */
     function get_detailed($id) {
-        $select1 = 'short_' . lang() . ' as short, full_' . lang() . 'as full, url';
+        $select1 = 'short_' . lang() . ' as short, full_' . lang() . ' as full, url';
         $select2 = 'short_ru as short, full_ru as full, url';
         return $this->_get_detailed($id, TABLE_PARTNERS, $select1, $select2);
     }
-    
+
     /**
      * Получить полную информацию о партнере
      * @param int $id идентификатор партнера
@@ -44,12 +44,12 @@ class Partner_model extends Super_model{
 		}
 		return $record[0];
     }
-    
+
     /**
      * Получить информацию о партнере из POST-запроса
      * @return партнер
      */
-    function get_from_post() 
+    function get_from_post()
     {
         $fields = array(
             'name_ru' => 'partner_name_ru',
@@ -60,7 +60,7 @@ class Partner_model extends Super_model{
             'full_en' => 'partner_full_en',
             'url' => 'partner_url'
         );
-        $nulled_fields = array(            
+        $nulled_fields = array(
             'name_en' => '',
             'short_en' => '',
             'full_ru' => '',
@@ -69,7 +69,7 @@ class Partner_model extends Super_model{
         );
         return $this->_get_from_post('partner', $fields, $nulled_fields);
     }
-    
+
     /**
      * Добавить партнера, получаемого через POST-запрос
      * @return int id - идентификатор добавленной записи | FALSE
@@ -80,7 +80,7 @@ class Partner_model extends Super_model{
         unset($partner->image_name);
         return $this->_add(TABLE_PARTNERS, $partner);
     }
-    
+
     /**
 	 * Получить информацию о партнере из данных, полученных методом POST
 	 * @return объект, содержащий собранную информацию о партнере
@@ -90,17 +90,17 @@ class Partner_model extends Super_model{
         unset($partner->image_name);
         return $this->_edit(TABLE_PARTNERS, $partner);
     }
-    
+
     /**
      * Удалить партнера из базы данных
      * @param int $id идентификатор партнера
-     * @return TRUE, если партнер удален, иначе FALSE 
+     * @return TRUE, если партнер удален, иначе FALSE
      */
     function delete($id)
     {
         return $this->_delete(TABLE_PARTNERS, $id);
     }
-    
+
     /**
 	 * Проверить данные, введенные на форме edit_partner_view на корректность
 	 * @return массив с ошибками
@@ -118,12 +118,12 @@ class Partner_model extends Super_model{
         );
         return $this->_get_errors($rus, $eng);
 	}
-    
+
     function exists($id)
     {
         return $this->_record_exists(TABLE_PARTNERS, $id);
     }
-    
+
     /**
      * Получить путь к изображению проекта
      * @param $id id проекта

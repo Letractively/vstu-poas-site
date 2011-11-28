@@ -5,7 +5,7 @@ foreach ($projects as $project)
 {
 	echo '<div class="project">';
     //$count = ' (Участвует в проекте:' . $project->memberscount . ')';
-	echo heading(anchor('about/scientific/projects/'.$project->id,$project->name), 3);
+	echo heading(anchor('/about/scientific/projects/'.$project->id,$project->name), 3);
 	if (isset($project->url))
 	{
 		// Так не работает на английской версии страницы, перед http:\\ добавляется en
