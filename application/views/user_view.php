@@ -42,6 +42,7 @@ switch($page)
         echo span($this->lang->line('address'), 'field') . '::' .get_value($info->address,'---').br();
         echo span($this->lang->line('cabinet'), 'field') . '::' .get_value($info->cabinet,'---').br();
         echo span($this->lang->line('phone'), 'field') . '::' .get_value($info->phone,'---').br();
+        echo span('Skype', 'field') . '::' .get_value($info->skype,'---').br();
         if (isset($info->url))
             echo span($this->lang->line('user_url'), 'field') . '::' .'<a href="' .$info->url.'">'.$info->url.'</a>'.br();
         else

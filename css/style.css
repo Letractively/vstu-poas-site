@@ -93,3 +93,5 @@ div.education-submenu,
 div.scientific-submenu {text-align: center; margin-bottom: 20px;}
 div.education-submenu .selected,
 div.scientific-submenu .selected {font-weight: bold;}
+
+.project img {max-height: 200px; max-width: 200px;}
