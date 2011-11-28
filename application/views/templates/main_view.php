@@ -71,15 +71,6 @@
     <br>
     <br>
     <li>
-        <?php menu_item('page_projects', '/projects')?>
-    </li>
-    <li>
-        <?php menu_item('page_publications', '/publications')?>
-    </li>
-    <li>
-        <?php menu_item('page_directions', '/directions')?>
-    </li>
-    <li>
         <?php menu_item('page_users', '/users')?>
     </li>
 </ul>
