@@ -99,8 +99,23 @@ class About extends CI_Controller{
                 $data['title'] = $this->lang->line('page_scientific_index');
                 break;
             case 'publications':
-                $data['content'] .= $this->load->view('static/scientific_publications_'.lang(), '', TRUE);
+                $this->load->model(MODEL_PUBLICATION);
+                $data['years'] = $this->{MODEL_PUBLICATION}->get_years();
                 $data['title'] = $this->lang->line('page_scientific_publications');
+
+                if (($param == null || !is_numeric($param)) && count($data['years']) > 0)
+                {
+                    $data['currentyear'] = $data['years'][0];
+                }
+                else
+                {
+                    $data['currentyear'] = $param;
+                }
+                if ($data['currentyear'])
+                {
+                    $data['publications'] = $this->{MODEL_PUBLICATION}->get_by_year($data['currentyear']);
+                }
+                $data['content'] .= $this->load->view('publications_view', $data, TRUE);
                 break;
             case 'projects':
                 $this->load->model(MODEL_PROJECT);
