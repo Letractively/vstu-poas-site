@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="/css/style-print.css" type="text/css" media="print" />
 
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<script src="/js/jquery-ui/js/jquery-1.6.2.min.js" type="text/javascript"></script>	
+<script src="/js/jquery-ui/js/jquery-1.6.2.min.js" type="text/javascript"></script>
 <!-- Заменить в релизе локальный вариант на этот! <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"  type="text/javascript"></script>-->
 <script src="/js/site.js" type="text/javascript"></script>
 <script src="/js/ajaxfileupload.js" type="text/javascript"></script>
@@ -35,36 +35,39 @@
 	<div id="header">
 		<div id="header-in">
 			<ul id="navigation">
-				<li id="house"><a href="#">Главная</a>|</li>
-				<li id="sitemap"><a href="#">Карта сайта</a>|</li>
-				<li id="envelope"><a href="#">Связаться с нами</a></li>
+				<li id="house"><?php menu_item('page_main', '/');?>|</li>
+				<li id="sitemap"><a href="#"><?php echo $this->lang->line('sitemap');?></a>|</li>
+				<li id="envelope"><a href="#"><?php echo $this->lang->line('contactus');?></a>|</li>
+                <li id="lang"><?php  echo link_to_translate();?></li>
 		</ul>
 		<!-- Your website name  -->
-		<h1><a href="#">ПОАС</a></h1>
+        <h1><?php echo anchor('/', $this->lang->line('department_acronim'));?></h1>
 		<!-- Your website name end -->
-		
+
 			<!-- Your slogan -->
-			<h2>Программное обеспечение автоматизированных систем</h2>
+			<h2><?php echo $this->lang->line('department_name');?></h2>
+            <h2><a href="http://www.vstu.ru/"><?php echo $this->lang->line('university_name');?></a></h2>
 			<!-- Your slogan end -->
 
 		<!-- Search form -->
 		<form  class="searching" action="">
 		<fieldset>
 			<label>Searching</label>
-				<input class="search" type="text" onfocus="if(this.value==this.defaultValue)this.value=''" 
+				<input class="search" type="text" onfocus="if(this.value==this.defaultValue)this.value=''"
 				onblur="if(this.value=='')this.value=this.defaultValue" value="Искать..." />
 				<input class="hledat" type="image" src="/images/site/design/search-button.gif" name="" alt="Search" />
 		</fieldset>
 		</form>
-		<!-- Search end -->		
+		<!-- Search end -->
 		</div>
 	</div>
 	<!-- Header end -->
-	
+
 	<!-- Menu -->
 	<div id="menu-box" class="cleaning-box">
 	<a href="#skip-menu" class="hidden">Skip menu</a>
 		<ul id="menu">
+            <?php if (!isset($active)) $active = 'none'; ?>
 			<li class="first"><?php menu_item('page_main', '/', $active == 'page_main' ? 'class=active':'');?></li>
 			<li><?php menu_item('page_news', '/news', $active == 'page_news' ? 'class=active':'');?></li>
 			<li><?php menu_item('page_conferences', '/conferences', $active == 'page_conferences' ? 'class=active':'')?></li>
@@ -96,18 +99,21 @@
 		</ul>
 	</div>
 	<!-- Menu end -->
-	
+
 <hr class="noscreen" />
 
 <div id="skip-menu"></div>
-	
+
 	<div id="content">
-	
+
 		<!-- Content box with white background and gray border -->
 		<div id="content-box">
-		
+
 			<!-- Left column -->
 			<div id="content-box-in-left">
+                <div class="breadcrumbs">
+                    <?php if(isset($breadcrumbs)) echo $breadcrumbs; ?>
+                </div>
 				<div id="content-box-in-left-in">
 					<?php if(isset($content)) echo $content; ?>
 				</div>
@@ -115,7 +121,7 @@
 			<!-- Left column end -->
 
 <hr class="noscreen" />
-			
+
 			<!-- Right column -->
 			<div id="content-box-in-right">
 				<div id="content-box-in-right-in">
@@ -123,13 +129,13 @@
 						<dl>
 							<dt>15 ноября, 2011</dt>
 								<dd>Закончилась XVI Региональная конференция молодых исследователей Волгоградской области...</dd>
-								
+
 							<dt>10 ноября, 2011</dt>
 								<dd>Состоялось слушение работ...</dd>
-								
+
 							<dt>February 2008</dt>
 								<dd>Donec massa dui, rhoncus nec, ornare sit amet, euismod vitae, mi.</dd>
-								
+
 							<dt>February 2008</dt>
 								<dd>Donec massa dui, rhoncus nec, ornare sit amet, euismod vitae, mi.</dd>
 						</dl>
@@ -138,7 +144,7 @@
 							<dt>8 ноября, 2011</dt>
 								<dd>XVI Региональная конференция молодых исследователей Волгоградской области</dd>
 						</dl>
-				
+
 			</div>
 			</div>
 			<div class="cleaner">&nbsp;</div>
@@ -148,7 +154,7 @@
 	</div>
 
 <hr class="noscreen" />
-	
+
 	<!-- Footer -->
 	<div id="footer">
 		<div id="footer-in">
