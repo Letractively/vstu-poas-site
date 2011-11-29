@@ -91,3 +91,5 @@ $lang['contactus'] = 'Contact us';
 $lang['department_name'] = 'Automated Systems Software Department';
 $lang['department_acronim'] = 'ASSD';
 $lang['university_name'] = 'Volgograd State Technical University';
+$lang['page_scientific_general'] = 'General information';
+$lang['page_education_general'] = 'General information';

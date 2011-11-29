@@ -2,9 +2,9 @@
     <?php
         lang();
         if ($section == 'index')
-            echo anchor('/about/scientific/index',$this->lang->line('page_scientific_index'),'class=selected'). ' ';
+            echo anchor('/about/scientific/index',$this->lang->line('page_scientific_general'),'class=selected'). ' ';
         else
-            echo anchor('/about/scientific/index',$this->lang->line('page_scientific_index')). ' ';
+            echo anchor('/about/scientific/index',$this->lang->line('page_scientific_general')). ' ';
 
         if ($section == 'publications')
             echo anchor('/about/scientific/publications',$this->lang->line('page_scientific_publications'),'class=selected'). ' ';

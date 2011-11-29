@@ -2,9 +2,9 @@
     <?php
         lang();
         if ($section == 'index')
-            echo anchor('/about/education/index',$this->lang->line('page_education_index'),'class=selected'). ' ';
+            echo anchor('/about/education/index',$this->lang->line('page_education_general'),'class=selected'). ' ';
         else
-            echo anchor('/about/education/index',$this->lang->line('page_education_index')). ' ';
+            echo anchor('/about/education/index',$this->lang->line('page_education_general')). ' ';
 
         if ($section == 'bachelor')
             echo anchor('/about/education/bachelor',$this->lang->line('page_education_bachelor'),'class=selected'). ' ';

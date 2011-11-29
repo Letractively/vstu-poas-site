@@ -34,31 +34,33 @@
 	<!-- Header -->
 	<div id="header">
 		<div id="header-in">
-			<ul id="navigation">
-				<li id="house"><?php menu_item('page_main', '/');?>|</li>
-				<li id="sitemap"><a href="#"><?php echo $this->lang->line('sitemap');?></a>|</li>
-				<li id="envelope"><a href="#"><?php echo $this->lang->line('contactus');?></a>|</li>
+
+            <ul id="navigation">
+                <li id="house"><?php menu_item('page_main', '/');?>|</li>
+                <li id="sitemap"><a href="#"><?php echo $this->lang->line('sitemap');?></a>|</li>
+                <li id="envelope"><a href="#"><?php echo $this->lang->line('contactus');?></a>|</li>
                 <li id="lang"><?php  echo link_to_translate();?></li>
-		</ul>
-		<!-- Your website name  -->
-        <h1><?php echo anchor('/', $this->lang->line('department_acronim'));?></h1>
-		<!-- Your website name end -->
+            </ul>
+            <a href="/"><img id="logo" src="/images/site/design/logo.jpg"></a>
+            <!-- Your website name  -->
+            <h1><?php echo anchor('/', $this->lang->line('department_acronim'));?></h1>
+            <!-- Your website name end -->
 
-			<!-- Your slogan -->
-			<h2><?php echo $this->lang->line('department_name');?></h2>
-            <h2><a href="http://www.vstu.ru/"><?php echo $this->lang->line('university_name');?></a></h2>
-			<!-- Your slogan end -->
+                <!-- Your slogan -->
+                <h2><?php echo $this->lang->line('department_name');?></h2>
+                <h2><a href="http://www.vstu.ru/"><?php echo $this->lang->line('university_name');?></a></h2>
+                <!-- Your slogan end -->
 
-		<!-- Search form -->
-		<form  class="searching" action="">
-		<fieldset>
-			<label>Searching</label>
-				<input class="search" type="text" onfocus="if(this.value==this.defaultValue)this.value=''"
-				onblur="if(this.value=='')this.value=this.defaultValue" value="Искать..." />
-				<input class="hledat" type="image" src="/images/site/design/search-button.gif" name="" alt="Search" />
-		</fieldset>
-		</form>
-		<!-- Search end -->
+            <!-- Search form -->
+            <form  class="searching" action="">
+            <fieldset>
+                <label>Searching</label>
+                    <input class="search" type="text" onfocus="if(this.value==this.defaultValue)this.value=''"
+                    onblur="if(this.value=='')this.value=this.defaultValue" value="Искать..." />
+                    <input class="hledat" type="image" src="/images/site/design/search-button.gif" name="" alt="Search" />
+            </fieldset>
+            </form>
+            <!-- Search end -->
 		</div>
 	</div>
 	<!-- Header end -->
