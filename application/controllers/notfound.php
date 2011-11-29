@@ -7,12 +7,13 @@ class Notfound extends CI_Controller {
 		$this->load->database('default');
 		lang();
 	}
-	
+
 	/// Главная страница сайта
 	function index()
 	{
 		$data['content'] = '<h3>404</h3><br> Sorry... <br> :\'(';
-		$this->load->view('templates/main_view', $data);
+        $data['active'] = 'none';
+		$this->load->view('templates/new_main_view', $data);
 	}
 }
 

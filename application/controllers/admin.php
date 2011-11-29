@@ -19,8 +19,9 @@ class Admin extends CI_Controller {
         {
             // Если не авторизован - предложить форму авторизации
             $data['content'] = $this->load->view('/login_view', NULL, TRUE);
+            $data['active'] = 'none';
             $data['title'] = 'Авторизация пользователя';
-			echo $this->load->view('templates/main_view', $data, TRUE);
+			echo $this->load->view('templates/new_main_view', $data, TRUE);
             die();
             return FALSE;
         }
