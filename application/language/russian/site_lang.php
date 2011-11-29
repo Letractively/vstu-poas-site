@@ -91,3 +91,5 @@ $lang['contactus'] = 'Связаться с нами';
 $lang['department_name'] = 'Программное обеспечение автоматизированных систем';
 $lang['department_acronim'] = 'ПОАС';
 $lang['university_name'] = 'Волгоградский государственный технический университет';
+$lang['page_scientific_general'] = 'Общая информация';
+$lang['page_education_general'] = 'Общая информация';

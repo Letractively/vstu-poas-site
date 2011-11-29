@@ -50,10 +50,10 @@
 		$url = $_SERVER['REQUEST_URI'];
 		if( substr($url,0,3) == '/en' && ( !isset($url[3]) || $url[3] == '/' ) )
 		{
-			return '<a href="'.substr($url, 3 ).'">Переключится на русский</a>';
+			return '<a href="'.substr($url, 3 ).'"><img src="/images/site/ru.png" title="Переключится на русский"></a>';
 		}
 
-		return '<a href="/en'.$url.'">Переключится на английский</a>';
+		return '<a href="/en'.$url.'"><img src="/images/site/us.png" title="Switch to English"></a>';
 	}
 
 
@@ -119,4 +119,3 @@
         else
             echo '<a href="/en' . $path . '" ' . $attrs . ' >'.$ci->lang->line($name) . '</a>';
     }
-    

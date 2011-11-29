@@ -450,6 +450,12 @@ font-weight: normal;
 
 
 /* Наши стили*/
+#header #logo {
+    float:left;
+    max-height: 100px;
+    padding-top: 49px;
+    margin-right: 20px;
+}
 h2 a:hover,
 h2 a:link,
 h2 a:visited{
@@ -540,3 +546,9 @@ div.education-submenu .selected,
 div.scientific-submenu .selected {font-weight: bold;}
 
 .project img {max-height: 200px; max-width: 200px;}
+
+/* Стили для страницы студентов*/
+.student-form-select {text-align: center;}
+.student-form-select>a {padding: 0 10px;}
+.student-form-select .current {font-weight: bold;}
+.student-form-select .year-select {text-align: left;}
