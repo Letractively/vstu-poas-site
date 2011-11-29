@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "news";
+$route['default_controller'] = "index";
 $route['404_override'] = 'notfound';
 
 $route['en/projects/(:num)'] = "projects/show/$1";
