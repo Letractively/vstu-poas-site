@@ -1,4 +1,4 @@
-/*  This template was created by Mantis-a [http://www.mantisa.cz/]. For more templates visit Free website templates [http://www.mantisatemplates.com/]. */
+п»ї/*  This template was created by Mantis-a [http://www.mantisa.cz/]. For more templates visit Free website templates [http://www.mantisatemplates.com/]. */
 
 
 
@@ -31,7 +31,7 @@ min-height: 100%;
 height: 100%;
 position: relative;
 }
- 
+
 body>#main {
 height: auto;
 }
@@ -54,16 +54,16 @@ visibility: hidden;
 content: ' ';
 }
 
-.cleaning-box { 
+.cleaning-box {
 min-height: 1px;
 }
 
 .cleaning-box:after {
-display: block; 
-clear: both; 
-visibility: hidden; 
-height: 0; 
-font-size: 0; 
+display: block;
+clear: both;
+visibility: hidden;
+height: 0;
+font-size: 0;
 content: ' ';
 }
 
@@ -94,8 +94,8 @@ font-size: 2.8em;
 font-weight: normal;
 color: #FFFFFF;
 text-align: left;
-padding: 49px 0 0 42px;
-background: url('../images/site/design/h1-bg-flame.png') no-repeat 0 43px;
+padding: 49px 0 0 0;
+/*background: url('../images/site/design/h1-bg-flame.png') no-repeat 0 43px;*/
 }
 
 h1 a:link, h1 a:visited {
@@ -449,11 +449,24 @@ font-weight: normal;
 }
 
 
-/* Наши стили*/
+/* РќР°С€Рё СЃС‚РёР»Рё*/
+h2 a:hover,
+h2 a:link,
+h2 a:visited{
+color:#fff;
+text-decoration: none;
+font-weight: normal;
+}
+li#lang {
+margin-left: 16px;
+}
+li#envelope a{
+    margin-right: 10px;
+}
 #contacts-image img {max-width: 300px; max-height: 300px; float: left; padding-right:20px;}
 #contacts-info {font-size:90%; height:300px;}
 
-/* Стили для меню*/
+/* РЎС‚РёР»Рё РґР»СЏ РјРµРЅСЋ*/
 #menu, #menu ul {
   list-style: none;
   padding: 0;
@@ -495,7 +508,7 @@ font-size: 1.1em;
 #menu li:hover ul {
   display: block;
 }
-/* Форма авторизации*/
+/* Р¤РѕСЂРјР° Р°РІС‚РѕСЂРёР·Р°С†РёРё*/
 #form_login {width:270px; background:#add2ea; border:1px solid white; padding: 1em; -webkit-border-radius: 10px 40px 10px 10px; border-radius: 10px 40px 10px 10px;}
 #form_login.with_fieldset {width:300px;margin:200px 0 0 350px}
 #form_login_title {display: block; font-family: arial black, arial; text-align: center; margin-bottom: 10px; margin-top:-7px}
@@ -506,21 +519,21 @@ font-size: 1.1em;
 .form_login_admin {margin:0px auto}
 .form_login {margin:0px auto}
 
-/*Стили для карточки пользователя*/
+/*РЎС‚РёР»Рё РґР»СЏ РєР°СЂС‚РѕС‡РєРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ*/
 .usercard {text-align:right; border: 1px dashed #aaaaff; height:150px; vertical-align: middle; margin-bottom: 10px;}
 .usercard .fio {font-weight: bold;}
 .usercard abbr { border-bottom: 1px dashed blue;}
 .usercard .userphoto {float:right; padding-left: 20px; width: 150px; height:150px;  text-align: center;}
 .usercard .userphoto img {max-height: 150px; max-width: 150px;}
 
-/*Стили для профиля пользователя*/
+/*РЎС‚РёР»Рё РґР»СЏ РїСЂРѕС„РёР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ*/
 .user_profile .contacts{text-align: right;}
 .user_profile span.field {color:#6699ff}
 .user_profile .fio{font-weight: bold;}
 .user_profile .photo {float:right; height:200px;}
 div.user_profile .photo img {max-height: 200px; max-width: 150px; margin: 0px 20px}
 
-/*Стили для страниц учебной деятельности*/
+/*РЎС‚РёР»Рё РґР»СЏ СЃС‚СЂР°РЅРёС† СѓС‡РµР±РЅРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё*/
 div.education-submenu,
 div.scientific-submenu {text-align: center; margin-bottom: 20px;}
 div.education-submenu .selected,
