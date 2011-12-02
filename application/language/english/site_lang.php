@@ -93,3 +93,7 @@ $lang['department_acronim'] = 'ASSD';
 $lang['university_name'] = 'Volgograd State Technical University';
 $lang['page_scientific_general'] = 'General information';
 $lang['page_education_general'] = 'General information';
+$lang['news'] = 'News';
+$lang['conferences'] = 'Conferences';
+$lang['designby'] = 'Design by';
+$lang['search'] = 'search';
