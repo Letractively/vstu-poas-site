@@ -133,3 +133,13 @@
         else
             return '<div class="'.$class.'">';
     }
+
+    /**
+     * Определяет, нужно ли выводить отладочную информацию
+     *
+     * @return true, если необходимо, иначе false
+     */
+    function has_to_show_debug()
+    {
+        return TRUE;
+    }

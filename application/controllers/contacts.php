@@ -4,6 +4,8 @@ class Contacts extends CI_Controller{
 	{
 		parent::__construct();
         lang();
+        if (has_to_show_debug())
+            $this->output->enable_profiler(TRUE);
 	}
 
     /**

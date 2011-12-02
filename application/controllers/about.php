@@ -3,7 +3,8 @@ class About extends CI_Controller{
     function __construct()
 	{
 		parent::__construct();
-        $this->output->enable_profiler(TRUE);
+        if (has_to_show_debug())
+            $this->output->enable_profiler(TRUE);
         lang();
 	}
 
