@@ -3,7 +3,8 @@ class Users extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->output->enable_profiler(TRUE);	// Отладка (содержимое после основного контента)
+		if (has_to_show_debug())
+            $this->output->enable_profiler(TRUE);
 		$this->load->database('default');
 		$this->load->model(MODEL_USER);
 		//$this->load->model('news_model');
