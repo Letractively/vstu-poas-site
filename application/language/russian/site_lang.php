@@ -93,3 +93,7 @@ $lang['department_acronim'] = 'ПОАС';
 $lang['university_name'] = 'Волгоградский государственный технический университет';
 $lang['page_scientific_general'] = 'Общая информация';
 $lang['page_education_general'] = 'Общая информация';
+$lang['news'] = 'Новости';
+$lang['conferences'] = 'Конференции';
+$lang['designby'] = 'Дизайн';
+$lang['search'] = 'искать';

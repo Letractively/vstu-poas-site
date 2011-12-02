@@ -56,7 +56,7 @@
             <fieldset>
                 <label>Searching</label>
                     <input class="search" type="text" onfocus="if(this.value==this.defaultValue)this.value=''"
-                    onblur="if(this.value=='')this.value=this.defaultValue" value="Искать..." />
+                    onblur="if(this.value=='')this.value=this.defaultValue" value="<?php echo $this->lang->line('search');?>..." />
                     <input class="hledat" type="image" src="/images/site/design/search-button.gif" name="" alt="Search" />
             </fieldset>
             </form>
@@ -127,24 +127,21 @@
 			<!-- Right column -->
 			<div id="content-box-in-right">
 				<div id="content-box-in-right-in">
-					<h3>Новости</h3>
+					<h3><?php echo $this->lang->line('news');?></h3>
 						<dl>
 							<dt>15 ноября, 2011</dt>
 								<dd>Закончилась XVI Региональная конференция молодых исследователей Волгоградской области...</dd>
-
 							<dt>10 ноября, 2011</dt>
-								<dd>Состоялось слушение работ...</dd>
-
-							<dt>February 2008</dt>
-								<dd>Donec massa dui, rhoncus nec, ornare sit amet, euismod vitae, mi.</dd>
-
-							<dt>February 2008</dt>
-								<dd>Donec massa dui, rhoncus nec, ornare sit amet, euismod vitae, mi.</dd>
+								<dd>Состоялось слушание работ...</dd>
+							<dt>1 января, 2011</dt>
+								<dd>В лесу родилась елочка, в лесу она росла...</dd>
 						</dl>
-			<h3>Конференции</h3>
-<dl>
+                    <h3><?php echo $this->lang->line('conferences');?></h3>
+                        <dl>
 							<dt>8 ноября, 2011</dt>
 								<dd>XVI Региональная конференция молодых исследователей Волгоградской области</dd>
+                            <dt>1 апреля, 2011</dt>
+								<dd>MVIII Межгалактическая конференция нанопрограммистов Волгоградской системы</dd>
 						</dl>
 
 			</div>
@@ -160,8 +157,8 @@
 	<!-- Footer -->
 	<div id="footer">
 		<div id="footer-in">
-			<p class="footer-left">© <a href="#">ПОАС</a>, 2011.</p>
-			<p class="footer-right">Дизайн<a href="http://www.mantisa.cz/">Mantis-a</a></p>
+			<p class="footer-left">&copy; <a href="#"><?php echo $this->lang->line('department_acronim');?></a>, 2011.</p>
+			<p class="footer-right"><?php echo $this->lang->line('designby');?> <a href="http://www.mantisa.cz/">Mantis-a</a></p>
 		</div>
 	</div>
 	<!-- Footer end -->
