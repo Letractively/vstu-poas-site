@@ -91,6 +91,12 @@ class About extends CI_Controller{
         $this->load->view('templates/new_main_view', $data);
     }
 
+    /**
+     * Раздел "научная деятельность"
+     * @param type $section
+     * @param type $param
+     * @return type
+     */
     function scientific($section = 'index', $param = null)
     {
         $data['active'] = 'page_about';
@@ -143,7 +149,8 @@ class About extends CI_Controller{
                 }
 
 
-                $data['projects'] = $this->{MODEL_PROJECT}->get_short();
+                //$data['projects'] = $this->{MODEL_PROJECT}->get_short();
+                $data['projects'] = $this->{MODEL_PROJECT}->get_cards();
                 $data['content'] .= $this->load->view('projects_view', $data, TRUE);
                 break;
             case 'directions':

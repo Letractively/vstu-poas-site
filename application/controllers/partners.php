@@ -13,7 +13,7 @@ class Partners extends CI_Controller {
 	{
 		$data['title'] = $this->lang->line('page_partners');
         $data['active'] = 'page_partners';
-		$data['partners'] = $this->{MODEL_PARTNER}->get_short();
+		$data['partners'] = $this->{MODEL_PARTNER}->get_cards();
 		$data['content'] = $this->load->view('partners_view', $data, TRUE);
 		$this->load->view('templates/new_main_view', $data);
 	}
@@ -26,15 +26,22 @@ class Partners extends CI_Controller {
 	{
 		$data['title'] = $this->lang->line('page_partners');
         $data['active'] = 'page_partners';
-		$data['partner'] = $this->{MODEL_PARTNER}->get_detailed($id);
-		if (!$data['partner'])
-		{
-			$data['content'] = $this->lang->line('partner_doesnt_exist');
-		}
-		else
-		{
-			$data['content'] = $this->load->view('partner_view', $data, TRUE);
-		}
+        if (!is_numeric($id))
+        {
+            $data['content'] = $this->lang->line('partner_doesnt_exist');
+        }
+        else
+        {
+            $data['partner'] = $this->{MODEL_PARTNER}->get_card($id);
+            if (!$data['partner'])
+            {
+                $data['content'] = $this->lang->line('partner_doesnt_exist');
+            }
+            else
+            {
+                $data['content'] = $this->load->view('partner_view', $data, TRUE);
+            }
+        }
         $this->load->view('templates/new_main_view', $data);
 	}
 }

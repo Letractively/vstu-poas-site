@@ -135,4 +135,31 @@ class Partner_model extends Super_model{
         $this->load->model(MODEL_FILE);
         return $this->{MODEL_FILE}->get_file_path($partner->image);
     }
+
+    function get_cards()
+    {
+        $result = $this->_get_short(TABLE_PARTNERS,
+                                 'short_'.lang().' as short, url, image',
+                                 'name_' . lang(),
+                                 null);
+        $this->load->model(MODEL_FILE);
+        if (is_array($result)) {
+            foreach($result as $record){
+                $record->image = $this->{MODEL_FILE}->get_file_path($record->image);
+            }
+        }
+        return $result;
+    }
+
+    function get_card($id)
+    {
+        $result = $this->_get_short(TABLE_PARTNERS,
+                                 'short_'.lang().' as short,full_'.lang().' as full, url, image',
+                                 'name_' . lang(),
+                                 $id);
+        $this->load->model(MODEL_FILE);
+        if ($result)
+            $result->image = $this->{MODEL_FILE}->get_file_path($result->image);
+        return $result;
+    }
 }
