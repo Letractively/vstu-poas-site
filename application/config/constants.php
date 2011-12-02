@@ -100,6 +100,8 @@ define('ION_USER_ADMIN', 1);
 define('ION_USER_STUDENT', 2);
 define('ION_USER_LECTURER', 3);
 
+define('NOIMAGE', '/images/site/no-image_2.jpg');          /// Картика, которая выводится, если нет изображения
+define('NOPHOTO', '/images/site/nophoto.jpg');          /// Картинка, которая выводится, если нет фотографии
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

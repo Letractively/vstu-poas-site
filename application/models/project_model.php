@@ -1,11 +1,11 @@
 <?php
 /**
  * @class Project_model
- * Модель проектов. 
+ * Модель проектов.
  */
 
 require_once('super_model.php');
-class Project_model extends Super_model 
+class Project_model extends Super_model
 {
     /**
      * Получить краткую информацию о проекте
@@ -14,9 +14,9 @@ class Project_model extends Super_model
      */
     function get_short($id = null)
     {
-        $result = $this->_get_short(TABLE_PROJECTS, 
-                                 'url', 
-                                 'name_' . lang() . ',name_ru, id', 
+        $result = $this->_get_short(TABLE_PROJECTS,
+                                 'url',
+                                 'name_' . lang() . ',name_ru, id',
                                  $id);
         if (is_array($result)) {
             foreach($result as $record){
@@ -24,9 +24,23 @@ class Project_model extends Super_model
                 $record->memberscount = $this->db->count_all_results();
             }
         }
-        return $result; 
+        return $result;
     }
-    
+
+    function get_cards()
+    {
+        $result = $this->_get_short(TABLE_PROJECTS,
+                                 'url',
+                                 'name_' . lang() . ',name_ru, id',
+                                 null);
+        if (is_array($result)) {
+            foreach($result as $record){
+                $record->image = $this->get_image($record->id);
+            }
+        }
+        return $result;
+    }
+
     /**
      * Получить информацию о проекте для представления
      * @param int $id идентификатор проекта
@@ -37,7 +51,7 @@ class Project_model extends Super_model
         $select2 = 'description_ru as description, url, image';
         return $this->_get_detailed($id, TABLE_PROJECTS, $select1, $select2);
     }
-    
+
     /**
      * Получить полную информацию о проекте
      * @param int $id идентификатор проекта
@@ -49,7 +63,7 @@ class Project_model extends Super_model
         $project->members = $this->get_members($id);
         return $project;
     }
-    
+
     function get_view_extra() {
         $extra = null;
         $extra->users = $this->db
@@ -60,12 +74,12 @@ class Project_model extends Super_model
                                 ->result();
         return $extra;
     }
-    
+
     /**
      * Получить информацию о проекте из POST-запроса
      * @return проект
      */
-    function get_from_post() 
+    function get_from_post()
     {
         $fields = array(
             'name_ru' => 'project_name_ru',
@@ -76,27 +90,27 @@ class Project_model extends Super_model
             'image' => 'project_image',
             'members' => 'project_members'
         );
-        $nulled_fields = array(            
+        $nulled_fields = array(
             'name_en' => '',
             'description_en' => '',
             'url' => '',
             'image' =>'',
-            'image' => 0            
+            'image' => 0
         );
         return $this->_get_from_post('project', $fields, $nulled_fields);
     }
-    
+
     /**
      * Обновить список участников проекта
-     * 
+     *
      * @param type $id идентификатор проекта
      * @param $members массив идентификаторов участников проекта
      */
     function update_project_members($id, $members)
     {
-        $this->_update_connected_users(TABLE_PROJECT_MEMBERS, 
-                'projectid', 
-                $id, 
+        $this->_update_connected_users(TABLE_PROJECT_MEMBERS,
+                'projectid',
+                $id,
                 $members);
     }
     /**
@@ -116,12 +130,12 @@ class Project_model extends Super_model
         //}
         return $id;
     }
-    
+
     /**
      * Загрузить изображение проекта на сервер
-     * в случае успешного добавления путь файла 
+     * в случае успешного добавления путь файла
      * записывается в $_POST['project_image']
-     * 
+     *
      * @return string ошибка загрузки файла
      */
     function upload_file() {
@@ -130,29 +144,29 @@ class Project_model extends Super_model
 		$config['max_size']	= '1000';
 		$config['max_width']  = '1024';
 		$config['max_height']  = '768';
-		
+
 		$this->load->library('upload', $config);
-	
+
 		if ( ! $this->upload->do_upload('project_image'))
 		{
             // Если при добавлении файла произошла ошибка - закончить операцию
             echo 'errors';
 			return $this->upload->display_errors('','');
-		}	
+		}
 		else
 		{
             // Если ошибок не возникло - запомнить путь к файлу в POST переменной
             echo 'no errors';
-            
+
             // Получаем корректный путь к файлу
             $upload_data = $this->upload->data();
             $segments = explode('/',$upload_data['full_path']);
             $segments = array_reverse($segments);
-            
+
             $_POST['project_image'] = $segments[2].'/'.$segments[1].'/'.$segments[0];
 		}
     }
-    
+
     function delete_image($id, $image = null)
     {
         if ($image == null)
@@ -167,7 +181,7 @@ class Project_model extends Super_model
         {
             unlink($image);
         }
-        
+
     }
     /**
 	 * Получить информацию о проекте из данных, полученных методом POST
@@ -177,7 +191,7 @@ class Project_model extends Super_model
         $project = $this->get_from_post();
         unset($project->members);
         //$this->update_project_members($project->id, $this->input->post('project_members'));
-        
+
         // Если файл остается нетронутым - не задавать поле
         //if ($this->input->post('project_image_action') == 'leave')
         //{
@@ -190,20 +204,20 @@ class Project_model extends Super_model
             // Если файл удален, то обнулять поле
         //    if ($this->input->post('project_image_action') == 'delete')
         //        $project->image = null;
-            
+
         //    if (file_exists($this->input->post('project_image_copy')))
         //        unlink($this->input->post('project_image_copy'));
         //}
-                
+
         $result = $this->_edit(TABLE_PROJECTS, $project);
         return $result;
     }
-    
+
     /**
      * Удалить проект из базы данных
      * Так же удаляет записи из таблицы "участники проекта"
      * @param int $id идентификатор проекта
-     * @return TRUE, если проект удален, иначе FALSE 
+     * @return TRUE, если проект удален, иначе FALSE
      */
     function delete($id)
     {
@@ -214,7 +228,7 @@ class Project_model extends Super_model
         $this->message = $message;
         return $cascade && $result;
     }
-    
+
     /**
 	 * Получить информацию обо всех участниках проекта
 	 * @param int $id идентификатор проекта
@@ -229,7 +243,7 @@ class Project_model extends Super_model
 				->where('projectid = ' . $id);
 				return $this->db->get()->result();
 	}
-    
+
     /**
      * Проверить название и описание проекта (заполнены ли)
      * @return object Объект ошибок
@@ -249,7 +263,7 @@ class Project_model extends Super_model
             // действия с файлами только в случае, если прочих ошибок нет
             if ($this->input->post('project_image_action') == 'update')
             {
-                // Попытка загрузить файл, если остальные данные в порядке и 
+                // Попытка загрузить файл, если остальные данные в порядке и
                 // пользователь выбрал радио-кнопку "обновить"
                 $errors->imageuploaderror = $this->upload_file();
                 if ($errors->imageuploaderror == '')
@@ -262,12 +276,12 @@ class Project_model extends Super_model
         }
         return $errors;
     }
-    
+
     function exists($id)
     {
         return $this->_record_exists(TABLE_PROJECTS, $id);
     }
-    
+
     /**
      * Получить путь к изображению проекта
      * @param $id id проекта

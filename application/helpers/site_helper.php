@@ -119,3 +119,17 @@
         else
             echo '<a href="/en' . $path . '" ' . $attrs . ' >'.$ci->lang->line($name) . '</a>';
     }
+
+    /**
+     * Возвращает строку вида <div ...>
+     *
+     * @param type $class
+     * @return type
+     */
+    function div($class = null)
+    {
+        if($class === null)
+            return '<div>';
+        else
+            return '<div class="'.$class.'">';
+    }
