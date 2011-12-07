@@ -5,7 +5,7 @@
  */
 
 require_once('super_model.php');
-class Direction_model extends Super_model 
+class Direction_model extends Super_model
 {
     /**
      * Получить краткую информацию о направлении
@@ -14,9 +14,9 @@ class Direction_model extends Super_model
      */
     function get_short($id = null)
     {
-        $result = $this->_get_short(TABLE_DIRECTIONS, 
-                                 null, 
-                                 'name_' . lang() . ', name_ru, id', 
+        $result = $this->_get_short(TABLE_DIRECTIONS,
+                                 null,
+                                 'name_' . lang() . ', name_ru, id',
                                  $id);
         if (is_array($result)) {
             foreach($result as $record){
@@ -24,32 +24,32 @@ class Direction_model extends Super_model
                 $record->memberscount = $this->db->count_all_results();
             }
         }
-        return $result; 
+        return $result;
     }
-    
+
     /**
      * Получить информацию о направлении для представления
      * @param int $id идентификатор направления
-     * @return направление 
+     * @return направление
      */
     function get_detailed($id) {
         $select1 = 'description_' . lang() . ' as description';
         $select2 = 'description_ru as description';
         return $this->_get_detailed($id, TABLE_DIRECTIONS, $select1, $select2);
     }
-    
+
     /**
      * Получить полную информацию о направлении
      * @param int $id идентификатор направления
-     * @return направление 
+     * @return направление
      */
     function get_direction($id)
     {
         $direction = $this->_get_record($id, TABLE_DIRECTIONS);
-        $direction->members = $this->get_members($id);        
+        $direction->members = $this->get_members($id);
         return $direction;
     }
-    
+
     function get_view_extra() {
         $extra = null;
         $extra->users = $this->db
@@ -60,28 +60,28 @@ class Direction_model extends Super_model
                                 ->result();
         return $extra;
     }
-    
+
     /**
      * Обновить список участников направления
-     * 
+     *
      * @param type $id идентификатор направления
      * @param $members массив идентификаторов участников направления
      */
     function update_direction_members($id, $members, $ishead)
     {
         // Метод родителя не пойдет, здесь два типа участников
-        
+
         // Если никого вообще нет - удалить по id проекта
-        if (!$members) 
+        if (!$members)
         {
-            $this->db->delete(TABLE_DIRECTION_MEMBERS, 
+            $this->db->delete(TABLE_DIRECTION_MEMBERS,
                     array(  'directionid' => $id,
                             'ishead' => $ishead));
             return;
         }
         $records = $this->db
                                 ->select('userid')
-                                ->get_where(TABLE_DIRECTION_MEMBERS, 
+                                ->get_where(TABLE_DIRECTION_MEMBERS,
                                             array('directionid' => $id,
                                                 'ishead' => $ishead))
                                 ->result();
@@ -92,7 +92,7 @@ class Direction_model extends Super_model
         }
         // удалить устаревшие записи (тех, кто был записан в проект, а теперь
         // его в списке нет
-            foreach($old_members as $old_member) 
+            foreach($old_members as $old_member)
             {
                 // Если старого нет среди новых - удалить его
                 if (array_search($old_member, $members) === FALSE)
@@ -120,7 +120,7 @@ class Direction_model extends Super_model
                 }
             }
     }
-    
+
     /**
      * Удалить записи о участниках направления из таблицы участников,
      * если они одновременно руководители этого направления
@@ -141,12 +141,12 @@ class Direction_model extends Super_model
             }
         }
     }
-    
+
     /**
      * Получить информацию о направлении из POST-запроса
      * @return направление
      */
-    function get_from_post() 
+    function get_from_post()
     {
         $fields = array(
             'name_ru' => 'direction_name_ru',
@@ -156,14 +156,14 @@ class Direction_model extends Super_model
             'heads' => 'direction_heads',
             'not_heads' => 'direction_members'
         );
-        $nulled_fields = array(            
+        $nulled_fields = array(
             'name_en' => '',
             'description_ru' => '',
             'description_en' => ''
         );
         return $this->_get_from_post('direction', $fields, $nulled_fields);
     }
-    
+
     /**
      * Добавить направление, получаемое через POST-запрос
      * @return int id - идентификатор добавленной записи | FALSE
@@ -183,7 +183,7 @@ class Direction_model extends Super_model
         }
         return $id;
     }
-    
+
     /**
 	 * Получить информацию о направлени из данных, полученных методом POST
 	 * @return объект, содержащий собранную информацию о направлении
@@ -199,11 +199,11 @@ class Direction_model extends Super_model
         unset($direction->not_heads);
         return $this->_edit(TABLE_DIRECTIONS, $direction);
     }
-    
+
     /**
      * Удалить направление из базы данных
      * @param int $id идентификатор направления
-     * @return TRUE, если направление удалено, иначе FALSE 
+     * @return TRUE, если направление удалено, иначе FALSE
      */
     function delete($id)
     {
@@ -213,7 +213,7 @@ class Direction_model extends Super_model
         $this->message = $message;
         return $cascade && $result;
     }
-    
+
     /**
 	 * Получить информацию обо всех участниках направления
 	 * @param int $id идентификатор направления
@@ -225,10 +225,10 @@ class Direction_model extends Super_model
 				->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic, ishead')
 				->from(TABLE_DIRECTION_MEMBERS)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_DIRECTION_MEMBERS . '.userid')
-				->where('directionid = ' . $id);        
+				->where('directionid = ' . $id);
 				return $this->db->get()->result();
 	}
-    
+
     /**
      * Проверить название направления (заполнено ли)
      * @return object Объект ошибок
@@ -244,13 +244,20 @@ class Direction_model extends Super_model
         {
             $errors->nameenforgotten = true;
         }
-        
+
         return $errors;
     }
-    
+
     function exists($id)
     {
         return $this->_record_exists(TABLE_DIRECTIONS, $id);
+    }
+
+    function get_image($id)
+    {
+        $direction = $this->get_direction($id);
+        $this->load->model(MODEL_FILE);
+        return $this->{MODEL_FILE}->get_file_path($direction->image);
     }
 }
 ?>
