@@ -97,3 +97,4 @@ $lang['news'] = 'Новости';
 $lang['conferences'] = 'Конференции';
 $lang['designby'] = 'Дизайн';
 $lang['search'] = 'искать';
+$lang['interests'] = 'Интересы';

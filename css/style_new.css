@@ -536,7 +536,8 @@ font-size: 1.1em;
 
 /*Стили для профиля пользователя*/
 .user_profile .contacts{text-align: right;}
-.user_profile span.field {color:#6699ff}
+.user_profile span.field ,
+.usercard span.field {color:#6699ff}
 .user_profile .fio{font-weight: bold;}
 .user_profile .photo {float:right; height:200px;}
 div.user_profile .photo img {max-height: 200px; max-width: 150px; margin: 0px 20px}

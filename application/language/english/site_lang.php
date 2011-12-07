@@ -97,3 +97,4 @@ $lang['news'] = 'News';
 $lang['conferences'] = 'Conferences';
 $lang['designby'] = 'Design by';
 $lang['search'] = 'search';
+$lang['interests'] = 'Interests';
