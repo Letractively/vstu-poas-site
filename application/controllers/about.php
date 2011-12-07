@@ -160,6 +160,7 @@ class About extends CI_Controller{
                 if (is_numeric($param))
                 {
                     $data['direction'] = $this->{MODEL_DIRECTION}->get_detailed($param);
+                    $data['image'] = $this->{MODEL_DIRECTION}->get_image($param);
                     if (!$data['direction'])
                     {
                         $data['content'] = $this->lang->line('direction_doesnt_exist');
@@ -175,7 +176,8 @@ class About extends CI_Controller{
                 }
 
 
-                $data['directions'] = $this->{MODEL_DIRECTION}->get_short();
+                //$data['directions'] = $this->{MODEL_DIRECTION}->get_short();
+                $data['directions'] = $this->{MODEL_DIRECTION}->get_cards();
                 $data['content'] .= $this->load->view('directions_view', $data, TRUE);
                 break;
         }

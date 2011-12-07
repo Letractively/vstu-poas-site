@@ -563,6 +563,8 @@ div.scientific-submenu .selected {font-weight: bold;}
 .scientific-activity .project {text-align:right; border: 1px dashed #aaaaff; height:150px; vertical-align: middle; margin-bottom: 10px;}
 .scientific-activity .project div.image {float:right; padding-left: 20px; width: 150px; height:150px;  text-align: center; margin:auto}
 
+.scientific-activity .direction img {max-height: 150px; max-width: 150px;}
+.scientific-activity h1 {color:#004C87;}
 /* Стили для страницы партнеров */
 .partners-list .partner img ,
 .partner-personal img {max-height: 150px; max-width: 150px;}
