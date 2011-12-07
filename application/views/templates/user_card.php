@@ -21,8 +21,16 @@
     <?php echo $email; ?>
     <br>
     <?php
-        foreach ($interests as $abbr => $title)
-            echo '<abbr title="' . $title . '">' . $abbr . '</abbr> ';
+        if (count($interests) > 0)
+        {
+            echo '<span class="field">' . $this->lang->line('interests') . '</span>';
+            echo '::';
+            $imploding = array();
+            foreach ($interests as $abbr => $title)
+                $imploding[] = '<abbr title="' . $title . '">' . $abbr . '</abbr> ';
+            $result = implode(', ', $imploding);
+            echo $result;
+        }
     ?>
     <br>
 </div>
