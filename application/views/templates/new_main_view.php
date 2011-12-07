@@ -157,7 +157,7 @@
 	<!-- Footer -->
 	<div id="footer">
 		<div id="footer-in">
-			<p class="footer-left">&copy; <a href="#"><?php echo $this->lang->line('department_acronim');?></a>, 2011.</p>
+			<p class="footer-left">&copy; <?php echo anchor('/',$this->lang->line('department_acronim'));?>, 2011.</p>
 			<p class="footer-right"><?php echo $this->lang->line('designby');?> <a href="http://www.mantisa.cz/">Mantis-a</a></p>
 		</div>
 	</div>

@@ -259,5 +259,19 @@ class Direction_model extends Super_model
         $this->load->model(MODEL_FILE);
         return $this->{MODEL_FILE}->get_file_path($direction->image);
     }
+
+    function get_cards()
+    {
+        $result = $this->_get_short(TABLE_DIRECTIONS,
+                                 '',
+                                 'name_' . lang() . ',name_ru, id',
+                                 null);
+        if (is_array($result)) {
+            foreach($result as $record){
+                $record->image = $this->get_image($record->id);
+            }
+        }
+        return $result;
+    }
 }
 ?>
