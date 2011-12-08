@@ -141,5 +141,5 @@
      */
     function has_to_show_debug()
     {
-        return FALSE;
+        return TRUE;
     }

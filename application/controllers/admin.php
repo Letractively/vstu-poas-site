@@ -39,7 +39,7 @@ class Admin extends CI_Controller {
                 // уровень доступа
                 $data['content'] = $this->lang->line('errornotadmin');
                 $data['title'] = $this->lang->line('errornotadmin');
-                echo $this->load->view('templates/main_view', $data, TRUE);
+                echo $this->load->view('templates/new_main_view', $data, TRUE);
                 die('NOT ADMIN');
                 return FALSE;
             }

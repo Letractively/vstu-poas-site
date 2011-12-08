@@ -37,7 +37,8 @@
 
             <ul id="navigation">
                 <li id="house"><?php menu_item('page_main', '/');?>|</li>
-                <li id="sitemap"><a href="#"><?php echo $this->lang->line('sitemap');?></a>|</li>
+                <li id="rss"><?php echo anchor('/rss', 'RSS');?>|</li>
+                <li id="sitemap"><?php menu_item('sitemap', '/sitemap');?>|</li>
                 <li id="envelope"><a href="#"><?php echo $this->lang->line('contactus');?></a>|</li>
                 <li id="lang"><?php  echo link_to_translate();?></li>
             </ul>
@@ -71,19 +72,11 @@
 		<ul id="menu">
             <?php if (!isset($active)) $active = 'none'; ?>
 			<li class="first"><?php menu_item('page_main', '/', $active == 'page_main' ? 'class=active':'');?></li>
-			<li><?php menu_item('page_news', '/news', $active == 'page_news' ? 'class=active':'');?></li>
-			<li><?php menu_item('page_conferences', '/conferences', $active == 'page_conferences' ? 'class=active':'')?></li>
-			<li>
+            <li>
 				<?php menu_item('page_about', '#', $active == 'page_about' ? 'class=active submenu':'class=submenu')?>
 				<ul>
 					<li>
 						<?php menu_item('page_history', '/about/history')?>
-					</li>
-					<li>
-						<?php menu_item('page_students', '/about/students')?>
-					</li>
-					<li>
-						<?php menu_item('page_staff', '/about/staff')?>
 					</li>
 					<li>
 						<?php menu_item('page_education', '/about/education')?>
@@ -94,8 +87,16 @@
 					<li>
 						<?php menu_item('page_international', '/about/international')?>
 					</li>
+					<li>
+						<?php menu_item('page_staff', '/about/staff')?>
+					</li>
+                    <li>
+						<?php menu_item('page_students', '/about/students')?>
+					</li>
 				</ul>
 			</li>
+			<li><?php menu_item('page_news', '/news', $active == 'page_news' ? 'class=active':'');?></li>
+			<li><?php menu_item('page_conferences', '/conferences', $active == 'page_conferences' ? 'class=active':'')?></li>
 			<li><?php menu_item('page_partners', '/partners', $active == 'page_partners' ? 'class=active':'')?></li>
 			<li><?php menu_item('page_contacts', '/contacts', $active == 'page_contacts' ? 'class=active':'')?></li>
 		</ul>
