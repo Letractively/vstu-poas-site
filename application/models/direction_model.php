@@ -151,15 +151,16 @@ class Direction_model extends Super_model
         $fields = array(
             'name_ru' => 'direction_name_ru',
             'name_en' => 'direction_name_en',
-            'description_ru' => 'direction_description_ru',
-            'description_en' => 'direction_description_en',
-            'heads' => 'direction_heads',
-            'not_heads' => 'direction_members'
+            'short_ru' => 'direction_short_ru',
+            'short_en' => 'direction_short_en',
+            'full_ru' => 'direction_full_ru',
+            'full_en' => 'direction_full_en'
         );
         $nulled_fields = array(
             'name_en' => '',
-            'description_ru' => '',
-            'description_en' => ''
+            'short_en' => '',
+            'full_en' => '',
+            'full_ru' => ''
         );
         return $this->_get_from_post('direction', $fields, $nulled_fields);
     }
@@ -171,7 +172,8 @@ class Direction_model extends Super_model
     function add_from_post()
     {
         $direction = $this->get_from_post();
-        unset($direction->heads);
+        $id = $this->_add(TABLE_DIRECTIONS, $direction);
+        /*unset($direction->heads);
         unset($direction->not_heads);
         if($id = $this->_add(TABLE_DIRECTIONS, $direction))
         {
@@ -180,7 +182,7 @@ class Direction_model extends Super_model
             $this->clean_members_dup($id,
                     $this->input->post('direction_members'),
                     $this->input->post('direction_heads'));
-        }
+        }*/
         return $id;
     }
 
@@ -190,13 +192,13 @@ class Direction_model extends Super_model
 	 */
     function edit_from_post() {
         $direction = $this->get_from_post();
-        $this->update_direction_members($direction->id, $this->input->post('direction_members'), FALSE);
-        $this->update_direction_members($direction->id, $this->input->post('direction_heads'), TRUE);
-        $this->clean_members_dup($direction->id,
-                $this->input->post('direction_members'),
-                $this->input->post('direction_heads'));
-        unset($direction->heads);
-        unset($direction->not_heads);
+        //$this->update_direction_members($direction->id, $this->input->post('direction_members'), FALSE);
+        //$this->update_direction_members($direction->id, $this->input->post('direction_heads'), TRUE);
+        //$this->clean_members_dup($direction->id,
+        //        $this->input->post('direction_members'),
+        //        $this->input->post('direction_heads'));
+        //unset($direction->heads);
+        //unset($direction->not_heads);
         return $this->_edit(TABLE_DIRECTIONS, $direction);
     }
 

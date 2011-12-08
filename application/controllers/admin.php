@@ -167,6 +167,7 @@ class Admin extends CI_Controller {
 
     /*
      * Проверка, заполнены ли все поля для английской версии проекта
+     * @return TRUE, если заполнены все необходимые поля или ни одно из полей
      */
     function _project_en($string)
     {
@@ -178,6 +179,26 @@ class Admin extends CI_Controller {
             return FALSE;
         }
         return TRUE;
+    }
+
+    /*
+     * Проверка, заполнены ли все необходимые для английской версии направления
+     * @return TRUE, если заполнены все необходимые поля или ни одно из полей
+     */
+    function _direction_en($string)
+    {
+        $name_en = $this->input->post('direction_name_en');
+        $short_en = $this->input->post('direction_short_en');
+        $full_en = $this->input->post('direction_full_en'); // необязательное поле
+        if ($name_en == '' && $short_en == '' && $full_en == '' || $name_en != '' && $short_en != '')
+        {
+            return TRUE;
+        }
+        else
+        {
+            $this->form_validation->set_message('_partner_en', 'Необходимо заполнить поля имени и краткого описания для английской версии');
+            return FALSE;
+        }
     }
 
     /*
@@ -442,7 +463,87 @@ class Admin extends CI_Controller {
      */
 	function directions()
     {
-        $this->_page('directions', 'direction', MODEL_DIRECTION);
+        //$this->_page('directions', 'direction', MODEL_DIRECTION);
+        //$this->_page('projects', 'project', MODEL_PROJECT);
+        //$this->_page('users', 'user', MODEL_USER);
+        $data = NULL;
+		$this->load->model(MODEL_DIRECTION);
+        $this->load->model(MODEL_FILE);
+        $this->lang->load('site', 'russian');
+		$this->load->library('form_validation');
+		switch($this->uri->segment(3)) {
+			case 'add':
+                if($this->uri->segment(4) == 'action')
+                {
+                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                    if ($this->form_validation->run('admin/directions') == FALSE)
+                    {
+                        $data['content'] = $this->load->view('admin/edit_direction_view', $data, TRUE);
+                        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('direction_a');
+                        $this->load->view('/templates/admin_view', $data);
+                    }
+                    else
+                    {
+                        $this->{MODEL_DIRECTION}->add_from_post();
+                        $this->_view_page_list('directions', MODEL_DIRECTION, $this->{MODEL_DIRECTION}->message);
+                    }
+                }
+                else
+                {
+                    $data['content'] = $this->load->view('/admin/edit_direction_view', $data, TRUE);
+                    $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('direction_a');
+                    $this->load->view('/templates/admin_view', $data);
+                }
+				break;
+			case 'edit':
+                if($this->uri->segment(4) == 'action')
+                {
+                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                    if ($this->form_validation->run('admin/directions') == FALSE)
+                    {
+                        //$data['extra'] = $this->{MODEL_PROJECT}->get_view_extra();
+                        $data['direction'] = $this->{MODEL_DIRECTION}->get_from_post();
+                        $data['content'] = $this->load->view('admin/edit_direction_view', $data, TRUE);
+                        $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('direction_a');
+                        $this->load->view('/templates/admin_view', $data);
+                    }
+                    else
+                    {
+                        $this->{MODEL_DIRECTION}->edit_from_post();
+                        $this->_view_page_list('directions', MODEL_DIRECTION, $this->{MODEL_DIRECTION}->message);
+                    }
+                }
+                else
+                {
+                    if (!$this->{MODEL_DIRECTION}->exists($this->uri->segment(4)))
+                    {
+                        $this->_view_page_list('directions', MODEL_DIRECTION, 'Направление не существует');
+                        return;
+                    }
+                    // загрузить необходимые виду данные
+                    //$data['extra'] = $this->{MODEL_DIRECTION}->get_view_extra();
+                    $data['direction'] = $this->{MODEL_DIRECTION}->get_direction($this->uri->segment(4));
+                    $data['content'] = $this->load->view('/admin/edit_direction_view', $data, TRUE);
+                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('direction_a');
+                    $this->load->view('/templates/admin_view', $data);
+                }
+				break;
+			case 'delete':
+                if (!$this->{MODEL_DIRECTION}->exists($this->uri->segment(4)))
+                {
+                    $this->_view_page_list('directions', MODEL_DIRECTION, 'Направление не существует');
+                    return;
+                }
+				$this->{MODEL_DIRECTION}->delete($this->uri->segment(4));
+                $this->_view_page_list('directions', MODEL_DIRECTION, $this->{MODEL_DIRECTION}->message);
+				break;
+			case '':
+			default:
+				// по адресу "/admin/$name": список всех
+				// он же при несуществующем методе
+				$this->_view_page_list('directions', MODEL_DIRECTION);
+				break;
+		}
 	}
 
     /**

@@ -4,17 +4,17 @@ body {
 	margin: 0px;
 	padding: 0px;
 	font-size: 12px;
-	background: #ffffff url('/images/admin/design/bg.gif') left -80px repeat-x; 
+	background: #ffffff url('/images/admin/design/bg.gif') left -80px repeat-x;
 	color: #1e1e1e;
 }
 
 a, a:visited, a:active {
-	color: #7f0000; 
+	color: #7f0000;
 	text-decoration: none;
 }
 
 a:hover {
-	color: #7f0000; 
+	color: #7f0000;
 	text-decoration: underline;
 }
 
@@ -32,10 +32,10 @@ img.alignleft {
 	float: left;
 	margin: 0px 12px 5px 0px;
 	}
-	
+
 #container {
-	width: 990px;	
-	margin: 0 auto;	
+	width: 990px;
+	margin: 0 auto;
 }
 
 #header {
@@ -73,7 +73,7 @@ img.alignleft {
 #form_edit .not-null { font-weight: bold }
 #form_edit .forgotten { color : #ff0000}
 #form_edit .wrong-data {color : #ff0000}
-#form_edit .inline-block { vertical-align: top}
+#form_edit .inline-block { vertical-align: top ;font-weight: bold;}
 /*#form_edit .hideble {display: none}*/
 #form_edit textarea.short {height:70px; width: 400px;}
 #form_edit .error {font-weight: bold; color : #ff0000; padding-left: 215px;}
@@ -133,7 +133,7 @@ img.alignleft {
 	clear: both;
 	float: left;
 	width: 990px;
-	margin: 0px 0px 0px 0px;	
+	margin: 0px 0px 0px 0px;
 	padding: 0px;
 }
 
@@ -143,16 +143,16 @@ img.alignleft {
 	display: inline;
 	margin: 38px 30px 60px 5px;
 	padding: 0px;
-	
+
 }
 
 .post {
-	margin: 0px;	
+	margin: 0px;
 	padding: 0px;
 }
 
 .entry {
-	margin: 18px 0px 0px 0px;	
+	margin: 18px 0px 0px 0px;
 	padding: 0px;
 }
 
@@ -170,7 +170,7 @@ img.alignleft {
 }
 
 #content h2 a:hover {
-	color: #7f0000; 
+	color: #7f0000;
 	text-decoration: underline;
 }
 
@@ -203,7 +203,7 @@ img.alignleft {
 .postcomment {
 	background: url('/images/admin/design/iconcom.gif') no-repeat left center;
 	padding: 0px 0px 3px 19px;
-	
+
 }
 
 blockquote {
@@ -213,8 +213,8 @@ blockquote {
 }
 
 #content .postpagesnav {
-	margin: 25px 5px 5px 5px; 
-	padding: 0px; 
+	margin: 25px 5px 5px 5px;
+	padding: 0px;
 	}
 
 #content .postpagesnav .older {
@@ -223,15 +223,15 @@ blockquote {
 	}
 
 #content .postpagesnav .newer {
-	width: 50%; 
-	float: right; 
+	width: 50%;
+	float: right;
 	text-align:right;
 	}
 
 form {
 	margin: 15px 10px 15px 10px;
 	padding: 10px 15px 10px 15px;
-	background-color: #e8e8e8; 
+	background-color: #e8e8e8;
 	border: 1px solid #aaaaaa;
 }
 
@@ -241,9 +241,9 @@ input {
 }
 
 .submit {
-	background: #d8d8d8;	
+	background: #d8d8d8;
 }
-	
+
 textarea {
 	border: 1px solid #aaaaaa;
 	color: #1e1e1e;
@@ -284,7 +284,7 @@ textarea {
 	width: 180px;
 	padding: 1px;
 	margin: 1px;
-	height: 18px;		
+	height: 18px;
 }
 
 #sidebar ul li ul li a, #sidebar ul li ul li a:visited, #sidebar ul li ul li a:active {
@@ -299,7 +299,7 @@ textarea {
 }
 
 #sidebar ul {
-	list-style: none; 
+	list-style: none;
 	margin: 0px;
 	padding: 0px;
 }
@@ -309,12 +309,12 @@ textarea {
 }
 
 #sidebar ul li ul {
-	list-style: none; 
+	list-style: none;
 	margin: 1px 0px 16px 0px;
 	padding-right: 0px;
 }
 
-#sidebar ul li ul li {	
+#sidebar ul li ul li {
 	margin-left: 3px;
 	background: url('/images/admin/design/dotted2.gif') 11px bottom no-repeat;
 	margin-bottom: 1px;
@@ -324,7 +324,7 @@ textarea {
 #footer {
 	padding: 15px 25px 10px 25px;
 	clear: both;
-	text-align: center;	
+	text-align: center;
 	border-top: 1px solid #aaaaaa;
 	background: #e8e8e8;
 	margin-top: 60px;
