@@ -191,4 +191,12 @@ class About extends CI_Controller{
         $data['title'] = $this->lang->line('page_international');
         $this->load->view('templates/new_main_view', $data);
     }
+
+    function get_breadcrumbs()
+    {
+        $breadcrumbs = array();
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $breadcrumbs['/about'] = $this->lang->line('page_about');
+        return $breadcrumbs;
+    }
 }

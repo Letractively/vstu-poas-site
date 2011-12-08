@@ -16,6 +16,7 @@ class Partners extends CI_Controller {
         $data['active'] = 'page_partners';
 		$data['partners'] = $this->{MODEL_PARTNER}->get_cards();
 		$data['content'] = $this->load->view('partners_view', $data, TRUE);
+        $data['breadcrumbs'] = $this->get_breadcrumbs();
 		$this->load->view('templates/new_main_view', $data);
 	}
 
@@ -27,6 +28,7 @@ class Partners extends CI_Controller {
 	{
 		$data['title'] = $this->lang->line('page_partners');
         $data['active'] = 'page_partners';
+        $data['breadcrumbs'] = $this->get_breadcrumbs();
         if (!is_numeric($id))
         {
             $data['content'] = $this->lang->line('partner_doesnt_exist');
@@ -41,8 +43,16 @@ class Partners extends CI_Controller {
             else
             {
                 $data['content'] = $this->load->view('partner_view', $data, TRUE);
+                $data['breadcrumbs'] ['/partners/'.$id] = $data['partner']->name;
             }
         }
         $this->load->view('templates/new_main_view', $data);
 	}
+    function get_breadcrumbs()
+    {
+        $breadcrumbs = array();
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $breadcrumbs['/partners'] = $this->lang->line('page_partners');
+        return $breadcrumbs;
+    }
 }
