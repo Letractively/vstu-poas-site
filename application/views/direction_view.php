@@ -1,20 +1,21 @@
 <?php // Отобразить проект
 echo '<div class="scientific-activity">';
 echo '<div class="direction">';
-echo heading($direction->name, 3);
 
+// Вывод названия направления
+echo heading($direction->name, 3);
 echo br(2);
-if (isset ($direction->description) && $direction->description !== '')
-{
-	echo $direction->description;
-	echo br(2);
-}
 
 // Вывод изображения проекта или его заглушки 'noimage.jpg'
 if (!isset($image) || $image === null)
         $image = NOIMAGE;
 echo div('image').anchor('/about/scientific/directions/'.$direction->id, img($image)).'</div>';
-//print_r($members);
+
+// Вывод краткого описания направления
+echo $direction->short;
+echo br(2);
+
+
 if (count($members) > 0)
 {
 	// подготовим список руководителей и заодно узнаем, много ли их
@@ -48,6 +49,10 @@ if (count($members) > 0)
 		echo heading($this->lang->line('directionmembersare',3));
 	echo $others;
 }
+
+// Вывод подробного описания направления
+echo $direction->full;
+echo br(2);
 echo '</div>';
 echo '</div>';
 ?>

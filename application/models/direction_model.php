@@ -20,8 +20,13 @@ class Direction_model extends Super_model
                                  $id);
         if (is_array($result)) {
             foreach($result as $record){
-                $this->db->from(TABLE_DIRECTION_MEMBERS)->where('directionid', $record->id);
-                $record->memberscount = $this->db->count_all_results();
+                //$this->db->distinct('userid')->from(TABLE_DIRECTION_MEMBERS)->where('directionid', $record->id);
+                //$record->memberscount = $this->db->count_all_results();
+                $record->memberscount =
+                        $this->db->query('select count(distinct userid) as count from '
+                                         .TABLE_DIRECTION_MEMBERS
+                                         .' where directionid='
+                                         .$record->id)->row()->count;
             }
         }
         return $result;
@@ -33,8 +38,8 @@ class Direction_model extends Super_model
      * @return направление
      */
     function get_detailed($id) {
-        $select1 = 'description_' . lang() . ' as description';
-        $select2 = 'description_ru as description';
+        $select1 = 'short_' . lang() . ' as short, full_'.lang().' as full';
+        $select2 = 'short_ru as short, full_ru as full';
         return $this->_get_detailed($id, TABLE_DIRECTIONS, $select1, $select2);
     }
 
@@ -119,27 +124,6 @@ class Direction_model extends Super_model
                     unset($member);
                 }
             }
-    }
-
-    /**
-     * Удалить записи о участниках направления из таблицы участников,
-     * если они одновременно руководители этого направления
-     * @param type $directionid идентификатор направления
-     * @param type $heads идентификаторы руководителей направления
-     * @param type $members идентификаторы участников направления
-     */
-    function clean_members_dup($directionid, $heads, $members)
-    {
-        if(is_array($heads) && is_array($members))
-        {
-            foreach (array_intersect($heads, $members) as $userid)
-            {
-                $where = array('directionid' => $directionid,
-                    'userid' => $userid,
-                    'ishead' => FALSE);
-                $this->db->delete(TABLE_DIRECTION_MEMBERS, $where);
-            }
-        }
     }
 
     /**
