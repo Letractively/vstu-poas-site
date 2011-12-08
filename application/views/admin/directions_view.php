@@ -2,11 +2,11 @@
 echo anchor('/admin/directions/add', 'Добавить направление');
 echo br(2);
 $data['rows'] = array();
-$data['headers'] = array('Направление','Участников','','');
-$data['classes'] = array('direction','count','','');
+$data['headers'] = array('Направление','Всего','Уч.','Рук.','','');
+$data['classes'] = array('direction','count','','','','');
 $args = '';
     // upload_path
-    $args .= "'./uploads/projects/',";
+    $args .= "'./uploads/direction/',";
     // allowed_types
     $args .= "'gif|jpg|png|jpeg',";
     // max_size
@@ -40,8 +40,29 @@ foreach($directions as $direction)
                                     $this->{MODEL_DIRECTION}->get_image($direction->id) .
                                     "')")
         );
+    $button_users = anchor(
+        '#',
+        img( '/images/admin/buttons/users.png'),
+            array(	'class' => 'button_users',
+                    'title' => 'Редактировать состав участников направления',
+                    'onclick' => 'advancedUsersSelector(\'Cостав участников направления\', \''
+                                 . TABLE_DIRECTION_MEMBERS
+                                 . '\',\'userid\', \'directionid\', \''.$direction->id.'\', \'ishead\',\'0\')')
+	);
+    $button_users_2 = anchor(
+        '#',
+        img( '/images/admin/buttons/users.png'),
+            array(	'class' => 'button_users',
+                    'title' => 'Редактировать состав руководителей направления',
+                    'onclick' => 'advancedUsersSelector(\'Cостав участников направления\', \''
+                                 . TABLE_DIRECTION_MEMBERS
+                                 . '\',\'userid\', \'directionid\', \''
+                                 .$direction->id.'\', \'ishead\', \'1\')')
+	);
     $tablerow[] = anchor('admin/directions/edit/' . $direction->id,$direction->name);
     $tablerow[] = $direction->memberscount;
+    $tablerow[] = $button_users;
+    $tablerow[] = $button_users_2;
     $tablerow[] = $button_edit_photo;
     $tablerow[] = $button_delete;
     $data['rows'][] = $tablerow;

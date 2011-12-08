@@ -1,26 +1,26 @@
 jQuery(document).ready(function($)
 {
-    $(".admin-data-table tr:even").css("background-color", "#e6e6d6");    
+    $(".admin-data-table tr:even").css("background-color", "#e6e6d6");
 	/** кнопки удаления срабатывают только после подтверждения */
 	$('a.button_delete').click( delete_confirm );
 
-	/** Объект класса js_obj_visability изменяет свою 
+	/** Объект класса js_obj_visability изменяет свою
 	 * доступность для ввода (вкл на выкл и наоборот)
-	 * при изменении чекбокса с классом js_checkbox_visability */ 
+	 * при изменении чекбокса с классом js_checkbox_visability */
 	$('.js_obj_visability').visability_with($('.js_checkbox_visability'));
-	
+
     $('.showhide').click(function() {
         $(this).parent('div').children('.hideble').slideToggle(250);
         return false;
     });
-    
-    /** Объект класса js_obj_hidden изменяет свою 
+
+    /** Объект класса js_obj_hidden изменяет свою
 	 * видимость на странице (с невидим на виден при "включении" чекбокса и наоборот);
-	 * Связанный чекбокс должен имепть класс js_checkbox_hidden */ 
+	 * Связанный чекбокс должен имепть класс js_checkbox_hidden */
 	$('.js_obj_hidden').hidden_with( $('.js_checkbox_hidden'), 'inline-block', false );
-	
+
 	$('.valid_url').valid_url();
-	
+
 	/** Подключение HTML редактора в к объектам с классом "elrte_editor" */
 	var elrte_options = {
 		lang         : 'ru',
@@ -33,9 +33,9 @@ jQuery(document).ready(function($)
 		//		url : '/js/elfinder-1.2/connectors/php/connector_articles.php', // @todo ждём elfinder-2.0 официальный релиз
 		//		lang : 'ru',
 		//		 contextmenu : { /** @todo после залития на хостинг функции архивация и разъархивация требуют тестирования - читать тут: http://elrte.org/redmine/boards/1/topics/3144*/
-		//			 	cwd : ['reload', 'delim', 'mkdir', 'mkfile', 'upload', 'delim', 'paste', 'delim', 'info'], 
-		//			 	file : ['select', 'open', 'delim', 'copy', 'cut', 'rm', 'delim', 'duplicate', 'rename'], 
-		//			 	group : ['copy', 'cut', 'rm', 'delim', 'archive', 'extract', 'delim', 'info'] 
+		//			 	cwd : ['reload', 'delim', 'mkdir', 'mkfile', 'upload', 'delim', 'paste', 'delim', 'info'],
+		//			 	file : ['select', 'open', 'delim', 'copy', 'cut', 'rm', 'delim', 'duplicate', 'rename'],
+		//			 	group : ['copy', 'cut', 'rm', 'delim', 'archive', 'extract', 'delim', 'info']
 		//			 },
 		//		dialog : { width : 900, modal : true, title : 'elFinder - file manager for web' },
 		//		closeOnEditorCallback : true,
@@ -53,16 +53,16 @@ jQuery(document).ready(function($)
 		};
 	$('.elrte_editor').elrte(elrte_options);
 	$('.elrte_editor_mini').elrte(elrte_options_mini);
-    
-    
+
+
     $('.hideble').css('display','none');
     $('.hideble .error').parent('.hideble').css('display','block');
     $('.hideble .error').parent('.hideble').parent('div').children('a').addClass('wrong-data');
 });
 
 /**
- * Связать доступность объекта (его css атрибут disabled) с чекбоксом - 
- * при изменении чекбокса изменяется доступность объекта 
+ * Связать доступность объекта (его css атрибут disabled) с чекбоксом -
+ * при изменении чекбокса изменяется доступность объекта
  * @param [in] checkbox_obj - объект jquery, чекбокс(ы)
  */
 (function( $ ){
@@ -94,10 +94,10 @@ jQuery(document).ready(function($)
 
 
 /**
- * Связать видимость объекта (его css атрибут display: none | <param [in] display>) с чекбоксом - 
+ * Связать видимость объекта (его css атрибут display: none | <param [in] display>) с чекбоксом -
  * при изменении чекбокса изменяется видимость объекта (видим или невидим)
  * @param [in] J_obj checkbox_obj - объект jquery, чекбокс(ы)
- * @param [in] string display - значение атрибута display, когда объект должен быть виден (необязательный параметр, по-умолчанию 'inline-block') 
+ * @param [in] string display - значение атрибута display, когда объект должен быть виден (необязательный параметр, по-умолчанию 'inline-block')
  * @param [in] bool inverse - если true, то объект должен быть невидим когда чекбокс отмечен (необязательный параметр, по-умолчанию false)
  */
 (function( $ ){
@@ -108,9 +108,9 @@ jQuery(document).ready(function($)
 		var inverse = false;
 		checkbox_obj.change(function()
 		{
-			if( arguments[1] ) display = arguments[1];	
+			if( arguments[1] ) display = arguments[1];
 			if( arguments[2] ) inverse = arguments[2];
-			
+
 			var is_checked = Boolean(checkbox_obj.attr('checked'));
 			var is_display = is_checked;
 			if(inverse) is_display = ! is_display;
@@ -131,7 +131,7 @@ function delete_confirm()
 		modal: true,
 		position: ["center","center"],
 		title: 'Подтвердите операцию удаления',
-		buttons: 
+		buttons:
 		{
 			"Отмена": function()
 			{
@@ -169,8 +169,8 @@ function toUrl(str) {
 	str = str.toLowerCase().replace(/ /g,'_');
 	for(i=0; i<str.length; ++i)
 	{
-		cc = str.charCodeAt(i); 
-		ch = (cc>=1072?tr[cc-1072]:str[i]); 
+		cc = str.charCodeAt(i);
+		ch = (cc>=1072?tr[cc-1072]:str[i]);
 		ww+=ch;
 	}
 	return(ww.replace(/[^a-zA-Z0-9_-]+/g, ''));
@@ -186,7 +186,7 @@ function startUpload(){
  * max_size - максимальный разрешенный размер
  * max_width - ширина, если это изображение
  * max_height - максимальная высота
- * 
+ *
  * table_name - имя таблицы, к которой будет относиться файл
  * record_id - id записи в таблице table_name, к которой будет относится файл
  * field_name - имя поля, в которое должен будет записаться id файла
@@ -222,7 +222,7 @@ function ajaxFileUpload(
                     max_size:max_size,
                     max_width:max_width,
                     max_height:max_height,
-                    
+
                     table_name:table_name,
                     record_id:record_id,
                     field_name:field_name
@@ -254,7 +254,7 @@ function ajaxFileUpload(
 /**
  * Отображает и отвечает за функционирование окна выбора пользователей
  * title - заголовок окна
- * table - таблица связи пользователей с прочими сущностями 
+ * table - таблица связи пользователей с прочими сущностями
  * (напр. пользователь-проект, пользователь-курс, пользователь-направление)
  * userfield - название поля, которое содержит id пользователя
  * fkfield - название поля, которое содержит id второй сущности
@@ -277,7 +277,7 @@ function usersSelector(
 			url:'/ajax/get_all_users/',
 			success:function(data){
                 users = data;
-                
+
                 // получить список всех участников
                 $.ajax({
                         data: {
@@ -291,23 +291,23 @@ function usersSelector(
                         url:'/ajax/get_members/',
                         success:function(data){
                             members = data;
-                            var html = 
+                            var html =
                                 '<form name="users" method="post" action="/ajax/update_members/">' +
                                 '<select multiple="" name="users[]" class="users-selector">';
                             for (k in users){
                                 var selected = '';
                                 if ($.inArray(users[k].id, members) != -1)
                                     selected = 'selected="selected"';
-                                html += '<option value="' + 
-                                        users[k].id + 
-                                        '"' + 
-                                        selected + 
-                                        '>' + 
-                                        users[k].surname + 
-                                        ' ' + 
-                                        users[k].name + 
-                                        ' ' + 
-                                        users[k].patronymic + 
+                                html += '<option value="' +
+                                        users[k].id +
+                                        '"' +
+                                        selected +
+                                        '>' +
+                                        users[k].surname +
+                                        ' ' +
+                                        users[k].name +
+                                        ' ' +
+                                        users[k].patronymic +
                                         '</option>';
                             }
                             html += '</select>';
@@ -316,14 +316,14 @@ function usersSelector(
                             html += '<input type="hidden" name="userfield" value="' + userfield + '"/>';
                             html += '<input type="hidden" name="fk" value="' + fk + '"/>';
                             html += '</form>';
-                            
+
                             // отобразить окошко со списком пользователей
                             $('#dialog_ui').html(html);
                             $("#dialog_ui").dialog({
                                 modal: true,
                                 position: ["center","center"],
                                 title: title,
-                                buttons: 
+                                buttons:
                                 {
                                     "Сохранить": function()
                                     {
@@ -344,15 +344,109 @@ function usersSelector(
 			},
 			error:function(data){
 			}
-    });   
-    
+    });
+
+	return false;
+}
+function advancedUsersSelector(
+    title,
+    table,
+    userfield,
+    fkfield,
+    fk,
+    extrafield,
+    extravalue)
+{
+    var users;          // Список всех пользователей
+    var members;        // Список всех участников
+    // получить список всех пользователей
+    $.ajax({
+			data: {},
+			dataType: "JSON",
+			type:'POST',
+			url:'/ajax/get_all_users/',
+			success:function(data){
+                users = data;
+
+                // получить список всех участников
+                $.ajax({
+                        data: {
+                            table:table,
+                            userfield:userfield,
+                            fkfield:fkfield,
+                            fk:fk,
+                            extrafield:extrafield,
+                            extravalue:extravalue
+                        },
+                        dataType: "JSON",
+                        type:'POST',
+                        url:'/ajax/get_members_advanced/',
+                        success:function(data){
+                            members = data;
+                            var html =
+                                '<form name="users" method="post" action="/ajax/update_members_advanced/">' +
+                                '<select multiple="" name="users[]" class="users-selector">';
+                            for (k in users){
+                                var selected = '';
+                                if ($.inArray(users[k].id, members) != -1)
+                                    selected = 'selected="selected"';
+                                html += '<option value="' +
+                                        users[k].id +
+                                        '"' +
+                                        selected +
+                                        '>' +
+                                        users[k].surname +
+                                        ' ' +
+                                        users[k].name +
+                                        ' ' +
+                                        users[k].patronymic +
+                                        '</option>';
+                            }
+                            html += '</select>';
+                            html += '<input type="hidden" name="table" value="' + table + '"/>';
+                            html += '<input type="hidden" name="fkfield" value="' + fkfield + '"/>';
+                            html += '<input type="hidden" name="userfield" value="' + userfield + '"/>';
+                            html += '<input type="hidden" name="fk" value="' + fk + '"/>';
+                            html += '<input type="hidden" name="extrafield" value="' + extrafield + '"/>';
+                            html += '<input type="hidden" name="extravalue" value="' + extravalue + '"/>';
+                            html += '</form>';
+
+                            // отобразить окошко со списком пользователей
+                            $('#dialog_ui').html(html);
+                            $("#dialog_ui").dialog({
+                                modal: true,
+                                position: ["center","center"],
+                                title: title,
+                                buttons:
+                                {
+                                    "Сохранить": function()
+                                    {
+                                        $('#dialog_ui form[name=users]').ajaxForm();
+                                        $('#dialog_ui form[name=users]').submit();
+                                        window.location.reload();
+                                    },
+                                    "Отмена": function()
+                                    {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            });
+                        },
+                        error:function(data){
+                        }
+                });
+			},
+			error:function(data){
+			}
+    });
+
 	return false;
 }
 function ajaxFileDelete(
     table_name,
     record_id,
     field_name){
-        
+
     $.ajax({
         data: { table: table_name,
                 id: record_id,
@@ -363,7 +457,7 @@ function ajaxFileDelete(
         url:'/ajax/delete_file/',
         success:function(data){
             alert(data);
-            $('#file_preview').attr('src', '');	
+            $('#file_preview').attr('src', '');
         },
         error:function(data){
             alert("Произошла ошибка при попытке удалить файл");
@@ -377,7 +471,7 @@ function ajaxFileDelete(
  * max_size - максимальный разрешенный размер
  * max_width - ширина, если это файл
  * max_height - максимальная высота
- * 
+ *
  * table_name - имя таблицы, к которой будет относиться файл
  * record_id - id записи в таблице table_name, к которой будет относится файл
  * field_name - имя поля, в которое должен будет записаться id файла
@@ -393,7 +487,7 @@ function fileLoader(
     record_id,
     image_url
     ){
-    
+
     // отобразить окошко со списком пользователей
     var html = '';
     html += '<img id="loading" src="/images/load/round.gif" style="display:none;">';
@@ -407,7 +501,7 @@ function fileLoader(
         modal: true,
         position: ["center","center"],
         title: 'Изображение пользователя',
-        buttons: 
+        buttons:
         {
             "Загрузить": function()
             {
