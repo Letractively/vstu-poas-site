@@ -211,6 +211,10 @@ class Publication_model extends Super_model
         {
             $record->authors = $this->get_authors($record->id);
             $record->year = $year;
+            $record->fulltext_ru_file = $this->get_file($record->id, 'fulltext_ru_file');
+            $record->fulltext_en_file = $this->get_file($record->id, 'fulltext_en_file');
+            $record->abstract_ru_file = $this->get_file($record->id, 'abstract_ru_file');
+            $record->abstract_en_file = $this->get_file($record->id, 'abstract_en_file');
         }
         return $result;
     }

@@ -583,3 +583,6 @@ div.scientific-submenu .selected {font-weight: bold;}
 .partners-list .partner img ,
 .partner-personal img {max-height: 150px; max-width: 150px;}
 .partners-list .partner {border-bottom: 1px dashed #000}
+
+ol.publications {list-style: none;}
+.extra {display: none;}

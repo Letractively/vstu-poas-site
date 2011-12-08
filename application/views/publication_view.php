@@ -1,9 +1,17 @@
 <?php
 
+
+// Вывод названия публикации
 echo '<p>' . $publication->name . '</p><br>';
 
-$has_abstract = isset($publication->abstract_ru) || isset($publication->abstract_en);
-$has_fulltext = isset($publication->fulltext_ru) || isset($publication->fulltext_en);
+$has_abstract = isset($publication->abstract_ru)
+                || isset($publication->abstract_en)
+                || isset($publication->abstract_ru_file)
+                || isset($publication->abstract_en_file);
+$has_fulltext = isset($publication->fulltext_ru)
+                || isset($publication->fulltext_en)
+                || isset($publication->fulltext_ru_file)
+                || isset($publication->fulltext_en_file);
 $has_author = isset($publication->authors)
         && is_array($publication->authors)
         && count($publication->authors) > 0;
@@ -20,31 +28,72 @@ echo '<div class="extra" >';
 if ($has_abstract)
 {
     echo $this->lang->line('abstract') . ' (';
+    $resourses = array();
     if (isset($publication->abstract_ru))
-            echo '<a href="'.$publication->abstract_ru.'">'.$this->lang->line('russian').'</a>';
-    if (isset($publication->abstract_ru) && isset($publication->abstract_en))
-            echo ', ';
+        $resourses[] = '<a href="'
+            .$publication->abstract_ru
+            .'">'
+            .$this->lang->line('publication_abstract_link_ru')
+            .'</a>';
+    if (isset($publication->abstract_ru_file))
+        $resourses[] = '<a href="'
+            .$this->config->item('base_url')
+            .$publication->abstract_ru_file
+            .'">'
+            .$this->lang->line('publication_abstract_file_ru')
+            .'</a>';
     if (isset($publication->abstract_en))
-            echo '<a href="'.$publication->abstract_en.'">'.$this->lang->line('english').'</a>';
-    echo ')';
+        $resourses[] = '<a href="'
+            .$publication->abstract_en
+            .'">'
+            .$this->lang->line('publication_abstract_link_en')
+            .'</a>';
+    if (isset($publication->abstract_en_file))
+        $resourses[] = '<a href="'
+            .$this->config->item('base_url')
+            .$publication->abstract_en_file
+            .'">'
+            .$this->lang->line('publication_abstract_file_en')
+            .'</a>';
+    echo implode (', ', $resourses);
+    echo ')'.br();
 }
 
 if ($has_fulltext)
 {
-    if ($has_abstract && $has_fulltext)
-        echo ', '.$this->lang->line('fulltext') . ' (';
-    else
-        echo $this->lang->line('fulltext') . ' (';
+    echo $this->lang->line('fulltext') . ' (';
+    $resourses = array();
     if (isset($publication->fulltext_ru))
-            echo '<a href="'.$publication->fulltext_ru.'">'.$this->lang->line('russian').'</a>';
-    if (isset($publication->fulltextt_ru) && isset($publication->abstract_en))
-            echo ', ';
+        $resourses[] = '<a href="'
+            .$publication->fulltext_ru
+            .'">'
+            .$this->lang->line('publication_fulltext_link_ru')
+            .'</a>';
+    if (isset($publication->fulltext_ru_file))
+        $resourses[] = '<a href="'
+            .$this->config->item('base_url')
+            .$publication->fulltext_ru_file
+            .'">'
+            .$this->lang->line('publication_fulltext_file_ru')
+            .'</a>';
     if (isset($publication->fulltext_en))
-            echo '<a href="'.$publication->fulltext_en.'">'.$this->lang->line('english').'</a>';
+        $resourses[] = '<a href="'
+            .$publication->fulltext_en
+            .'">'
+            .$this->lang->line('publication_fulltext_link_en')
+            .'</a>';
+    if (isset($publication->fulltext_en_file))
+        $resourses[] = '<a href="'
+            .$this->config->item('base_url')
+            .$publication->fulltext_en_file
+            .'">'
+            .$this->lang->line('publication_fulltext_file_en')
+            .'</a>';
+    echo implode (', ', $resourses);
     echo ')';
 }
 if ($has_abstract || $has_fulltext)
-    echo '.<br>';
+    echo '<br>';
 
 // Вывод списка авторов
 if ($has_author)
