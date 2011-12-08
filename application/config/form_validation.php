@@ -191,8 +191,8 @@ $config = array(
             'label' => 'Полное название интереса',
             'rules' => 'trim'
         )
-        
-    )   
+
+    )
 );
 $admin_users_edit = $config['admin/users/add'];
 $admin_users_edit[0] = array(
@@ -269,6 +269,38 @@ $config['admin/projects'] = array(
         'field' => 'project_description_en',
         'label' => 'Описание проекта (английское)',
         'rules' => 'trim|callback__project_en'
-    )    
+    )
+);
+$config['admin/directions'] = array(
+    array(
+        'field' => 'direction_name_ru',
+        'label' => 'Название направления (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'direction_short_ru',
+        'label' => 'Краткое описание направления (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'direction_full_ru',
+        'label' => 'Подробное описание направления (русское)',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'direction_name_en',
+        'label' => 'Название направления (английское)',
+        'rules' => 'trim|callback__direction_en'
+    ),
+    array(
+        'field' => 'direction_short_en',
+        'label' => 'Краткое описание направления (английское)',
+        'rules' => 'trim|callback__direction_en'
+    ),
+    array(
+        'field' => 'direction_full_en',
+        'label' => 'Подробное описание направления (английское)',
+        'rules' => 'trim'
+    )
 );
 ?>

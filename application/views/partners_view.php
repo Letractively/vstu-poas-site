@@ -19,6 +19,7 @@ foreach ($partners as $partner)
 		echo "<a href='$partner->url'>" . $this->lang->line('visit_site') . "</a>".br();
 	}
 
+    echo br();
     // Вывод краткой информации о партнере
     echo $partner->short.br();
 

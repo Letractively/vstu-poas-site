@@ -3,10 +3,10 @@
     if(!isset($partner->id)){
         $action = 'add';
         $submit = 'Добавить запись';
-        
+
         $partner->name_ru      = '';
         $partner->short_ru     = '';
-        $partner->full_ru      = '';  
+        $partner->full_ru      = '';
         $en_version_started = false;
     }
     else {
@@ -22,8 +22,8 @@
     if (!isset($partner->full_en))      $partner->full_en = '';
     if (!isset($partner->url))          $partner->url = '';
     if (!isset($partner->image))        $partner->image = '';
-    
-    
+
+
 ?>
 <?php
 
@@ -32,25 +32,25 @@
 // Ввод русского имени партнера (обязательный параметр)
     echo form_label('Имя партнера (русское)*', 'partner_name_ru', array('class' => 'inline-block'));
     echo form_input('partner_name_ru', set_value('partner_name_ru', $partner->name_ru), 'maxlength="300"');
-    echo form_error('partner_name_ru'); 
+    echo form_error('partner_name_ru');
     echo br(2);
 
 // Ввод краткого русского описания партнера (обязательный параметр)
     echo form_label('Краткое описание партнера (русское)*', 'partner_short_ru', array('class' => 'inline-block'));
-    echo form_textarea('partner_short_ru', set_value('partner_short_ru', $partner->short_ru), 'maxlength="800" class="short"');
-    echo form_error('partner_short_ru'); 
+    echo form_textarea('partner_short_ru', set_value('partner_short_ru', $partner->short_ru), 'maxlength="800" class="short elrte_editor_mini"');
+    echo form_error('partner_short_ru');
     echo br(2);
 
 // Ввод русского описания партнера
     echo form_label('Описание партнера (русское)*', 'partner_full_ru', array('class' => 'inline-block'));
-    echo form_textarea('partner_full_ru', set_value('partner_full_ru', $partner->full_ru), 'maxlength="800" class="short"');
-    echo form_error('partner_full_ru'); 
+    echo form_textarea('partner_full_ru', set_value('partner_full_ru', $partner->full_ru), 'class="short elrte_editor_mini"');
+    echo form_error('partner_full_ru');
     echo br(2);
 
 // Ввод ссылки на сайт партнера
     echo form_label('Ссылка на сайт партнера', 'partner_url', array('class' => 'inline-block'));
     echo form_input('partner_url', set_value('partner_url', $partner->url), 'maxlength="300"');
-    echo form_error('partner_url'); 
+    echo form_error('partner_url');
     echo br(2);
 
 echo '<div class="english-version">';
@@ -64,19 +64,19 @@ echo '<hr>';
 // Ввод английского имени партнера
     echo form_label('Имя партнера (английское)', 'partner_name_en', array('class' => 'inline-block'));
     echo form_input('partner_name_en', set_value('partner_name_en', $partner->name_en), 'maxlength="300"');
-    echo form_error('partner_name_en'); 
+    echo form_error('partner_name_en');
     echo br(2);
 
 // Ввод краткого английского описания партнера
     echo form_label('Краткое описание партнера (английское)', 'partner_short_en', array('class' => 'inline-block'));
-    echo form_textarea('partner_short_en', set_value('partner_short_en', $partner->short_en), 'maxlength="800" class="short"');
-    echo form_error('partner_short_en'); 
+    echo form_textarea('partner_short_en', set_value('partner_short_en', $partner->short_en), 'maxlength="800" class="short elrte_editor_mini"');
+    echo form_error('partner_short_en');
     echo br(2);
 
 // Ввод английского описания партнера
     echo form_label('Описание партнера (английское)', 'partner_full_en', array('class' => 'inline-block'));
-    echo form_textarea('partner_full_en', set_value('partner_full_en', $partner->full_en), 'maxlength="800" class="short"');
-    echo form_error('partner_full_en'); 
+    echo form_textarea('partner_full_en', set_value('partner_full_en', $partner->full_en), 'class="short elrte_editor_mini"');
+    echo form_error('partner_full_en');
     echo br(2);
 echo '</div></div>';
 
