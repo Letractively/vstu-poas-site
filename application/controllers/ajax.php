@@ -88,7 +88,7 @@ class Ajax extends CI_Controller {
                             ->select($field)
                             ->get_where($_POST['table_name'], array('id' => $_POST['record_id']))
                             ->result();
-            
+
             if ($old)
             {
                 $this->load->model(MODEL_FILE);

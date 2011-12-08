@@ -238,12 +238,22 @@ function ajaxFileUpload(
                     else
                     {
                         alert('Файл был успешно загружен (id=' + data.id +')');
-                        $('#file_preview').attr('src', data.path);
+                        if (allowed_types.indexOf('doc') != -1)
+                        {
+                            $('#file_preview').attr('href', data.path);
+                            $('#file_preview').text(data.path);
+                        }
+                        else
+                        {
+                            $('#file_preview').attr('src', data.path);
+                        }
                     }
                 }
+                $("#loading").hide();
             },
             error: function (data, status, e)
             {
+                $("#loading").hide();
                 alert(e);
             }
         }
@@ -448,7 +458,7 @@ function ajaxFileDelete(
     field_name){
 
     $.ajax({
-        data: { table: table_name,
+        data: {table: table_name,
                 id: record_id,
                 field: field_name
         },
@@ -458,6 +468,8 @@ function ajaxFileDelete(
         success:function(data){
             alert(data);
             $('#file_preview').attr('src', '');
+            $('#file_preview').text('');
+
         },
         error:function(data){
             alert("Произошла ошибка при попытке удалить файл");
@@ -485,7 +497,7 @@ function fileLoader(
     table_name,
     field_name,
     record_id,
-    image_url
+    file_url
     ){
 
     // отобразить окошко со списком пользователей
@@ -494,7 +506,14 @@ function fileLoader(
     html += '<br>';
     html += '<input type="file" id="file_form" value=" " name="file_form">';
     html += '<br>';
-    html += '<img id="file_preview" class= "minipic" alt="Ваш файл" src="' + image_url + '">';
+    if (allowed_types.indexOf('doc') != -1)
+    {
+        html += 'Ваш файл : <a id="file_preview" href="' + file_url + '">' + file_url + '</a>';
+    }
+    else
+    {
+        html += '<img id="file_preview" class= "minipic" alt="Ваш файл" src="' + file_url + '">';
+    }
     //html += '<button onclick="" id="file_load" type="button" name="file_load">Загрузить</button>';
     $('#dialog_ui').html(html);
     $('#dialog_ui').dialog({
