@@ -157,6 +157,14 @@ class User_model extends Super_model {
                 $records = $this->db->select('cv_'.lang().' as cv')->get_where(TABLE_USERS, array('id'=>$id))->result();
 				count($records) == 1 ? $data = $records[0] : FALSE;
 				break;
+           case 'links':
+                $records = $this->db->select('info_'.lang().' as info')->get_where(TABLE_USERS, array('id'=>$id))->result();
+				count($records) == 1 ? $data = $records[0] : FALSE;
+                break;
+           case 'teaching':
+                $records = $this->db->select('teaching_'.lang().' as teaching')->get_where(TABLE_USERS, array('id'=>$id))->result();
+				count($records) == 1 ? $data = $records[0] : FALSE;
+                break;
 
 		}
 		return $data;

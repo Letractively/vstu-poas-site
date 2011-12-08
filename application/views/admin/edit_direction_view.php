@@ -20,7 +20,7 @@ else
 
 if (!isset($direction->full_ru)) 			{	$direction->full_ru = ''; };
 if (!isset($direction->name_en)) 			{	$direction->name_en = ''; };
-if (!isset($direction->short_en))            {	$direction->short_en = ''; };
+if (!isset($direction->short_en))           {	$direction->short_en = ''; };
 if (!isset($direction->full_en))            {	$direction->full_en = ''; };
 
 

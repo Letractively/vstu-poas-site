@@ -53,6 +53,7 @@ if ($has_author)
         echo $this->lang->line('author').':';
     else
         echo $this->lang->line('authors').':';
+    $authors = array();
     for ($i = 0; $i <count($publication->authors); $i++) {
 
         $author =  $publication->authors[$i]->surname
@@ -61,10 +62,9 @@ if ($has_author)
                 . '. '
                 . mb_substr($publication->authors[$i]->patronymic, 0, 1)
                 . '.';
-        echo anchor('/users/' . $publication->authors[$i]->id, $author);
-        if ($i != count($publication->authors)-1)
-            echo ', ';
+        $authors[] = anchor('/users/' . $publication->authors[$i]->id, $author);
     }
+    echo implode(', ', $authors);
     echo '<br>';
 }
 
@@ -74,5 +74,5 @@ if ($has_info)
 
 // Вывод года и ссылки на все публикации этого года
 if ($has_year)
-        echo $this->lang->line('year'). ' : '.anchor('/publications/'.$publication->year, $publication->year);
+        echo $this->lang->line('year'). ' : '.anchor('/about/scientific/publications/'.$publication->year, $publication->year);
 echo '</div>';

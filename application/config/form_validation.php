@@ -303,4 +303,52 @@ $config['admin/directions'] = array(
         'rules' => 'trim'
     )
 );
+$config['admin/publications'] = array(
+    array(
+        'field' => 'publication_name_ru',
+        'label' => 'Название публикации (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'publication_year',
+        'label' => 'Год публикации',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'publication_info_ru',
+        'label' => 'Дополнительная информация (на русском)',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'publication_fulltext_ru',
+        'label' => 'Ссылка на русскую версию публикации',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'publication_abstract_ru',
+        'label' => 'Ссылка на русскую версию аннотации',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'publication_name_en',
+        'label' => 'Название публикации (английское)',
+        'rules' => 'trim'
+    ),
+
+    array(
+        'field' => 'publication_info_en',
+        'label' => 'Дополнительная информация (на английсокм)',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'publication_fulltext_en',
+        'label' => 'Ссылка на английскую версию публикации',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'publication_abstract_en',
+        'label' => 'Ссылка на английскую версию аннотации',
+        'rules' => 'trim'
+    )
+);
 ?>

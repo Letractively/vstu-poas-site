@@ -24,7 +24,7 @@ switch($page)
 	case 'contacts':
         echo '<div class="photo">';
         if ($info->photo == null || !isset($info->photo) || $info->photo == '')
-                $info->photo = 'images/site/nophoto.jpg';
+                $info->photo = NOPHOTO;
         echo '<img src="/'.$info->photo.'">';
         echo '</div>';
         echo '<div class="contacts">';
@@ -58,7 +58,7 @@ switch($page)
         {
             foreach ($info as $direction)
             {
-                echo anchor('/directions/' . $direction->directionid, $direction->name);
+                echo anchor('/about/scientific/directions/' . $direction->directionid, $direction->name);
                 if ($direction->ishead)
                 {
                     echo ' (' . $this->lang->line('ishead') . ')';
@@ -86,7 +86,7 @@ switch($page)
 		{
 			foreach ($info as $project)
 			{
-				echo anchor('/projects/' . $project->projectid, $project->name);
+				echo anchor('/about/scientific/projects/' . $project->projectid, $project->name);
 				// anchor и внешние ссылки
 				if (isset($project->url))
 				{
@@ -100,6 +100,18 @@ switch($page)
         if ($info)
 		{
 			echo $info->cv;
+		}
+        break;
+    case 'links':
+        if ($info)
+		{
+			echo $info->info;
+		}
+        break;
+    case 'teaching':
+        if ($info)
+		{
+			echo $info->teaching;
 		}
         break;
 }

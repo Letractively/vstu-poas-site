@@ -10,15 +10,13 @@ class File_model extends CI_Model{
     }
     function delete_file($fileid)
     {
-        //$f = fopen('log.txt', 'w');
-        //fputs($f, 'in');
         if ($fileid != NULL)
         {
             $oldpath = $this->get_file_path($fileid);
-            //fputs($f, $oldpath);
             if($oldpath)
             {
-                unlink($oldpath);
+                if (!unlink(iconv("UTF-8", "CP1251", $oldpath)))
+                    unlink($oldpath);
             }
             $this->db->delete(TABLE_FILES, array('id' => $fileid));
         }
