@@ -555,7 +555,12 @@ font-size: 1.1em;
 .user_profile .fio{font-weight: bold;}
 .user_profile .photo {float:right; height:200px;}
 div.user_profile .photo img {max-height: 200px; max-width: 150px; margin: 0px 20px}
-
+div.user_profile div.cv {
+    line-height: 170%;
+    margin-bottom: 10px;
+    color: #003B69;
+    font-size: 130%;
+}
 /*Стили для страниц учебной деятельности*/
 div.education-submenu,
 div.scientific-submenu {text-align: center; margin-bottom: 20px;}
@@ -568,6 +573,8 @@ div.education-submenu .selected {font-weight: bold;}
 .student-form-select>a {padding: 0 10px;}
 .student-form-select .current {font-weight: bold;}
 .student-form-select .year-select {text-align: left;}
+
+
 
 /*Стили для страниц научной деятельности*/
 div.scientific-submenu a {font-weight: normal;}

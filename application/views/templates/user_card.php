@@ -16,14 +16,14 @@
         <?php echo anchor('/users/' . $id, $surname . ' ' . $name . ' ' . $patronymic); ?>
     </p>
     <br>
-    <?php echo $rank; ?>
-    <br>
+    <?php if ($rank) echo span($this->lang->line('rank'),'field'). '::' . $rank.br(); ?>
+    <?php if ($post) echo span($this->lang->line('post'),'field'). '::' .$post.br(); ?>
     <?php echo $email; ?>
     <br>
     <?php
         if (count($interests) > 0)
         {
-            echo '<span class="field">' . $this->lang->line('interests') . '</span>';
+            echo span($this->lang->line('interests'),'field');
             echo '::';
             $imploding = array();
             foreach ($interests as $abbr => $title)
