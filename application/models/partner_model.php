@@ -98,6 +98,13 @@ class Partner_model extends Super_model{
      */
     function delete($id)
     {
+        $files = $this->db->select('image')->get_where(TABLE_PARTNERS, array('id' => $id))->result();
+
+        if (count($files) == 1)
+        {
+            $this->load->model(MODEL_FILE);
+            $this->{MODEL_FILE}->delete_file($files[0]->image);
+        }
         return $this->_delete(TABLE_PARTNERS, $id);
     }
 
