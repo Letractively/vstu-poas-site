@@ -121,7 +121,7 @@
     }
 
     /**
-     * Возвращает строку вида <div ...>
+     * Возвращает строку вида <div class="$class">
      *
      * @param type $class
      * @return type
@@ -132,6 +132,20 @@
             return '<div>';
         else
             return '<div class="'.$class.'">';
+    }
+
+    /**
+     * Возвращеает строку вида <span class="$class">$content</span>
+     *
+     * @param $content содержимое тэга
+     * @param $class класс тэга
+     */
+    function span($content, $class = null)
+    {
+        if($class === null)
+            return '<span>'.$content.'</span>';
+        else
+            return '<span class="' . $class . '">'.$content.'</span>';
     }
 
     /**

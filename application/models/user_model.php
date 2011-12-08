@@ -34,7 +34,7 @@ class User_model extends Super_model {
 					->select(TABLE_USERS.'.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic, group_id')
                     ->from(TABLE_USERS)
                     ->join(TABLE_USERS_GROUPS, TABLE_USERS.'.id = '.TABLE_USERS_GROUPS.'.user_id', 'LEFT')
-					->order_by('surname, name_'.lang(),', patronymic')
+					->order_by('group_id DESC,surname, name_'.lang(),', patronymic')
 					->get()
 					->result();
 	}

@@ -6,9 +6,6 @@ function get_value($value, $default)
         return $default;
     return $value;
 }
-function span($content, $class){
-    return '<span class='.$class.'>'.$content.'</span>';
-}
 echo '<div class="user_profile">';
 
 $pages = array('contacts', 'cv', 'interest', 'publications', 'projects', 'links', 'teaching');
@@ -25,7 +22,7 @@ switch($page)
         echo '<div class="photo">';
         if ($info->photo == null || !isset($info->photo) || $info->photo == '')
                 $info->photo = NOPHOTO;
-        echo '<img src="/'.$info->photo.'">';
+        echo '<img src="'.$this->config->item('base_url').$info->photo.'">';
         echo '</div>';
         echo '<div class="contacts">';
         echo '<div class="fio">';
@@ -99,7 +96,7 @@ switch($page)
     case 'cv':
         if ($info)
 		{
-			echo $info->cv;
+			echo '<div class="cv">'.$info->cv.'</div>';
 		}
         break;
     case 'links':
