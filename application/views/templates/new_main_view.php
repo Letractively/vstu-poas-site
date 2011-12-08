@@ -115,7 +115,20 @@
 			<!-- Left column -->
 			<div id="content-box-in-left">
                 <div class="breadcrumbs">
-                    <?php if(isset($breadcrumbs)) echo $breadcrumbs; ?>
+                    <?php
+                        if(isset($breadcrumbs))
+                        {
+                            echo '<div class="breadcrumbs">';
+                            $anchored_breadcrumbs = array();
+                            foreach ($breadcrumbs as $link => $name)
+                            {
+                                if ($name != 'page_about')
+                                    $anchored_breadcrumbs []= anchor($link, $name);
+                            }
+                            echo implode('<span class="delimiter"> / </span>',$anchored_breadcrumbs);
+                            echo '</div>';
+                        }
+                    ?>
                 </div>
 				<div id="content-box-in-left-in">
 					<?php if(isset($content)) echo $content; ?>

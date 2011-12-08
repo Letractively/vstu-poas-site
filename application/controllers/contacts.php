@@ -18,6 +18,15 @@ class Contacts extends CI_Controller{
         $data['title'] = $this->lang->line('page_contacts');
         $data['active'] = 'page_contacts';
 		$data['content'] = $this->load->view('static/contacts', '', TRUE);
+        $data['breadcrumbs'] = $this->get_breadcrumbs();
 		$this->load->view('templates/new_main_view', $data);
+    }
+
+    function get_breadcrumbs()
+    {
+        $breadcrumbs = array();
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $breadcrumbs['/contacts'] = $this->lang->line('page_contacts');
+        return $breadcrumbs;
     }
 }
