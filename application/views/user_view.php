@@ -1,14 +1,8 @@
 <?php // Отобразить пользователя
 
-function get_value($value, $default)
-{
-    if($value == '' || $value == null || !isset($value))
-        return $default;
-    return $value;
-}
 echo '<div class="user_profile">';
 
-$pages = array('contacts', 'cv', 'interest', 'publications', 'projects', 'links', 'teaching');
+$pages = array('contacts', 'interest', 'publications', 'cv', 'projects', 'links', 'teaching');
 foreach($pages as $pagename)
 {
 	echo anchor('/users/' . $id . '/' . $pagename, $this->lang->line($pagename));
@@ -19,44 +13,28 @@ echo br(2);
 switch($page)
 {
 	case 'contacts':
-        echo '<div class="photo">';
-        if ($info->photo == null || !isset($info->photo) || $info->photo == '')
-                $info->photo = NOPHOTO;
-        echo '<img src="'.$this->config->item('base_url').$info->photo.'">';
-        echo '</div>';
-        echo '<div class="contacts">';
-        echo '<div class="fio">';
+        echo '<div>';
         echo $info->surname . ' ';
         echo $info->name . ' ';
         echo $info->patronymic . ' ';
-        echo '</div>';
-
-        if ($info->groups->group_id == ION_USER_LECTURER)
-        {
-            echo span($this->lang->line('rank'), 'field') . '::' .get_value($info->rank,'---').br();
-            echo span($this->lang->line('post'), 'field') . '::' .get_value($info->post,'---').br();
-        }
-        echo span($this->lang->line('address'), 'field') . '::' .get_value($info->address,'---').br();
-        echo span($this->lang->line('cabinet'), 'field') . '::' .get_value($info->cabinet,'---').br();
-        echo span($this->lang->line('phone'), 'field') . '::' .get_value($info->phone,'---').br();
-        echo span('Skype', 'field') . '::' .get_value($info->skype,'---').br();
-        if (isset($info->url))
-            echo span($this->lang->line('user_url'), 'field') . '::' .'<a href="' .$info->url.'">'.$info->url.'</a>'.br();
-        else
-            echo span($this->lang->line('user_url'), 'field') . '::' . '---'.br();
-        if (isset($info->email))
-            echo span($this->lang->line('email'), 'field') . '::' .'<a href="mailto:'.$info->email.'">'.$info->email.'</a>';
-        else
-            echo span($this->lang->line('email'), 'field') . '::' . '---'.br();
+        echo br();
+        
+        echo $this->lang->line('rank') . '::' .$info->rank.br();
+        echo $this->lang->line('post') . '::' .$info->post.br();
+        echo $this->lang->line('address') . '::' .$info->address.br();
+        echo $this->lang->line('cabinet') . '::' .$info->cabinet.br();
+        echo $this->lang->line('phone') . '::' .$info->phone.br();
+        echo $this->lang->line('user_url') . '::' .$info->url.br();
+        echo $this->lang->line('email') . '::' .'<a href="mailto:'.$info->email.'">'.$info->email.'</a>';
         echo '</div>';
 		break;
     case 'interest':
         if ($info)
         {
-            foreach ($info as $direction)
+            foreach ($info as $direction) 
             {
-                echo anchor('/about/scientific/directions/' . $direction->directionid, $direction->name);
-                if ($direction->ishead)
+                echo anchor('/directions/' . $direction->directionid, $direction->name);
+                if ($direction->ishead) 
                 {
                     echo ' (' . $this->lang->line('ishead') . ')';
                 }
@@ -81,11 +59,11 @@ switch($page)
 	case 'projects':
 		if ($info)
 		{
-			foreach ($info as $project)
+			foreach ($info as $project) 
 			{
-				echo anchor('/about/scientific/projects/' . $project->projectid, $project->name);
+				echo anchor('/projects/' . $project->projectid, $project->name);
 				// anchor и внешние ссылки
-				if (isset($project->url))
+				if (isset($project->url)) 
 				{
 					echo ' <a href = "' . $project->url . '">'.$this->lang->line('visit_site').'</a>';
 				}
@@ -96,19 +74,7 @@ switch($page)
     case 'cv':
         if ($info)
 		{
-			echo '<div class="cv">'.$info->cv.'</div>';
-		}
-        break;
-    case 'links':
-        if ($info)
-		{
-			echo $info->info;
-		}
-        break;
-    case 'teaching':
-        if ($info)
-		{
-			echo $info->teaching;
+			echo $info->cv;
 		}
         break;
 }

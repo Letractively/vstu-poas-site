@@ -8,15 +8,14 @@
 	<!--<link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" />-->
 	<script src="/js/jquery-ui/js/jquery-1.6.2.min.js" type="text/javascript"></script>	<!-- Заменить локальный вариант на этот! <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"  type="text/javascript"></script>-->
 	
-	<link type="text/css" href="/js/jquery-ui/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+	<link type="text/css" href="/js/jquery-ui/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
 	
-	<script src="/js/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
-	<!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js" type="text/javascript"></script>-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js" type="text/javascript"></script>
+	
 		
 	<script src="/js/elrte-1.3/js/elrte.min.js"  type="text/javascript"></script>
 	<script src="/js/elrte-1.3/js/i18n/elrte.ru.js" type="text/javascript" charset="utf-8"></script>
     <script src="/js/ajaxfileupload.js" type="text/javascript"></script>
-    <script src="/js/jquery.form.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="/js/elrte-1.3/css/elrte.min.css" type="text/css" media="all" />
 	
 
@@ -45,7 +44,7 @@
 			<li><a href="/admin/directions">Направления</a></li>
             <li><a href="/admin/publications">Публикации</a></li>
             <li><a href="/admin/partners">Партнеры</a></li>
-			<li><a href="/logout">Выйти</a></li>
+			<li><a href="/admin/logout">Выйти</a></li>
 		</ul>	
 		</div>
 

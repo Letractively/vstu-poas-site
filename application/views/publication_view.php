@@ -1,18 +1,10 @@
 <?php
 
-
-// Вывод названия публикации
 echo '<p>' . $publication->name . '</p><br>';
 
-$has_abstract = isset($publication->abstract_ru)
-                || isset($publication->abstract_en)
-                || isset($publication->abstract_ru_file)
-                || isset($publication->abstract_en_file);
-$has_fulltext = isset($publication->fulltext_ru)
-                || isset($publication->fulltext_en)
-                || isset($publication->fulltext_ru_file)
-                || isset($publication->fulltext_en_file);
-$has_author = isset($publication->authors)
+$has_abstract = isset($publication->abstract_ru) || isset($publication->abstract_en);
+$has_fulltext = isset($publication->fulltext_ru) || isset($publication->fulltext_en);
+$has_author = isset($publication->authors) 
         && is_array($publication->authors)
         && count($publication->authors) > 0;
 $has_info = isset($publication->info);
@@ -28,72 +20,31 @@ echo '<div class="extra" >';
 if ($has_abstract)
 {
     echo $this->lang->line('abstract') . ' (';
-    $resourses = array();
     if (isset($publication->abstract_ru))
-        $resourses[] = '<a href="'
-            .$publication->abstract_ru
-            .'">'
-            .$this->lang->line('publication_abstract_link_ru')
-            .'</a>';
-    if (isset($publication->abstract_ru_file))
-        $resourses[] = '<a href="'
-            .$this->config->item('base_url')
-            .$publication->abstract_ru_file
-            .'">'
-            .$this->lang->line('publication_abstract_file_ru')
-            .'</a>';
+            echo '<a href="'.$publication->abstract_ru.'">'.$this->lang->line('russian').'</a>';
+    if (isset($publication->abstract_ru) && isset($publication->abstract_en))
+            echo ', ';
     if (isset($publication->abstract_en))
-        $resourses[] = '<a href="'
-            .$publication->abstract_en
-            .'">'
-            .$this->lang->line('publication_abstract_link_en')
-            .'</a>';
-    if (isset($publication->abstract_en_file))
-        $resourses[] = '<a href="'
-            .$this->config->item('base_url')
-            .$publication->abstract_en_file
-            .'">'
-            .$this->lang->line('publication_abstract_file_en')
-            .'</a>';
-    echo implode (', ', $resourses);
-    echo ')'.br();
+            echo '<a href="'.$publication->abstract_en.'">'.$this->lang->line('english').'</a>';
+    echo ')';
 }
 
 if ($has_fulltext)
 {
-    echo $this->lang->line('fulltext') . ' (';
-    $resourses = array();
+    if ($has_abstract && $has_fulltext)
+        echo ', '.strtolower($this->lang->line('fulltext')) . ' (';
+    else
+        echo $this->lang->line('fulltext') . ' (';
     if (isset($publication->fulltext_ru))
-        $resourses[] = '<a href="'
-            .$publication->fulltext_ru
-            .'">'
-            .$this->lang->line('publication_fulltext_link_ru')
-            .'</a>';
-    if (isset($publication->fulltext_ru_file))
-        $resourses[] = '<a href="'
-            .$this->config->item('base_url')
-            .$publication->fulltext_ru_file
-            .'">'
-            .$this->lang->line('publication_fulltext_file_ru')
-            .'</a>';
+            echo '<a href="'.$publication->fulltext_ru.'">'.$this->lang->line('russian').'</a>';
+    if (isset($publication->fulltextt_ru) && isset($publication->abstract_en))
+            echo ', ';
     if (isset($publication->fulltext_en))
-        $resourses[] = '<a href="'
-            .$publication->fulltext_en
-            .'">'
-            .$this->lang->line('publication_fulltext_link_en')
-            .'</a>';
-    if (isset($publication->fulltext_en_file))
-        $resourses[] = '<a href="'
-            .$this->config->item('base_url')
-            .$publication->fulltext_en_file
-            .'">'
-            .$this->lang->line('publication_fulltext_file_en')
-            .'</a>';
-    echo implode (', ', $resourses);
+            echo '<a href="'.$publication->fulltext_en.'">'.$this->lang->line('english').'</a>';
     echo ')';
 }
 if ($has_abstract || $has_fulltext)
-    echo '<br>';
+    echo '.<br>';
 
 // Вывод списка авторов
 if ($has_author)
@@ -102,18 +53,18 @@ if ($has_author)
         echo $this->lang->line('author').':';
     else
         echo $this->lang->line('authors').':';
-    $authors = array();
     for ($i = 0; $i <count($publication->authors); $i++) {
-
-        $author =  $publication->authors[$i]->surname
-                . ' '
+        
+        $author =  $publication->authors[$i]->surname 
+                . ' ' 
                 . mb_substr($publication->authors[$i]->name, 0, 1)
-                . '. '
+                . '. ' 
                 . mb_substr($publication->authors[$i]->patronymic, 0, 1)
                 . '.';
-        $authors[] = anchor('/users/' . $publication->authors[$i]->id, $author);
+        echo anchor('/users/' . $publication->authors[$i]->id, $author);
+        if ($i != count($publication->authors)-1)
+            echo ', ';
     }
-    echo implode(', ', $authors);
     echo '<br>';
 }
 
@@ -123,5 +74,5 @@ if ($has_info)
 
 // Вывод года и ссылки на все публикации этого года
 if ($has_year)
-        echo $this->lang->line('year'). ' : '.anchor('/about/scientific/publications/'.$publication->year, $publication->year);
+        echo $this->lang->line('year'). ' : '.anchor('/publications/'.$publication->year, $publication->year);
 echo '</div>';

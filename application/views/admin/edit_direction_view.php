@@ -4,45 +4,81 @@ if( !isset($direction->id) )
 {
 	$action = 'add';
 	$button_title = 'Создать направление';
-    $direction->name_ru = '';
-    $direction->short_ru = '';
-    $en_version_started = false;
 }
 else
 {
 	$action = 'edit';
 	$button_title = 'Внести изменения в направление';
-    // Заполнено ли хотя бы одно поле английской версии
-    $en_version_started =   $direction->name_en !== null ||
-                            $direction->short_en !== null ||
-                            $direction->full_en !== null;
 }
 
-if (!isset($direction->full_ru)) 			{	$direction->full_ru = ''; };
+if (!isset($direction->name_ru)) 			{	$direction->name_ru = ''; };
 if (!isset($direction->name_en)) 			{	$direction->name_en = ''; };
-if (!isset($direction->short_en))           {	$direction->short_en = ''; };
-if (!isset($direction->full_en))            {	$direction->full_en = ''; };
+if (!isset($direction->description_ru)) 	{	$direction->description_ru = ''; };
+if (!isset($direction->description_en)) 	{	$direction->description_en = ''; };
 
+// В этом массиве существующая запись получает своих участников
+if (!isset($direction->members))            {   $direction->members = array();};
 
+// В этих массивах еще не существующая запись получает своих участников
+if (!isset($direction->heads))              {   $direction->heads = array();};
+if (!isset($direction->not_heads))          {   $direction->not_heads = array();};
+
+if (!isset($errors->nameruforgotten))       {   $errors->nameruforgotten = false;};
+if (!isset($errors->nameenforgotten))       {   $errors->nameenforgotten = false;};
+
+$en_version_started = $direction->name_en !== '' || $direction->description_en !== '';
 
 echo form_open('admin/directions/'.$action.'/action');
 
-// Ввод русского названия направления (обязательный параметр)
-echo form_label('Название направления (русское)*', 'direction_name_ru', array('class' => 'inline-block'));
-echo form_input('direction_name_ru', set_value('direction_name_ru', $direction->name_ru), 'maxlength="150" class="long"');
-echo form_error('direction_name_ru');
+echo form_label_adv(    'Название направления (русское)*', 
+                        'direction_name_ru', 
+                        'inline-block not-null', 
+                        $errors->nameruforgotten, 
+                        'forgotten');
+echo form_input('direction_name_ru', $direction->name_ru, 'maxlength="150" style = width:400px');
 echo br(2);
 
-// Ввод русского краткого описания направления (обязательный параметр)
-echo form_label('Краткое описание направления (русское)*', 'direction_short_ru', array('class' => 'inline-block'));
-echo form_textarea('direction_short_ru', set_value('direction_short_ru', $direction->short_ru), 'class="elrte_editor_mini"');
-echo form_error('direction_short_ru');
+echo form_label('Описание направления (русское)', 'direction_description_ru', array('class'=>'inline-block'));
+echo form_textarea('direction_description_ru', $direction->description_ru, 'class="short"');
 echo br(2);
 
-// Ввод русского подробного описания направления
-echo form_label('Подробное описание направления (русское)', 'direction_full_ru', array('class' => 'inline-block'));
-echo form_textarea('direction_full_ru', set_value('direction_full_ru', $direction->full_ru), 'class="elrte_editor_mini"');
-echo form_error('direction_full_ru');
+// Получить массив пользователей
+foreach($extra->users as $user)
+{
+    $data['users'][$user->id] = $user->surname.' '.$user->name.' '.$user->patronymic;
+}
+
+// Заполнить массивы выбранных участников
+
+$heads = array();
+$others = array();
+
+if(is_array($direction->heads))
+        $heads = $direction->heads;
+if(is_array($direction->not_heads))
+        $others = $direction->not_heads;
+if(is_array($direction->members ))
+{
+    foreach($direction->members as $member)
+    {
+        if ($member->ishead)
+            $heads[] = $member->id;
+        else
+            $others[] = $member->id;
+    }
+}
+// Вывести список руководителей
+$data['label'] = 'Руководители направления';
+$data['id'] = 'direction_heads';
+$data['select'] = $heads;
+$this->load->view('admin/users_list_view', $data);
+echo br(2);
+
+// Вывести список участников
+$data['label'] = 'Заинтересованы в направлении';
+$data['id'] = 'direction_members';
+$data['select'] = $others;
+$this->load->view('admin/users_list_view', $data);
 echo br(2);
 
 echo '<div class="english-version">';
@@ -52,25 +88,15 @@ if ($en_version_started)
 else
     echo '<div class="hideble">';
 echo '<hr>';
-
-// Ввод английского названия направления (обязательный параметр)*
-echo form_label('Название направления (английское)*', 'direction_name_en', array('class' => 'inline-block'));
-echo form_input('direction_name_en', set_value('direction_name_en', $direction->name_en), 'maxlength="150" class="long"');
-echo form_error('direction_name_en');
+echo form_label_adv(    'Название направления (английское)', 
+                        'direction_name_en', 
+                        'inline-block', 
+                        $errors->nameenforgotten, 
+                        'not-null forgotten');
+echo form_input('direction_name_en', $direction->name_en, 'maxlength="150" style = width:400px');
 echo br(2);
-
-// Ввод английского краткого описания направления (обязательный параметр)*
-echo form_label('Краткое описание направления (английское)*', 'direction_short_en', array('class' => 'inline-block'));
-echo form_textarea('direction_short_en', set_value('direction_short_en', $direction->short_en), 'class="elrte_editor_mini"');
-echo form_error('direction_short_en');
-echo br(2);
-
-// Ввод английского подробного описания направления
-echo form_label('Подробное описание направления (английское)', 'direction_full_en', array('class' => 'inline-block'));
-echo form_textarea('direction_full_en', set_value('direction_full_en', $direction->full_en), 'class="elrte_editor_mini"');
-echo form_error('direction_full_en');
-echo br(2);
-
+echo form_label('Описание направления (английское)', 'direction_description_en', array('class'=>'inline-block'));
+echo form_textarea('direction_description_en', $direction->description_en, 'class="short"');
 echo '</div></div>';
 if( isset($direction->id) )
 {
