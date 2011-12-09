@@ -1,22 +1,30 @@
 <?php // Отобразить все проекты?>
 
-<?php 
+<div class="scientific-activity">
+<?php
 foreach ($projects as $project)
 {
 	echo '<div class="project">';
-    //$count = ' (Участвует в проекте:' . $project->memberscount . ')';
-	echo heading(anchor('/projects/'.$project->id,$project->name), 3);
+
+    // Вывод изображения проекта или его заглушки 'noimage.jpg'
+    if (!isset($project->image) || $project->image === null)
+            $project->image = NOIMAGE;
+    echo div('image').anchor('/about/scientific/projects/'.$project->id, img($project->image)).'</div>';
+
+    // Вывод названия проекта-ссылки на его страничку на сайте
+	echo anchor('/about/scientific/projects/'.$project->id,$project->name);
+
+    // Вывод ссылки на сайт проекта, если есть
 	if (isset($project->url))
 	{
-		// Так не работает на английской версии страницы, перед http:\\ добавляется en
-		// echo anchor($project->url, $this->lang->line('visit_site'), array('class'=>'link'));
-		echo "<a href='$project->url'>" . $this->lang->line('visit_site') . "</a>";
+
+		echo br(2)."<a href='$project->url'>" . $this->lang->line('visit_site') . "</a>";
 	}
 	echo '</div>';
 	echo br();
 }
 ?>
-
+</div>
 <?php
 /* End of file projects_view.php */
 /* Location: ./application/views/projects_view.php */

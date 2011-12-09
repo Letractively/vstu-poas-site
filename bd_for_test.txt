@@ -1,131 +1,152 @@
 -- phpMyAdmin SQL Dump
--- version 3.2.3
+-- version 3.5.0-dev
 -- http://www.phpmyadmin.net
 --
--- Хост: localhost
--- Время создания: Ноя 15 2011 г., 22:01
--- Версия сервера: 5.1.40
--- Версия PHP: 5.3.3
+-- Host: localhost
+-- Generation Time: Dec 08, 2011 at 02:12 PM
+-- Server version: 5.1.40-community
+-- PHP Version: 5.3.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- База данных: `poas`
+-- Database: `poas`
 --
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `courses`
+-- Table structure for table `courses`
 --
 
 CREATE TABLE IF NOT EXISTS `courses` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `year` int(10) unsigned NOT NULL,
-  `course` set('1','2','3','4','5','6') NOT NULL,
+  `course` set('1','2','3','4','5','6','pg1','pg2','pg3','pg4','d1','d2','d3') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=68 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=129 ;
 
 --
--- Дамп данных таблицы `courses`
+-- Dumping data for table `courses`
 --
 
 INSERT INTO `courses` (`id`, `year`, `course`) VALUES
 (14, 2010, '4'),
-(50, 2011, '1'),
-(67, 1990, '6'),
-(66, 1990, '5'),
-(65, 1990, '4'),
-(64, 1990, '3'),
-(63, 1990, '2'),
-(62, 1990, '1'),
-(61, 2010, '6'),
-(60, 2010, '5'),
-(59, 2010, '3'),
-(58, 2010, '2'),
-(57, 2010, '1'),
+(117, 2011, '2'),
+(118, 2011, '3'),
+(119, 2011, '4'),
+(120, 2011, '6'),
+(121, 2011, 'pg1'),
 (54, 2011, '5'),
-(53, 2011, '4'),
-(52, 2011, '3'),
-(51, 2011, '2');
+(125, 2011, 'd1'),
+(124, 2011, 'pg4'),
+(116, 2011, '1'),
+(122, 2011, 'pg2'),
+(123, 2011, 'pg3'),
+(128, 2010, '5'),
+(127, 2011, 'd3'),
+(126, 2011, 'd2');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `directions`
+-- Table structure for table `directions`
 --
 
 CREATE TABLE IF NOT EXISTS `directions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name_ru` varchar(300) NOT NULL,
   `name_en` varchar(300) DEFAULT NULL,
-  `description_ru` varchar(800) DEFAULT NULL,
-  `description_en` varchar(800) DEFAULT NULL,
+  `full_ru` text,
+  `full_en` text,
   `image` int(10) unsigned DEFAULT NULL,
+  `short_ru` text NOT NULL,
+  `short_en` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 --
--- Дамп данных таблицы `directions`
+-- Dumping data for table `directions`
 --
 
-INSERT INTO `directions` (`id`, `name_ru`, `name_en`, `description_ru`, `description_en`, `image`) VALUES
-(5, 'Современные информационные технологии в образовании', NULL, NULL, NULL, 0),
-(2, 'Разработка математических моделей синтеза и анализа проектных решений в поисковом конструировании', NULL, '12312321312', NULL, 0),
-(3, 'Развитие и применение ERP-систем', NULL, NULL, NULL, 0),
-(4, 'Интеллектуальная поддержка инженерного анализа на основе онтологий, качественных рассуждений и рассуждений по прецедентам', NULL, NULL, NULL, 0),
-(6, 'Поисковое конструирование и программирование для синтеза и оптимизации систем', NULL, NULL, NULL, 0),
-(11, 'Оголтелая война с Айфонами', 'iphone war', NULL, 'eng', 0);
+INSERT INTO `directions` (`id`, `name_ru`, `name_en`, `full_ru`, `full_en`, `image`, `short_ru`, `short_en`) VALUES
+(5, 'Современные информационные технологии в образовании', NULL, NULL, NULL, NULL, '', ''),
+(2, 'Разработка математических моделей синтеза и анализа проектных решений в поисковом конструировании', NULL, '12312321312', NULL, NULL, '', ''),
+(3, 'Развитие и применение ERP-систем', NULL, NULL, NULL, NULL, '', ''),
+(4, 'Интеллектуальная поддержка инженерного анализа на основе онтологий, качественных рассуждений и рассуждений по прецедентам', NULL, NULL, NULL, NULL, '', ''),
+(6, 'Поисковое конструирование и программирование для синтеза и оптимизации систем', NULL, NULL, NULL, NULL, '', ''),
+(11, 'Оголтелая война с Айфонами', 'iphone war', NULL, 'eng', NULL, '', ''),
+(20, 'Н', NULL, NULL, NULL, NULL, '<strike>описание</strike>', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `direction_members`
+-- Table structure for table `direction_members`
 --
 
 CREATE TABLE IF NOT EXISTS `direction_members` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) unsigned NOT NULL,
   `directionid` int(10) unsigned NOT NULL,
-  `ishead` tinyint(1) NOT NULL,
+  `ishead` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
-
---
--- Дамп данных таблицы `direction_members`
---
-
-INSERT INTO `direction_members` (`id`, `userid`, `directionid`, `ishead`) VALUES
-(1, 25, 3, 1),
-(45, 25, 11, 1),
-(44, 17, 11, 0),
-(48, 17, 5, 0),
-(41, 25, 4, 0),
-(47, 25, 5, 1),
-(52, 17, 6, 0),
-(53, 25, 6, 1);
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=92 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `files`
+-- Table structure for table `files`
 --
 
 CREATE TABLE IF NOT EXISTS `files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(150) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
 
 --
--- Дамп данных таблицы `files`
+-- Dumping data for table `files`
 --
 
+INSERT INTO `files` (`id`, `name`) VALUES
+(39, 'uploads/partners/arcomem.jpg'),
+(30, 'uploads/users/dvoryankin.jpg'),
+(45, 'uploads/users/33333.jpg'),
+(44, 'uploads/users/DSCF3252_-_small.JPG');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `interests`
+-- Table structure for table `groups`
+--
+
+CREATE TABLE IF NOT EXISTS `groups` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES
+(1, 'admin', 'Administrator'),
+(2, 'student', 'Student'),
+(3, 'lecturer', 'Lecturers');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `interests`
 --
 
 CREATE TABLE IF NOT EXISTS `interests` (
@@ -134,20 +155,23 @@ CREATE TABLE IF NOT EXISTS `interests` (
   `full` varchar(100) NOT NULL,
   `userid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
 
 --
--- Дамп данных таблицы `interests`
+-- Dumping data for table `interests`
 --
 
 INSERT INTO `interests` (`id`, `short`, `full`, `userid`) VALUES
-(2, 'PHP', 'PHP Hypertext Preprocessor', 30),
-(3, 'BPMN', 'Buisness Processes Modeling and Notation', 30);
+(41, 'PHP', 'PHP Hypertext Preprocessor', 30),
+(40, 'BPMN', 'Buisness Processes Modeling and Notation', 30),
+(43, 'ПКПС', 'Поисковое конструирование и программирования для синтеза и оптимизации систем', 64),
+(44, 'ИПИА', 'Интеллектуальная поддержка инженерного анализа на основе онтологий, качественных рассуждений и рассу', 65),
+(45, 'GNU', 'GNU/Linux', 66);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `news`
+-- Table structure for table `news`
 --
 
 CREATE TABLE IF NOT EXISTS `news` (
@@ -165,11 +189,10 @@ CREATE TABLE IF NOT EXISTS `news` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
--- Дамп данных таблицы `news`
+-- Dumping data for table `news`
 --
 
 INSERT INTO `news` (`id`, `url`, `name_ru`, `name_en`, `notice_ru`, `notice_en`, `text_ru`, `text_en`, `time`, `update`) VALUES
-(1, 'privet', 'Абра кодабра111', 'Abra 111', 'Короткое описание новости тут 111', 'blf bl bla 111', 'Тут текст новости первой на русском 111', 'Text of news on English!!!!! WOOOoooOooOOOooOOooOWWW it''s so cooooOooOOooOOl dsfb hjdsbf hjsbdhf bsdjh bshdjbf jhsdb fjhdsbfjhsdbf jhbdsfh 111', '2011-09-29 02:52:58', '2011-09-05 02:53:01'),
 (6, 'kakoy_ujas', 'Новая новость', 'Hello my friend', '&nbsp;Почему Путин&nbsp;-&nbsp;краб, Медведев - шмель, а Ленин - гриб?&nbsp;', 'I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.', '<p>Этот современный, многоэтажный отель расположен в центре города Волгограда. Он предлагает номера в классическом и античном стиле с бесплатным Wi-Fi</p>\r\n<p>А почему ывьь дывьа лывьад ьывдаь ыльалывалы аон стал такой ываываыва странный непонятно?</p>\r\n<p>Кто, когда и где! Да</p>', '<p>I have fixed the installer and pushed it a few minutes ago, thanks for that.</p><div>I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.&nbsp;I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.&nbsp;I have fixed the installer and pushed it a few minutes ago, thanks for that. I have removed products, suppliers, staff, etc as they are no longer core or supported modules. I have also added captcha, dwoo and simplepie folders to the install checker.</div>', '2011-10-09 04:57:49', '2011-10-09 04:57:49'),
 (4, 'privet1', 'Проба большая', '', 'Просто жесть какая большая проба', '', 'Полный текст статьи тут, даже с картинками в том числе', '', '2011-10-02 04:25:25', '2011-10-02 04:25:25'),
 (5, 'eshe_odna', 'Ещё одна', '', 'Ещё одна новость', '', 'Очень длинная<div><br></div><div><h3>Ранняя история с V&nbsp;в. н.&nbsp;э.</h3><p>Археологическими исследованиями установлено, что на месте Львова существовали поселения начиная с&nbsp;<a href="http://ru.wikipedia.org/wiki/V_%D0%B2%D0%B5%D0%BA" title="V век">V века</a>&nbsp;нашей эры. Во время раскопок 1990—1991&nbsp;гг. на территории позади&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9D%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D1%83%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D1%80%D0%B0%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D1%82%D0%B5%D0%B0%D1%82%D1%80_%D0%B8%D0%BC._%D0%9C%D0%B0%D1%80%D0%B8%D0%B8_%D0%97%D0%B0%D0%BD%D1%8C%D0%BA%D0%BE%D0%B2%D0%B5%D1%86%D0%BA%D0%BE%D0%B9" title="Национальный академический украинский драматический театр им. Марии Заньковецкой">театра им. Заньковецкой</a>, где в данный момент находится рынок Добробут, археологами были обнаружены свидетельства того, что на том месте непрерывно функционировало поселение городского типа начиная от VII—VIII веков. В частности, нашли ремесленный район, где кожемяки обрабатывали кожу. Кроме того, были найдены остатки ювелирного производства. Также в результате раскопок на площади Святого Духа возле&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D1%81%D1%82%D1%91%D0%BB_%D1%81%D0%B2%D1%8F%D1%82%D1%8B%D1%85_%D0%9F%D0%B5%D1%82%D1%80%D0%B0_%D0%B8_%D0%9F%D0%B0%D0%B2%D0%BB%D0%B0_%D0%BE%D1%80%D0%B4%D0%B5%D0%BD%D0%B0_%D0%B8%D0%B5%D0%B7%D1%83%D0%B8%D1%82%D0%BE%D0%B2_(%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2)" title="Костёл святых Петра и Павла ордена иезуитов (Львов)">костела Иезуитов</a>&nbsp;была найдена древнеславянская керамика VII—VIII веков. Похожие находки найдены возле&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9B%D0%B0%D1%82%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D1%81%D0%BE%D0%B1%D0%BE%D1%80_(%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2)" title="Латинский собор (Львов)">Кафедрального собора</a>. Археологами считается, что поселение или ряд поселений тянулись вдоль реки<a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D1%82%D0%B2%D0%B0_(%D0%BF%D1%80%D0%B8%D1%82%D0%BE%D0%BA_%D0%97%D0%B0%D0%BF%D0%B0%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE_%D0%91%D1%83%D0%B3%D0%B0)" title="Полтва (приток Западного Буга)">Полтвы</a>. Это был протогород, который предшествовал возникновению Львова.</p><p>Позже эти земли, возможно, принадлежали&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%B0%D1%8F_%D0%9C%D0%BE%D1%80%D0%B0%D0%B2%D0%B8%D1%8F" title="Великая Моравия">Великоморавскому государству</a>. В&nbsp;<a href="http://ru.wikipedia.org/wiki/X_%D0%B2%D0%B5%D0%BA" title="X век">X веке</a>&nbsp;на земли стали претендовать&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%94%D1%80%D0%B5%D0%B2%D0%BD%D0%B5%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B5_%D0%B3%D0%BE%D1%81%D1%83%D0%B4%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%BE" title="Древнерусское государство">Киевская Русь</a>&nbsp;и&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D1%8C%D1%88%D0%B0" title="Польша">Польша</a>&nbsp;(во время царствования<a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%88%D0%BA%D0%BE_I" title="Мешко I">Мешко I</a>). Предполагается, что Мешко владел этими землями с&nbsp;<a href="http://ru.wikipedia.org/wiki/960" title="960">960</a>&nbsp;до&nbsp;<a href="http://ru.wikipedia.org/wiki/980_%D0%B3%D0%BE%D0%B4" title="980 год">980 года</a>. Согласно летописи&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%9D%D0%B5%D1%81%D1%82%D0%BE%D1%80_%D0%9B%D0%B5%D1%82%D0%BE%D0%BF%D0%B8%D1%81%D0%B5%D1%86" title="Нестор Летописец">Нестора</a>, в&nbsp;<a href="http://ru.wikipedia.org/wiki/981_%D0%B3%D0%BE%D0%B4" title="981 год">981 году</a>&nbsp;они были завоёваны&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%B8%D0%B9" title="Владимир Великий">Владимиром Великим</a>. Первое упоминание о Львове относится к&nbsp;<a href="http://ru.wikipedia.org/wiki/1256_%D0%B3%D0%BE%D0%B4" title="1256 год">1256 году</a>. Согласно наиболее распространённой версии Львов был основан лишь в&nbsp;<a href="http://ru.wikipedia.org/wiki/XIII_%D0%B2%D0%B5%D0%BA" title="XIII век">XIII веке</a>&nbsp;королём<sup><abbr title="на момент основания города он был ещё князем или уже королём? -- VAP+VYK 14 июня 2011">[<em>уточнить</em>]</abbr></sup>&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B0%D0%BD%D0%B8%D0%B8%D0%BB_%D0%93%D0%B0%D0%BB%D0%B8%D1%86%D0%BA%D0%B8%D0%B9" title="Даниил Галицкий">Даниилом Галицким</a>&nbsp;и был назван в честь его сына, Льва. Согласно другой версии, город был основан уже самим сыном Даниила Галицкого.</p><h3>[<a href="http://ru.wikipedia.org/w/index.php?title=%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2&amp;action=edit&amp;section=7" title="Править секцию: В составе Галицко-Волынского княжества (до 1349)">править</a>]В составе&nbsp;<a href="http://ru.wikipedia.org/wiki/%D0%93%D0%B0%D0%BB%D0%B8%D1%86%D0%BA%D0%BE-%D0%92%D0%BE%D0%BB%D1%8B%D0%BD%D1%81%D0%BA%D0%BE%D0%B5_%D0%BA%D0%BD%D1%8F%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%BE" title="Галицко-Волынское княжество">Галицко-Волынского княжества</a>&nbsp;(до 1349)</h3>  <br></div>', '', '2011-10-02 12:49:31', '2011-10-02 12:49:31');
@@ -177,7 +200,7 @@ INSERT INTO `news` (`id`, `url`, `name_ru`, `name_en`, `notice_ru`, `notice_en`,
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `partners`
+-- Table structure for table `partners`
 --
 
 CREATE TABLE IF NOT EXISTS `partners` (
@@ -191,23 +214,19 @@ CREATE TABLE IF NOT EXISTS `partners` (
   `url` varchar(300) DEFAULT NULL,
   `image` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
--- Дамп данных таблицы `partners`
+-- Dumping data for table `partners`
 --
 
 INSERT INTO `partners` (`id`, `name_ru`, `name_en`, `short_ru`, `short_en`, `full_ru`, `full_en`, `url`, `image`) VALUES
-(1, 'Партнер 2', 'ОК', 'Хр', 'en_short', 'ОК', 'en_full', NULL, NULL),
-(2, 'Партнер главный', NULL, 'Кратко', NULL, 'Главное', NULL, NULL, NULL),
-(4, '$pon$or', NULL, 'Богат.', NULL, 'Хорош собой.', NULL, NULL, NULL),
-(5, 'Добрый доктор Айболит', NULL, 'Я лечу', NULL, 'Приходите. Прилетайте. Приплывайте.', NULL, NULL, NULL),
-(6, '113', NULL, '1', NULL, '1', NULL, NULL, NULL);
+(9, 'ARCOMEM', 'ARCOMEM', 'The goal of the ARCOMEM project is to develop methods and tools for \r\ntransforming digital archives into community memories.  This will be \r\ndone by taking events, entities and topics as seeds, leveraging the \r\nWisdom of the Crowds for the content appraisal and selection, and by \r\nencapsulating this functionality into an adaptive decision support tool \r\nfor the archivist.', 'The best ARCOMEM', '<div>\r\n<div>\r\n<div>\r\n<p>ARCOMEM is about the memory of institutions (such as&nbsp; archives, \r\nmuseums and libraries) in the age of the social web. Social media is \r\nbecoming more and more pervasive in all areas of life. ARCOMEM aims&nbsp; to \r\nhelp transform archives into collective memories that are more tightly \r\nintegrated with their community of users. In doing so, ARCOMEM intends \r\nto exploit&nbsp; Web 2.0 and the wisdom of crowds to make web archiving a \r\nmore selective and meaning-based process.</p>\r\n</div>\r\n</div>\r\n<div>\r\n<div>\r\n<div>\r\n<p><strong>Motivation</strong></p>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n<div>\r\n<p>With the rapidly growing volume of resources in the Web, the \r\ndominating “collect-all” approach of Web archiving for the purpose of \r\npreservation, is an unsatisfying solution with respect to resources and \r\nthe usefulness of the archives. The vision of the ARCOMEM project is to \r\nleverage the Wisdom of the Crowds for content appraisal, selection and \r\npreservation, in order to create and preserve archives that reflect \r\ncollective memory and social content perception; thus offering solutions\r\n that are better suited to current and future users needs.</p>\r\n<p><strong>Challenges&nbsp; &amp; Highlights</strong></p>\r\n<p>The goal of the project is to develop methods and tools for \r\ntransforming digital archives into community memories. This will be done\r\n by:&nbsp; (a) leveraging the Wisdom of the Crowds reflected in the Social \r\nWeb context to drive concise and socially-aware content appraisal and \r\nselection processes taking events, entities and topics as seeds;&nbsp; (b) \r\nusing Social Web contextualization as well as extracted information on \r\nevents, topics, perspectives, and entities in order to create richer and\r\n contextualized digital archives.</p>\r\n<p>The ARCOMEM tool for archivists will support socially-aware, adaptive\r\n and autonomous content appraisal and selection. The automated content \r\nappraisal and selection processes can be triggered “by example” or in a \r\ndescriptive manner; preservation decisions support will be based on \r\nreasoning about the extracted evidences (e.g. social context, \r\nperspectives, events) and a strategy for concise coverage.</p>\r\n<p><strong>Potential applications &amp; future issues</strong></p>\r\n<p>The two applications are used for validating and showcasing the \r\nARCOMEM technology. The first application will target the Social Web \r\ndriven event and entity aware enrichment of media-related Web archives \r\nas they are, for example, required by broadcasting companies. The second\r\n application will use the ARCOMEM technology for the effective creation \r\nof Social-web-aware political archives based on Web archives and other \r\ndigital archives.</p>\r\n</div>', 'See on site', 'http://www.arcomem.eu/', 39);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `projects`
+-- Table structure for table `projects`
 --
 
 CREATE TABLE IF NOT EXISTS `projects` (
@@ -219,10 +238,10 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `url` varchar(150) DEFAULT NULL,
   `image` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=48 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
 
 --
--- Дамп данных таблицы `projects`
+-- Dumping data for table `projects`
 --
 
 INSERT INTO `projects` (`id`, `name_ru`, `name_en`, `description_ru`, `description_en`, `url`, `image`) VALUES
@@ -238,7 +257,7 @@ INSERT INTO `projects` (`id`, `name_ru`, `name_en`, `description_ru`, `descripti
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `project_members`
+-- Table structure for table `project_members`
 --
 
 CREATE TABLE IF NOT EXISTS `project_members` (
@@ -246,26 +265,12 @@ CREATE TABLE IF NOT EXISTS `project_members` (
   `userid` int(10) unsigned NOT NULL,
   `projectid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=80 ;
-
---
--- Дамп данных таблицы `project_members`
---
-
-INSERT INTO `project_members` (`id`, `userid`, `projectid`) VALUES
-(9, 17, 2),
-(35, 17, 1),
-(71, 25, 38),
-(57, 17, 5),
-(55, 25, 2),
-(67, 25, 33),
-(68, 17, 33),
-(70, 17, 37);
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=116 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `publications`
+-- Table structure for table `publications`
 --
 
 CREATE TABLE IF NOT EXISTS `publications` (
@@ -279,25 +284,17 @@ CREATE TABLE IF NOT EXISTS `publications` (
   `abstract_ru` varchar(300) DEFAULT NULL COMMENT 'Link to the document or NULL',
   `abstract_en` varchar(300) DEFAULT NULL COMMENT 'Link to the document or NULL',
   `year` int(10) unsigned NOT NULL,
+  `fulltext_ru_file` int(11) DEFAULT NULL,
+  `fulltext_en_file` int(11) DEFAULT NULL,
+  `abstract_ru_file` int(11) DEFAULT NULL,
+  `abstract_en_file` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
-
---
--- Дамп данных таблицы `publications`
---
-
-INSERT INTO `publications` (`id`, `name_ru`, `name_en`, `info_ru`, `info_en`, `fulltext_ru`, `fulltext_en`, `abstract_ru`, `abstract_en`, `year`) VALUES
-(1, 'Свид. о гос. регистрации программы для ЭВМ № 2010611532 от 24 февр. 2010 г. РФ, МПК (нет). Регистрация сведений о прививках «Прививка» / А.М. Дворянкин; ВолгГТУ. — 2010.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2010),
-(4, 'Автоматизированное составление расписания занятий в образовательном учреждении', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2020),
-(11, 'poasassignment в быту', NULL, '123213', NULL, '123', NULL, 'ололо', NULL, 2011),
-(12, 'Мудл и я', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2011),
-(13, 'Гордость и Мудл', 'Гордость и Мудл_en', NULL, 'eng_info', NULL, 'ололо', NULL, NULL, 2011),
-(14, 'Преступление и Мудл', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2011);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `publication_authors`
+-- Table structure for table `publication_authors`
 --
 
 CREATE TABLE IF NOT EXISTS `publication_authors` (
@@ -307,27 +304,17 @@ CREATE TABLE IF NOT EXISTS `publication_authors` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
---
--- Дамп данных таблицы `publication_authors`
---
-
-INSERT INTO `publication_authors` (`id`, `userid`, `publicationid`) VALUES
-(20, 17, 13),
-(22, 25, 1),
-(23, 25, 4);
-
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `login` varchar(25) NOT NULL,
-  `password` char(32) NOT NULL,
+  `username` varchar(25) NOT NULL,
+  `password` varchar(40) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `group` int(10) unsigned NOT NULL,
   `name_ru` varchar(30) NOT NULL,
   `surname_ru` varchar(30) NOT NULL,
   `patronymic_ru` varchar(30) NOT NULL,
@@ -351,23 +338,72 @@ CREATE TABLE IF NOT EXISTS `users` (
   `address_en` varchar(300) DEFAULT NULL,
   `teaching_ru` text,
   `teaching_en` text,
+  `ip_address` int(10) unsigned NOT NULL,
+  `salt` varchar(40) DEFAULT NULL,
+  `created_on` int(11) unsigned NOT NULL,
+  `last_login` int(11) unsigned DEFAULT NULL,
+  `active` tinyint(1) unsigned DEFAULT NULL,
+  `activation_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_code` varchar(40) DEFAULT NULL,
+  `remember_code` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=69 ;
 
 --
--- Дамп данных таблицы `users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `login`, `password`, `email`, `group`, `name_ru`, `surname_ru`, `patronymic_ru`, `photo`, `name_en`, `surname_en`, `patronymic_en`, `address_ru`, `cv_ru`, `cv_en`, `cabinet`, `skype`, `phone`, `url`, `rank_ru`, `post_ru`, `info_ru`, `info_en`, `rank_en`, `post_en`, `address_en`, `teaching_ru`, `teaching_en`) VALUES
-(17, 'agentcoba', '7cbb3a52ba6b7eaaaa2fac5334aaaa54', 'agentcoba@yandex.ru', 555100, 'Александр', 'Сова', 'Батькович', NULL, 'Alexander', 'Sova', 'B.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(25, 'dvorjankin', 'c4ca4238a0b923820dcc509a6f75849b', 'dvam@vstu2.ru', 555101, 'Александр', 'Дворянкин', 'Михайлович', NULL, 'Alexander', 'Dvorjankin', 'M.', 'ВолгГТУ\r\nпр. Ленина 28, УЛК-5,\r\n400131, Волгоград', NULL, '<h2>Curriculum vitae</h2>\r\n<br><table>\r\n<tbody>\r\n<tr>\r\n<td colspan="2">\r\n<h3>Ph.D. (2001 - 2006)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>University of Twente, the Netherlands</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Topics</strong></td>\r\n<td>Adaptive Hypermedia, User Modeling, Human Factors, Web Usage Mining</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Advisors</strong></td>\r\n<td>Prof. Dr. Ir. A. Nijholt, Dr. E.M.A.G. van Dijk, Dr. J. Zwiers</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Thesis</strong></td>\r\n<td>Forward, Back and Home Again - Observing, Modeling and Predicting User Navigation on the Internet</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Ph.D defense</strong></td>\r\n<td>April 13, 2006</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h3>B.Sc. and M.Sc. (1996 - 2001)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>University of Twente, the Netherlands</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Specialization</strong></td>\r\n<td>Human Media Interaction</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Graduated at</strong></td>\r\n<td>December 14, 2001 (with honor)</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h3>Master''s Project (November, 2000 - September, 2001)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Thesis</strong></td>\r\n<td>Architectuur voor virtuele overheidsloketten<br>''Conceptual Design for eGovernment Portals''</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Advisors</strong></td>\r\n<td>Prof. Dr. Ir. A. Nijholt, Dr. E.M.A.G van Dijk, Ir. J. Boks</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Business partner</strong></td>\r\n<td>Ordina Public Utopics, Leusden, the Netherlands</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h3>Grammar School (1990-1996)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>Stedelijk Gymnasium, Leeuwarden, the Netherlands</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Computer Science - Areas of Interest</h3>\r\n<p>I have always been fascinated by the interaction between humans and \r\ncomputers. During my studies I developed a deep interest in both human \r\nmachine interaction and artificial intelligence. My research is mainly \r\nmotivated by one basic question: how do humans reason when interacting \r\nwith computers and how should computers reason when interacting with \r\nhumans.</p>\r\n<h3>Programming Experience</h3>\r\n<p>I have programmed in C, C++, Html, Java, Javascript, MySql, Modula2, \r\nPascal, Perl and Php. I am able to learn other languages and programming\r\n environments quickly.</p>\r\n<h3>Research Skills</h3>\r\n<p>Practical skills developed during my Ph.D. program include experiment\r\n design, basic statistical analysis, regression, factor analysis, \r\nclassification, clustering, information visualization and probabilistic \r\nmodeling using various programs and APIs such as SPSS, Excel, MatLab and\r\n Weka. I have been involved in a number of research proposals to be \r\nfunded by the European Commission.</p>\r\n<h3>Employment</h3>\r\n<h3>Postdoc (March, 2006 - Present)</h3>\r\n<p>L3S Research Center / Leibniz University Hannover<br>Hannover, Germany</p>\r\n<p>I am currently project leader for TenCompetence \r\n(www.tencompetence.org) and workpackage leader for Grapple \r\n(www.grapple-project.org). I have been the general manager for the \r\nPROLEARN NoE (www.prolearn-project.org) and will be involved in the \r\nsuccessor NoE Stellar as well. In 2008 I was the local chair for the \r\nAdaptive Hypermedia 2008 Conference (www.ah3008.org). I am co-founder \r\nand secretary of the European Association for Technology-Enhanced \r\nLearning EATEL (www.ea-tel.eu).</p>\r\n<h3>Ph.D. Candidate (October, 2001 - April, 2006)</h3>\r\n<p>Group of Human Media Interaction<br>Dept. of Electrical Engineering, Mathematics and Computer Science<br>University of Twente, the Netherlands</p>\r\n<p>In the Netherlands a Ph.D. program is considered a full-time job and \r\nincludes various responsibilities, among which teaching activities. \r\nCourses taught are listed under ''teaching activities''.</p>\r\n<h3>Research Position (November, 2000 - September, 2001)</h3>\r\n<p>Ordina Public Utopics<br>Leusden, the Netherlands</p>\r\n<p>During my Master''s project I was employed by the company that commissioned the research.</p>\r\n<h3>Internship (April, 2000 - August, 2000)</h3>\r\n<p>Human Media Lab<br>Computing and Information Science<br>Queen''s University<br>Kingston ON, Canada</p>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>Assignment</strong></td>\r\n<td>Nonverbal Communication for Embodied Dialogue Systems</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Internship Report</strong></td>\r\n<td>Babbling with Fred</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Supervisor</strong></td>\r\n<td>Dr. Ir. Roel Vertegaal</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Student Jobs (1997-1999)</h3>\r\n<p>During my Master''s program I have been involved in various teaching activities. These activities are listed below.</p>\r\n<h3>Teaching Activities</h3>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>Spring 2005</strong></td>\r\n<td>Student Design Project, advisor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>April 2005</strong></td>\r\n<td>Human Factors, guest lecture</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fall 2004</strong></td>\r\n<td>Student Design Project, advisor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 2004</strong></td>\r\n<td>Artificial Intelligence, working classes</td>\r\n</tr>\r\n<tr>\r\n<td><strong>April 2004</strong></td>\r\n<td>Usability Course, guest lecture at Utrecht University</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 2003</strong></td>\r\n<td>Artificial Intelligence, working classes</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 2003</strong></td>\r\n<td>Internship Master''s student, advisor</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fall 1999</strong></td>\r\n<td>Introduction to Computer Science, lecturer</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 1999</strong></td>\r\n<td>Bachelor Integration Project, group supervisor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fall 1998</strong></td>\r\n<td>Elementary Computer Skills, instructor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 1998</strong></td>\r\n<td>Bachelor Integration Project, group supervisor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fall 1997</strong></td>\r\n<td>Elementary Computer Skills, instructor</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Professional Services</h3>\r\n<ul>\r\n<li>I am the Local Chair of the Adaptive Hypermedia 2008 Conference, which will take place in Hannover, Germany</li>\r\n<li>Since September 2007 I am chair of ABIS ("Adaptivit?t und \r\nBenutzermodellierung in Interaktiven Softwaresystemen", Adaptivity and \r\nUser Modeling in Interactive Systems) of the Gesellschaft f?r Informatik\r\n (German Society for Computer Science)</li>\r\n<li>Since May 2007 I am secretary and co-founder of the European Association for Technology-Enhanced Learning (EATEL)</li>\r\n<li>In 2006 I was the chair of the ABIS workshop, organized in Hildesheim, Germany</li>\r\n</ul>\r\n<h3>Publications</h3>\r\n<p>A current list of publications is available at my&nbsp;<a href="http://www.l3s.de/http://www.l3s.de/%7Eherder/research/publications.php">Publication Page</a>.</p>\r\n<h3>Review Activities</h3>\r\n<p>Various reviews for the journal Interacting with Computers and the \r\nGerman workshop on adaptivity and user modeling in interactive systems \r\nABIS 2004 and ABIS 2005.</p>\r\n<h3>Grants Received</h3>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>2001-2005</strong></td>\r\n<td>Research grant IOP MMI 0122 from the Dutch Ministry of Economic \r\nAffairs, issued by its agency SenterNovem for a project in the \r\nInnovative Research Program on Human-Machine Interaction.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>2000</strong></td>\r\n<td>Funding from the Department of Computer Science of the University of\r\n Twente for an internship at Queen''s University in Kingston ON, Canada.</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Honors and Awards</h3>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>2006</strong></td>\r\n<td>Best Student Paper Award at the World Wide Web 2006 Conference</td>\r\n</tr>\r\n<tr>\r\n<td><strong>2006</strong></td>\r\n<td>Best Paper Award at the Mensch und Computer 2006 Conference</td>\r\n</tr>\r\n<tr>\r\n<td><strong>2005</strong></td>\r\n<td>James Chen Family Best Student Paper Award, at the User Modeling 2005 Conference.</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Other Interests and Public Service</h3>\r\n<p>I have always been engaged in cultural activities and music in \r\nparticular. I play the piano, I sing and I write songs. From age sixteen\r\n until age twenty-four I worked as a background pianist at theatre ''de \r\nHarmonie'' in Leeuwarden. I regularly give performances in the amateur \r\nmusic scene. As a natural consequence, I have been member of various \r\nboards and committees, including:</p>\r\n<ul>\r\n<li>Co-founder of the University''s piano club Utopiano in 1997. Chair of\r\n the piano club from 1998 until 2000 and from 2002 until 2003.</li>\r\n<li>General member of the organizing committee for the Cultural Introduction 2005 for freshman students at the University of Twente</li>\r\n<li>Secretary of the Anniversary Committee of the classical student choir Drienerloos Vocaal Ensemble in 2002.</li>\r\n<li>Board member of close harmony choir Musilon in 1998 (treasurer) and 1999 (secretary)</li>\r\n<p>Currently I sing in the semi-professional choir Capella St. Crucis in\r\n Hannover, Germany. Further, I have a full-evening theatre program with \r\nGerman songs from the 1920s and 1930s "Die Nacht ist nicht allein zum \r\nSchlafen da", together with professional opera singer&nbsp;<a href="http://www.kristof-schliep.de/" target="_blank">Kristof Schliep</a>. Together with him I also regularly perform in the vaudeville group&nbsp;<a href="http://www.fette-schnecke.de/" target="_blank">Fette Schnecke</a>.</p>\r\n</ul>\r\n<h3>Languages</h3>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>Mother tongue</strong></td>\r\n<td>Dutch</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fluent in</strong></td>\r\n<td>English, German</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Proficient in</strong></td>\r\n<td>French, Frisian</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>References</h3>\r\n<p>A list of referees is available upon request.</p>', 'B905', 'dvam', '+7(8442)24-84-86', 'http://www.vstu.ru/chairs/poas/zav.shtml', 'д.т.н., профессор', 'Заведующий кафедрой', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(30, 'arkanif', 'c4ca4238a0b923820dcc509a6f75849b', '113em@mail.ru', 555100, 'Анатолиус', 'Ерофеев', 'Батькович', NULL, 'Anatoly', 'Yerofeyev', 'B.', NULL, 'жил и учился', 'live and teach', NULL, NULL, NULL, NULL, NULL, NULL, 'ru<br>info', 'eng<br>info', NULL, NULL, NULL, NULL, NULL),
-(49, 'stupnikov', 'c4ca4238a0b923820dcc509a6f75849b', NULL, 0, 'Андрей', 'Ступников', 'Алексеевич', NULL, 'Andrew', 'Stupnikov', 'Alekseevich', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `name_ru`, `surname_ru`, `patronymic_ru`, `photo`, `name_en`, `surname_en`, `patronymic_en`, `address_ru`, `cv_ru`, `cv_en`, `cabinet`, `skype`, `phone`, `url`, `rank_ru`, `post_ru`, `info_ru`, `info_en`, `rank_en`, `post_en`, `address_en`, `teaching_ru`, `teaching_en`, `ip_address`, `salt`, `created_on`, `last_login`, `active`, `activation_code`, `forgotten_password_code`, `remember_code`) VALUES
+(17, 'agentcoba', 'ce8ff0de69227d56b168457dc9613a1df8fdf199', 'agentcoba@yandex.ru', 'Александр', 'Сова', 'Батькович', 45, 'Alexander', 'Sova', 'B.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, NULL, NULL),
+(25, 'dvorjankin', 'd3c4af1077b8d080b846e44c2750fd42e2fdd577', 'dvam@vstu2.ru', 'Александр', 'Дворянкин', 'Михайлович', 30, 'Alexander', 'Dvorjankin', 'M.', 'ВолгГТУ\r\nпр. Ленина 28, УЛК-5,\r\n400131, Волгоград', NULL, '<h2>Curriculum vitae</h2>\r\n<br><table>\r\n<tbody>\r\n<tr>\r\n<td colspan="2">\r\n<h3>Ph.D. (2001 - 2006)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>University of Twente, the Netherlands</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Topics</strong></td>\r\n<td>Adaptive Hypermedia, User Modeling, Human Factors, Web Usage Mining</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Advisors</strong></td>\r\n<td>Prof. Dr. Ir. A. Nijholt, Dr. E.M.A.G. van Dijk, Dr. J. Zwiers</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Thesis</strong></td>\r\n<td>Forward, Back and Home Again - Observing, Modeling and Predicting User Navigation on the Internet</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Ph.D defense</strong></td>\r\n<td>April 13, 2006</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h3>B.Sc. and M.Sc. (1996 - 2001)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>University of Twente, the Netherlands</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Specialization</strong></td>\r\n<td>Human Media Interaction</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Graduated at</strong></td>\r\n<td>December 14, 2001 (with honor)</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h3>Master''s Project (November, 2000 - September, 2001)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Thesis</strong></td>\r\n<td>Architectuur voor virtuele overheidsloketten<br>''Conceptual Design for eGovernment Portals''</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Advisors</strong></td>\r\n<td>Prof. Dr. Ir. A. Nijholt, Dr. E.M.A.G van Dijk, Ir. J. Boks</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Business partner</strong></td>\r\n<td>Ordina Public Utopics, Leusden, the Netherlands</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h3>Grammar School (1990-1996)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>Stedelijk Gymnasium, Leeuwarden, the Netherlands</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Computer Science - Areas of Interest</h3>\r\n<p>I have always been fascinated by the interaction between humans and \r\ncomputers. During my studies I developed a deep interest in both human \r\nmachine interaction and artificial intelligence. My research is mainly \r\nmotivated by one basic question: how do humans reason when interacting \r\nwith computers and how should computers reason when interacting with \r\nhumans.</p>\r\n<h3>Programming Experience</h3>\r\n<p>I have programmed in C, C++, Html, Java, Javascript, MySql, Modula2, \r\nPascal, Perl and Php. I am able to learn other languages and programming\r\n environments quickly.</p>\r\n<h3>Research Skills</h3>\r\n<p>Practical skills developed during my Ph.D. program include experiment\r\n design, basic statistical analysis, regression, factor analysis, \r\nclassification, clustering, information visualization and probabilistic \r\nmodeling using various programs and APIs such as SPSS, Excel, MatLab and\r\n Weka. I have been involved in a number of research proposals to be \r\nfunded by the European Commission.</p>\r\n<h3>Employment</h3>\r\n<h3>Postdoc (March, 2006 - Present)</h3>\r\n<p>L3S Research Center / Leibniz University Hannover<br>Hannover, Germany</p>\r\n<p>I am currently project leader for TenCompetence \r\n(www.tencompetence.org) and workpackage leader for Grapple \r\n(www.grapple-project.org). I have been the general manager for the \r\nPROLEARN NoE (www.prolearn-project.org) and will be involved in the \r\nsuccessor NoE Stellar as well. In 2008 I was the local chair for the \r\nAdaptive Hypermedia 2008 Conference (www.ah3008.org). I am co-founder \r\nand secretary of the European Association for Technology-Enhanced \r\nLearning EATEL (www.ea-tel.eu).</p>\r\n<h3>Ph.D. Candidate (October, 2001 - April, 2006)</h3>\r\n<p>Group of Human Media Interaction<br>Dept. of Electrical Engineering, Mathematics and Computer Science<br>University of Twente, the Netherlands</p>\r\n<p>In the Netherlands a Ph.D. program is considered a full-time job and \r\nincludes various responsibilities, among which teaching activities. \r\nCourses taught are listed under ''teaching activities''.</p>\r\n<h3>Research Position (November, 2000 - September, 2001)</h3>\r\n<p>Ordina Public Utopics<br>Leusden, the Netherlands</p>\r\n<p>During my Master''s project I was employed by the company that commissioned the research.</p>\r\n<h3>Internship (April, 2000 - August, 2000)</h3>\r\n<p>Human Media Lab<br>Computing and Information Science<br>Queen''s University<br>Kingston ON, Canada</p>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>Assignment</strong></td>\r\n<td>Nonverbal Communication for Embodied Dialogue Systems</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Internship Report</strong></td>\r\n<td>Babbling with Fred</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Supervisor</strong></td>\r\n<td>Dr. Ir. Roel Vertegaal</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Student Jobs (1997-1999)</h3>\r\n<p>During my Master''s program I have been involved in various teaching activities. These activities are listed below.</p>\r\n<h3>Teaching Activities</h3>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>Spring 2005</strong></td>\r\n<td>Student Design Project, advisor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>April 2005</strong></td>\r\n<td>Human Factors, guest lecture</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fall 2004</strong></td>\r\n<td>Student Design Project, advisor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 2004</strong></td>\r\n<td>Artificial Intelligence, working classes</td>\r\n</tr>\r\n<tr>\r\n<td><strong>April 2004</strong></td>\r\n<td>Usability Course, guest lecture at Utrecht University</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 2003</strong></td>\r\n<td>Artificial Intelligence, working classes</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 2003</strong></td>\r\n<td>Internship Master''s student, advisor</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fall 1999</strong></td>\r\n<td>Introduction to Computer Science, lecturer</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 1999</strong></td>\r\n<td>Bachelor Integration Project, group supervisor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fall 1998</strong></td>\r\n<td>Elementary Computer Skills, instructor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Spring 1998</strong></td>\r\n<td>Bachelor Integration Project, group supervisor</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fall 1997</strong></td>\r\n<td>Elementary Computer Skills, instructor</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Professional Services</h3>\r\n<ul>\r\n<li>I am the Local Chair of the Adaptive Hypermedia 2008 Conference, which will take place in Hannover, Germany</li>\r\n<li>Since September 2007 I am chair of ABIS ("Adaptivit?t und \r\nBenutzermodellierung in Interaktiven Softwaresystemen", Adaptivity and \r\nUser Modeling in Interactive Systems) of the Gesellschaft f?r Informatik\r\n (German Society for Computer Science)</li>\r\n<li>Since May 2007 I am secretary and co-founder of the European Association for Technology-Enhanced Learning (EATEL)</li>\r\n<li>In 2006 I was the chair of the ABIS workshop, organized in Hildesheim, Germany</li>\r\n</ul>\r\n<h3>Publications</h3>\r\n<p>A current list of publications is available at my&nbsp;<a href="http://www.l3s.de/http://www.l3s.de/%7Eherder/research/publications.php">Publication Page</a>.</p>\r\n<h3>Review Activities</h3>\r\n<p>Various reviews for the journal Interacting with Computers and the \r\nGerman workshop on adaptivity and user modeling in interactive systems \r\nABIS 2004 and ABIS 2005.</p>\r\n<h3>Grants Received</h3>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>2001-2005</strong></td>\r\n<td>Research grant IOP MMI 0122 from the Dutch Ministry of Economic \r\nAffairs, issued by its agency SenterNovem for a project in the \r\nInnovative Research Program on Human-Machine Interaction.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>2000</strong></td>\r\n<td>Funding from the Department of Computer Science of the University of\r\n Twente for an internship at Queen''s University in Kingston ON, Canada.</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Honors and Awards</h3>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>2006</strong></td>\r\n<td>Best Student Paper Award at the World Wide Web 2006 Conference</td>\r\n</tr>\r\n<tr>\r\n<td><strong>2006</strong></td>\r\n<td>Best Paper Award at the Mensch und Computer 2006 Conference</td>\r\n</tr>\r\n<tr>\r\n<td><strong>2005</strong></td>\r\n<td>James Chen Family Best Student Paper Award, at the User Modeling 2005 Conference.</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Other Interests and Public Service</h3>\r\n<p>I have always been engaged in cultural activities and music in \r\nparticular. I play the piano, I sing and I write songs. From age sixteen\r\n until age twenty-four I worked as a background pianist at theatre ''de \r\nHarmonie'' in Leeuwarden. I regularly give performances in the amateur \r\nmusic scene. As a natural consequence, I have been member of various \r\nboards and committees, including:</p>\r\n<ul>\r\n<li>Co-founder of the University''s piano club Utopiano in 1997. Chair of\r\n the piano club from 1998 until 2000 and from 2002 until 2003.</li>\r\n<li>General member of the organizing committee for the Cultural Introduction 2005 for freshman students at the University of Twente</li>\r\n<li>Secretary of the Anniversary Committee of the classical student choir Drienerloos Vocaal Ensemble in 2002.</li>\r\n<li>Board member of close harmony choir Musilon in 1998 (treasurer) and 1999 (secretary)</li>\r\n<p>Currently I sing in the semi-professional choir Capella St. Crucis in\r\n Hannover, Germany. Further, I have a full-evening theatre program with \r\nGerman songs from the 1920s and 1930s "Die Nacht ist nicht allein zum \r\nSchlafen da", together with professional opera singer&nbsp;<a href="http://www.kristof-schliep.de/" target="_blank">Kristof Schliep</a>. Together with him I also regularly perform in the vaudeville group&nbsp;<a href="http://www.fette-schnecke.de/" target="_blank">Fette Schnecke</a>.</p>\r\n</ul>\r\n<h3>Languages</h3>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td><strong>Mother tongue</strong></td>\r\n<td>Dutch</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Fluent in</strong></td>\r\n<td>English, German</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Proficient in</strong></td>\r\n<td>French, Frisian</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>References</h3>\r\n<p>A list of referees is available upon request.</p>', 'B905', 'dvam', '+7(8442)24-84-86', 'http://www.vstu.ru/chairs/poas/zav.shtml', 'д.т.н., профессор', 'Заведующий кафедрой', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, 1321607433, 1, NULL, NULL, 'f0706fc804d5aa653898df69195356ad0914b3d2'),
+(30, 'arkanif', 'e8f74eab16fe323eb7dbee84d88e5ed667a1911e', '113em@mail.ru', 'Анатолиус', 'Ерофеев', 'Батькович', 44, 'Anatoly', 'Yerofeyev', 'B.', NULL, 'жил и учился', 'live and teach', NULL, NULL, NULL, NULL, NULL, NULL, 'ru<br>info', 'eng<br>info', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, 1323271670, 1, NULL, NULL, '2a4f3cd68962251d2af7841cd54c75e77f1ac8ad'),
+(49, 'stupnikov', '6bcf479b5c2be77540fe24e0d26d01d7b3a1e6bd', NULL, 'Андрей', 'Ступников', 'Алексеевич', NULL, 'Andrew', 'Stupnikov', 'Alekseevich', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 1, NULL, NULL, NULL),
+(61, 'test', 'd83e58faa32c42b58be24d04041d4a622f6e41dd', NULL, 'test', 'test', 'test', NULL, 'test', 'test', 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1321559599, 1323324485, 1, NULL, NULL, '80b112711f6a69f81afd2de96fe618a737c8e917'),
+(62, 'kolesov', '51b5606e51acb53cd1a0decd422b40e8880cfec8', NULL, 'Дмитрий', 'Колесов', 'Б.', NULL, 'Dmitry', 'Kolesov', 'B.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1322158775, 1322158775, 1, NULL, NULL, NULL),
+(63, 'sychev', 'd672a268629a083a0ec14413e82437a4296ee2f1', NULL, 'Олег', 'Сычев', 'Александрович', NULL, 'Oleg', 'Sychev', 'Aleksandrovich', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'к.т.н.', 'доцент', NULL, NULL, 'k.t.n.', 'docent', NULL, NULL, NULL, 2130706433, NULL, 1322165637, 1322165637, 1, NULL, NULL, NULL),
+(64, 'romanenko', '4dde8ae50011519df81f439b3811c76d7b5599b5', 'romanenkorr@gmail.com', 'Роман', 'Романенко', 'Русланович', NULL, 'Roman', 'Romanenko', 'Ruslanovich', NULL, '<h3><table><tbody><tr><td colspan="2"><h3>Магистратура (2010 - 2012)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>Волгоградский государственный технический университет</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Тема</strong></td>\r\n<td>\r\n<p>Разработка автоматизированной системы генерации вариантов решений на основе ассоциативной связи.</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Научный руководитель</strong></td>\r\n<td>д.т.н., профессор,&nbsp;Дворянкин А.М.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Защита</strong></td>\r\n<td>2012</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h3>Бакалавриат (2006 - 2010)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong><strong>Волгоградский <strong>государственный&nbsp;</strong>технический университет</strong></strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Направление</strong></td>\r\n<td>Информатика и вычислительная техника</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Тема</strong></td>\r\n<td>Автоматизированная система распознавания нечеткого текста с заданной структурой<br></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Научный руководитель</strong></td>\r\n<td>к.т.н., Воробкалов П.Н.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Защита</strong></td>\r\n<td>15 июня 2010</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</h3>\r\n<h3>Навыки и умения</h3>\r\n<table width="639" cellpadding="7" cellspacing="0">\r\n<tbody>\r\n<tr>\r\n<td width="623">\r\n<ul><li>\r\n<p>опыт разработки многопоточного клиент-серверного приложения</p>\r\n</li><li>\r\n<p lang="ru-RU">знание систем контроля версий (mercurial,&nbsp;svn)</p>\r\n</li><li>\r\n<p lang="ru-RU">опыт работы в команде</p>\r\n</li><li>\r\n<p lang="ru-RU">c, c++, sql, c#, js, lisp, prolog, ruby, lua</p>\r\n</li><li>\r\n<p lang="ru-RU">знания фреймворка&nbsp;Qt, .NET</p>\r\n</li><li>\r\n<p lang="ru-RU">знаком с принципами распараллеливания программ с помощью&nbsp;MPI/OpenMP</p></li></ul></td></tr></tbody></table>', NULL, NULL, 'rom4ikq', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1322497438, 1322497438, 1, NULL, NULL, NULL),
+(65, 'potapov', '7b42a467c87570a04300fe259e7868a2730cd14f', 'waaaah@gmail.com', 'Алексей', 'Потапов', 'Игоревич', NULL, 'Aleksey', 'Potapov', 'Igoevich', NULL, '<h3><table><tbody><tr><td colspan="2"><h3>Магистратура (2010 - 2012)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>Волгоградский государственный технический университет</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Тема</strong></td>\r\n<td>Автоматизация оценки знаний\r\nстудента и выбраковка корректирующих воздействий в процессе анализа\r\nарифметико-логических выражений на языке Си</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Научный руководитель</strong></td>\r\n<td>к.т.н., ст. преп. Литовкин Д. В.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Защита</strong></td>\r\n<td>2012</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h3>Бакалавриат (2006 - 2010)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong><strong>Волгоградский <strong>государственный&nbsp;</strong>технический университет</strong></strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Направление</strong></td>\r\n<td>Информатика и вычислительная техника</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Тема</strong></td>\r\n<td>Программа-тренажер для анализа арифметико-логических выражений на языке Си</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Научный руководитель</strong></td>\r\n<td>к.т.н., ст. преп. Литовкин Д. В.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Защита</strong></td>\r\n<td>15 июня 2010</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</h3>\r\n<h3>Навыки и умения</h3>\r\n<table width="639" cellpadding="7" cellspacing="0">\r\n<tbody>\r\n<tr>\r\n<td width="623">\r\n<ul><li>\r\n<p>опыт разработки многопоточного\r\n        клиент-серверного приложения</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        опыт разработки компилятора</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        знание систем контроля версий (git,\r\n        svn)</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        опыт работы в команде</p>\r\n</li><li>\r\n<p lang="ru-RU">python2, c, c++, sql, c#, java, as2, as3, js, pascal, delphi, lisp, prolog, ruby, lua</p>\r\n</li><li>\r\n<p lang="ru-RU">знания фреймворка Qt, .NET</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        знаком с принципами распараллеливания\r\n        программ с помощью MPI/OpenMP&nbsp;</p>\r\n</li></ul></td></tr></tbody></table>', NULL, NULL, 'waaarh89', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1322497718, 1322497718, 1, NULL, NULL, NULL),
+(66, 'pahayev', '6fb8f8479d0f033571ff6722c1264ee2756a05aa', 'pashaev.sergey@gmail.com', 'Сергей', 'Пашаев', 'Владимирович', NULL, 'Sergey', 'Pahayev', 'Vladimirovich', NULL, '<h2>Образование</h2>\r\n<table>\r\n<tbody>\r\n<tr>\r\n<td colspan="2">\r\n<h4>Магистратура (2010 - 2012)</h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>Волгоградский государственный технический университет</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Тема</strong></td>\r\n<td>Автоматизация генерации информативных сообщений об ошибках в тестовых вопросах с вводом ответа в виде строки текста</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Научный руководитель</strong></td>\r\n<td>к.т.н., доцент Сычев О. А.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Защита</strong></td>\r\n<td>2012</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h4>Бакалавриат (2006 - 2010)</h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong><strong>Волгоградский <strong>государственный&nbsp;</strong>технический университет</strong></strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Направление</strong></td>\r\n<td>Информатика и вычислительная техника</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Тема</strong></td>\r\n<td>Интеграция программы автоматизированного тестирования консольных программ с СДО Moodle</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Научный руководитель</strong></td>\r\n<td>к.т.н., доцент&nbsp;Сычев\r\nО. А.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Защита</strong></td>\r\n<td>15 июня 2010</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<h3>Навыки и умения</h3>\r\n<table width="639" cellpadding="7" cellspacing="0">\r\n<tbody>\r\n<tr>\r\n<td width="623">\r\n<ul><li>\r\n<p>Базовые знания ICP</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        опыт разработки многопоточного\r\n        клиент-серверного приложения</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        опыт разработки компилятора</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        знание систем контроля версий (git,\r\n        svn)</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        опыт работы в команде</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        базовые знания ос семейства GNU\\Linux\r\n        </p>\r\n</li><li>\r\n<p lang="ru-RU">python2, bash,\r\n        c, c++, sql</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        базовые знания фреймворка Qt</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        опыт разработки веб-приложений на\r\n        фреймворке Django</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        знаком с принципами распараллеливания\r\n        программ с помощью MPI/OpenMP</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        небольшой опыт работы с библиотеками\r\n        ncurses, SDL</p>\r\n</li></ul></td></tr></tbody></table>', NULL, NULL, 'Пашаев Сергей Владимирович  Ка', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1322497843, 1322497843, 1, NULL, NULL, NULL),
+(67, 'melnikova', '222aea87bc51104ce770c6c23bd39a406e15ba33', 'margarita.melnikoval@gmail.com', 'Маргарита', 'Мельникова', 'Андреевна', NULL, 'Margarita', 'Melnikova', 'Andreyevna', NULL, '<h2><table><tbody><tr><td colspan="2"><h3>Магистратура (2010 - 2012)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong>Волгоградский государственный технический университет</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Тема</strong></td>\r\n<td>Разработка инструментального средства анализа вариантов поведения объектов на основе качественного моделирования</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Научный руководитель</strong></td>\r\n<td>к.т.н, доцент Жукова И. Г.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Защита</strong></td>\r\n<td>2012</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2">\r\n<h3>Бакалавриат (2006 - 2010)</h3>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan="2"><strong><strong>Волгоградский <strong>государственный&nbsp;</strong>технический университет</strong></strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Направление</strong></td>\r\n<td>Информатика и вычислительная техника</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Тема</strong></td>\r\n<td>Разработка качественной модели анализа финансово-экономического \r\nсостояния предприятия на основе системы сбалансированных показателей</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Научный руководитель</strong></td>\r\n<td>к.т.н, доцент Жукова И. Г.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Защита</strong></td>\r\n<td>15 июня 2010</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</h2>\r\n<h3>Навыки и умения</h3>\r\n<table width="639" cellpadding="7" cellspacing="0">\r\n<tbody>\r\n<tr>\r\n<td width="623">\r\n<ul><li>\r\n<p>опыт разработки многопоточного\r\n        клиент-серверного приложения</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        опыт разработки компилятора</p>\r\n</li><li>\r\n<p lang="ru-RU">\r\n        опыт работы в команде</p>\r\n</li><li>\r\n<p lang="ru-RU">опыт разработки качественных моделей&nbsp;</p>\r\n</li><li>\r\n<p lang="ru-RU">опыт построения качественных моделей в системе GARP</p>\r\n</li><li>\r\n<p lang="ru-RU">c, c++, sql, c#, js</p>\r\n</li><li>\r\n<p lang="ru-RU">знание фреймворков&nbsp;Qt, .NET</p>\r\n</li><li>\r\n<p lang="ru-RU">знание принципов распараллеливания\r\n        программ с помощью MPI/OpenMP</p>\r\n</li></ul>\r\n<ul><li>\r\n<p lang="ru-RU">знание систем контроля версий (svn)</p>\r\n</li></ul></td></tr></tbody></table>', NULL, NULL, 'margarita.melnikova', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1322497955, 1322497955, 1, NULL, NULL, NULL),
+(68, 'kirichenko', 'd14ee0c31b0ef27827014bd5c5d21ae694f5d7fd', 'kirichenko@unknownmail.com', 'Иван', 'Кириченко', 'Николаевич', NULL, 'Ivan', 'Kirichenko', 'Nikolayevich', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1322498011, 1322498011, 1, NULL, NULL, NULL),
+(1, 'admin', '5d0513311c47ced7975ab50810046f1a3b61a84a', NULL, 'Администратор', 'Сайта', 'I', NULL, 'Administrator', 'Site', 'I', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, 1323328876, 1, NULL, NULL, '800d9d46d32086f16e8b8899911691976a1ef76f');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `user_courses`
+-- Table structure for table `users_groups`
+--
+
+CREATE TABLE IF NOT EXISTS `users_groups` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` mediumint(8) unsigned NOT NULL,
+  `group_id` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
+
+--
+-- Dumping data for table `users_groups`
+--
+
+INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
+(21, 66, 2),
+(20, 65, 2),
+(19, 64, 2),
+(18, 63, 3),
+(17, 62, 2),
+(12, 61, 1),
+(13, 30, 1),
+(14, 25, 3),
+(15, 17, 1),
+(16, 49, 2),
+(22, 67, 2),
+(23, 68, 2),
+(24, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_courses`
 --
 
 CREATE TABLE IF NOT EXISTS `user_courses` (
@@ -375,16 +411,27 @@ CREATE TABLE IF NOT EXISTS `user_courses` (
   `userid` int(10) unsigned NOT NULL,
   `courseid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
--- Дамп данных таблицы `user_courses`
+-- Dumping data for table `user_courses`
 --
 
 INSERT INTO `user_courses` (`id`, `userid`, `courseid`) VALUES
-(21, 17, 14),
-(19, 30, 14),
+(27, 62, 119),
+(22, 49, 14),
+(24, 17, 14),
+(23, 30, 14),
 (18, 17, 54),
 (17, 30, 54),
 (10, 30, 2),
-(9, 30, 1);
+(9, 30, 1),
+(28, 64, 128),
+(29, 66, 128),
+(30, 65, 128),
+(31, 68, 128),
+(32, 67, 128);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

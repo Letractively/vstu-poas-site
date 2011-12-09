@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "news";
+$route['default_controller'] = "index";
 $route['404_override'] = 'notfound';
 
 $route['en/projects/(:num)'] = "projects/show/$1";
@@ -47,6 +47,9 @@ $route['projects/(:num)'] = "projects/show/$1";
 $route['en/directions/(:num)'] = "directions/show/$1";
 $route['directions/(:num)'] = "directions/show/$1";
 
+$route['en/partners/(:num)'] = "partners/show/$1";
+$route['partners/(:num)'] = "partners/show/$1";
+
 $route['en/users/(:num)'] = "users/show/$1";
 $route['users/(:num)'] = "users/show/$1";
 $route['en/users/(:num)/(:any)'] = "users/show/$1/$2";
@@ -54,15 +57,17 @@ $route['users/(:num)/(:any)'] = "users/show/$1/$2";
 
 $route['en/publications/(:num)'] = "publications/index/$1";
 $route['publications/(:num)'] = "publications/index/$1";
+
+//$route['en/about/(:any)'] = "about/$1";
 // @todo переделать, если кто придумает как
 
 $route['en/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5/$6/$7";
-$route['en/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5/$6"; // Язык всегда первый параметр метода
-$route['en/(:any)/(:any)/(:any)/(:any)'] = "$2/$3/$4/$5"; // Язык всегда первый параметр метода
+$route['en/(:any)/(:any)/(:any)/(:any)/(:any)'] = "$1/$2/$3/$4/$5"; // Язык всегда первый параметр метода
+$route['en/(:any)/(:any)/(:any)/(:any)'] = "$1/$2/$3/$4"; // Язык всегда первый параметр метода
 $route['en/(:any)/(:any)/(:any)'] = "$1/$2/$3"; // Язык всегда первый параметр метода
-$route['en/(:any)/(:any)'] = "$2/$3"; // Язык всегда первый параметр метода
+$route['en/(:any)/(:any)'] = "$1/$2"; // Язык всегда первый параметр метода
 $route['(en)/(:any)'] = "$2"; // Язык всегда первый параметр метода
-$route['en'] = "/news"; // Язык всегда первый параметр метода
+$route['en'] = "/index"; // Язык всегда первый параметр метода
 
 //$route['(:any)/(:any)/(.*)'] = "$2/$1/$3";
 //$route['(:any)/(:any)'] = "$2/$1";
