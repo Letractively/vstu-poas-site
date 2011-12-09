@@ -1,11 +1,11 @@
 <?php
 /**
  * @class Publication_model
- * Модель публикаций. 
+ * Модель публикаций.
  */
 
 require_once('super_model.php');
-class Publication_model extends Super_model 
+class Publication_model extends Super_model
 {
     /**
      * Получить краткую информацию о публикации
@@ -14,8 +14,8 @@ class Publication_model extends Super_model
      */
     function get_short($id = null)
     {
-        $result = $this->_get_short(TABLE_PUBLICATIONS, 
-                                 'year', 
+        $result = $this->_get_short(TABLE_PUBLICATIONS,
+                                 'year',
                                  'name_' . lang() . ', name_ru, id',
                                  $id);
         if (is_array($result)) {
@@ -24,9 +24,9 @@ class Publication_model extends Super_model
                 $record->authorscount = $this->db->count_all_results();
             }
         }
-        return $result; 
+        return $result;
     }
-    
+
     /**
      * Получить информацию о публикации для представления
      * @param int $id идентификатор публикации
@@ -37,7 +37,7 @@ class Publication_model extends Super_model
         $select2 = 'info_ru as info, fulltext_ru, fulltext_en, abstract_ru, abstract_en, year';
         return $this->_get_detailed($id, TABLE_PUBLICATIONS, $select1, $select2);
     }
-    
+
     /**
      * Получить полную информацию о публикации
      * @param int $id идентификатор публикации
@@ -49,23 +49,23 @@ class Publication_model extends Super_model
         $publication->authors=$this->get_authors($id);
         return $publication;
     }
-    
+
     function get_view_extra() {
         $extra = null;
         $extra->users = $this->db
-                                ->select('id,name,surname,patronymic')
+                                ->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
                                 ->from(TABLE_USERS)
                                 ->order_by('surname,name,patronymic')
                                 ->get()
                                 ->result();
         return $extra;
     }
-    
+
     /**
      * Получить информацию о публикации из POST-запроса
      * @return публикация
      */
-    function get_from_post() 
+    function get_from_post()
     {
         $fields = array(
             'name_ru'     => 'publication_name_ru',
@@ -79,7 +79,7 @@ class Publication_model extends Super_model
             'info_en'     => 'publication_info_en',
             'authors'      => 'publication_authors'
         );
-        $nulled_fields = array(            
+        $nulled_fields = array(
             'name_ru'     => 'publication_name_ru',
             'name_en'     => '',
             'fulltext_ru' => '',
@@ -91,21 +91,21 @@ class Publication_model extends Super_model
         );
         return $this->_get_from_post('publication', $fields, $nulled_fields);
     }
-    
+
     /**
      * Обновить список авторов публикации
-     * 
+     *
      * @param type $id идентификатор публикации
      * @param $members массив идентификаторов авторов
      */
     function update_publication_authors($id, $members)
     {
-        $this->_update_connected_users(TABLE_PUBLICATION_AUTHORS, 
-                'publicationid', 
-                $id, 
+        $this->_update_connected_users(TABLE_PUBLICATION_AUTHORS,
+                'publicationid',
+                $id,
                 $members);
     }
-    
+
     /**
      * Добавить публикацию, получаемую через POST-запрос
      * @return int id - идентификатор добавленной записи | FALSE
@@ -113,14 +113,14 @@ class Publication_model extends Super_model
     function add_from_post()
     {   $publication = $this->get_from_post();
         unset($publication->authors);
-        
+
         if ($id = $this->_add(TABLE_PUBLICATIONS, $publication))
         {
             $this->update_publication_authors($id, $this->input->post('publication_authors'));
         }
         return $id;
     }
-    
+
     /**
 	 * Получить информацию о публикации из данных, полученных методом POST
 	 * @return объект, содержащий собранную информацию о публикации
@@ -132,23 +132,35 @@ class Publication_model extends Super_model
         $this->update_publication_authors($publication->id, $this->input->post('publication_authors'));
         return $result;
     }
-    
+
     /**
      * Удалить публикацию из базы данных
-     * 
+     *
      * Удалеяет так же все упоминания о публикации из таблицы авторов
      * @param int $id идентификатор публикации
-     * @return TRUE, если публикация удалена, иначе FALSE 
+     * @return TRUE, если публикация удалена, иначе FALSE
      */
     function delete($id)
     {
+        $publications = $this->db
+                            ->select('fulltext_ru_file, fulltext_en_file, abstract_ru_file, abstract_en_file')
+                            ->get_where(TABLE_PUBLICATIONS, array('id' => $id))
+                            ->result();
+        if (count($publications) == 1)
+        {
+            $this->load->model(MODEL_FILE);
+            $this->{MODEL_FILE}->delete_file($publications[0]->fulltext_ru_file);
+            $this->{MODEL_FILE}->delete_file($publications[0]->fulltext_en_file);
+            $this->{MODEL_FILE}->delete_file($publications[0]->abstract_ru_file);
+            $this->{MODEL_FILE}->delete_file($publications[0]->abstract_en_file);
+        }
         $result = $this->_delete(TABLE_PUBLICATIONS, $id);
         $message = $this->message;
         $cascade = $this->_delete(TABLE_PUBLICATION_AUTHORS, $id, 'publicationid');
         $this->message = $message;
         return $cascade && $result;
     }
-    
+
     /**
 	 * Получить информацию обо всех авторах публикации
 	 * @param int $id идентификатор публикации
@@ -157,18 +169,18 @@ class Publication_model extends Super_model
 	function get_authors($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, name, surname, patronymic')
+				->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
 				->from(TABLE_PUBLICATION_AUTHORS)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PUBLICATION_AUTHORS . '.userid')
 				->where('publicationid = ' . $id);
 				return $this->db->get()->result();
 	}
-    
+
     /**
      * Получить все года, в которых есть публикации на указанном языке
      * @return упорядоченный по убыванию массив лет
      */
-    function get_years() 
+    function get_years()
     {
         $records = $this->db
                     ->select('year')
@@ -179,7 +191,7 @@ class Publication_model extends Super_model
                     ->get()
                     ->result();
         $years = array();
-        foreach ($records as $record) 
+        foreach ($records as $record)
         {
             $years[] = $record->year;
         }
@@ -199,10 +211,14 @@ class Publication_model extends Super_model
         {
             $record->authors = $this->get_authors($record->id);
             $record->year = $year;
+            $record->fulltext_ru_file = $this->get_file($record->id, 'fulltext_ru_file');
+            $record->fulltext_en_file = $this->get_file($record->id, 'fulltext_en_file');
+            $record->abstract_ru_file = $this->get_file($record->id, 'abstract_ru_file');
+            $record->abstract_en_file = $this->get_file($record->id, 'abstract_en_file');
         }
         return $result;
     }
-    
+
     function get_errors() {
         $errors = null;
         if ($this->input->post('publication_name_ru') == '')
@@ -211,10 +227,19 @@ class Publication_model extends Super_model
             $errors->yearforgotten = true;
         return $errors;
     }
-    
+
     function exists($id)
     {
         return $this->_record_exists(TABLE_PUBLICATIONS, $id);
+    }
+    function get_file($id, $column)
+    {
+        $files = $this->db->select($column)->get_where(TABLE_PUBLICATIONS, array('id'=>$id))->result();
+        $this->load->model(MODEL_FILE);
+        if (count($files) == 1)
+            return $this->{MODEL_FILE}->get_file_path($files[0]->$column);
+        else
+            return null;
     }
 }
 ?>

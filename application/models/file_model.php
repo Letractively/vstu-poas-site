@@ -14,8 +14,9 @@ class File_model extends CI_Model{
         {
             $oldpath = $this->get_file_path($fileid);
             if($oldpath)
-            {            
-                unlink($oldpath);
+            {
+                if (!unlink(iconv("UTF-8", "CP1251", $oldpath)))
+                    unlink($oldpath);
             }
             $this->db->delete(TABLE_FILES, array('id' => $fileid));
         }

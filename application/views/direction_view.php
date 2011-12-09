@@ -1,16 +1,21 @@
 <?php // Отобразить проект
-
+echo '<div class="scientific-activity">';
 echo '<div class="direction">';
+
+// Вывод названия направления
 echo heading($direction->name, 3);
-
 echo br(2);
-if (isset ($direction->description) && $direction->description !== '')
-{
-	echo $direction->description;
-	echo br(2);
-}
 
-//print_r($members);
+// Вывод изображения проекта или его заглушки 'noimage.jpg'
+if (!isset($image) || $image === null)
+        $image = NOIMAGE;
+echo div('image').anchor('/about/scientific/directions/'.$direction->id, img($image)).'</div>';
+
+// Вывод краткого описания направления
+echo $direction->short;
+echo br(2);
+
+
 if (count($members) > 0)
 {
 	// подготовим список руководителей и заодно узнаем, много ли их
@@ -20,7 +25,7 @@ if (count($members) > 0)
 	$others = '';
 	foreach ($members as $member)
 	{
-		if ($member->ishead == true) 
+		if ($member->ishead == true)
 		{
 			$headcount++;
 			$heads .= anchor('/users/'.$member->id, $member->surname . ' '. $member->name).br();
@@ -30,7 +35,7 @@ if (count($members) > 0)
 			$othercount++;
 			$others .= anchor('/users/'.$member->id, $member->surname . ' '. $member->name).br();
 		}
-		 
+
 	}
 	if ($headcount == 1)
 		echo heading($this->lang->line('directionheaderis',3));
@@ -44,8 +49,13 @@ if (count($members) > 0)
 		echo heading($this->lang->line('directionmembersare',3));
 	echo $others;
 }
+
+// Вывод подробного описания направления
+echo $direction->full;
+echo br(2);
+echo '</div>';
 echo '</div>';
 ?>
 <?php
 /* End of file direction_view.php */
-/* Location: ./application/views/direction_view.php */ 
+/* Location: ./application/views/direction_view.php */

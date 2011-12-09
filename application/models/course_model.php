@@ -1,7 +1,8 @@
 <?php
 require_once('super_model.php');
 class Course_model extends Super_model{
-    function get_short($id = null) 
+
+    function get_short($id = null)
     {
         $result =  $this->db
 					->select('id, course, year')
@@ -23,35 +24,52 @@ class Course_model extends Super_model{
     function get_detailed($id){}
     function add_from_post()
     {
-        $course->course = $this->input->post('course_course') + 1; 
+        $course->course = $this->input->post('course_course');
         $course->course = (string)$course->course;
         $course->year = $this->input->post('course_year');
-        
+
         if ($course->year == '')
         {
             $this->message = 'Не указан год';
             return FALSE;
         }
-        
+
         if (!is_numeric($course->year))
         {
             $this->message = 'Неправильный год';
             return FALSE;
         }
-        if($course->course == 7)    // Добавить сразу все курсы за определенный год
+        $coursesnames = array(
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            'pg1',
+            'pg2',
+            'pg3',
+            'pg4',
+            'd1',
+            'd2',
+            'd3'
+            );
+        if($course->course == 'all')    // Добавить сразу все курсы за определенный год
         {
             $errors = array();
-            for($i = 1; $i <= 6; $i++)
+            foreach($coursesnames as $coursename)
+            //for($i = 1; $i <= 6; $i++)
             {
-                $course->course = (string)$i;
-                $this->db->from(TABLE_COURSES)->where('course', (string)$i)->where('year', $course->year);
+                //$course->course = (string)$i;
+                $course->course = $coursename;
+                $this->db->from(TABLE_COURSES)->where('course', $coursename)->where('year', $course->year);
                 if ($this->db->count_all_results() > 0)
                 {
-                    $errors[] = $i;
+                    $errors[] = $coursename;
                 }
                 else
                     if (!$this->_add(TABLE_COURSES, $course))
-                        $errors[] = $i;
+                        $errors[] = $coursename;
             }
             if (count($errors) == 0)
                 $this->message = 'Записи были успешно внесены в базу данных';
@@ -67,7 +85,7 @@ class Course_model extends Super_model{
         {
             $this->db->from(TABLE_COURSES)->where('course', $course->course)->where('year', $course->year);
             if ($this->db->count_all_results() > 0)
-            {        
+            {
                 $this->message = 'Такой курс уже существует';
                 return FALSE;
             }
@@ -75,26 +93,26 @@ class Course_model extends Super_model{
                 return $this->_add(TABLE_COURSES, $course);
         }
     }
-    
-    function edit_from_post() 
+
+    function edit_from_post()
     {
         $course->id = $this->input->post('course_id');
         $this->update_course_members($course->id, $this->input->post('course_members'));
     }
-    
+
     function update_course_members($id, $members)
     {
-        $this->_update_connected_users(TABLE_USER_COURSES, 
-                'courseid', 
-                $id, 
+        $this->_update_connected_users(TABLE_USER_COURSES,
+                'courseid',
+                $id,
                 $members);
     }
-    
+
     /**
      * Удалить курс из базы данных
      * Так же удаляет записи из таблицы "студенты курса"
      * @param int $id идентификатор курса
-     * @return TRUE, если курс удален, иначе FALSE 
+     * @return TRUE, если курс удален, иначе FALSE
      */
     function delete($id)
     {
@@ -104,15 +122,15 @@ class Course_model extends Super_model{
         $this->message = $message;
         return $cascade && $result;
     }
-    
-    function get_course($id) 
+
+    function get_course($id)
     {
         $course = $this->_get_record($id, TABLE_COURSES);
         $course->members = $this->get_members($id);
-        
+
         return $course;
     }
-    
+
     /**
 	 * Получить информацию обо всех студентах курса
 	 * @param int $id идентификатор курса
@@ -121,22 +139,130 @@ class Course_model extends Super_model{
 	function get_members($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, name, surname, patronymic')
+				->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
 				->from(TABLE_USER_COURSES)
 				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_USER_COURSES. '.userid')
 				->where('courseid = ' . $id);
         return $this->db->get()->result();
 	}
-    
+
     public function get_view_extra() {
         $this->load->model(MODEL_USER);
         $extra->users = $this->{MODEL_USER}->get_short();
         return $extra;
     }
-    
+
     function exists($id)
     {
         return $this->_record_exists(TABLE_COURSES, $id);
+    }
+
+    /**
+     * Получить все года, в которых есть студенты определенной формы обучения
+     * @return упорядоченный по убыванию массив лет
+     */
+    function get_years_by_form($form)
+    {
+        $where = $this->get_sql_where_to_form($form);
+        $records = $this->db
+                    ->select('year')
+                    ->distinct()
+                    ->from(TABLE_COURSES)
+                    ->join(TABLE_USER_COURSES, TABLE_USER_COURSES.'.courseid='.TABLE_COURSES.'.id')
+                    ->where($where, NULL, FALSE)
+                    ->order_by('year DESC')
+                    ->get()
+                    ->result();
+        /**
+         * SELECT DISTINCT year FROM `courses` JOIN user_courses ON courseid=courses.id where course='1' OR course='2' ...
+         */
+        $years = array();
+        foreach ($records as $record)
+        {
+            $years[] = $record->year;
+        }
+        return $years;
+    }
+
+    /**
+     * Вернуть данные студентов курса для карточки пользователя на сайте
+     * @param $form форма обучения
+     * @param $year год обучения
+     * @return массив пользователей
+     */
+    function get_user_cards($form, $year)
+    {
+        $where = '(' . $this->get_sql_where_to_form($form) . ')';
+        if ($year != '' && $year != null)
+            $where .= ' AND ' . TABLE_COURSES . '.year=' . $year;
+        $users = $this->db
+                        ->select(   'name_'.lang().' as name,'.
+                                    'surname_'.lang().' as surname,'.
+                                    'patronymic_'.lang().' as patronymic,'.
+                                    'rank_'.lang().' as rank,'.
+                                    'post_'.lang().' as post,'.
+                                    'email,'.
+                                    TABLE_USERS.'.id')
+                        ->distinct()
+                        ->from(TABLE_USERS)
+                        ->join(TABLE_USER_COURSES, TABLE_USERS.'.id = '.TABLE_USER_COURSES.'.userid')
+                        ->join(TABLE_COURSES, TABLE_USER_COURSES.'.courseid='.TABLE_COURSES.'.id')
+                        ->where($where, NULL, FALSE)
+                        ->order_by('surname,name,patronymic')
+                        ->get()
+                        ->result();
+        if (!$users)
+            return array();
+        else
+        {
+            $this->load->model(MODEL_USER);
+            foreach ($users as $user)
+            {
+                $interests = $this->{MODEL_USER}->get_user_interests($user->id);
+                if(is_array($interests))
+                {
+                    foreach ($interests as $interest)
+                    {
+                        // на всякий случай, если в базе не достает метки или расшифровки
+                        if ($interest->short == '' || $interest->short == null)
+                            $interest->short = $interest->full;
+                        if ($interest->full == '' || $interest->full == null)
+                            $interest->full = $interest->short;
+                        $user->interests[$interest->short] = $interest->full;
+                    }
+                }
+                else
+                    $user->interests = array();
+                $user->photo = $this->{MODEL_USER}->get_photo($user->id);
+            }
+            return ($users);
+        }
+    }
+
+    /**
+     * Вернуть SQL - запрос для условия выборки из таблицы по форме обучения
+     * @param $form форма обучения {bachelor, master, pg, doc}
+     * @return SQL - запрос вида course='1' OR course='2' ...
+     */
+    function get_sql_where_to_form($form)
+    {
+        $where = '1=1';
+        switch($form)
+        {
+            case 'bachelor':
+                $where = "course='1' OR course='2' OR course='3' OR course='4'";
+                break;
+            case 'master':
+                $where = "course='5' OR course='6'";
+                break;
+            case 'pg':
+                $where = "course='pg1' OR course='pg2' OR course='pg3' OR course='pg4'";
+                break;
+            case 'doc':
+                $where = "course='d1' OR course='d2' OR course='d3'";
+                break;
+        }
+        return $where;
     }
 
 }
