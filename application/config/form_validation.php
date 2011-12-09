@@ -2,9 +2,9 @@
 $config = array(
     'admin/users/add' => array(
         array(
-            'field' => 'user_username',
+            'field' => 'user_login',
             'label' => 'Логин',
-            'rules' => 'trim|required|alpha_dash|callback__username_unique'
+            'rules' => 'trim|required|alpha_dash|callback__login_unique'
         ),
         array(
             'field' => 'user_password',
@@ -191,18 +191,18 @@ $config = array(
             'label' => 'Полное название интереса',
             'rules' => 'trim'
         )
-
-    )
+        
+    )   
 );
 $admin_users_edit = $config['admin/users/add'];
 $admin_users_edit[0] = array(
-    'field' => 'user_username',
+    'field' => 'user_login',
     'label' => 'Логин',
     'rules' => ''
 );
 $config['admin/users/edit'] = $admin_users_edit;
 
-$config['admin/partners'] = array(
+$config['admin/partners/edit'] = array(
     array(
         'field' => 'partner_name_ru',
         'label' => 'Имя партнера (русское)',
@@ -226,129 +226,18 @@ $config['admin/partners'] = array(
     array(
         'field' => 'partner_name_en',
         'label' => 'Имя партнера (английское)',
-        'rules' => 'trim|callback__partner_en'
+        'rules' => 'trim'
     ),
     array(
         'field' => 'partner_short_en',
         'label' => 'Краткое описание партнера (английское)',
-        'rules' => 'trim|callback__partner_en'
+        'rules' => 'trim'
     ),
     array(
         'field' => 'partner_full_en',
         'label' => 'Описание партнера (английское)',
-        'rules' => 'trim|callback__partner_en'
-    )
-);
-$config['admin/projects'] = array(
-    array(
-        'field' => 'project_name_ru',
-        'label' => 'Название проекта (русское)',
-        'rules' => 'trim|required'
-    ),
-    array(
-        'field' => 'project_description_ru',
-        'label' => 'Описание проекта (русское)',
-        'rules' => 'trim|required'
-    ),
-    array(
-        'field' => 'project_url',
-        'label' => 'Ссылка на проект',
-        'rules' => 'trim'
-    ),
-    array(
-        'field' => 'project_members[]',
-        'label' => 'Участники проекта',
-        'rules' => ''
-    ),
-    array(
-        'field' => 'project_name_en',
-        'label' => 'Название проекта (английское)',
-        'rules' => 'trim|callback__project_en'
-    ),
-    array(
-        'field' => 'project_description_en',
-        'label' => 'Описание проекта (английское)',
-        'rules' => 'trim|callback__project_en'
-    )
-);
-$config['admin/directions'] = array(
-    array(
-        'field' => 'direction_name_ru',
-        'label' => 'Название направления (русское)',
-        'rules' => 'trim|required'
-    ),
-    array(
-        'field' => 'direction_short_ru',
-        'label' => 'Краткое описание направления (русское)',
-        'rules' => 'trim|required'
-    ),
-    array(
-        'field' => 'direction_full_ru',
-        'label' => 'Подробное описание направления (русское)',
-        'rules' => 'trim'
-    ),
-    array(
-        'field' => 'direction_name_en',
-        'label' => 'Название направления (английское)',
-        'rules' => 'trim|callback__direction_en'
-    ),
-    array(
-        'field' => 'direction_short_en',
-        'label' => 'Краткое описание направления (английское)',
-        'rules' => 'trim|callback__direction_en'
-    ),
-    array(
-        'field' => 'direction_full_en',
-        'label' => 'Подробное описание направления (английское)',
         'rules' => 'trim'
     )
 );
-$config['admin/publications'] = array(
-    array(
-        'field' => 'publication_name_ru',
-        'label' => 'Название публикации (русское)',
-        'rules' => 'trim|required'
-    ),
-    array(
-        'field' => 'publication_year',
-        'label' => 'Год публикации',
-        'rules' => 'trim|required'
-    ),
-    array(
-        'field' => 'publication_info_ru',
-        'label' => 'Дополнительная информация (на русском)',
-        'rules' => 'trim'
-    ),
-    array(
-        'field' => 'publication_fulltext_ru',
-        'label' => 'Ссылка на русскую версию публикации',
-        'rules' => 'trim'
-    ),
-    array(
-        'field' => 'publication_abstract_ru',
-        'label' => 'Ссылка на русскую версию аннотации',
-        'rules' => 'trim'
-    ),
-    array(
-        'field' => 'publication_name_en',
-        'label' => 'Название публикации (английское)',
-        'rules' => 'trim'
-    ),
-
-    array(
-        'field' => 'publication_info_en',
-        'label' => 'Дополнительная информация (на английсокм)',
-        'rules' => 'trim'
-    ),
-    array(
-        'field' => 'publication_fulltext_en',
-        'label' => 'Ссылка на английскую версию публикации',
-        'rules' => 'trim'
-    ),
-    array(
-        'field' => 'publication_abstract_en',
-        'label' => 'Ссылка на английскую версию аннотации',
-        'rules' => 'trim'
-    )
-);
+$config['admin/partners/add'] = $config['admin/partners/edit'];
 ?>
