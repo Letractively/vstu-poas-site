@@ -24,7 +24,7 @@ jQuery(document).ready(function($)
 	/** Подключение HTML редактора в к объектам с классом "elrte_editor" */
 	var elrte_options = {
 		lang         : 'ru',
-		styleWithCSS : false,
+		styleWithCSS : true,
 		height       : 320,
 		fmAllow		 : true,
 		toolbar      : 'maxi'
@@ -49,10 +49,11 @@ jQuery(document).ready(function($)
 			styleWithCSS : false,
 			height       : 100,
 			fmAllow		 : true,
-			toolbar      : 'maxi'
+			toolbar      : 'mini'
 		};
-	$('.elrte_editor').elrte(elrte_options);
+	
 	$('.elrte_editor_mini').elrte(elrte_options_mini);
+	$('.elrte_editor').elrte(elrte_options);
 
 
     $('.hideble').css('display','none');
@@ -74,7 +75,7 @@ jQuery(document).ready(function($)
 			this_obj.attr('disabled', !disabled);
 		});
 		return true;
-	}
+	};
 })( jQuery );
 
 
@@ -257,7 +258,7 @@ function ajaxFileUpload(
                 alert(e);
             }
         }
-    )
+    );
     return false;
 }
 

@@ -54,8 +54,20 @@ class News_model extends CI_Model {
 	 */
 	function get_short($page = 1, $amount_on_page = 20)
 	{
+		// Проверка прав (сделать бы почеловечнее...)
+		$ci = get_instance();
+		$usergroup = $ci->user_model->logged_max_group();
+		if( !$usergroup )
+		{
+			$this->db->where('category = 1');
+		}
+		else if($usergroup == 2)
+		{
+			$this->db->where('category <= 2');
+		}
+		
 		return $this->db
-			->select('id, name_'.lang().' as name, url, notice_'.lang().' as notice')
+			->select('id, name_'.lang().' as name, category + 0 as category, url, notice_'.lang().' as notice, time, DATE_FORMAT(`time`, \'%d.%m.%Y\') as `date`, DATE_FORMAT(`time`, \'%d.%m.%Y, %H:%i\') as `format_time`', FALSE)
 			->where('name_'.lang().' IS NOT NULL AND name_'.lang().'!=""')
 			->order_by('time')
 			->get(TABLE_NEWS, $amount_on_page, ($page-1)*$amount_on_page)
@@ -69,7 +81,7 @@ class News_model extends CI_Model {
 	 */
 	function get_by_id_for_admin($id)
 	{
-		$news = $this->db->get_where(TABLE_NEWS, array('id' => $id), 1)->result();
+		$news = $this->db->select('id, url, name_ru, name_en, notice_ru, notice_en, text_ru, text_en, category + 0 as category, time, update')->get_where(TABLE_NEWS, array('id' => $id), 1)->result();
 		if(!$news)
 		{
 			return FALSE;
@@ -85,32 +97,47 @@ class News_model extends CI_Model {
 	function get_by_url($url)
 	{
 		$news = $this->db
-			->select('id, time, name_'.lang().' as name, url, notice_'.lang().' as notice, text_'.lang().' as text' )
+			->select('id, time, category + 0 as category, name_'.lang().' as name, url, notice_'.lang().' as notice, text_'.lang().' as text, DATE_FORMAT(`time`, \'%d.%m.%Y, %H:%i\') as `format_time`', FALSE )
 			->get_where(TABLE_NEWS, array('url' => $url), 1)->result();
 
 		if( $news && ( ! isset($news[0]->name) || $news[0]->name == '' ) )
 		{
 			$news = $this->db
-			->select('id, time, name_ru as name, url, notice_ru as notice, text_ru as text' )
+			->select('id, time, category + 0 as category, name_ru as name, url, notice_ru as notice, text_ru as text' )
 			->get_where(TABLE_NEWS, array('url' => $url), 1)->result();
 		}
-		
+
 		if( ! $news )
 		{
 			return FALSE;
+		}
+		
+		// Проверка прав (сделать бы почеловечнее её...)
+		$ci = get_instance();
+		$usergroup = $ci->user_model->logged_max_group();
+		if( !$usergroup && $news[0]->category != 1 || $usergroup == 2 && $news[0]->category > 2 )
+		{
+			// Нет доступа к этой новости (делаем заглушку)
+			$not_news->name = 'Нет доступа';
+			$not_news->url = $url;
+			$not_news->notice = 'Нет доступа к новости';
+			$not_news->text = 'Нет доступа к новости';
+			$not_news->time = 0;
+			$not_news->format_time = NULL;
+			return $not_news;
 		}
 		
 		return $news[0];
 	}
 	
 	/**
-	 * Получить информацию о новости по её уникальном url-адресу (только на текущем языке)
+	 * Получить информацию о новости по её уникальном url-адресу (на всех языках)
 	 * @param string $url - уникальный url-адрес новости
 	 * @return News_local - объект с информацией о новости на одном языке | FALSE
 	 */
 	function get_by_url_for_admin($url)
 	{
-		$news = $this->db->get_where(TABLE_NEWS, array('url' => $url), 1)->result();
+		$news = $this->db->select('id, url, name_ru, name_en, notice_ru, notice_en, text_ru, text_en, category + 0 as category, time, update')->get_where(TABLE_NEWS, array('url' => $url), 1)->result();
 		if(!$news)
 		{
 			return FALSE;
@@ -146,6 +173,7 @@ class News_model extends CI_Model {
 	{
 		$news->name_ru = $this->input->post('news_name_ru');	// название новости
 		$news->text_ru = $this->input->post('news_text_ru');	// содержимое новости
+		$news->category = $this->input->post('news_category');	// категория новости
 		$news->notice_ru = $this->input->post('news_notice_ru');// анонс новости
 		if( $this->input->post('is_news_en') )
 		{

@@ -349,15 +349,15 @@ class User_model extends Super_model {
 	}
 
 	/**
-	 * Определить, к какой группе принадлежит текущий пользователь
+	 * Определить, к какой самой правомочной группе принадлежит текущий пользователь
 	 * @return int - идентификатор группы (см. константы группы USER_GROUP)
 	 */
-	function logged_group()
+	function logged_max_group()
 	{
-		$logged_group = $this->session->userdata('group');
+		$logged_max_group = $this->session->userdata('user_max_group'); 
 
-		if( !isset($logged_group) ) return FALSE;
-		return $logged_group;
+		if( !isset($logged_max_group) ) return FALSE;
+		return $logged_max_group;
 	}
 
     /**
@@ -428,6 +428,22 @@ class User_model extends Super_model {
                             ->result();
         return $result ? $result[0] : FALSE;
     }
+    
+    /**
+     * @return int - id группы (или FALSE)
+     */
+    function get_max_user_group($id)
+    {
+        // Группа с наибольшими правами
+        $result = $this->db
+                            ->select_max('group_id')
+                            ->from(TABLE_USERS_GROUPS)
+                            ->where('user_id ='.$id)
+                            ->get()
+                            ->result();
+        return $result ? $result[0]->group_id : FALSE;
+    }
+    
     function get_from_post()
     {
         $fields = array(
