@@ -92,16 +92,24 @@ define('MODEL_ION_AUTH',    'ion_auth_model');          /// библиотека
 | User model
 |--------------------------------------------------------------------------
 */
-define('USER_GROUP_GUEST', 0);			/// неавторизованный пользователь
-define('USER_GROUP_ADMIN', 555100);		/// администраторы
-define('USER_GROUP_GENERAL', 555101);	/// обычный авторизованный пользователь
-
-define('ION_USER_ADMIN', 1);
+define('ION_USER_ADMIN', 1); // не использовать бы этот вариант...
 define('ION_USER_STUDENT', 2);
 define('ION_USER_LECTURER', 3);
+define('USER_GROUP_ADMIN', 1);
+define('USER_GROUP_STUDENT', 2);
+define('USER_GROUP_LECTURER', 3);
+
 
 define('NOIMAGE', '/images/site/no-image_2.jpg');          /// Картика, которая выводится, если нет изображения
 define('NOPHOTO', '/images/site/nophoto.jpg');          /// Картинка, которая выводится, если нет фотографии
+
+
+/*
+|--------------------------------------------------------------------------
+| News model
+|--------------------------------------------------------------------------
+*/
+define('AMOUNT_LAST_NEWS', 4); // Максимальное количество выводимых последних новостей
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

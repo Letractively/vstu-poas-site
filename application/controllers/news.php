@@ -11,7 +11,6 @@ class News extends CI_Controller {
 		lang();
 	}
 
-	/// Главная страница сайта
 	function index()
 	{
 		$data['title'] = "Сайт кафедры ПОАС";

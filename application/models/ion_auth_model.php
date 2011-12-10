@@ -672,14 +672,15 @@ class Ion_auth_model extends CI_Model
 		if ($query->num_rows() == 1)
 	    {
 			$password = $this->hash_password_db($user->id, $password);
-
+			
 			if ($user->password === $password)
 			{
 				$session_data = array(
 					'username'             => $user->username,
 					'email'                => $user->email,
 					'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
-					'old_last_login'       => $user->last_login
+					'old_last_login'       => $user->last_login,
+					'user_max_group'	   => $this->user_model->get_max_user_group($user->id)
 				);
 
 				$this->update_last_login($user->id);

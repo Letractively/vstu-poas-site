@@ -142,14 +142,10 @@
 			<div id="content-box-in-right">
 				<div id="content-box-in-right-in">
 					<h3><?php echo $this->lang->line('news');?></h3>
-						<dl>
-							<dt>15 ноября, 2011</dt>
-								<dd>Закончилась XVI Региональная конференция молодых исследователей Волгоградской области...</dd>
-							<dt>10 ноября, 2011</dt>
-								<dd>Состоялось слушание работ...</dd>
-							<dt>1 января, 2011</dt>
-								<dd>В лесу родилась елочка, в лесу она росла...</dd>
-						</dl>
+						<?
+						$ci = get_instance();
+						echo $ci->load->view('/news/last_news_view', NULL, TRUE);
+						?>
                     <h3><?php echo $this->lang->line('conferences');?></h3>
                         <dl>
 							<dt>8 ноября, 2011</dt>

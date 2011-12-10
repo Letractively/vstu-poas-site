@@ -20,6 +20,7 @@ if( ! isset($news->notice_ru)) 	$news->notice_ru = '';
 if( ! isset($news->text_ru)) 	$news->text_ru = '';
 if( ! isset($news->text_en)) 	$news->text_en = '';
 if( ! isset($news->name_en)) 	$news->name_en = '';
+if( ! isset($news->category)) 	$news->category = '0';
 if( ! isset($news->notice_en) || $news->notice_en == '' ) { $news->notice_en = ''; $is_there_en = FALSE; }
 
 echo form_open('admin/news/'.$action.'/action');
@@ -39,6 +40,14 @@ else
 }
 echo br();
 
+echo form_label('Категория', 'news_category', array('class' => 'inline-block'));
+echo form_dropdown('news_category',
+	array(
+	'1'  => 'Для всех',
+	'2'  => 'Для студентов и преподавателей',
+	'3'  => 'Для преподавателей'
+	), 
+	$news->category);
 
 echo form_label('Анонс', 'news_notice_ru', array('class'=>'inline-block', 'style'=>'height:21px'));
 echo form_textarea('news_notice_ru', $news->notice_ru, 'class="elrte_editor_mini"').br();
@@ -48,8 +57,6 @@ echo form_textarea('news_text_ru', $news->text_ru, 'class="elrte_editor"').br();
 
 
 echo '<hr/>';
-
-
 
 $data_for_checkbox = array( 
 	'name'		=> 'is_news_en',
@@ -62,14 +69,17 @@ $data_for_checkbox = array(
 echo form_label('Английская версия статьи', 'is_news_en', array('class'=>'inline'));
 echo form_checkbox($data_for_checkbox).br().br();
 
-if( $is_there_en )
+// Поля для английской версии новости. Если английской версии нет, поля скрываем
+if( !$is_there_en )
 {
-	echo '<div class="news_en_version js_obj_hidden">';
+	echo '<script>	
+	$(document).ready(function(){
+		$("#news_en_version").css("display", "none");
+	});
+	</script>';
 }
-else 
-{
-	echo '<div class="news_en_version js_obj_hidden" style="display:none">';
-}
+echo '<div id="news_en_version" class="news_en_version js_obj_hidden">';
+
 echo form_label('Name', 'news_name_en', array('class'=>'inline-block'));
 echo form_input('news_name_en', $news->name_en, 'maxlength="40"').br();
 
