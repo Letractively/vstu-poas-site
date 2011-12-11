@@ -29,7 +29,7 @@ if (!isset($errors->nameenforgotten))           {$errors->nameenforgotten = fals
 if (!isset($errors->descriptionenforgotten))    {$errors->descriptionenforgotten = false;};
 if (!isset($errors->imageuploaderror))          {$errors->imageuploaderror = false;};
 
-echo form_open_multipart('admin/projects/'.$action.'/action');
+echo form_open_multipart('admin/projects/'.$action.'/action', array('class' => 'gray_form'));
 
 echo form_label('Название проекта (русское)*', 'project_name_ru', array('class' => 'inline-block'));
 echo form_input('project_name_ru', set_value('project_name_ru', $project->name_ru), 'class="long"');

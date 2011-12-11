@@ -21,7 +21,7 @@ if (!isset($publication->info_ru))          {$publication->info_ru = '';}
 if (!isset($publication->info_en))          {$publication->info_en = '';}
 
 
-echo form_open('admin/publications/'.$action.'/action');
+echo form_open('admin/publications/'.$action.'/action', array('class' => 'gray_form'));
 
 // Вывод названия публикации на русском (обязательный параметр)
 echo form_label('Название публикации (русское)*', 'publication_name_ru', array('class' => 'inline-block'));

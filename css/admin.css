@@ -228,7 +228,7 @@ blockquote {
 	text-align:right;
 	}
 
-form {
+form.gray_form {
 	margin: 15px 10px 15px 10px;
 	padding: 10px 15px 10px 15px;
 	background-color: #e8e8e8;

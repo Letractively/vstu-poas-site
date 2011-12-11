@@ -10,8 +10,8 @@
 	
 	<link type="text/css" href="/js/jquery-ui/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 	
-	<script src="/js/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
-	<!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js" type="text/javascript"></script>-->
+	<!--  <script src="/js/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script> -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js" type="text/javascript"></script>
 		
 	<script src="/js/elrte-1.3/js/elrte.min.js"  type="text/javascript"></script>
 	<script src="/js/elrte-1.3/js/i18n/elrte.ru.js" type="text/javascript" charset="utf-8"></script>
@@ -19,6 +19,12 @@
     <script src="/js/jquery.form.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="/js/elrte-1.3/css/elrte.min.css" type="text/css" media="all" />
 	
+	<?php // Подключаем elfinder (файловый менеджер) ?>
+	<link rel="stylesheet" type="text/css" media="screen" href="/js/elfinder2/css/elfinder.full.css" />
+	<script type="text/javascript" src="/js/elfinder2/js/elfinder.full.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="/js/elfinder2/css/theme.css" />
+	<script type="text/javascript" src="/js/elfinder2/js/i18n/elfinder.ru.js"></script>
+	<?php // end elfinder?>
 
 	<script src="/js/admin.js"  type="text/javascript"></script>
 </head>
@@ -75,7 +81,7 @@
 					<i>Какой-то египтянен</i>
 					<?php endif;?>
 				</div>
-				<p class="metadata"><a href="#" class="postcomment">Да ну нафиг?</a></p>
+				<p class="metadata"><a href="#" class="postcomment">Техподдержка в отпуске</a></p>
 			</div>
 
 			<div class="postpagesnav">

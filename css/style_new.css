@@ -84,7 +84,7 @@ overflow: hidden;
 /* Paragraphs, headings, ... */
 
 p {
-line-height: 170%;   /** @todo ЧТО ЗА ПРИКОЛ? */
+line-height: 170%;
 margin-bottom: 10px;
 color: #003B69;
 }
@@ -552,6 +552,22 @@ font-size: 1.1em;
   line-height: 0.9em;
 }
 
+img.img_after_news
+{
+  float:left;
+}
+
+div.attached_files
+{
+	margin: 30px 0 0 38px;
+	line-height: 170%;
+	color: #003B69;
+	font-style: italic;
+}
+div.attached_files ul
+{
+	margin: 5px 0 0 30px;
+}
 
 /* Форма авторизации*/
 #form_login {width:270px; background:#add2ea; border:1px solid white; padding: 1em; -webkit-border-radius: 10px 40px 10px 10px; border-radius: 10px 40px 10px 10px;}

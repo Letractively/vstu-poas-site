@@ -1,3 +1,4 @@
+<div id="elfinder"></div>
 <div id="form_edit">
 <?php
 if(!isset($news->name_ru)) 
@@ -14,16 +15,19 @@ else
 }
 
 $is_there_en = TRUE;
+$is_photo_show = TRUE;
 if( ! isset($news->url)) 		$news->url 		= '';
 if( ! isset($news->name_ru)) 	$news->name_ru 	= '';
 if( ! isset($news->notice_ru)) 	$news->notice_ru = '';
 if( ! isset($news->text_ru)) 	$news->text_ru = '';
 if( ! isset($news->text_en)) 	$news->text_en = '';
 if( ! isset($news->name_en)) 	$news->name_en = '';
+if( ! isset($news->is_photo_show) || $news->is_photo_show == 0) $is_photo_show = FALSE;	
 if( ! isset($news->category)) 	$news->category = '0';
 if( ! isset($news->notice_en) || $news->notice_en == '' ) { $news->notice_en = ''; $is_there_en = FALSE; }
+if( !isset($news->id)) $news->directory = 'error'; else $news->directory = 'news/'.$news->id;
 
-echo form_open('admin/news/'.$action.'/action');
+echo form_open('admin/news/'.$action.'/action', array('class' => 'gray_form'));
 echo form_label('Название', 'news_name_ru', array('class'=>'inline-block'));
 echo form_input('news_name_ru', $news->name_ru, 'maxlength="40"').br();
 if( $action == 'edit' )
@@ -33,7 +37,7 @@ if( $action == 'edit' )
 	echo form_label('Не изменять url-адрес', 'news_url_not_change', array('class'=>'inline'));
 	echo form_checkbox('news_url_not_change', 'url_not_change', TRUE, 'class="js_checkbox_visability"');
 }
-else 
+else
 {
 	echo form_label('Url-адрес', 'news_url', array('class'=>'inline-block'));
 	echo form_input('news_url', $news->url, 'class="valid_url"');
@@ -48,12 +52,23 @@ echo form_dropdown('news_category',
 	'3'  => 'Для преподавателей'
 	), 
 	$news->category);
+	
+$data_for_checkbox = array( 
+	'name'		=> 'news_is_photo_show',
+	'id'		=> 'news_is_photo_show',
+	'value'		=> 'news_is_photo_show',
+	'checked'	=> $is_photo_show,
+	);
+
+echo form_label('Показать прикреплённые фотографии в конце новости', 'news_is_photo_show', array('class'=>'inline-block'));
+echo form_checkbox($data_for_checkbox).br().br();
+	
 
 echo form_label('Анонс', 'news_notice_ru', array('class'=>'inline-block', 'style'=>'height:21px'));
-echo form_textarea('news_notice_ru', $news->notice_ru, 'class="elrte_editor_mini"').br();
+echo form_textarea('news_notice_ru', $news->notice_ru, 'class="elrte_editor_news_mini"').br();
 
 echo form_label('Текст статьи', 'news_text_ru', array('class'=>'inline-block', 'style'=>'height:21px'));
-echo form_textarea('news_text_ru', $news->text_ru, 'class="elrte_editor"').br();
+echo form_textarea('news_text_ru', $news->text_ru, 'class="elrte_editor_news"').br();
 
 
 echo '<hr/>';
@@ -84,10 +99,10 @@ echo form_label('Name', 'news_name_en', array('class'=>'inline-block'));
 echo form_input('news_name_en', $news->name_en, 'maxlength="40"').br();
 
 echo form_label('Notice', 'news_notice_en', array('class'=>'inline-block', 'style'=>'height:21px'));
-echo form_textarea('news_notice_en', $news->notice_en, 'class="elrte_editor_mini"').br();
+echo form_textarea('news_notice_en', $news->notice_en, 'class="elrte_editor_news_mini"').br();
 
 echo form_label('Text of news', 'news_text_en', array('class'=>'inline-block', 'style'=>'height:21px'));
-echo form_textarea('news_text_en', $news->text_en, 'class="elrte_editor"').br();
+echo form_textarea('news_text_en', $news->text_en, 'class="elrte_editor_news"').br();
 echo '</div>';
 
 
@@ -99,3 +114,49 @@ echo form_submit('news_submit', $button_title);
 echo form_close();
 ?>
 </div>
+
+<script>
+/** Подключение HTML редактора в к объектам с классом "elrte_editor" */
+var dialog;
+<?php if($news->directory != 'error'): ?>
+function open_elfinder_news(callback)
+{
+	if (typeof dialog === "undefined")
+	{
+		dialog = $('#elfinder').dialogelfinder({
+			url: '/elfinder_connector',
+			customData: {
+				dir: '<?=$news->directory;?>',
+				obj_type: <?=OBJ_TYPE_NEWS;?>,
+				obj_id: <?=$news->id;?>
+			},
+			commandsOptions: {getfile: {oncomplete : 'close'}},
+			getFileCallback: callback
+		});
+	} else {dialog.dialogelfinder('open');}
+};
+<? endif;?>
+
+var elrte_options_news = {
+	lang         : 'ru',
+	styleWithCSS : false,
+	height       : 320,
+	fmAllow		 : true,
+	toolbar      : 'maxi' 
+	<?php if($news->directory != 'error'): ?>
+	, fmOpen : open_elfinder_news
+	<? endif;?>
+};
+var elrte_options_news_mini = {
+		lang         : 'ru',
+		styleWithCSS : false,
+		height       : 140,
+		fmAllow		 : true,
+		toolbar      : 'maxi' 
+		<?php if($news->directory != 'error'): ?>
+		, fmOpen : open_elfinder_news
+		<? endif;?>
+	};
+$('.elrte_editor_news').elrte(elrte_options_news);
+$('.elrte_editor_news_mini').elrte(elrte_options_news_mini);
+</script>

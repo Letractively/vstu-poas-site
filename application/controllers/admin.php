@@ -10,41 +10,10 @@ class Admin extends CI_Controller {
             $this->output->enable_profiler(TRUE);
 		$this->load->database('default');
 		$this->load->model('user_model');
-        $this->_check_admin();
+		lang();
+        $this->user_model->check_admin();
 	}
 
-	function _check_admin()
-    {
-        $this->lang->load('site', 'russian');
-        if (!$this->ion_auth->logged_in())
-        {
-            // Если не авторизован - предложить форму авторизации
-            $data['content'] = $this->load->view('/login_view', NULL, TRUE);
-            $data['active'] = 'none';
-            $data['title'] = 'Авторизация пользователя';
-			echo $this->load->view('templates/new_main_view', $data, TRUE);
-            die();
-            return FALSE;
-        }
-        else
-        {
-            if ($this->ion_auth->is_admin())
-            {
-                // Если авторизован и администратор - пропустить пользователя
-                return TRUE;
-            }
-            else
-            {
-                // Если авторизован, но не администратор - вывести сообщение про недостаточный
-                // уровень доступа
-                $data['content'] = $this->lang->line('errornotadmin');
-                $data['title'] = $this->lang->line('errornotadmin');
-                echo $this->load->view('templates/new_main_view', $data, TRUE);
-                die('NOT ADMIN');
-                return FALSE;
-            }
-        }
-    }
 	/** Главная страница админки */
 	function index()
 	{
@@ -165,7 +134,7 @@ class Admin extends CI_Controller {
         return !$result;
     }
 
-    /*
+    /**
      * Проверка, заполнены ли все поля для английской версии проекта
      * @return TRUE, если заполнены все необходимые поля или ни одно из полей
      */
@@ -181,7 +150,7 @@ class Admin extends CI_Controller {
         return TRUE;
     }
 
-    /*
+    /**
      * Проверка, заполнены ли все необходимые для английской версии направления
      * @return TRUE, если заполнены все необходимые поля или ни одно из полей
      */
@@ -201,7 +170,7 @@ class Admin extends CI_Controller {
         }
     }
 
-    /*
+    /**
      * Проверить заполненность полей для английской версии проекта.
      * @param $string
      * @return TRUE, если заполнены все поля или ни одно из полей

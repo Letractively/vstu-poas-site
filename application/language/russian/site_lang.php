@@ -106,3 +106,4 @@ $lang['publication_fulltext_link_ru'] = 'ссылка(ru)';
 $lang['publication_fulltext_file_ru'] = 'скачать с сайта(ru)';
 $lang['publication_fulltext_link_en'] = 'ссылка(en)';
 $lang['publication_fulltext_file_en'] = 'скачать с сайта(en)';
+$lang['attached_files'] = 'Прикреплённые файлы';
