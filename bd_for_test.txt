@@ -1,17 +1,168 @@
--- phpMyAdmin SQL Dump
--- version 3.2.3
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Dec 10, 2011 at 10:47 PM
--- Server version: 5.1.40
--- PHP Version: 5.3.3
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
+
+CREATE TABLE IF NOT EXISTS `courses` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `year` int(10) unsigned NOT NULL,
+  `course` set('1','2','3','4','5','6','pg1','pg2','pg3','pg4','d1','d2','d3') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
 --
--- Database: `poas`
+-- Dumping data for table `courses`
 --
+
+INSERT INTO `courses` (`id`, `year`, `course`) VALUES
+(1, 2011, '5'),
+(2, 2010, '4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `directions`
+--
+
+CREATE TABLE IF NOT EXISTS `directions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name_ru` varchar(300) NOT NULL,
+  `name_en` varchar(300) DEFAULT NULL,
+  `full_ru` text,
+  `full_en` text,
+  `image` int(10) unsigned DEFAULT NULL,
+  `short_ru` text NOT NULL,
+  `short_en` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `directions`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `direction_members`
+--
+
+CREATE TABLE IF NOT EXISTS `direction_members` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) unsigned NOT NULL,
+  `directionid` int(10) unsigned NOT NULL,
+  `ishead` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `direction_members`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `files`
+--
+
+CREATE TABLE IF NOT EXISTS `files` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `files`
+--
+
+INSERT INTO `files` (`id`, `name`) VALUES
+(1, 'uploads/users/dvoryankin.jpg'),
+(2, 'uploads/users/a29_1.jpg'),
+(3, 'uploads/users/gladkova.jpg'),
+(4, 'uploads/users/a_081.jpg'),
+(5, 'uploads/users/DSCF3252_-_small.JPG'),
+(6, 'uploads/users/2.jpg'),
+(7, 'uploads/users/foto.png'),
+(8, 'uploads/users/33333.jpg'),
+(9, 'uploads/users/x_0df8fe85.jpg'),
+(10, 'uploads/publications/Ерофеев_-_Тезисы.doc');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `files_elfinder`
+--
+
+CREATE TABLE IF NOT EXISTS `files_elfinder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `filename` varchar(80) NOT NULL,
+  `mime` varchar(256) DEFAULT NULL,
+  `obj_type` tinyint(4) NOT NULL,
+  `obj_id` int(11) NOT NULL,
+  `size` varchar(20) NOT NULL COMMENT 'размер файла в байтах',
+  PRIMARY KEY (`id`),
+  KEY `obj_id` (`obj_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=14 ;
+
+
+--
+-- Table structure for table `groups`
+--
+
+CREATE TABLE IF NOT EXISTS `groups` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES
+(1, 'admin', 'Administrator'),
+(2, 'student', 'Student'),
+(3, 'lecturer', 'Lecturers');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `interests`
+--
+
+CREATE TABLE IF NOT EXISTS `interests` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `short` varchar(10) NOT NULL,
+  `full` varchar(100) NOT NULL,
+  `userid` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53 ;
+
+--
+-- Dumping data for table `interests`
+--
+
+INSERT INTO `interests` (`id`, `short`, `full`, `userid`) VALUES
+(28, 'ИСПР', 'Интеллектуальные системы принятия решений', 3),
+(25, 'МиАСО', 'Моделирование и анализ сложных объектов на основе качественных рассуждений', 3),
+(26, 'МПР', 'Модели представления знаний', 3),
+(27, 'ИИ', 'Искусственный интеллект', 3),
+(30, 'ИИ', 'Искусственный интеллект', 4),
+(31, 'ИСПР', 'Интеллектуальные системы принятия решений', 4),
+(32, 'ПЗ', 'Представление знаний', 4),
+(13, 'ИИ', 'Искусственный интеллект', 5),
+(14, 'СДО', 'Системы дистранционного обучения', 5),
+(15, 'АТ', 'Адаптивное тестирование', 5),
+(16, 'ИТ', 'Интеллектуальные тренажеры', 5),
+(29, 'АР', 'Автоматизация рассуждений', 4),
+(50, 'СДО', 'Системы дистранционного обучения', 6),
+(52, 'СДО', 'Системы дистанционного обучения', 8),
+(45, 'РСОИ', 'Распределенные системы обработки информации', 13),
+(44, 'МТ', 'Методы трансляции', 13),
+(43, 'ОК', 'Оптимизирующие компиляторы', 13),
+(46, 'СДО', 'Системы дистанционного обучения', 12),
+(47, 'ИТ', 'Интеллектуальные тренажеры', 12),
+(51, 'ИТ', 'Интеллектуальные тренажеры', 6);
 
 -- --------------------------------------------------------
 
@@ -31,14 +182,238 @@ CREATE TABLE IF NOT EXISTS `news` (
   `category` enum('Все','Университет','Преподаватели') NOT NULL DEFAULT 'Все',
   `time` datetime NOT NULL,
   `update` datetime NOT NULL,
+  `is_photo_show` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+
+CREATE TABLE IF NOT EXISTS `partners` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name_ru` varchar(300) NOT NULL,
+  `name_en` varchar(300) DEFAULT NULL,
+  `short_ru` text NOT NULL,
+  `short_en` text,
+  `full_ru` text NOT NULL,
+  `full_en` text,
+  `url` varchar(300) DEFAULT NULL,
+  `image` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+
+
+CREATE TABLE IF NOT EXISTS `projects` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name_ru` varchar(150) NOT NULL,
+  `name_en` varchar(150) DEFAULT NULL,
+  `description_ru` varchar(800) NOT NULL,
+  `description_en` varchar(800) DEFAULT NULL,
+  `url` varchar(150) DEFAULT NULL,
+  `image` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `news`
+-- Dumping data for table `projects`
 --
 
-INSERT INTO `news` (`id`, `url`, `name_ru`, `name_en`, `notice_ru`, `notice_en`, `text_ru`, `text_en`, `category`, `time`, `update`) VALUES
-(1, 'test_novosti', 'Тестовое название', '', 'Анонс новости тут', '', 'Полный текст новости здесь', 'fgh', 'Университет', '2011-12-09 21:17:31', '2011-12-09 21:17:31'),
-(2, 'privet', 'Привет', 'Ancle papa my frindly friend and sddsfsd', 'Я ваша тётя', 'Hello my dear frend, how are you? What aboun your family?', 'А я не ваша', 'Hello my dear frend, how are you? What aboun your family?  Hello my dear frend, how are you? What aboun your family?  Hello my dear frend, how are you? What aboun your family?<div>Hello my dear frend, how are you? What aboun your family?</div>', 'Преподаватели', '2011-12-10 04:52:24', '2011-12-10 04:52:24'),
-(3, 'elki_matalki', 'Елки маталки', '', 'Знаете ли вы, что такое ПУТИН на французском языке?', '', '<p>Фамилия Путин, которая пишется по-французски «putin», что означает \r\n«проститутка». Да, конечно, это очень некорректно, что имя русского \r\nпрезидента звучит «проститутка» в другом языке. Мы могли бы, конечно, \r\nздесь возразить, что это русское слово «путь». Но, дело в том, что \r\nфамилия Путин, искусственная фамилия. Есть слово «путь», но фамилия \r\nПутин произошла в русском языке неизвестно от чего, то ли от первого, то\r\n ли от второго значения слова. Будем надеяться, что от слова «путь»...</p><p>Вот теперь мы и подходим к тому, из-за чего \r\nфранцузский считается языком дипломатии. В написанных на нем официальных\r\n документах и с завидным постоянством во французской прессе фамилию \r\nВладимира Путина пишут ''Poutine'' и произносят, естественно, как \r\n''пу-ТИН'', с ударением на второй слог, рифмуя ее с "routine". Французам, \r\nвне всякого сомнения, известно, что так не произносит ее ни он сам, ни \r\nего соотечественники, ни даже президент Буш, который, как известно, \r\nзаглядывал ему даже в душу. Кстати, предваряя поток писем из Квебека, \r\nсразу скажу: да, мне известно, что ''poutine'' - это такая еда во \r\nФранцузской Канаде: жареная картошка, залитая сыром и доброй порцией \r\nсоленого соуса. Очень вкусно.  </p>', '', 'Все', '2011-12-10 06:37:34', '2011-12-10 06:37:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_members`
+--
+
+CREATE TABLE IF NOT EXISTS `project_members` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) unsigned NOT NULL,
+  `projectid` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `project_members`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `publications`
+--
+
+CREATE TABLE IF NOT EXISTS `publications` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name_ru` varchar(300) NOT NULL,
+  `name_en` varchar(300) DEFAULT NULL,
+  `info_ru` varchar(300) DEFAULT NULL,
+  `info_en` varchar(300) DEFAULT NULL,
+  `fulltext_ru` varchar(300) DEFAULT NULL COMMENT 'Link to the document or NULL',
+  `fulltext_en` varchar(300) DEFAULT NULL COMMENT 'Link to the document or NULL',
+  `abstract_ru` varchar(300) DEFAULT NULL COMMENT 'Link to the document or NULL',
+  `abstract_en` varchar(300) DEFAULT NULL COMMENT 'Link to the document or NULL',
+  `year` int(10) unsigned NOT NULL,
+  `fulltext_ru_file` int(11) DEFAULT NULL,
+  `fulltext_en_file` int(11) DEFAULT NULL,
+  `abstract_ru_file` int(11) DEFAULT NULL,
+  `abstract_en_file` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `publications`
+--
+
+INSERT INTO `publications` (`id`, `name_ru`, `name_en`, `info_ru`, `info_en`, `fulltext_ru`, `fulltext_en`, `abstract_ru`, `abstract_en`, `year`, `fulltext_ru_file`, `fulltext_en_file`, `abstract_ru_file`, `abstract_en_file`) VALUES
+(1, 'Модуль выдачи и проверки индивидуальных заданий для СДО Moodle', NULL, NULL, '0', NULL, NULL, NULL, NULL, 2011, 10, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `publication_authors`
+--
+
+CREATE TABLE IF NOT EXISTS `publication_authors` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) unsigned NOT NULL,
+  `publicationid` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `publication_authors`
+--
+
+INSERT INTO `publication_authors` (`id`, `userid`, `publicationid`) VALUES
+(1, 8, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(25) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `name_ru` varchar(30) NOT NULL,
+  `surname_ru` varchar(30) NOT NULL,
+  `patronymic_ru` varchar(30) NOT NULL,
+  `photo` int(10) unsigned DEFAULT NULL,
+  `name_en` varchar(30) NOT NULL,
+  `surname_en` varchar(30) CHARACTER SET utf8 COLLATE utf8_danish_ci NOT NULL,
+  `patronymic_en` varchar(30) NOT NULL,
+  `address_ru` varchar(300) DEFAULT NULL,
+  `cv_ru` text,
+  `cv_en` text,
+  `cabinet` varchar(10) DEFAULT NULL,
+  `skype` varchar(30) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `url` varchar(150) DEFAULT NULL,
+  `rank_ru` varchar(100) DEFAULT NULL,
+  `post_ru` varchar(100) DEFAULT NULL,
+  `info_ru` text,
+  `info_en` text,
+  `rank_en` varchar(100) DEFAULT NULL,
+  `post_en` varchar(100) DEFAULT NULL,
+  `address_en` varchar(300) DEFAULT NULL,
+  `teaching_ru` text,
+  `teaching_en` text,
+  `ip_address` int(10) unsigned NOT NULL,
+  `salt` varchar(40) DEFAULT NULL,
+  `created_on` int(11) unsigned NOT NULL,
+  `last_login` int(11) unsigned DEFAULT NULL,
+  `active` tinyint(1) unsigned DEFAULT NULL,
+  `activation_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_code` varchar(40) DEFAULT NULL,
+  `remember_code` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `name_ru`, `surname_ru`, `patronymic_ru`, `photo`, `name_en`, `surname_en`, `patronymic_en`, `address_ru`, `cv_ru`, `cv_en`, `cabinet`, `skype`, `phone`, `url`, `rank_ru`, `post_ru`, `info_ru`, `info_en`, `rank_en`, `post_en`, `address_en`, `teaching_ru`, `teaching_en`, `ip_address`, `salt`, `created_on`, `last_login`, `active`, `activation_code`, `forgotten_password_code`, `remember_code`) VALUES
+(1, 'admin', '5d0513311c47ced7975ab50810046f1a3b61a84a', NULL, 'Администратор', 'Сайта', 'I', NULL, 'Administrator', 'Site', 'I', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, 1323573069, 1, NULL, NULL, '800d9d46d32086f16e8b8899911691976a1ef76f'),
+(2, 'dvorjankin', '6d28bbe098fce88c25290be4975126bf9f36af36', 'dvam@vstu.ru', 'Александр', 'Дворянкин', 'Михайлович', 1, 'Alexander', 'Dvorjankin', 'Mikhailovich', NULL, NULL, NULL, 'B905', NULL, '+7(8442)24-84-86', NULL, 'д.т.н., профессор', 'Заведующий кафедрой', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323363268, 1323363268, 1, NULL, NULL, NULL),
+(3, 'zhukova', '5815d9843c5dddbc552776384321cfd7d8c1eeb7', 'zhukova.ir@gmail.com', 'Ирина', 'Жукова', 'Георгиевна', NULL, 'Irina', 'Zhukova', 'Georgievna', 'ВолгГТУ\r\nпр. Ленина 28, УЛК-5,\r\n400131, Волгоград', '<table style="" width:522.8pt;border-collapse:collapse;border:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt;border-width:1px;border-style:solid"="" width="697" cellpadding="0" cellspacing="0">\r\n <tbody><tr>\r\n  <td style="" width:111.75pt;border:solid="" black="" 1.0pt;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="149">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal""="">Данные об\r\n  образовании</p>\r\n  </td>\r\n  <td style="" width:411.05pt;border:solid="" black="" 1.0pt;border-left:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="548">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1986-1992\r\n  гг. – диплом с отличием, &nbsp;Волгоградский\r\n  политехнический институт, инженер-системотехник по специальности 2203 “Системы\r\n  автоматизированного проектирования” </p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1993 -1996\r\n  - аспирант ВолгГТУ</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1999 г. –\r\n  диплом кандидата технических наук, </p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">диплом: КТ\r\n  N 001634</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2003 –\r\n  2006 - докторант ВолгГТУ</p>\r\n  </td>\r\n </tr>\r\n</tbody></table>  <br>\r\n<table style="" width:522.8pt;border-collapse:collapse;border:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt;border-width:1px;border-style:solid"="" width="697" cellpadding="0" cellspacing="0">\r\n <tbody><tr>\r\n  <td style="" width:111.75pt;border:solid="" black="" 1.0pt;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="149">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal""="">Данные о\r\n  трудовой деятельности</p>\r\n  </td>\r\n  <td style="" width:411.05pt;border:solid="" black="" 1.0pt;border-left:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="548">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1993 -\r\n  1998 – ассистент кафедры САПР, ВолгГТУ</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1998 –\r\n  2006 - доцент кафедры САПР, ВолгГТУ</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2006 –\r\n  настоящее время - доцент кафедры ПОАС, ВолгГТУ</p>\r\n  </td>\r\n </tr>\r\n</tbody></table>', NULL, 'B904', NULL, '+7(8442)24-84-86', NULL, 'к.т.н. доцент', 'доцент', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323363448, 1323363448, 1, NULL, NULL, NULL),
+(4, 'kultsova', '9cdee55687fb2b09c0bdcd6ef7833b4f7bcc0a50', NULL, 'Марина', 'Кульцова', 'Борисовна', NULL, 'Marina', 'Kultsova', 'Borisovna', NULL, '<table style="" width:522.8pt;border-collapse:collapse;border:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt;border-width:1px;border-style:solid"="" width="697" cellpadding="0" cellspacing="0">\r\n <tbody><tr>\r\n  <td style="" width:111.75pt;border:solid="" black="" 1.0pt;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="149">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal""="">Данные об\r\n  образовании</p>\r\n  </td>\r\n  <td style="" width:411.05pt;border:solid="" black="" 1.0pt;border-left:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="548">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1988 –\r\n  окончила с красным дипломом Волгоградский государственный университет,\r\n  физический факультет, специальность «Теоретическая физика»;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1998 – защита\r\n  кандидатской диссертации по специальности 05.13.16;номер сертификата ВАК: КТ №055812</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2003 –\r\n  2006 - докторант ВолгГАСУ</p>\r\n  </td>\r\n </tr>\r\n</tbody></table>  <br>\r\n<table style="" width:522.8pt;border-collapse:collapse;border:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt;border-width:1px;border-style:solid"="" width="697" cellpadding="0" cellspacing="0">\r\n <tbody><tr>\r\n  <td style="" width:111.75pt;border:solid="" black="" 1.0pt;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="149">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal""="">Данные о\r\n  трудовой деятельности</p>\r\n  </td>\r\n  <td style="" width:411.05pt;border:solid="" black="" 1.0pt;border-left:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="548">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1988-1990\r\n  – инженер каф. САПР и ПК Волгоградского государственного политехнического\r\n  института;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1990-1993\r\n  – ассистент каф. САПР и ПК Волгоградского государственного политехнического\r\n  института;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1993-1996\r\n  -&nbsp; аспирант каф. САПР и ПК\r\n  Волгоградского государственного политехнического института;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1996-1998\r\n  – ст. преподаватель каф. САПР и ПК Волгоградского государственного\r\n  технического университета;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1998 –\r\n  2003 - доцент каф. САПР и ПК Волгоградского государственного технического\r\n  университета;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2003 –\r\n  2006 - докторант ВолгГАСУ;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2006 –\r\n  наст.&nbsp; время - доцент каф. ПОАС\r\n  Волгоградского государственного технического университета.</p>\r\n  </td>\r\n </tr>\r\n</tbody></table>', NULL, NULL, NULL, NULL, NULL, 'к.т.н., доцент', 'доцент', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323363873, 1323363873, 1, NULL, NULL, NULL),
+(5, 'litovkin', 'be51b4d6f848a24071319ce66f59a64dfc7b0e73', NULL, 'Дмитрий', 'Литовкин', 'Васильевич', 2, 'Dmitry', 'Litovkin', 'Vasilievich', NULL, '<table style="" width:522.8pt;border-collapse:collapse;border:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt;border-width:1px;border-style:solid"="" width="697" cellpadding="0" cellspacing="0">\r\n <tbody><tr>\r\n  <td style="" width:111.75pt;border:solid="" black="" 1.0pt;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="149">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal""="">Данные об\r\n  образовании</p>\r\n  </td>\r\n  <td style="" width:411.05pt;border:solid="" black="" 1.0pt;border-left:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="548">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1994 –\r\n  поступил в Волгоградский государственный технический университет, факультет\r\n  электроники и вычислительной техники </p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1998 —\r\n  присуждена степень бакалавра техники и технологий по направлению «Информатика\r\n  и вычислительная техника» (диплом с отличием);</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1999 –\r\n  присуждена квалификация инженер-системотехник по специальности\r\n  «Автоматизированные системы обработки информации и управления» (диплом с\r\n  отличием);</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2000-2002\r\n  – аспирант кафедры САПР и ПК Волгоградского государственного университета.</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2004 г. –\r\n  защита кандидатской диссертации по специальности 05.13.01 «Си­стемный анализ,\r\n  управление и обработка информации». Номер диплома ВАК: КТ №126473.</p>\r\n  </td>\r\n </tr>\r\n</tbody></table>  <br>\r\n<table style="" width:522.8pt;border-collapse:collapse;border:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt;border-width:1px;border-style:solid"="" width="697" cellpadding="0" cellspacing="0">\r\n <tbody><tr>\r\n  <td style="" width:111.75pt;border:solid="" black="" 1.0pt;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="149">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal""="">Данные о трудовой\r\n  деятельности</p>\r\n  </td>\r\n  <td style="" width:411.05pt;border:solid="" black="" 1.0pt;border-left:none;padding:0cm="" 5.4pt="" 0cm="" 5.4pt";vertical-align:top"="" width="548">\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">1997-2000\r\n  — инженер кафедры экспериментальной физики Волгоградского государственного\r\n  технического университета;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2003 –\r\n  ассистент кафедры САПР и ПК Волгоградского государственного технического\r\n  университета;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2003-2006\r\n  — старший преподаватель кафедры САПР и ПК Волгоградского государственного\r\n  технического университета;</p>\r\n  <p style="" margin-bottom:0cm;margin-bottom:.0001pt;text-align:justify;line-height:normal""="">2006 –\r\n  настоящее время — старший преподаватель кафедры ПОАС Волгоградского\r\n  государственного технического университета.</p>\r\n  </td>\r\n </tr>\r\n</tbody></table>', NULL, NULL, NULL, NULL, NULL, 'к.т.н.', 'ст. преподаватель', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323364215, 1323364215, 1, NULL, NULL, NULL),
+(6, 'gladkova', '1d6db24a9b1c56a9a846012d058b08def054acf3', 'libra1990@inbox.ru', 'Маргарита', 'Гладкова', 'Петровна', 3, 'Margarita', 'Gladkova', 'Petrovna', NULL, '<span style="font-weight:bold">Образование</span><br>МОУ СОШ 129, ВолгГТУ (2007-2011)<br>ВолгГТУ (2011 - …<br><br><span style="font-weight:bold">Курсы</span><br>Программирование на языке C#<br><br><span style="font-weight:bold">Планы на будущее</span><br>участие в интересных проектах<br><br>Профессиональные навыки<br>Верстка сайтов<br><br><span style="font-weight:bold">Языки программирования</span><br>C#, PHP, C++, Java<br><br><span style="font-weight:bold">Иностранные языки</span><br>технический английский<br><br><span style="font-weight:bold">Увлечения/хобби</span><br>чтение, спорт, аниме (^ ^)', NULL, NULL, 'sidius1713', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323365265, 1323365265, 1, NULL, NULL, NULL),
+(7, 'gorbachev', 'e4976bcc30508fb33f8d961bd987855da8433aae', NULL, 'Сергей', 'Горбачев', 'Павлович', 4, 'Sergei', 'Gorbachev', 'Pavlovich', NULL, '<span style="font-weight:bold">Образование</span><br>МОУ СОШ №30 города Волжского<br>ВолгГТУ(2007-*)<br><br><span style="font-weight:bold">Планы на будущее</span><br>участие в интересных проектах<br><br><span style="font-weight:bold">Профессиональные навыки</span><br>Верстка сайтов<br>Опыт разработки сайтов на базе CMSDrupal<br><br><span style="font-weight:bold">Языки программирования</span><br>PHP, C++<br><br><span style="font-weight:bold">Иностранные языки</span><br>технический английский<br><br><span style="font-weight:bold">Увлечения/хобби</span><br>PC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323365806, 1323365806, 1, NULL, NULL, NULL),
+(8, 'arkanif', 'fef7f2918cd39b234af92513a21855963a0f2131', 'yerofeyev.aa@gmail.com', 'Анатолий', 'Ерофеев', 'Андреевич', 5, 'Anatoly', 'Yerofeyev', 'Andreyevich', NULL, '<span style="font-weight:bold">Образование</span><br>Гимназия № 5 (1997-2007) <br>ВолгГТУ(2007-*)  <br><br><span style="font-weight:bold">Профессиональные навыки</span><br>опыт разработки многопоточного клиент-серверного\r\nприложения<br>опыт разработки компилятора<br>знание систем контроля версий (git, mercurial)<br>опыт работы в команде<br>\r\nзнания фреймворка Qt, .NET<br>\r\nзнаком с принципами распараллеливания программ с\r\nпомощью MPI/OpenMP<br><br><span style="font-weight:bold">Языки программирования</span><br>Java, PHP, C++<br><br><span style="font-weight:bold">Иностранные языки</span><br>английский', NULL, NULL, 'Arkanif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323366205, 1323366205, 1, NULL, NULL, NULL),
+(9, 'zhidkov', '9deea10ff6c99e61ee827d9d426d2014f1958961', 'anton.v.zhidkov@gmail.com', 'Антон', 'Жидков', 'Владимирович', NULL, 'Anton', 'Zhidkov', 'Vladimirovich', NULL, '<span style="font-weight:bold">Образование</span><br>Лицей №1 <br>ВолгГТУ(2007-*)  <br><br><span style="font-weight:bold">Планы на будущее</span><br>участие в интересных проектах  <br><br><span style="font-weight:bold">Профессиональные навыки</span><br>Верстка сайтов<br>Разработка приложений под WindowsPhone\r\n7<br>Опыт работы с MSSQLServer,\r\nWPF  <br><br><span style="font-weight:bold">Языки программирования</span><br>C#, PHP, C++<br><br><span style="font-weight:bold">Иностранные языки</span><br>технический английский<br><br><span style="font-weight:bold">Увленчения/хобби</span><br>спорт', NULL, NULL, 'anton.zhidkov', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323366604, 1323366604, 1, NULL, NULL, NULL),
+(10, 'nikolaev', '3b0682a550560306338ad3e950b30ee31885eb0f', 'nikolaev.maks@gmail.com', 'Максим', 'Николаев', 'Николаевич', 6, 'Maxim', 'Nikolaev', 'Nikolayevich', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323366687, 1323366687, 1, NULL, NULL, NULL),
+(11, 'pushkar', '0bd35b9241f249eb0e8be752c25463dca31bd372', '7semzzz@mail.ru', 'Дмитрий', 'Пушкарь', 'Викторович', 7, 'Dmitry', 'Pushkar', 'Viktorovich', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323366972, 1323366972, 1, NULL, NULL, NULL),
+(12, 'agentcoba', 'a3e715891c298d2a7900826488367a65905eeb46', 'agentcoba@yandex.ru', 'Александр', 'Сова', 'Владимирович', 8, 'Alexander', 'Sova', 'Vladimirovich', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323367122, 1323367122, 1, NULL, NULL, NULL),
+(13, 'stupnikov', 'fb46aff1129fa4016b60f595dbcf8873f30f3fa9', 'astupnikov@gmail.com', 'Андрей', 'Ступников', 'Алексеевич', 9, 'Andrew', 'Stupnikov', 'Alekseevich', NULL, '<span style="font-weight:bold">Образование</span><br>Школа № 92 (1996-2006)&nbsp; <br>ВолгГТУ (2006-2011)&nbsp; <br>МГТУ им.Баумана (2011- 2013)&nbsp; <br><br><span style="font-weight:bold">Планы на будущее&nbsp; </span><br>Поступление в аспирантуру<br><br><span style="font-weight:bold">Профессиональные навыки</span><br>опыт разработки многопоточных клиент-серверных приложений, распределенных систем обработки информации <br>опыт разработки компиляторов <br>знание систем контроля версий (git, mercurial, svn, bazaar, StarTeam) <br>знание фреймворка Qt, .NET <br>знаком с принципами параллельного программирования с помощью MPI/OpenMP&nbsp; <br>опыт работы в команде <br>коммуникабельность  <br><br><span style="font-weight:bold">Языки программирования</span><br>Java, PHP, C++, Python, ERlang<br><br><span style="font-weight:bold">Иностранные языки</span><br>английский<br><br><span style="font-weight:bold">Увлечения/хобби</span><br>Книги, пеший туризм, коллекционирование шариковых\r\nручек', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2130706433, NULL, 1323367208, 1323367208, 1, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_groups`
+--
+
+CREATE TABLE IF NOT EXISTS `users_groups` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` mediumint(8) unsigned NOT NULL,
+  `group_id` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
+
+--
+-- Dumping data for table `users_groups`
+--
+
+INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
+(24, 1, 1),
+(25, 2, 3),
+(26, 3, 3),
+(27, 4, 3),
+(28, 5, 3),
+(29, 6, 2),
+(30, 7, 2),
+(31, 8, 2),
+(32, 9, 2),
+(33, 10, 2),
+(34, 11, 2),
+(35, 12, 2),
+(36, 13, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_courses`
+--
+
+CREATE TABLE IF NOT EXISTS `user_courses` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) unsigned NOT NULL,
+  `courseid` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+
+--
+-- Dumping data for table `user_courses`
+--
+
+INSERT INTO `user_courses` (`id`, `userid`, `courseid`) VALUES
+(1, 6, 1),
+(2, 6, 2),
+(3, 7, 1),
+(4, 7, 2),
+(5, 8, 1),
+(6, 8, 2),
+(7, 9, 1),
+(8, 10, 1),
+(9, 11, 1),
+(10, 9, 2),
+(11, 10, 2),
+(12, 11, 2),
+(13, 12, 2),
+(14, 13, 2),
+(15, 12, 1);

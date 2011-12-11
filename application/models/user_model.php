@@ -430,7 +430,11 @@ class User_model extends Super_model {
     }
     
     /**
+     * Получить идентификатор группы, к которой
+     * принадлежит пользователь с данным id,
+     * и которая дает наибольшие права
      * @return int - id группы (или FALSE)
+     * @todo Выбирает первую попавшуюся группу, а не с максимальными правами. Обязателньо исправить!
      */
     function get_max_user_group($id)
     {
@@ -606,6 +610,10 @@ class User_model extends Super_model {
 
     }
     
+    /**
+     * Если пользователь администратор - ничего не делать, иначе отобразить поля ввода пароля и ничего больше.
+     * Enter description here ...
+     */
     function check_admin()
     {
         if (!$this->ion_auth->logged_in())
