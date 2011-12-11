@@ -105,7 +105,7 @@ class News_model extends CI_Model {
 		if( $news && ( ! isset($news[0]->name) || $news[0]->name == '' ) )
 		{
 			$news = $this->db
-			->select('id, time, is_photo_show, category + 0 as category, is_photo_show, name_ru as name, url, notice_ru as notice, text_ru as text' )
+			->select('id, time, is_photo_show, category + 0 as category, is_photo_show, name_ru as name, url, notice_ru as notice, DATE_FORMAT(`time`, \'%d.%m.%Y, %H:%i\') as `format_time`, text_ru as text' )
 			->get_where(TABLE_NEWS, array('url' => $url), 1)->result();
 		}
 
