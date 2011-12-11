@@ -605,4 +605,36 @@ class User_model extends Super_model {
         }
 
     }
+    
+    function check_admin()
+    {
+        if (!$this->ion_auth->logged_in())
+        {
+            // Если не авторизован - предложить форму авторизации
+            $data['content'] = $this->load->view('/login_view', NULL, TRUE);
+            $data['active'] = 'none';
+            $data['title'] = 'Авторизация пользователя';
+			echo $this->load->view('templates/new_main_view', $data, TRUE);
+            die();
+            return FALSE;
+        }
+        else
+        {
+            if ($this->ion_auth->is_admin())
+            {
+                // Если авторизован и администратор - пропустить пользователя
+                return TRUE;
+            }
+            else
+            {
+                // Если авторизован, но не администратор - вывести сообщение про недостаточный
+                // уровень доступа
+                $data['content'] = $this->lang->line('errornotadmin');
+                $data['title'] = $this->lang->line('errornotadmin');
+                echo $this->load->view('templates/new_main_view', $data, TRUE);
+                die('NOT ADMIN');
+                return FALSE;
+            }
+        }
+    }
 }

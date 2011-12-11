@@ -1,7 +1,7 @@
 <div class="form_edit">
 <?php
 
-echo form_open('admin');
+echo form_open('admin', array('class' => 'gray_form'));
 
 echo form_label('Выключить сайт', 'turn_off', array('class'=>'inline-block'));
 echo form_checkbox('turn_off').br(2);

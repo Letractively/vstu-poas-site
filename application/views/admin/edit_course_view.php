@@ -5,7 +5,7 @@ if (!isset($course->members))   $course->members = array();
 if (!isset($extra->users))      $extra->users = array();
 
 
-echo form_open('admin/courses/edit/action');
+echo form_open('admin/courses/edit/action', array('class' => 'gray_form'));
 echo heading($course->course . ' курс, ' . $course->year, 3);
 $data['label'] = 'Студенты';
 $data['id'] = 'course_members';

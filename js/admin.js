@@ -98,7 +98,6 @@ jQuery(document).ready(function($)
  * Связать видимость объекта (его css атрибут display: none | <param [in] display>) с чекбоксом -
  * при изменении чекбокса изменяется видимость объекта (видим или невидим)
  * @param [in] J_obj checkbox_obj - объект jquery, чекбокс(ы)
- * @param [in] string display - значение атрибута display, когда объект должен быть виден (необязательный параметр, по-умолчанию 'inline-block')
  * @param [in] bool inverse - если true, то объект должен быть невидим когда чекбокс отмечен (необязательный параметр, по-умолчанию false)
  */
 (function( $ ){
@@ -109,16 +108,15 @@ jQuery(document).ready(function($)
 		var inverse = false;
 		checkbox_obj.change(function()
 		{
-			if( arguments[1] ) display = arguments[1];
-			if( arguments[2] ) inverse = arguments[2];
+			if( arguments[1] ) inverse = arguments[1];
 
 			var is_checked = Boolean(checkbox_obj.attr('checked'));
 			var is_display = is_checked;
 			if(inverse) is_display = ! is_display;
 			if( is_display )
-				this_obj.css('display', display);
+				this_obj.show("slide", {direction: "up"}, 420 );
 			else
-				this_obj.css('display', 'none');
+				this_obj.hide("slide", {direction: "up"}, 420);
 		});
 	};
 })( jQuery );

@@ -40,7 +40,9 @@ class News_model extends CI_Model {
 		$news->url = $check_url;
 		
 		$this->db->insert(TABLE_NEWS, $news);
-		return $this->db->insert_id();
+		$id = $this->db->insert_id();
+		mkdir('uploads/news/'.$id, 0777);	// Создаём папку для файлов к новости
+		return $id;
 	}
 	
 	
@@ -69,19 +71,19 @@ class News_model extends CI_Model {
 		return $this->db
 			->select('id, name_'.lang().' as name, category + 0 as category, url, notice_'.lang().' as notice, time, DATE_FORMAT(`time`, \'%d.%m.%Y\') as `date`, DATE_FORMAT(`time`, \'%d.%m.%Y, %H:%i\') as `format_time`', FALSE)
 			->where('name_'.lang().' IS NOT NULL AND name_'.lang().'!=""')
-			->order_by('time')
+			->order_by('time DESC')
 			->get(TABLE_NEWS, $amount_on_page, ($page-1)*$amount_on_page)
 			->result();
 	}
 	
 	
 	/**
-	 * Получить новость по её идентификатору
+	 * Получить новость по её идентификатору для "админки"
 	 * @param int $id - уникальный идентификатор новости
 	 */
 	function get_by_id_for_admin($id)
 	{
-		$news = $this->db->select('id, url, name_ru, name_en, notice_ru, notice_en, text_ru, text_en, category + 0 as category, time, update')->get_where(TABLE_NEWS, array('id' => $id), 1)->result();
+		$news = $this->db->select('id, url, name_ru, name_en, notice_ru, notice_en, text_ru, text_en, category + 0 as category, time, update, is_photo_show')->get_where(TABLE_NEWS, array('id' => $id), 1)->result();
 		if(!$news)
 		{
 			return FALSE;
@@ -97,13 +99,13 @@ class News_model extends CI_Model {
 	function get_by_url($url)
 	{
 		$news = $this->db
-			->select('id, time, category + 0 as category, name_'.lang().' as name, url, notice_'.lang().' as notice, text_'.lang().' as text, DATE_FORMAT(`time`, \'%d.%m.%Y, %H:%i\') as `format_time`', FALSE )
+			->select('id, time, is_photo_show, category + 0 as category, name_'.lang().' as name, url, notice_'.lang().' as notice, text_'.lang().' as text, DATE_FORMAT(`time`, \'%d.%m.%Y, %H:%i\') as `format_time`', FALSE )
 			->get_where(TABLE_NEWS, array('url' => $url), 1)->result();
 
 		if( $news && ( ! isset($news[0]->name) || $news[0]->name == '' ) )
 		{
 			$news = $this->db
-			->select('id, time, category + 0 as category, name_ru as name, url, notice_ru as notice, text_ru as text' )
+			->select('id, time, is_photo_show, category + 0 as category, is_photo_show, name_ru as name, url, notice_ru as notice, text_ru as text' )
 			->get_where(TABLE_NEWS, array('url' => $url), 1)->result();
 		}
 
@@ -127,7 +129,34 @@ class News_model extends CI_Model {
 			return $not_news;
 		}
 		
+		$news[0]->photos = FALSE;
+		if( $news[0]->is_photo_show )
+		{
+			$news[0]->photos = $this->get_photos($news[0]->id); // Список изображений, прикреплённых к новости
+		}
+		$news[0]->files = $this->get_files($news[0]->id);	// Список файлов, прикреплённых к новости
+		
 		return $news[0];
+	}
+	
+	/** 
+	 * Получить массив с именами изображений, прикреплённых к новости
+	 * @param [in] int - идентификатор новости
+	 * @return array[int => string]
+	 */
+	protected function get_photos($id_news)
+	{
+		return $this->db->select('filename')->get_where(TABLE_FILES_ELFINDER, array('mime' => 'image', 'obj_type' => OBJ_TYPE_NEWS, 'obj_id' => $id_news))->result();
+	}
+	
+	/** 
+	 * Получить массив с именами файлов, прикреплённых к новости
+	 * @param [in] int - идентификатор новости
+	 * @return array[int => string]
+	 */
+	protected function get_files($id_news)
+	{
+		return $this->db->select('filename')->get_where(TABLE_FILES_ELFINDER, array('mime !=' => 'image', 'obj_type' => OBJ_TYPE_NEWS, 'obj_id' => $id_news))->result();
 	}
 	
 	/**
@@ -137,7 +166,7 @@ class News_model extends CI_Model {
 	 */
 	function get_by_url_for_admin($url)
 	{
-		$news = $this->db->select('id, url, name_ru, name_en, notice_ru, notice_en, text_ru, text_en, category + 0 as category, time, update')->get_where(TABLE_NEWS, array('url' => $url), 1)->result();
+		$news = $this->db->select('id, url, is_photo_show, name_ru, name_en, notice_ru, notice_en, text_ru, text_en, category + 0 as category, time, update')->get_where(TABLE_NEWS, array('url' => $url), 1)->result();
 		if(!$news)
 		{
 			return FALSE;
@@ -152,6 +181,10 @@ class News_model extends CI_Model {
 	*/
 	function delete( $news_id )
 	{
+		// Удаляем все файлы, связанные с новостью
+		$this->load->helper('directory');
+		remove_dir('uploads/news/'.$news_id.'/');
+		
 		if( ! $this->db->delete(TABLE_NEWS, array('id' => $news_id)))
 		{
 			$this->message = 'Произошла ошибка, новость удалить не удалось.';
@@ -159,6 +192,9 @@ class News_model extends CI_Model {
 		} 
 		else 
 		{
+			// Удалим все файлы, привязанные к новости
+			$this->db->where(array('obj_type' => OBJ_TYPE_NEWS, 'obj_id' => $news_id))->delete(TABLE_NEWS);
+			
 			$this->message = 'Новость удалена успешно (id был равен '.$news_id.').';
 		}
 		return TRUE;
@@ -166,7 +202,7 @@ class News_model extends CI_Model {
 	
 	
 	/**
-	 * Получить информацию о статье из данных, полученных методом POST
+	 * Получить информацию о новости из данных, полученных методом POST
 	 * return News - объект, содержащий собранную информацию о новости
 	*/
 	function get_from_post()
@@ -175,6 +211,7 @@ class News_model extends CI_Model {
 		$news->text_ru = $this->input->post('news_text_ru');	// содержимое новости
 		$news->category = $this->input->post('news_category');	// категория новости
 		$news->notice_ru = $this->input->post('news_notice_ru');// анонс новости
+		$this->input->post('news_is_photo_show')? $news->is_photo_show=1 : $news->is_photo_show = 0; // вывести ли фотографии после новости
 		if( $this->input->post('is_news_en') )
 		{
 			$news->name_en = $this->input->post('news_name_en');

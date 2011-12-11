@@ -16,7 +16,7 @@ $coursesnames = array(
             'all' => 'все'
             );
 function add_form($coursesnames){
-    $html = form_open('admin/courses/add/');
+    $html = form_open('admin/courses/add/', array('class' => 'gray_form'));
     $html .= form_label('Курс ', 'course_course', array('class'=>'inline-block'));
     $html .= form_dropdown('course_course', $coursesnames);
     $html .= ' ';

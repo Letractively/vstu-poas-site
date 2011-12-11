@@ -106,3 +106,4 @@ $lang['publication_fulltext_link_ru'] = 'link(ru)';
 $lang['publication_fulltext_file_ru'] = 'download from site(ru)';
 $lang['publication_fulltext_link_en'] = 'link(en)';
 $lang['publication_fulltext_file_en'] = 'download from site(en)';
+$lang['attached_files'] = 'Attached files';

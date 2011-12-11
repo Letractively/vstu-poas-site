@@ -53,6 +53,7 @@ define('TABLE_USER_COURSES', 'user_courses');
 define('TABLE_COURSES', 'courses');
 define('TABLE_PARTNERS', 'partners');
 define('TABLE_FILES', 'files');
+define('TABLE_FILES_ELFINDER', 'files_elfinder');	// Файлы, загруженные через файловый менеджер elfinder2
 define('TABLE_INTERESTS', 'interests');
 
 define('TABLE_GROUPS', 'groups');
@@ -68,6 +69,7 @@ define('TABLE_USERS_GROUPS', 'users_groups');
 */
 define('SITE_URL', 'http://poas.dip/');
 define('URL_NOT_CHANGE', 555000);	/// флаг того, что при обновлении URL требуется оставить прежним
+define('OBJ_TYPE_NEWS', 1);		// При связывании чего либо с новостями (чего-то, что может связываться не только с новостями, например файлы)
 
 
 /*

@@ -61,7 +61,7 @@
 ?>
 
 <?php
-    echo form_open_multipart('admin/users/'.$action.'/action');
+    echo form_open_multipart('admin/users/'.$action.'/action', array('class' => 'gray_form'));
     // Редактирование логина недопустимо
     echo form_label('Логин*', 'user_username', array('class' => 'inline-block'));
     if ($action === 'add')

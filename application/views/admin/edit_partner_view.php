@@ -27,7 +27,7 @@
 ?>
 <?php
 
-    echo form_open('admin/partners/' . $action . '/action');
+    echo form_open('admin/partners/' . $action . '/action', array('class' => 'gray_form'));
 
 // Ввод русского имени партнера (обязательный параметр)
     echo form_label('Имя партнера (русское)*', 'partner_name_ru', array('class' => 'inline-block'));
