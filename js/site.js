@@ -46,7 +46,3 @@ jQuery(document).ready( function($)
 		});
 	});
 });
-    $('#time').html(resulthtml);
-
-    t=setTimeout('startTime()', 500);
-}

@@ -633,9 +633,6 @@ div.scientific-submenu .selected {font-weight: bold;}
 ol.publications {list-style: none;}
 .extra {display: none;}
 
-#time {text-align: center; font-family: monospace; font-size: 14px; }
-#time img {padding-left:1px;}
-
 .time-container {
     right:0;
     top: 100px;
