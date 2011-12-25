@@ -246,43 +246,6 @@ display: none;
 background: #4A4A4A url('../images/site/design/menu-bg.gif') repeat-x 0 0;
 border-bottom: 3px solid black;
 }
-/*
-#menu {
-width: 950px;
-margin: 0 auto;
-}
-
-#menu li {
-display: inline;
-list-style-type: none;
-text-align: center;
-}
-
-
-#menu li.first a {
-margin-left: 1.6em;
-display: inline
-}
-
-#menu li a {
-float: left;
-color: #FFFFFF;
-font-weight: bold;
-font-size: 1.1em;
-display: block;
-padding: 0.9em 1.4em 0.7em 1.4em;
-text-decoration:none;
-}
-
-#menu li a:hover, #menu li a.active {
-color: #000000;
-background-color: #D0F500;
-font-weight: bold;
-font-size: 1.1em;
-}
-
-*/
-/* Content box */
 
 #content {
 background: #FFFFFF url('../images/site/design/content-bg.gif') repeat-x 0 0;
@@ -346,52 +309,6 @@ margin: 0 5px 18px 2px;
 line-height: 140%;
 }
 
-
-/* Table */
-/*
-table {
-font-size: 1.1em;
-border-collapse: collapse;
-border: 2px solid #004C87;
-margin: 15px 0 20px 0;
-table-layout: fixed;
-width: 90%;
-}
-
-th, td {
-padding: 3px 13px;
-border: 1px solid #004C87;
-}
-
-th {
-text-align: right;
-font-weight: bold;
-}
-
-td {
-text-align: right;
-}
-
-.first-row {
-background: #F4FF7C;
-}
-
-.first-row th {
-text-align: center;
-font-weight: bold;
-border-bottom: 2px solid #004C87;
-}
-
-.first-column {
-background: #FFD162;
-border-right: 1px solid #004C87;
-}
-
-.last-column {
-background-color: #FFD162;
-border-left: 1px solid #004C87;
-}
-*/
 #footer {
 width: 100%;
 height: 60px;
@@ -633,13 +550,5 @@ div.scientific-submenu .selected {font-weight: bold;}
 ol.publications {list-style: none;}
 .extra {display: none;}
 
-.time-container {
-    right:0;
-    top: 100px;
-    color:white;
-}
-.time-window {
-    background: url('../images/site/clock/timeback.png');
-    height: 60px;
-    width: 250px;
-}
+#time {text-align: center; font-family: monospace; font-size: 14px; }
+#time img {padding-left:1px;}
