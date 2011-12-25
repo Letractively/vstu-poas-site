@@ -449,7 +449,7 @@ font-weight: normal;
 }
 
 
-/* Наши стили */
+/* РќР°С€Рё СЃС‚РёР»Рё */
 #header #logo {
     float:left;
     max-height: 100px;
@@ -483,7 +483,7 @@ margin-right: 16px;
 #contacts-image img {max-width: 300px; max-height: 300px; float: left; padding-right:20px;}
 #contacts-info {font-size:90%; height:300px;}
 
-/* Стили для меню*/
+/* РЎС‚РёР»Рё РґР»СЏ РјРµРЅСЋ*/
 #menu, #menu ul {
   list-style: none;
   padding: 0;
@@ -569,7 +569,7 @@ div.attached_files ul
 	margin: 5px 0 0 30px;
 }
 
-/* Форма авторизации*/
+/* Р¤РѕСЂРјР° Р°РІС‚РѕСЂРёР·Р°С†РёРё*/
 #form_login {width:270px; background:#add2ea; border:1px solid white; padding: 1em; -webkit-border-radius: 10px 40px 10px 10px; border-radius: 10px 40px 10px 10px;}
 #form_login.with_fieldset {width:300px;margin:200px 0 0 350px}
 #form_login_title {display: block; font-family: arial black, arial; text-align: center; margin-bottom: 10px; margin-top:-7px}
@@ -580,14 +580,14 @@ div.attached_files ul
 .form_login_admin {margin:0px auto}
 .form_login {margin:0px auto}
 
-/*Стили для карточки пользователя*/
+/*РЎС‚РёР»Рё РґР»СЏ РєР°СЂС‚РѕС‡РєРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ*/
 .usercard {text-align:right; border: 1px dashed #aaaaff; height:150px; vertical-align: middle; margin-bottom: 10px;}
 .usercard .fio {font-weight: bold;}
 .usercard abbr { border-bottom: 1px dashed blue;}
 .usercard .userphoto {float:right; padding-left: 20px; width: 150px; height:150px;  text-align: center;}
 .usercard .userphoto img {max-height: 150px; max-width: 150px;}
 
-/*Стили для профиля пользователя*/
+/*РЎС‚РёР»Рё РґР»СЏ РїСЂРѕС„РёР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ*/
 .user_profile .contacts{text-align: right;}
 .user_profile span.field ,
 .usercard span.field {color:#6699ff}
@@ -600,14 +600,14 @@ div.user_profile div.cv {
     color: #003B69;
     font-size: 130%;
 }
-/*Стили для страниц учебной деятельности*/
+/*РЎС‚РёР»Рё РґР»СЏ СЃС‚СЂР°РЅРёС† СѓС‡РµР±РЅРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё*/
 div.education-submenu,
 div.scientific-submenu {text-align: center; margin-bottom: 20px;}
 div.education-submenu .selected {font-weight: bold;}
 
 .project img {max-height: 200px; max-width: 200px;}
 
-/* Стили для страницы студентов*/
+/* РЎС‚РёР»Рё РґР»СЏ СЃС‚СЂР°РЅРёС†С‹ СЃС‚СѓРґРµРЅС‚РѕРІ*/
 .student-form-select {text-align: center;}
 .student-form-select>a {padding: 0 10px;}
 .student-form-select .current {font-weight: bold;}
@@ -615,7 +615,7 @@ div.education-submenu .selected {font-weight: bold;}
 
 
 
-/*Стили для страниц научной деятельности*/
+/*РЎС‚РёР»Рё РґР»СЏ СЃС‚СЂР°РЅРёС† РЅР°СѓС‡РЅРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё*/
 div.scientific-submenu a {font-weight: normal;}
 div.scientific-submenu .selected {font-weight: bold;}
 
@@ -625,7 +625,7 @@ div.scientific-submenu .selected {font-weight: bold;}
 
 .scientific-activity .direction img {max-height: 150px; max-width: 150px;}
 .scientific-activity h1 {color:#004C87;}
-/* Стили для страницы партнеров */
+/* РЎС‚РёР»Рё РґР»СЏ СЃС‚СЂР°РЅРёС†С‹ РїР°СЂС‚РЅРµСЂРѕРІ */
 .partners-list .partner img ,
 .partner-personal img {max-height: 150px; max-width: 150px;}
 .partners-list .partner {border-bottom: 1px dashed #000}
@@ -633,5 +633,16 @@ div.scientific-submenu .selected {font-weight: bold;}
 ol.publications {list-style: none;}
 .extra {display: none;}
 
-#time {text-align: center; font-family: monospace; font-size: 14px; }
+#time {text-align: center; font-family: monospace; font-size: 14px; height:60px; padding-top: 20px;}
 #time img {padding-left:1px;}
+
+.time-container {
+    right:0;
+    top: 100px;
+    color:white;
+}
+.time-window {
+    background: url('../images/site/clock/timeback.png');
+    height: 60px;
+    width: 250px;
+}

@@ -65,7 +65,9 @@
 		</div>
 	</div>
 	<!-- Header end -->
-
+    <div class="time-container" style="position: absolute">
+        <div class="time-window"><div id="time"></div></div>
+    </div>
 	<!-- Menu -->
 	<div id="menu-box" class="cleaning-box">
 	<a href="#skip-menu" class="hidden">Skip menu</a>
