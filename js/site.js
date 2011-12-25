@@ -87,7 +87,7 @@ function startTime()
                 break;
         }
     }
-    $('#time').html(resulthtml);
+    $('#time').html(result);
 
     t=setTimeout('startTime()', 500);
 }
