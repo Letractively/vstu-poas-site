@@ -1,154 +1,135 @@
 <?php
-require_once('super_model.php');
-class Partner_model extends Super_model{
+/**
+ * Модель партнера
+ */
+require_once('super.php');
+class Partner_model extends Super{
+
     /**
-     * Получить краткую информацию о партнере
-     * @param int $id идентификатор партнера
-     * @return партнер
+     * Получить список записей для панели администратора
+     * @param int $page страница
+     * @param int $amount_on_page количество записей на странице
+     * @return array массив записей
      */
-    function get_short($id = null)
+    public function get_records_for_admin_view($page = 1, $amount_on_page = 20)
     {
-        return $this->_get_short(TABLE_PARTNERS,
-                                 'url, short_' . lang() . ' as short,',
-                                 'name_' . lang() . ', name_ru, id',
-                                 $id);
+        $records = $this->db
+                ->select('id, name_ru as name')
+                ->get(TABLE_PARTNERS, $amount_on_page, ($page - 1) * $amount_on_page)
+                ->result();
+        return $records;
     }
 
     /**
-     * Получить информацию о партнере для представления
-     * @param int $id идентификатор партнера
-     * @return партнер
+     * Провести валидацию данных в POST-запросе на странице редактирования
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если нет ошибок валидации, иначе - FALSE
      */
-    function get_detailed($id) {
-        $select1 = 'short_' . lang() . ' as short, full_' . lang() . ' as full, url';
-        $select2 = 'short_ru as short, full_ru as full, url';
-        return $this->_get_detailed($id, TABLE_PARTNERS, $select1, $select2);
-    }
-
-    /**
-     * Получить полную информацию о партнере
-     * @param int $id идентификатор партнера
-     * @return партнер
-     */
-    function get_partner($id)
+    public function validate()
     {
-        $record = $this->db
-                            ->select('*')
-                            ->from(TABLE_PARTNERS)
-                            ->where(TABLE_PARTNERS.'.id', $id)
-                            ->get()
-                            ->result();
-		if (!$record)
-		{
-			return NULL;
-		}
-		return $record[0];
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+        $flag = $this->form_validation->run('admin/partners');
+        if ($flag == FALSE)
+        {
+            $this->admin_message = 'Введены недопустимые данные';
+        }
+        return $flag;
     }
 
     /**
-     * Получить информацию о партнере из POST-запроса
-     * @return партнер
+     * Сформировать запись из полей, полученных методом POST
+     * @return mixed объект записи или FALSE
      */
-    function get_from_post()
+    public function get_from_post()
     {
         $fields = array(
-            'name_ru' => 'partner_name_ru',
-            'name_en' => 'partner_name_en',
+            'name_ru'  => 'partner_name_ru',
+            'name_en'  => 'partner_name_en',
             'short_ru' => 'partner_short_ru',
             'short_en' => 'partner_short_en',
-            'full_ru' => 'partner_full_ru',
-            'full_en' => 'partner_full_en',
-            'url' => 'partner_url'
+            'full_ru'  => 'partner_full_ru',
+            'full_en'  => 'partner_full_en',
+            'url'      => 'partner_url'
         );
         $nulled_fields = array(
-            'name_en' => '',
+            'name_en'  => '',
             'short_en' => '',
-            'full_ru' => '',
-            'full_en' => '',
-            'url' => ''
+            'full_ru'  => '',
+            'full_en'  => '',
+            'url'      => ''
         );
-        return $this->_get_from_post('partner', $fields, $nulled_fields);
+        return parent::create_record_object('partner', $fields, $nulled_fields);
     }
 
     /**
-     * Добавить партнера, получаемого через POST-запрос
-     * @return int id - идентификатор добавленной записи | FALSE
+     * Добавить запись в БД, параметры которой переданы через POST-запросы
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если запись была успешно добавлена, иначе - FALSE
      */
-    function add_from_post()
+    public function add_from_post()
+    {
+        return parent::add(TABLE_PARTNERS, $this->get_from_post());
+    }
+
+    /**
+     * Проверить, существует ли запись в БД
+     * @param int $id идентифиактор искомой записи
+     * @return boolean TRUE, если запись существует, иначе - FALSE
+     */
+    public function exists($id)
+    {
+        return parent::record_exists(TABLE_PARTNERS, $id);
+    }
+
+    /**
+     * Получить полные данные о записи
+     * @param int $id идентификатор записи
+     * @return mixed запись или FALSE, если запись не существует
+     */
+    public function get_record_for_admin_edit_view($id)
+    {
+        return parent::get(TABLE_PARTNERS, $id);
+    }
+
+    /**
+     * Обновить запись в БД, параметры которой переданы через POST-запросы
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если запись была успешно обновлена, иначе - FALSE
+     */
+    public function edit_from_post()
     {
         $partner = $this->get_from_post();
-        unset($partner->image_name);
-        return $this->_add(TABLE_PARTNERS, $partner);
+        return parent::edit(TABLE_PARTNERS, $partner);
     }
 
     /**
-	 * Получить информацию о партнере из данных, полученных методом POST
-	 * @return объект, содержащий собранную информацию о партнере
-	 */
-    function edit_from_post() {
-        $partner = $this->get_from_post();
-        unset($partner->image_name);
-        return $this->_edit(TABLE_PARTNERS, $partner);
-    }
-
-    /**
-     * Удалить партнера из базы данных
-     * @param int $id идентификатор партнера
-     * @return TRUE, если партнер удален, иначе FALSE
+     * Удалить запись из БД
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @param int $id идентификатор удаляемой записи
+     * @return boolean TRUE, если запись существовала и была успешно удалена, иначе - FALSE
      */
-    function delete($id)
+    public function delete($id)
     {
-        $files = $this->db->select('image')->get_where(TABLE_PARTNERS, array('id' => $id))->result();
-
-        if (count($files) == 1)
-        {
-            $this->load->model(MODEL_FILE);
-            $this->{MODEL_FILE}->delete_file($files[0]->image);
-        }
-        return $this->_delete(TABLE_PARTNERS, $id);
+        return parent::delete_record(TABLE_PARTNERS, $id);
     }
 
     /**
-	 * Проверить данные, введенные на форме edit_partner_view на корректность
-	 * @return массив с ошибками
-	 */
-	function get_errors() {
-        $rus = array(
-            'partner_name_ru' => 'nameruforgotten',
-            'partner_short_ru' => 'shortruforgotten',
-            'partner_full_ru' => 'fullruforgotten'
-        );
-        $eng = array(
-            'partner_name_en' => 'nameenforgotten',
-            'partner_short_en' => 'shortenforgotten',
-            'partner_full_en' => 'fullenforgotten'
-        );
-        return $this->_get_errors($rus, $eng);
-	}
-
-    function exists($id)
-    {
-        return $this->_record_exists(TABLE_PARTNERS, $id);
-    }
-
-    /**
-     * Получить путь к изображению проекта
-     * @param $id id проекта
-     * @return путь к файлу или null
+     * Получить основные данные о партнерах для списка партнеров на сайте
+     * @return array список записей
      */
-    function get_image($id)
+    public function get_cards()
     {
-        $partner = $this->get_partner($id);
-        $this->load->model(MODEL_FILE);
-        return $this->{MODEL_FILE}->get_file_path($partner->image);
-    }
-
-    function get_cards()
-    {
-        $result = $this->_get_short(TABLE_PARTNERS,
-                                 'short_'.lang().' as short, url, image',
-                                 'name_' . lang(),
-                                 null);
+        $result = parent::get_fields(
+                TABLE_PARTNERS,
+                array(
+                    'id',
+                    'name_'.lang().' as name',
+                    'short_'.lang().' as short',
+                    'url',
+                    'image'),
+                'name_'.lang(),
+                'name_'.lang().' IS NOT NULL AND short_'.lang().' IS NOT NULL'
+                );
         $this->load->model(MODEL_FILE);
         if (is_array($result)) {
             foreach($result as $record){
@@ -158,15 +139,48 @@ class Partner_model extends Super_model{
         return $result;
     }
 
-    function get_card($id)
+    /**
+     * Получить данные о партнере для страницы партнера на сайте
+     * @param int $id идентификатор партнера
+     * @return object объект записи
+     */
+    public function get_card($id)
     {
-        $result = $this->_get_short(TABLE_PARTNERS,
-                                 'short_'.lang().' as short,full_'.lang().' as full, url, image',
-                                 'name_' . lang(),
-                                 $id);
+        $result = parent::get_fields(
+                TABLE_PARTNERS,
+                array(
+                    'id',
+                    'name_'.lang().' as name',
+                    'short_'.lang().' as short',
+                    'full_'.lang().' as full',
+                    'url',
+                    'image'
+                ),
+                NULL,
+                NULL,
+                $id);
+        if ($result->name == NULL)
+        {
+            $result = parent::get_fields(
+                TABLE_PARTNERS,
+                array(
+                    'id',
+                    'name_ru as name',
+                    'short_ru as short',
+                    'full_ru as full',
+                    'url',
+                    'image'
+                ),
+                NULL,
+                NULL,
+                $id);
+        }
         $this->load->model(MODEL_FILE);
         if ($result)
             $result->image = $this->{MODEL_FILE}->get_file_path($result->image);
         return $result;
     }
 }
+
+/* End of file partner_model.php */
+/* Location: ./application/models/partner_model.php */

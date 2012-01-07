@@ -606,87 +606,124 @@ class Admin extends CI_Controller {
      */
     function partners()
     {
-        //$this->_page('users', 'user', MODEL_USER);
-        $data = NULL;
-		$this->load->model(MODEL_PARTNER);
-        $this->lang->load('site', 'russian');
-		$this->load->library('form_validation');
-		switch($this->uri->segment(3)) {
-			case 'add':
-                if($this->uri->segment(4) == 'action')
+        $this->load->model(MODEL_PARTNER);
+        $this->load->library('form_validation');
+        switch($this->uri->segment(3))
+        {
+            case 'add':
+                if ($this->uri->segment(4) != 'action')
                 {
-                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-                    if ($this->form_validation->run('admin/partners') == FALSE)
+                    // Загрузить форму редактирования
+                    $this->_show_edit_form('partner', MODEL_PARTNER);
+                }
+                else
+                {
+                    if ($this->{MODEL_PARTNER}->validate())
                     {
-                        $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
-                        $data['content'] = $this->load->view('admin/edit_partner_view', $data, TRUE);
-                        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('partner_a');
-                        $this->load->view('/templates/admin_view', $data);
-                    }
-                    else
-                    {
+                        // Добавить запись
                         $this->{MODEL_PARTNER}->add_from_post();
-                        $this->_view_page_list('partners', MODEL_PARTNER, $this->{MODEL_PARTNER}->message);
-                    }
-                }
-                else
-                {
-                    // загрузить необходимые виду данные
-                    $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
-                    $data['content'] = $this->load->view('/admin/edit_partner_view', $data, TRUE);
-                    $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('partner_a');
-                    $this->load->view('/templates/admin_view', $data);
-                }
-				break;
-			case 'edit':
-                if($this->uri->segment(4) == 'action')
-                {
-                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-                    if ($this->form_validation->run('admin/partners') == FALSE)
-                    {
-                        $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
-                        $data['partner'] = $this->{MODEL_PARTNER}->get_from_post();
-                        $data['content'] = $this->load->view('admin/edit_partner_view', $data, TRUE);
-                        $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('partner_a');
-                        $this->load->view('/templates/admin_view', $data);
+                        if ($this->{MODEL_PARTNER}->get_message())
+                            $this->session->set_flashdata('admin_message', $this->{MODEL_PARTNER}->get_message());
+                        redirect('admin/partners');
                     }
                     else
                     {
-                        $this->{MODEL_PARTNER}->edit_from_post();
-                        $this->_view_page_list('partners', MODEL_PARTNER, $this->{MODEL_PARTNER}->message);
+                        // Сообщить об ошибке валидации
+                        $this->session->set_flashdata('admin_message', 'Введены недопустимые данные');
+                        // Загрузить форму редактирования
+                        $this->_show_edit_form('partner', MODEL_PARTNER);
                     }
+                }
+                break;
+            case 'edit':
+                if ($this->uri->segment(4) != 'action')
+                {
+                    if (is_numeric($this->uri->segment(4)) && $this->{MODEL_PARTNER}->exists($this->uri->segment(4)))
+                    {
+                        // Загрузить форму редактирования
+                        $this->_show_edit_form('partner', MODEL_PARTNER, $this->uri->segment(4));
+                    }
+                    else
+                    {
+                        // Сообщить, что запись не найдена
+                        $this->session->set_flashdata('admin_message', 'Запись с таким id не найдена');
+                        redirect('admin/partners');
+                    }
+
                 }
                 else
                 {
-                    if (!$this->{MODEL_PARTNER}->exists($this->uri->segment(4)))
+                    if ($this->{MODEL_PARTNER}->validate())
                     {
-                        $this->_view_page_list('partners', MODEL_PARTNER, 'Партнер не существует');
-                        return;
+                        // Добавить запись
+                        $this->{MODEL_PARTNER}->edit_from_post();
+                        if ($this->{MODEL_PARTNER}->get_message())
+                            $this->session->set_flashdata('admin_message', $this->{MODEL_PARTNER}->get_message());
+                        redirect('admin/partners');
                     }
-                    // загрузить необходимые виду данные
-                    $data['extra'] = $this->{MODEL_PARTNER}->get_view_extra();
-                    $data['partner'] = $this->{MODEL_PARTNER}->get_partner($this->uri->segment(4));
-                    $data['content'] = $this->load->view('/admin/edit_partner_view', $data, TRUE);
-                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('user_a');
-                    $this->load->view('/templates/admin_view', $data);
+                    else
+                    {
+                        // Сообщить об ошибке валидации
+                        $this->session->set_flashdata('admin_message', $this->{MODEL_PARTNER}->get_message());
+                        // Загрузить форму редактирования
+                        $this->_show_edit_form('partner', MODEL_PARTNER, NULL, TRUE);
+                    }
                 }
-				break;
-			case 'delete':
-                if (!$this->{MODEL_PARTNER}->exists($this->uri->segment(4)))
+                break;
+            case 'delete':
+                if (is_numeric($this->uri->segment(4)) && $this->{MODEL_PARTNER}->exists($this->uri->segment(4)))
                 {
-                    $this->_view_page_list('partners', MODEL_PARTNER, 'Партнер не существует');
-                    return;
+                    // Удалить запись
+                    $this->{MODEL_PARTNER}->delete($this->uri->segment(4));
                 }
-				$this->{MODEL_PARTNER}->delete($this->uri->segment(4));
-                $this->_view_page_list('partners', MODEL_PARTNER, $this->{MODEL_PARTNER}->message);
+                $this->session->set_flashdata('admin_message', $this->{MODEL_PARTNER}->get_message());
+                redirect('admin/partners');
 				break;
-			case '':
-			default:
-				// по адресу "/admin/$name": список всех
-				// он же при несуществующем методе
-				$this->_view_page_list('partners', MODEL_PARTNER);
-				break;
-		}
+            default:
+                // Вывести список сущностей
+                $this->_show_records_list('partners', MODEL_PARTNER);
+                break;
+        }
+    }
+
+    /**
+     * Вывести список записей
+     * @param string $name название сущности
+     * @param string $model название модели
+     * @param int $page номер страницы
+     */
+    private function _show_records_list($name, $model, $page = 1)
+    {
+        $data[$name] = $this->$model->get_records_for_admin_view($page);
+		$data['content'] = $this->load->view('admin/' . $name . '_view', $data, TRUE);
+		$data['title'] = $this->lang->line($name);
+		$this->load->view('/templates/admin_view', $data);
+    }
+
+    /**
+     * Вывести форму редактирования записи
+     * @param string $name название сущности
+     * @param string $model название модели
+     * @param int $id идентификатор загружаемой в представления записи
+     * @param boolean $use_post если параметр установлен в TRUE, то метод
+     * извлечет данные о записи из POST-переменных
+     */
+    private function _show_edit_form($name, $model, $id = NULL, $use_post = FALSE)
+    {
+        $data['extra'] = $this->{$model}->get_admin_edit_view_extra();
+        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line($name.'_a');
+        if ($id != NULL)
+        {
+            $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line($name.'_a');
+            $data[$name] = $this->{$model}->get_record_for_admin_edit_view($id);
+        }
+        if($use_post == TRUE)
+        {
+            $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line($name.'_a');
+            $data[$name] = $this->{$model}->get_from_post();
+        }
+        $data['content'] = $this->load->view('/admin/edit_'.$name.'_view', $data, TRUE);
+        $this->load->view('/templates/admin_view', $data);
     }
 
     function courses()
