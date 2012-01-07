@@ -40,7 +40,7 @@ if (count($publications) > 0)
                                      . '\',\'userid\', \'publicationid\', \''.$publication->id.'\')')
         );
         $text_ru = anchor('#',
-            img( '/images/admin/buttons/user.png'),
+            img( '/images/admin/buttons/document.png'),
             array(	'class' => 'button_edit_file',
                     'title' => 'Изменить файл русской публикации '.$publication->id,
                     'onclick' => 'fileLoader(' .
@@ -55,7 +55,7 @@ if (count($publications) > 0)
                  )
         );
         $abstract_ru = anchor('#',
-            img( '/images/admin/buttons/user.png'),
+            img( '/images/admin/buttons/document.png'),
             array(	'class' => 'button_edit_file',
                     'title' => 'Изменить файл русской аннотации '.$publication->id,
                     'onclick' => 'fileLoader(' .
@@ -70,7 +70,7 @@ if (count($publications) > 0)
                  )
         );
         $text_en = anchor('#',
-            img( '/images/admin/buttons/user.png'),
+            img( '/images/admin/buttons/document.png'),
             array(	'class' => 'button_edit_file',
                     'title' => 'Изменить файл английской публикации '.$publication->id,
                     'onclick' => 'fileLoader(' .
@@ -85,7 +85,7 @@ if (count($publications) > 0)
                  )
         );
         $abstract_en = anchor('#',
-            img( '/images/admin/buttons/user.png'),
+            img( '/images/admin/buttons/document.png'),
             array(	'class' => 'button_edit_file',
                     'title' => 'Изменить файл русской аннотации '.$publication->id,
                     'onclick' => 'fileLoader(' .

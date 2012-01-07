@@ -606,7 +606,18 @@ class Admin extends CI_Controller {
      */
     function partners()
     {
-        $this->load->model(MODEL_PARTNER);
+        $this->_show_admin_page('partner', 'partners', MODEL_PARTNER);
+    }
+
+    /**
+     * Работа с страницей сущности в админке
+     * @param string $name_single название сущности в единственном числе
+     * @param string $name_multiple название сущности во множественном числе
+     * @param string $model название модели сущности
+     */
+    private function _show_admin_page($name_single, $name_multiple, $model)
+    {
+        $this->load->model($model);
         $this->load->library('form_validation');
         switch($this->uri->segment(3))
         {
@@ -614,78 +625,77 @@ class Admin extends CI_Controller {
                 if ($this->uri->segment(4) != 'action')
                 {
                     // Загрузить форму редактирования
-                    $this->_show_edit_form('partner', MODEL_PARTNER);
+                    $this->_show_edit_form($name_single, $model);
                 }
                 else
                 {
-                    if ($this->{MODEL_PARTNER}->validate())
+                    if ($this->{$model}->validate())
                     {
                         // Добавить запись
-                        $this->{MODEL_PARTNER}->add_from_post();
-                        if ($this->{MODEL_PARTNER}->get_message())
-                            $this->session->set_flashdata('admin_message', $this->{MODEL_PARTNER}->get_message());
-                        redirect('admin/partners');
+                        $this->{$model}->add_from_post();
+                        if ($this->{$model}->get_message())
+                            $this->session->set_flashdata('admin_message', $this->{$model}->get_message());
+                        redirect('admin/' . $name_multiple);
                     }
                     else
                     {
                         // Сообщить об ошибке валидации
                         $this->session->set_flashdata('admin_message', 'Введены недопустимые данные');
                         // Загрузить форму редактирования
-                        $this->_show_edit_form('partner', MODEL_PARTNER);
+                        $this->_show_edit_form($name_single, $model);
                     }
                 }
                 break;
             case 'edit':
                 if ($this->uri->segment(4) != 'action')
                 {
-                    if (is_numeric($this->uri->segment(4)) && $this->{MODEL_PARTNER}->exists($this->uri->segment(4)))
+                    if (is_numeric($this->uri->segment(4)) && $this->{$model}->exists($this->uri->segment(4)))
                     {
                         // Загрузить форму редактирования
-                        $this->_show_edit_form('partner', MODEL_PARTNER, $this->uri->segment(4));
+                        $this->_show_edit_form($name_single, $model, $this->uri->segment(4));
                     }
                     else
                     {
                         // Сообщить, что запись не найдена
                         $this->session->set_flashdata('admin_message', 'Запись с таким id не найдена');
-                        redirect('admin/partners');
+                        redirect('admin/' . $name_multiple);
                     }
 
                 }
                 else
                 {
-                    if ($this->{MODEL_PARTNER}->validate())
+                    if ($this->{$model}->validate())
                     {
                         // Добавить запись
-                        $this->{MODEL_PARTNER}->edit_from_post();
-                        if ($this->{MODEL_PARTNER}->get_message())
-                            $this->session->set_flashdata('admin_message', $this->{MODEL_PARTNER}->get_message());
-                        redirect('admin/partners');
+                        $this->{$model}->edit_from_post();
+                        if ($this->{$model}->get_message())
+                            $this->session->set_flashdata('admin_message', $this->{$model}->get_message());
+                        redirect('admin/' . $name_multiple);
                     }
                     else
                     {
                         // Сообщить об ошибке валидации
-                        $this->session->set_flashdata('admin_message', $this->{MODEL_PARTNER}->get_message());
+                        $this->session->set_flashdata('admin_message', $this->{$model}->get_message());
                         // Загрузить форму редактирования
-                        $this->_show_edit_form('partner', MODEL_PARTNER, NULL, TRUE);
+                        $this->_show_edit_form($name_single, $model, NULL, TRUE);
                     }
                 }
                 break;
             case 'delete':
-                if (is_numeric($this->uri->segment(4)) && $this->{MODEL_PARTNER}->exists($this->uri->segment(4)))
+                if (is_numeric($this->uri->segment(4)) && $this->{$model}->exists($this->uri->segment(4)))
                 {
                     // Удалить запись
-                    $this->{MODEL_PARTNER}->delete($this->uri->segment(4));
+                    $this->{$model}->delete($this->uri->segment(4));
                 }
-                $this->session->set_flashdata('admin_message', $this->{MODEL_PARTNER}->get_message());
-                redirect('admin/partners');
+                $this->session->set_flashdata('admin_message', $this->{$model}->get_message());
+                redirect('admin/' . $name_multiple);
 				break;
             default:
                 // Вывести список сущностей
-                $this->_show_records_list('partners', MODEL_PARTNER);
+                $this->_show_records_list($name_multiple, $model);
                 break;
         }
     }
-
     /**
      * Вывести список записей
      * @param string $name название сущности

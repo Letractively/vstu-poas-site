@@ -14,7 +14,7 @@ class Notfound extends CI_Controller {
 	{
 		$data['content'] = '<h3>404</h3><br> Sorry... <br> :\'(';
         $data['active'] = 'none';
-		$this->load->view('templates/new_main_view', $data);
+		$this->load->view('templates/main_view', $data);
 	}
 }
 

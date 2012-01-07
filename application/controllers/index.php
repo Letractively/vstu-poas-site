@@ -17,6 +17,6 @@ class Index extends CI_Controller{
         $data['active'] = 'page_main';
         $data['content'] = '<div id=time></div>';
 		$data['content'] .= 'Бобро поржаровать!';
-		$this->load->view('templates/new_main_view', $data);
+		$this->load->view('templates/main_view', $data);
     }
 }

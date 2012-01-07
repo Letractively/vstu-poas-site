@@ -19,7 +19,7 @@ class About extends CI_Controller{
         $data['active'] = 'page_about';
         $data['title'] = $this->lang->line('page_history');
 		$data['content'] = $this->load->view('static/about_history_'.lang(), '', TRUE);
-		$this->load->view('templates/new_main_view', $data);
+		$this->load->view('templates/main_view', $data);
     }
 
     /**
@@ -50,7 +50,7 @@ class About extends CI_Controller{
             $data['content'] .= $this->load->view('templates/user_card', (array)$user_card, TRUE);
         $data['title'] = $this->lang->line('page_students');
         $data['active'] = 'page_about';
-		$this->load->view('templates/new_main_view', $data);
+		$this->load->view('templates/main_view', $data);
     }
 
     function staff()
@@ -62,7 +62,7 @@ class About extends CI_Controller{
             $data['content'] .= $this->load->view('templates/user_card', (array)$user_card, TRUE);
         $data['title'] = $this->lang->line('page_staff');
         $data['active'] = 'page_about';
-		$this->load->view('templates/new_main_view', $data);
+		$this->load->view('templates/main_view', $data);
     }
 
     function education($section = 'index')
@@ -89,7 +89,7 @@ class About extends CI_Controller{
                 $data['title'] = $this->lang->line('page_education_pgdoc');
                 break;
         }
-        $this->load->view('templates/new_main_view', $data);
+        $this->load->view('templates/main_view', $data);
     }
 
     /**
@@ -138,13 +138,13 @@ class About extends CI_Controller{
                     if (!$data['project'])
                     {
                         $data['content'] = $this->lang->line('project_doesnt_exist');
-                        $this->load->view('templates/new_main_view', $data);
+                        $this->load->view('templates/main_view', $data);
                     }
                     else
                     {
                         $data['members'] = $this->{MODEL_PROJECT}->get_members($param);
                         $data['content'] = $this->load->view('project_view', $data, TRUE);
-                        $this->load->view('templates/new_main_view', $data);
+                        $this->load->view('templates/main_view', $data);
                     }
                     return;
                 }
@@ -164,13 +164,13 @@ class About extends CI_Controller{
                     if (!$data['direction'])
                     {
                         $data['content'] = $this->lang->line('direction_doesnt_exist');
-                        $this->load->view('templates/new_main_view', $data);
+                        $this->load->view('templates/main_view', $data);
                     }
                     else
                     {
                         $data['members'] = $this->direction_model->get_members($param);
                         $data['content'] = $this->load->view('direction_view', $data, TRUE);
-                        $this->load->view('templates/new_main_view', $data);
+                        $this->load->view('templates/main_view', $data);
                     }
                     return;
                 }
@@ -181,7 +181,7 @@ class About extends CI_Controller{
                 $data['content'] .= $this->load->view('directions_view', $data, TRUE);
                 break;
         }
-        $this->load->view('templates/new_main_view', $data);
+        $this->load->view('templates/main_view', $data);
     }
 
     function international()
@@ -189,7 +189,7 @@ class About extends CI_Controller{
         $data['content'] = 'Нет инфомации';
         $data['active'] = 'page_about';
         $data['title'] = $this->lang->line('page_international');
-        $this->load->view('templates/new_main_view', $data);
+        $this->load->view('templates/main_view', $data);
     }
 
     function get_breadcrumbs()

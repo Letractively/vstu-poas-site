@@ -622,7 +622,7 @@ class User_model extends Super_model {
             $data['content'] = $this->load->view('/login_view', NULL, TRUE);
             $data['active'] = 'none';
             $data['title'] = 'Авторизация пользователя';
-			echo $this->load->view('templates/new_main_view', $data, TRUE);
+			echo $this->load->view('templates/main_view', $data, TRUE);
             die();
             return FALSE;
         }
@@ -639,7 +639,7 @@ class User_model extends Super_model {
                 // уровень доступа
                 $data['content'] = $this->lang->line('errornotadmin');
                 $data['title'] = $this->lang->line('errornotadmin');
-                echo $this->load->view('templates/new_main_view', $data, TRUE);
+                echo $this->load->view('templates/main_view', $data, TRUE);
                 die('NOT ADMIN');
                 return FALSE;
             }
