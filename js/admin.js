@@ -51,7 +51,7 @@ jQuery(document).ready(function($)
 			fmAllow		 : true,
 			toolbar      : 'mini'
 		};
-	
+
 	$('.elrte_editor_mini').elrte(elrte_options_mini);
 	$('.elrte_editor').elrte(elrte_options);
 
@@ -476,7 +476,9 @@ function ajaxFileDelete(
     });
     return false;
 }
+
 /**
+ * Выводит диалог для загрузки файлов
  * upload_path - куда сохранять файл
  * allowed_types - разрешенные типы файлов
  * max_size - максимальный разрешенный размер
@@ -551,4 +553,152 @@ function fileLoader(
         }
     });
     return false;
+}
+
+/**
+ * Выводит диалог для загрузки файлов
+ *
+ * @param name - тип файла
+ * @param id - идентификатор файла
+ */
+function advFileLoader(name, id) {
+    var html = '';
+    html += '<img id="loading" src="/images/load/round.gif" style="display:none;">';
+    html += '<br>';
+    var file_url = ajaxGetFileURL(name, id);
+    if (name == 'partner')
+    {
+        html += '<img id="file_preview" class= "minipic" alt="Ваш файл" src="' + file_url + '">';
+    }
+    else
+    {
+        html += 'Ваш файл : <a id="file_preview" href="' + file_url + '">' + file_url + '</a>';
+    }
+    html += '<br>';
+    html += '<input type="file" id="file_form" value=" " name="file_form">';
+    html += '<br>';
+    $('#dialog_ui').html(html);
+    $('#dialog_ui').dialog({
+        modal: true,
+        position: ["center","center"],
+        title: 'Загрузить изображение',
+        buttons:
+        {
+            "Загрузить": function()
+            {
+                advAjaxFileUpload(name, id);
+            },
+            "Удалить": function()
+            {
+                advAjaxFileDelete(name, id);
+            },
+            "Закрыть": function()
+            {
+                $(this).dialog("close");
+            }
+        }
+    });
+    return false;
+}
+
+function advAjaxFileUpload(name, id)
+{
+    $("#loading").ajaxStart(function(){
+        $(this).show();
+    }).ajaxComplete(function(){
+        $(this).hide();
+    });
+
+    $.ajaxFileUpload
+    (
+        {
+            url:'/ajax/advUpload',
+            secureuri:false,
+            dataType: 'json',
+            fileElementId:'file_form',
+            type:'POST',
+            data:
+                {
+                    name: name,
+                    id: id
+                },
+            success: function (data, status)
+            {
+                $("#loading").hide();
+                if(typeof(data.error) != 'undefined')
+                {
+                    if(data.error != '')
+                    {
+                        alert(data.error);
+                    }
+                    else
+                    {
+                        if (name == 'partner')
+                            alert('Файл был успешно загружен (id=' + data.file_id +')');
+
+                        ajaxGetFileURL(name, id);
+                    }
+                }
+            },
+            error: function (data, status, e)
+            {
+                $("#loading").hide();
+                alert(e);
+            }
+        }
+    );
+    return false;
+}
+
+function advAjaxFileDelete(name, id){
+
+    $.ajax({
+        data: {
+            name:name,
+            id: id
+        },
+        dataType: "HTML",
+        type:'POST',
+        url:'/ajax/adv_delete_file/',
+        success:function(data){
+            alert(data);
+            $('#file_preview').attr('src', '');
+            $('#file_preview').text('');
+
+        },
+        error:function(data){
+            alert("Произошла ошибка при попытке удалить файл");
+        }
+    });
+    return false;
+}
+/**
+ * Получить путь к файлу
+ * @param name тип файла
+ * @param id идентификатор записи, к которой относится файл
+ */
+function ajaxGetFileURL(name, id)
+{
+    $("#loading").ajaxStart(function(){
+        $(this).show();
+    }).ajaxComplete(function(){
+        $(this).hide();
+    });
+    $.ajax({
+            data: {
+                name:name,
+                id:id
+            },
+            dataType: "html",
+            type:'POST',
+            url:'/ajax/get_file_url/',
+            success:function(data){
+                $('#file_preview').attr('src', data);
+                return data;
+            },
+            error:function(data){
+                $('#file_preview').attr('src', '');
+                return null;
+            }
+    });
 }

@@ -107,6 +107,145 @@ class Ajax extends CI_Controller {
         echo "}";
     }
 
+    /**
+     * Сохраняет файл на сервере. Удаляет старый файл.
+     * использует POST-переменные:
+     * name - тип принимаемого файла
+     * id - идентификатор записи
+     */
+    function advUpload()
+    {
+        $error = '';
+        $name = $this->input->post('name', TRUE);
+        $id = $this->input->post('id', TRUE);
+
+        // В зависимости от типа файла установить параметры загрузки
+        switch ($name)
+        {
+            case 'partner':
+                // Изображение партнера
+                $config['upload_path'] = './uploads/partners/';
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']	= '1000';
+                $config['max_width']  = '2048';
+                $config['max_height']  = '1280';
+
+                $field = 'image';
+                $table = TABLE_PARTNERS;
+                break;
+        }
+
+        // Загрузить файл
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('file_form'))
+		{
+            $error = $this->upload->display_errors('','');
+		}
+        else
+		{
+            // Получаем корректный путь к файлу
+            $upload_data = $this->upload->data();
+            $segments = explode('/', $upload_data['full_path']);
+            $segments = array_reverse($segments);
+            $file->name = $segments[2].'/'.$segments[1].'/'.$segments[0];
+
+            // добавление записи в таблицу файлов
+            $this->db->insert(TABLE_FILES, $file);
+            $file_id = $this->db->insert_id();
+            $path = $this->config->item('base_url') . $file->name;
+
+            // удаление старого файла из таблицы $table с id = $id
+            $old = $this->db
+                            ->select($field)
+                            ->get_where($table, array('id' => $id))
+                            ->result();
+
+            if ($old)
+            {
+                $this->load->model(MODEL_FILE);
+                $oldpath = $this->{MODEL_FILE}->delete_file($old[0]->$field);
+            }
+            // добавление нового
+
+            $record->$field = $file_id;
+            $this->db->where('id', $id);
+            $this->db->update($table, $record);
+		}
+        echo "{";
+        echo				"error: '" . $error. "',\n";
+        echo                "path:'" . $path . "',\n";
+        echo                "file_id:'" . $file_id . "'\n";
+        echo "}";
+    }
+
+    /**
+     * Получить полный путь к файлу
+     * Использует POST-параметры
+     * - name тип файла
+     * - id идентификатор записи
+     */
+    function get_file_url()
+    {
+        $name = $this->input->post('name', TRUE);
+        $id = $this->input->post('id', TRUE);
+
+        switch($name)
+        {
+            case 'partner':
+                $this->load->model(MODEL_PARTNER);
+                $url = $this->{MODEL_PARTNER}->get_image_path($id);
+        }
+
+
+        echo $this->config->item('base_url') . $url;
+
+        $f = fopen('log2.txt', 'w');
+        fputs($f, $this->config->item('base_url') . $url);
+
+    }
+
+    function adv_delete_file()
+    {
+        if ($this->ion_auth->is_admin())
+        {
+            $name = $this->input->post('name', TRUE);
+            $id = $this->input->post('id', TRUE);
+            switch ($name)
+            {
+                case 'partner':
+                    $field = 'image';
+                    $table = TABLE_PARTNERS;
+                    break;
+            }
+            $res = $this->db
+                    ->select($field)
+                    ->from($table)
+                    ->where('id', $id)->get()->result();
+            //fputs($f, json_encode($res));
+            if ($res)
+            {
+                $fileid = $res[0]->$field;
+                //fputs($f, "\n".$fileid);
+                if ($fileid)
+                {
+                    //fputs($f, "\n not null");
+                    $this->load->model(MODEL_FILE);
+                    $record->$field = null;
+
+                    $this->db->where('id', $id);
+                    $this->db->update($table, $record);
+                    $this->{MODEL_FILE}->delete_file($fileid);
+                    echo "Файл был успешно удален";
+                    return;
+                }
+                echo "У пользователя нет изображения";
+                return;
+            }
+            echo "Пользователь не найден";
+            return;
+        }
+    }
+
     function delete_file()
     {
         if ($this->ion_auth->is_admin())

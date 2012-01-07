@@ -110,6 +110,14 @@ class Partner_model extends Super{
      */
     public function delete($id)
     {
+        $this->load->model(MODEL_FILE);
+        $result = parent::get_fields(
+                TABLE_PARTNERS,
+                array('image'),
+                NULL,
+                NULL,
+                $id);
+        $this->{MODEL_FILE}->delete_file($result->image);
         return parent::delete_record(TABLE_PARTNERS, $id);
     }
 
@@ -179,6 +187,25 @@ class Partner_model extends Super{
         if ($result)
             $result->image = $this->{MODEL_FILE}->get_file_path($result->image);
         return $result;
+    }
+
+    /**
+     * Получить путь к изображению партнера
+     * @param int $id идентификатор партнера
+     * @return mixed путь или NULL
+     */
+    public function get_image_path($id)
+    {
+        $result = parent::get_fields(
+                TABLE_PARTNERS,
+                array('image'),
+                NULL,
+                NULL,
+                $id);
+        $this->load->model(MODEL_FILE);
+        if ($result)
+            $result->image = $this->{MODEL_FILE}->get_file_path($result->image);
+        return $result->image;
     }
 }
 
