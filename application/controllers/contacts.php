@@ -19,7 +19,7 @@ class Contacts extends CI_Controller{
         $data['active'] = 'page_contacts';
 		$data['content'] = $this->load->view('static/contacts', '', TRUE);
         $data['breadcrumbs'] = $this->get_breadcrumbs();
-		$this->load->view('templates/new_main_view', $data);
+		$this->load->view('templates/main_view', $data);
     }
 
     function get_breadcrumbs()

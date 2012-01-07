@@ -18,7 +18,7 @@ class Users extends CI_Controller {
         $data['users'] = $this->{MODEL_USER}->get_short();
         $data['active'] = 'none';
 		$data['content'] = $this->load->view('users_view', $data, TRUE);
-		$this->load->view('templates/new_main_view', $data);
+		$this->load->view('templates/main_view', $data);
 	}
 
 	/**
@@ -34,7 +34,7 @@ class Users extends CI_Controller {
 		$data['info'] = $this->{MODEL_USER}->get_user_info($id, $page);
 		$data['page'] = $page;
 		$data['content'] = $this->load->view('user_view', $data, TRUE);
-		$this->load->view('templates/new_main_view', $data);
+		$this->load->view('templates/main_view', $data);
 	}
 
 }

@@ -17,7 +17,7 @@ class Partners extends CI_Controller {
 		$data['partners'] = $this->{MODEL_PARTNER}->get_cards();
 		$data['content'] = $this->load->view('partners_view', $data, TRUE);
         $data['breadcrumbs'] = $this->get_breadcrumbs();
-		$this->load->view('templates/new_main_view', $data);
+		$this->load->view('templates/main_view', $data);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Partners extends CI_Controller {
                 $data['breadcrumbs'] ['/partners/'.$id] = $data['partner']->name;
             }
         }
-        $this->load->view('templates/new_main_view', $data);
+        $this->load->view('templates/main_view', $data);
 	}
     function get_breadcrumbs()
     {
