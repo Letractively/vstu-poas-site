@@ -34,7 +34,6 @@
 	<!-- Header -->
 	<div id="header">
 		<div id="header-in">
-
             <ul id="navigation">
                 <li id="house"><?php menu_item('page_main', '/');?>|</li>
                 <li id="rss"><?php echo anchor('/rss', 'RSS');?>|</li>

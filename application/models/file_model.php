@@ -2,11 +2,15 @@
 class File_model extends CI_Model{
     function get_file_path($fileid)
     {
-        $file = $this->db
-                            ->select('name')
-                            ->get_where(TABLE_FILES, array('id' => $fileid))
-                            ->result();
-        return $file ? $file[0]->name : NULL;
+        if ($fileid != NULL && $fileid != '')
+        {
+            $file = $this->db
+                                ->select('name')
+                                ->get_where(TABLE_FILES, array('id' => $fileid))
+                                ->result();
+            return $file ? $file[0]->name : NULL;
+        }
+        return NULL;
     }
     function delete_file($fileid)
     {

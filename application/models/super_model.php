@@ -7,7 +7,7 @@
 
 abstract class Super_model extends CI_Model{
     var $message ='';
-    abstract function get_short($id);
+    abstract function get_short($id = null);
     abstract function get_detailed($id);
     abstract function add_from_post();
     abstract function edit_from_post();
@@ -39,7 +39,7 @@ abstract class Super_model extends CI_Model{
 			}
 			return $records[0];
 		}
-	
+
 		return $this->db
 					->select($extraselect . ',id, name_'.lang().' as name')
 					->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""')
@@ -47,17 +47,17 @@ abstract class Super_model extends CI_Model{
 					->get($table)
 					->result();
     }
-    
+
     /**
 	 * Получить детальную информацию о записи
-	 *     
-	 * @param $id - идентификатор записи    
+	 *
+	 * @param $id - идентификатор записи
      * @param $table - имя таблицы базы данных
-     * @param $extselect1 - часть первого SELECT-запроса. Должны быть 
+     * @param $extselect1 - часть первого SELECT-запроса. Должны быть
      * перечислены требуемые поля с учетом языка. id и name_XX не указывать.
-     * @param $extselect2 - часть второго SELECT-запроса. Должны быть 
+     * @param $extselect2 - часть второго SELECT-запроса. Должны быть
      * перечислены требуемые русские поля. id и name_ru не указывать.
-     * 
+     *
 	 * @return запись
 	 */
 	protected final function _get_detailed($id, $table, $extselect1, $extselect2)
@@ -87,7 +87,7 @@ abstract class Super_model extends CI_Model{
 			return $records[0];
 		}
 	}
-    
+
     /**
 	 * Получить запись из таблицы базы данных
 	 *
@@ -104,14 +104,14 @@ abstract class Super_model extends CI_Model{
 		}
 		return $record[0];
     }
-    
+
     /**
 	 * Добавить новую запись
      * @param $table - имя таблицы базы даных
      * @param $record - запись
 	 * @return int id - идентификатор добавленной записи | FALSE
 	 */
-	protected final function _add($table, $record) 
+	protected final function _add($table, $record)
 	{
 		if($this->db->insert($table, $record))
 		{
@@ -124,7 +124,7 @@ abstract class Super_model extends CI_Model{
 			return FALSE;
 		}
 	}
-    
+
     /**
 	 * Изменить запись
      * @param $table - имя таблицы базы даных
@@ -143,16 +143,16 @@ abstract class Super_model extends CI_Model{
 		}
 		return $response;
 	}
-    
+
     /**
 	 * Получить информацию о записи из данных, полученных методом POST
-     * 
+     *
      * @param $name - имя сущности (direction, project, user, publication...)
      * @param array $fields - массив передаваемых POST-запросом данных в формате
      * (имя поля таблицы => имя POST-переменной)
      * @param array $nulled_fields - массив проверяемых на пустоту полей в
      * формате (имя поля таблицы => значение, считаемое нулевым)
-     * 
+     *
 	 * @return объект, содержащий собранную информацию о записи
 	 */
 	protected final function _get_from_post($name, $fields, $nulled_fields)
@@ -176,7 +176,7 @@ abstract class Super_model extends CI_Model{
         }
 		return $record;
 	}
-    
+
     /**
 	 * Удалить запись из базы
 	 *
@@ -198,12 +198,12 @@ abstract class Super_model extends CI_Model{
 		}
 		return TRUE;
 	}
-    
+
     /**
      * Проверить поля на заполненность.
      * @param $necessary1 обязательные поля
      * @param $necessary2 поля, обязательные, если одно из них заполнено
-     * @return ошибки 
+     * @return ошибки
      */
     protected final function _get_errors($necessary1, $necessary2)
     {
@@ -214,7 +214,7 @@ abstract class Super_model extends CI_Model{
             if ($this->input->post($post) == '')
                 $errors->$field = true;
         }
-        
+
         // Если пользователь ввел хотя бы одно поле $necessary2
         // требовать все остальные
         $necessary2_started = false;
@@ -232,10 +232,10 @@ abstract class Super_model extends CI_Model{
         }
 		return $errors;
     }
-    
+
     /**
      * Обновить таблицу участников
-     * 
+     *
      * @param type $table таблица участников
      * @param type $field поле, содержащее идентификатор записи
      * @param type $id идентификатор записи
@@ -244,7 +244,7 @@ abstract class Super_model extends CI_Model{
     protected final function _update_connected_users($table, $field, $id, $members)
     {
         // Если никого вообще нет - удалить по id проекта
-        if (!$members) 
+        if (!$members)
         {
             $this->db->delete($table, array($field => $id));
             return;
@@ -260,7 +260,7 @@ abstract class Super_model extends CI_Model{
         }
         // удалить устаревшие записи (тех, кто был записан в проект, а теперь
         // его в списке нет
-            foreach($old_members as $old_member) 
+            foreach($old_members as $old_member)
             {
                 // Если старого нет среди новых - удалить его
                 if (array_search($old_member, $members) === FALSE)
@@ -286,7 +286,7 @@ abstract class Super_model extends CI_Model{
                 }
             }
     }
-    
+
     /**
      * Проверяет, существует ли в таблице запись с указанным атрибутом
      * @param type $table таблица
@@ -299,7 +299,7 @@ abstract class Super_model extends CI_Model{
         $this->db->from($table)->where($field, $value);
         $count = $this->db->count_all_results();
         return  $count > 0 ? $count : FALSE;
-    }    
+    }
 }
 
 ?>
