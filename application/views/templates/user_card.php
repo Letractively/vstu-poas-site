@@ -5,7 +5,7 @@
         if (!isset($interests))
             $interests = array();
         if (!isset($photo) || $photo == '' || $photo == NULL)
-            $src = '/images/site/nophoto.jpg';
+            $src = NOPHOTO;
         else
             $src = '/'.$photo;
     ?>
