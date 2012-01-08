@@ -69,7 +69,7 @@
 	<a href="#skip-menu" class="hidden">Skip menu</a>
 		<ul id="menu">
             <?php if (!isset($active)) $active = 'none'; ?>
-			<li class="first"><?php menu_item('page_main', '/', $active == 'page_main' ? 'class=active':'');?></li>
+<!--			<li class="first"><?php menu_item('page_main', '/', $active == 'page_main' ? 'class=active':'');?></li>-->
             <li>
 				<?php menu_item('page_about', '#', $active == 'page_about' ? 'class=active submenu':'class=submenu')?>
 				<ul>
@@ -116,7 +116,6 @@
                     <?php
                         if(isset($breadcrumbs))
                         {
-                            echo '<div class="breadcrumbs">';
                             $anchored_breadcrumbs = array();
                             foreach ($breadcrumbs as $link => $name)
                             {
@@ -125,8 +124,9 @@
                                 else
                                     $anchored_breadcrumbs[] = $name;
                             }
+                            $anchored_breadcrumbs[count($anchored_breadcrumbs)-1]
+                                = '<span class="last">'.$anchored_breadcrumbs[count($anchored_breadcrumbs)-1].'</span>';
                             echo '// ' . implode('<span class="delimiter"> // </span>', $anchored_breadcrumbs);
-                            echo '</div>';
                         }
                     ?>
                 </div>

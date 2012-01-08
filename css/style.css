@@ -270,7 +270,7 @@ background-color: #FFFFFF;
 }
 
 #content-box-in-left-in {
-margin: 1.8em 1em 7em 1.8em;
+margin: 0 1em 7em 1.8em;
 }
 
 #content-box-in-right {
@@ -450,11 +450,25 @@ font-size: 1.1em;
 
 /* Хлебные крошки*/
 .breadcrumbs {
-    margin-left:10px;
-    margin-top: 10px;
-    color: #005ac1;
+    padding-top: 2px;
+    padding-left: 10px;
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+    color: white;
     font-weight: bold;
     font-size: 10px;
+    background-color: #252525;
+}
+.breadcrumbs a {
+    color:white;
+    text-decoration: none;
+}
+.breadcrumbs .last a {
+    color:#D0F500;
+}
+.breadcrumbs a:hover{
+    color:#D0F500;
+    text-decoration: underline;
 }
 
 .read_more_button {

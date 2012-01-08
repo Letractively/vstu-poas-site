@@ -17,6 +17,10 @@ class Index extends CI_Controller{
         $data['active'] = 'page_main';
         $data['content'] = '<div id=time></div>';
 		$data['content'] .= 'Бобро поржаровать!';
+
+        $breadcrumbs = array();
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $data['breadcrumbs'] = $breadcrumbs;
 		$this->load->view('templates/main_view', $data);
     }
 }
