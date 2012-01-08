@@ -29,8 +29,8 @@ class Direction_model extends Super
 
     /**
      * Получить число участников направления
-     * @param int $id идетификатор публикации
-     * @return int число авторов публикации
+     * @param int $id идентификатор направления
+     * @return int число участников направления
      */
     public function get_members_count($id)
     {
@@ -131,8 +131,8 @@ class Direction_model extends Super
      */
     public function edit_from_post()
     {
-        $partner = $this->get_from_post();
-        return parent::edit(TABLE_DIRECTIONS, $partner);
+        $direction = $this->get_from_post();
+        return parent::edit(TABLE_DIRECTIONS, $direction);
     }
 
     /**

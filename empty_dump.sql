@@ -162,12 +162,14 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name_ru` varchar(150) NOT NULL,
   `name_en` varchar(150) DEFAULT NULL,
-  `description_ru` varchar(800) NOT NULL,
-  `description_en` varchar(800) DEFAULT NULL,
   `url` varchar(150) DEFAULT NULL,
   `image` int(10) unsigned DEFAULT NULL,
+  `full_ru` text NOT NULL,
+  `full_en` text,
+  `short_ru` text NOT NULL,
+  `short_en` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

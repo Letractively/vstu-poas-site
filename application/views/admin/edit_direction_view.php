@@ -6,7 +6,7 @@ if( !isset($direction->id) )
 	$button_title = 'Создать направление';
     $direction->name_ru = '';
     $direction->short_ru = '';
-    $en_version_started = false;
+    $en_version_started = FALSE;
 }
 else
 {

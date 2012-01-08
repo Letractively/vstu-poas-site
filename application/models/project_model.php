@@ -4,229 +4,94 @@
  * Модель проектов.
  */
 
-require_once('super_model.php');
-class Project_model extends Super_model
+require_once('super.php');
+class Project_model extends Super
 {
+
     /**
-     * Получить краткую информацию о проекте
-     * @param int $id идентификатор проекта
-     * @return проект
+     * Провести валидацию данных в POST-запросе на странице редактирования
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если нет ошибок валидации, иначе - FALSE
      */
-    function get_short($id = null)
+    public function validate()
     {
-        $result = $this->_get_short(TABLE_PROJECTS,
-                                 'url',
-                                 'name_' . lang() . ',name_ru, id',
-                                 $id);
-        if (is_array($result)) {
-            foreach($result as $record){
-                $this->db->from(TABLE_PROJECT_MEMBERS)->where('projectid', $record->id);
-                $record->memberscount = $this->db->count_all_results();
-            }
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+        $flag = $this->form_validation->run('admin/projects');
+        if ($flag == FALSE)
+        {
+            $this->admin_message = 'Введены недопустимые данные';
         }
-        return $result;
-    }
-
-    function get_cards()
-    {
-        $result = $this->_get_short(TABLE_PROJECTS,
-                                 'url',
-                                 'name_' . lang() . ',name_ru, id',
-                                 null);
-        if (is_array($result)) {
-            foreach($result as $record){
-                $record->image = $this->get_image($record->id);
-            }
-        }
-        return $result;
+        return $flag;
     }
 
     /**
-     * Получить информацию о проекте для представления
-     * @param int $id идентификатор проекта
-     * @return проект
+     * Сформировать запись из полей, полученных методом POST
+     * @return mixed объект записи или FALSE
      */
-    function get_detailed($id) {
-        $select1 = 'description_' . lang() . ' as description, url, image';
-        $select2 = 'description_ru as description, url, image';
-        return $this->_get_detailed($id, TABLE_PROJECTS, $select1, $select2);
-    }
-
-    /**
-     * Получить полную информацию о проекте
-     * @param int $id идентификатор проекта
-     * @return проект
-     */
-    function get_project($id)
-    {
-        $project = $this->_get_record($id, TABLE_PROJECTS);
-        $project->members = $this->get_members($id);
-        return $project;
-    }
-
-    function get_view_extra() {
-        $extra = null;
-        $extra->users = $this->db
-                                ->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
-                                ->from(TABLE_USERS)
-                                ->order_by('surname,name,patronymic')
-                                ->get()
-                                ->result();
-        return $extra;
-    }
-
-    /**
-     * Получить информацию о проекте из POST-запроса
-     * @return проект
-     */
-    function get_from_post()
+    public function get_from_post()
     {
         $fields = array(
-            'name_ru' => 'project_name_ru',
-            'name_en' => 'project_name_en',
-            'description_ru' => 'project_description_ru',
-            'description_en' => 'project_description_en',
-            'url' => 'project_url',
-            'image' => 'project_image',
-            'members' => 'project_members'
+            'name_ru'  => 'project_name_ru',
+            'name_en'  => 'project_name_en',
+            'full_ru'  => 'project_full_ru',
+            'full_en'  => 'project_full_en',
+            'short_ru' => 'project_short_ru',
+            'short_en' => 'project_short_en',
+            'url' => 'project_url'
         );
         $nulled_fields = array(
+            'name_ru' => '',
             'name_en' => '',
-            'description_en' => '',
-            'url' => '',
-            'image' =>'',
-            'image' => 0
+            'short_ru' => '',
+            'short_en' => '',
+            'full_en' => '',
+            'full_ru' => '',
+            'url' => ''
         );
-        return $this->_get_from_post('project', $fields, $nulled_fields);
+        return parent::create_record_object('project', $fields, $nulled_fields);
     }
 
     /**
-     * Обновить список участников проекта
-     *
-     * @param type $id идентификатор проекта
-     * @param $members массив идентификаторов участников проекта
+     * Добавить запись в БД, параметры которой переданы через POST-запросы
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если запись была успешно добавлена, иначе - FALSE
      */
-    function update_project_members($id, $members)
+    public function add_from_post()
     {
-        $this->_update_connected_users(TABLE_PROJECT_MEMBERS,
-                'projectid',
-                $id,
-                $members);
-    }
-    /**
-     * Добавить проект, получаемый через POST-запрос
-     * @return int id - идентификатор добавленной записи | FALSE
-     */
-    function add_from_post()
-    {
-        $project = $this->get_from_post();
-        unset($project->members);
-        unset($project->image);
-        $id = $this->_add(TABLE_PROJECTS, $project);
-        // Если файл загружен - не удалять из записи для вставки
-        //if ($id = $this->_add(TABLE_PROJECTS, $project))
-        //{
-        //    $this->update_project_members($id, $this->input->post('project_members'));
-        //}
-        return $id;
+        return parent::add(TABLE_PROJECTS, $this->get_from_post());
     }
 
     /**
-     * Загрузить изображение проекта на сервер
-     * в случае успешного добавления путь файла
-     * записывается в $_POST['project_image']
-     *
-     * @return string ошибка загрузки файла
+     * Получить список записей для панели администратора
+     * @param int $page страница
+     * @param int $amount_on_page количество записей на странице
+     * @return array массив записей
      */
-    function upload_file() {
-        $config['upload_path'] = './uploads/projects/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']	= '1000';
-		$config['max_width']  = '1024';
-		$config['max_height']  = '768';
-
-		$this->load->library('upload', $config);
-
-		if ( ! $this->upload->do_upload('project_image'))
-		{
-            // Если при добавлении файла произошла ошибка - закончить операцию
-            echo 'errors';
-			return $this->upload->display_errors('','');
-		}
-		else
-		{
-            // Если ошибок не возникло - запомнить путь к файлу в POST переменной
-            echo 'no errors';
-
-            // Получаем корректный путь к файлу
-            $upload_data = $this->upload->data();
-            $segments = explode('/',$upload_data['full_path']);
-            $segments = array_reverse($segments);
-
-            $_POST['project_image'] = $segments[2].'/'.$segments[1].'/'.$segments[0];
-		}
-    }
-
-    function delete_image($id, $image = null)
+    public function get_records_for_admin_view($page = 1, $amount_on_page = 20)
     {
-        if ($image == null)
-        {
-            if($project = $this->get_detailed($id))
-            {
-                if($project->image)
-                    unlink($project->image);
+        $records = $this->db
+                ->select('id, name_ru as name')
+                ->get(TABLE_PROJECTS, $amount_on_page, ($page - 1) * $amount_on_page)
+                ->result();
+        if (is_array($records)) {
+            foreach($records as $record){
+                $record->memberscount = $this->get_members_count($record->id);
             }
         }
-        else
-        {
-            unlink($image);
-        }
-
-    }
-    /**
-	 * Получить информацию о проекте из данных, полученных методом POST
-	 * @return объект, содержащий собранную информацию о проекте
-	 */
-    function edit_from_post() {
-        $project = $this->get_from_post();
-        unset($project->members);
-        //$this->update_project_members($project->id, $this->input->post('project_members'));
-
-        // Если файл остается нетронутым - не задавать поле
-        //if ($this->input->post('project_image_action') == 'leave')
-        //{
-        //unset($project->image);
-        //}
-        // Если файл удален или записан новый,
-        // то удалить старый файл. имя старого файла хранится в скрытой копии поля
-        //else
-        //{
-            // Если файл удален, то обнулять поле
-        //    if ($this->input->post('project_image_action') == 'delete')
-        //        $project->image = null;
-
-        //    if (file_exists($this->input->post('project_image_copy')))
-        //        unlink($this->input->post('project_image_copy'));
-        //}
-
-        $result = $this->_edit(TABLE_PROJECTS, $project);
-        return $result;
+        return $records;
     }
 
     /**
-     * Удалить проект из базы данных
-     * Так же удаляет записи из таблицы "участники проекта"
+     * Получить число участников проекта
      * @param int $id идентификатор проекта
-     * @return TRUE, если проект удален, иначе FALSE
+     * @return int число участников проекта
      */
-    function delete($id)
+    public function get_members_count($id)
     {
-        $this->delete_image($id);
-        $result = $this->_delete(TABLE_PROJECTS, $id);
-        $message = $this->message;
-        $cascade = $this->_delete(TABLE_PROJECT_MEMBERS, $id, 'projectid');
-        $this->message = $message;
-        return $cascade && $result;
+        return $this->db->query('select count(distinct userid) as count from '
+                                         .TABLE_PROJECT_MEMBERS
+                                         .' where projectid='
+                                         .$id)->row()->count;
     }
 
     /**
@@ -237,61 +102,152 @@ class Project_model extends Super_model
 	function get_members($id)
 	{
 		$this->db
-				->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
-				->from(TABLE_PROJECT_MEMBERS)
-				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PROJECT_MEMBERS . '.userid')
-				->where('projectid = ' . $id);
-				return $this->db->get()->result();
+            ->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
+            ->from(TABLE_PROJECT_MEMBERS)
+            ->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PROJECT_MEMBERS . '.userid')
+            ->where('projectid = ' . $id);
+        return $this->db->get()->result();
 	}
 
-    /**
-     * Проверить название и описание проекта (заполнены ли)
-     * @return object Объект ошибок
+     /**
+     * Проверить, существует ли запись в БД
+     * @param int $id идентифиактор искомой записи
+     * @return boolean TRUE, если запись существует, иначе - FALSE
      */
-    function get_errors()
+    public function exists($id)
     {
-        $rus = array(
-            'project_name_ru' => 'nameruforgotten',
-            'project_description_ru' => 'descriptionruforgotten',
-        );
-        $eng = array(
-            'project_name_en' => 'nameenforgotten',
-            'project_description_en' => 'descriptionenforgotten',
-        );
-        if (!$errors = $this->_get_errors($rus, $eng))
-        {
-            // действия с файлами только в случае, если прочих ошибок нет
-            if ($this->input->post('project_image_action') == 'update')
-            {
-                // Попытка загрузить файл, если остальные данные в порядке и
-                // пользователь выбрал радио-кнопку "обновить"
-                $errors->imageuploaderror = $this->upload_file();
-                if ($errors->imageuploaderror == '')
-                    $errors = null;
-            }
-        }
-        if ($errors)
-        {
-            $_POST['project_image'] = $this->input->post('project_image_copy');
-        }
-        return $errors;
+        return parent::record_exists(TABLE_PROJECTS, $id);
     }
 
-    function exists($id)
+    /**
+     * Получить полные данные о записи
+     * @param int $id идентификатор записи
+     * @return mixed запись или FALSE, если запись не существует
+     */
+    public function get_record_for_admin_edit_view($id)
     {
-        return $this->_record_exists(TABLE_PROJECTS, $id);
+        return parent::get(TABLE_PROJECTS, $id);
+    }
+
+    /**
+     * Обновить запись в БД, параметры которой переданы через POST-запросы
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если запись была успешно обновлена, иначе - FALSE
+     */
+    public function edit_from_post()
+    {
+        $project = $this->get_from_post();
+        return parent::edit(TABLE_PROJECTS, $project);
+    }
+
+    /**
+     * Удалить запись из БД
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @param int $id идентификатор удаляемой записи
+     * @return boolean TRUE, если запись существовала и была успешно удалена, иначе - FALSE
+     */
+    public function delete($id)
+    {
+        $this->load->model(MODEL_FILE);
+        $result = parent::get_fields(
+                TABLE_PROJECTS,
+                array('image'),
+                NULL,
+                NULL,
+                $id);
+        $this->{MODEL_FILE}->delete_file($result->image);
+        // Удаление участников направления
+        parent::delete_record(TABLE_PROJECT_MEMBERS, $id, 'projectid');
+
+        return parent::delete_record(TABLE_PROJECTS, $id);
     }
 
     /**
      * Получить путь к изображению проекта
-     * @param $id id проекта
-     * @return путь к файлу или null
+     * @param int $id идентификатор проекта
+     * @return mixed путь или NULL
      */
-    function get_image($id)
+    public function get_image_path($id)
     {
-        $project = $this->get_project($id);
+        $result = parent::get_fields(
+                TABLE_PROJECTS,
+                array('image'),
+                NULL,
+                NULL,
+                $id);
         $this->load->model(MODEL_FILE);
-        return $this->{MODEL_FILE}->get_file_path($project->image);
+        if ($result)
+            $result->image = $this->{MODEL_FILE}->get_file_path($result->image);
+        return $result->image;
+    }
+
+    /**
+     * Получить информацию о направлениях для страницы направлений
+     * @return array направления
+     */
+    public function get_cards()
+    {
+        $result = parent::get_fields(
+                TABLE_PROJECTS,
+                array(
+                    'id',
+                    'name_'.lang().' as name',
+                    'short_'.lang().' as short',
+                    'url'
+                    ),
+                NULL,
+                'name_'.lang().' IS NOT NULL AND short_'.lang().' IS NOT NULL'
+                );
+        if (is_array($result)) {
+            foreach($result as $record){
+                $record->image = $this->get_image_path($record->id);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Получить данные о направлении для страницы направлений на сайте
+     * @param int $id идентификатор направления
+     * @return object объект записи
+     */
+    public function get_card($id)
+    {
+        $result = parent::get_fields(
+                TABLE_PROJECTS,
+                array(
+                    'id',
+                    'name_'.lang().' as name',
+                    'short_'.lang().' as short',
+                    'full_'.lang().' as full',
+                    'url',
+                    'image'
+                ),
+                NULL,
+                NULL,
+                $id);
+        if ($result->name == NULL)
+        {
+            $result = parent::get_fields(
+                TABLE_PROJECTS,
+                array(
+                    'id',
+                    'name_ru as name',
+                    'short_ru as short',
+                    'full_ru as full',
+                    'url',
+                    'image'
+                ),
+                NULL,
+                NULL,
+                $id);
+        }
+        $this->load->model(MODEL_FILE);
+        if ($result)
+            $result->image = $this->{MODEL_FILE}->get_file_path($result->image);
+        return $result;
     }
 }
-?>
+
+/* End of file project_model.php */
+/* Location: ./application/models/project_model.php */

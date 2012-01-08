@@ -12,7 +12,10 @@ foreach ($projects as $project)
     echo div('image').anchor('/about/scientific/projects/'.$project->id, img($project->image)).'</div>';
 
     // Вывод названия проекта-ссылки на его страничку на сайте
-	echo anchor('/about/scientific/projects/'.$project->id,$project->name);
+	echo anchor('/about/scientific/projects/'.$project->id, $project->name);
+
+    // Вывод краткого описания проекта
+    echo br(2).$project->short;
 
     // Вывод ссылки на сайт проекта, если есть
 	if (isset($project->url))

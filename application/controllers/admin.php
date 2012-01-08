@@ -141,13 +141,18 @@ class Admin extends CI_Controller {
     function _project_en($string)
     {
         $name_en = $this->input->post('project_name_en');
-        $description_en = $this->input->post('project_description_en');
-        if ($name_en == '' ^ $description_en == '')
+        $short_en = $this->input->post('project_short_en');
+        $full_en = $this->input->post('project_full_en');
+        if ( $name_en == '' && $short_en == '' && $full_en == '' ||
+                $name_en != '' && $short_en != '' && $full_en != '')
+        {
+            return TRUE;
+        }
+        else
         {
             $this->form_validation->set_message('_project_en', 'Необходимо заполнить все поля для английской версии');
             return FALSE;
         }
-        return TRUE;
     }
 
     /**
@@ -342,89 +347,7 @@ class Admin extends CI_Controller {
 	 */
 	function projects()
 	{
-        //$this->_page('projects', 'project', MODEL_PROJECT);
-        //$this->_page('users', 'user', MODEL_USER);
-        $data = NULL;
-		$this->load->model(MODEL_PROJECT);
-        $this->load->model(MODEL_FILE);
-        $this->lang->load('site', 'russian');
-		$this->load->library('form_validation');
-		switch($this->uri->segment(3)) {
-			case 'add':
-                if($this->uri->segment(4) == 'action')
-                {
-                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-                    if ($this->form_validation->run('admin/projects') == FALSE)
-                    {
-                        $data['extra'] = $this->{MODEL_PROJECT}->get_view_extra();
-                        $data['content'] = $this->load->view('admin/edit_project_view', $data, TRUE);
-                        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('project_a');
-                        $this->load->view('/templates/admin_view', $data);
-                    }
-                    else
-                    {
-                        $this->{MODEL_PROJECT}->add_from_post();
-                        $this->_view_page_list('projects', MODEL_PROJECT, $this->{MODEL_PROJECT}->message);
-                    }
-                }
-                else
-                {
-                    // загрузить необходимые виду данные
-                    $data['extra'] = $this->{MODEL_PROJECT}->get_view_extra();
-                    $data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
-                    $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('project_a');
-                    $this->load->view('/templates/admin_view', $data);
-                }
-				break;
-			case 'edit':
-                if($this->uri->segment(4) == 'action')
-                {
-                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-                    if ($this->form_validation->run('admin/projects') == FALSE)
-                    {
-                        $data['extra'] = $this->{MODEL_PROJECT}->get_view_extra();
-                        $data['project'] = $this->{MODEL_PROJECT}->get_from_post();
-                        $data['content'] = $this->load->view('admin/edit_project_view', $data, TRUE);
-                        $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('project_a');
-                        $this->load->view('/templates/admin_view', $data);
-                    }
-                    else
-                    {
-                        $this->{MODEL_PROJECT}->edit_from_post();
-                        $this->_view_page_list('projects', MODEL_PROJECT, $this->{MODEL_PROJECT}->message);
-                    }
-                }
-                else
-                {
-                    if (!$this->{MODEL_PROJECT}->exists($this->uri->segment(4)))
-                    {
-                        $this->_view_page_list('projects', MODEL_PROJECT, 'Проект не существует');
-                        return;
-                    }
-                    // загрузить необходимые виду данные
-                    $data['extra'] = $this->{MODEL_PROJECT}->get_view_extra();
-                    $data['project'] = $this->{MODEL_PROJECT}->get_project($this->uri->segment(4));
-                    $data['content'] = $this->load->view('/admin/edit_project_view', $data, TRUE);
-                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('project_a');
-                    $this->load->view('/templates/admin_view', $data);
-                }
-				break;
-			case 'delete':
-                if (!$this->{MODEL_PROJECT}->exists($this->uri->segment(4)))
-                {
-                    $this->_view_page_list('projects', MODEL_PROJECT, 'Проект не существует');
-                    return;
-                }
-				$this->{MODEL_PROJECT}->delete($this->uri->segment(4));
-                $this->_view_page_list('projects', MODEL_PROJECT, $this->{MODEL_PROJECT}->message);
-				break;
-			case '':
-			default:
-				// по адресу "/admin/$name": список всех
-				// он же при несуществующем методе
-				$this->_view_page_list('projects', MODEL_PROJECT);
-				break;
-		}
+        $this->_show_admin_page('project', 'projects', MODEL_PROJECT);
 	}
 
 	/**

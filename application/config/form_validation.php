@@ -246,8 +246,13 @@ $config['admin/projects'] = array(
         'rules' => 'trim|required'
     ),
     array(
-        'field' => 'project_description_ru',
-        'label' => 'Описание проекта (русское)',
+        'field' => 'project_short_ru',
+        'label' => 'Краткое описание проекта (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'project_full_ru',
+        'label' => 'Подробное описание проекта (русское)',
         'rules' => 'trim|required'
     ),
     array(
@@ -256,20 +261,20 @@ $config['admin/projects'] = array(
         'rules' => 'trim'
     ),
     array(
-        'field' => 'project_members[]',
-        'label' => 'Участники проекта',
-        'rules' => ''
-    ),
-    array(
         'field' => 'project_name_en',
         'label' => 'Название проекта (английское)',
         'rules' => 'trim|callback__project_en'
     ),
     array(
-        'field' => 'project_description_en',
-        'label' => 'Описание проекта (английское)',
+        'field' => 'project_short_en',
+        'label' => 'Краткое описание проекта (английское)',
         'rules' => 'trim|callback__project_en'
-    )
+    ),
+    array(
+        'field' => 'project_full_en',
+        'label' => 'Подробное описание проекта (английское)',
+        'rules' => 'trim|callback__project_en'
+    ),
 );
 $config['admin/directions'] = array(
     array(

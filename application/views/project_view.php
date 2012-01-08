@@ -5,7 +5,7 @@ echo '<div class="project">';
 echo heading($project->name, 3);
 if (isset($project->image))
 {
-    echo br().img($image).br();
+    echo br().img($project->image).br();
 }
 if (isset($project->url))
 {
@@ -14,7 +14,9 @@ if (isset($project->url))
     echo "<a href='$project->url'>" . $this->lang->line('visit_site') . "</a>";
 }
 echo br(2);
-echo $project->description;
+echo $project->short;
+echo br(2);
+echo $project->full;
 echo br(2);
 
 if (count($members) > 0)
@@ -26,8 +28,7 @@ if (count($members) > 0)
 	}
 }
 echo '</div>';
-?>
 
-<?php
+
 /* End of file project_view.php */
 /* Location: ./application/views/project_view.php */
