@@ -39,6 +39,7 @@ class Users extends CI_Controller {
 		$data['content'] = $this->load->view('user_view', $data, TRUE);
 
         $data['breadcrumbs'] = $this->get_breadcrumbs();
+        $data['breadcrumbs']['/about'] = $this->lang->line('page_about');
         if ($this->{MODEL_USER}->get_user_groups($id)->group_id == ION_USER_LECTURER)
             $data['breadcrumbs']['/about/staff'] = $this->lang->line('page_staff');
 
