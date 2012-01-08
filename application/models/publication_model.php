@@ -1,71 +1,76 @@
 <?php
 /**
- * @class Publication_model
- * Модель публикаций.
+ * Модель партнера
  */
+require_once('super.php');
+class Publication_model extends Super{
 
-require_once('super_model.php');
-class Publication_model extends Super_model
-{
     /**
-     * Получить краткую информацию о публикации
-     * @param int $id идентификатор публикации
-     * @return публикация
+     * Получить список записей для панели администратора
+     * @param int $page страница
+     * @param int $amount_on_page количество записей на странице
+     * @return array массив записей
      */
-    function get_short($id = null)
+    public function get_records_for_admin_view($page = 1, $amount_on_page = 20)
     {
-        $result = $this->_get_short(TABLE_PUBLICATIONS,
-                                 'year',
-                                 'name_' . lang() . ', name_ru, id',
-                                 $id);
+        $result = $this->db
+                ->select('id, name_ru as name')
+                ->get(TABLE_PUBLICATIONS, $amount_on_page, ($page - 1) * $amount_on_page)
+                ->result();
         if (is_array($result)) {
             foreach($result as $record){
-                $this->db->from(TABLE_PUBLICATION_AUTHORS)->where('publicationid', $record->id);
-                $record->authorscount = $this->db->count_all_results();
+                $record->authorscount = $this->get_authors_count($record->id);
             }
         }
         return $result;
     }
 
     /**
-     * Получить информацию о публикации для представления
-     * @param int $id идентификатор публикации
-     * @return публикация
+     * Получить число авторов публикации
+     * @param int $id идетификатор публикации
+     * @return int число авторов публикации
      */
-    function get_detailed($id) {
-        $select1 = 'info_' . lang() . ' as info, fulltext_ru, fulltext_en, abstract_ru, abstract_en, year';
-        $select2 = 'info_ru as info, fulltext_ru, fulltext_en, abstract_ru, abstract_en, year';
-        return $this->_get_detailed($id, TABLE_PUBLICATIONS, $select1, $select2);
-    }
-
-    /**
-     * Получить полную информацию о публикации
-     * @param int $id идентификатор публикации
-     * @return публикация
-     */
-    function get_publication($id)
+    public function get_authors_count($id)
     {
-        $publication = $this->_get_record($id, TABLE_PUBLICATIONS);
-        $publication->authors=$this->get_authors($id);
-        return $publication;
-    }
-
-    function get_view_extra() {
-        $extra = null;
-        $extra->users = $this->db
-                                ->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
-                                ->from(TABLE_USERS)
-                                ->order_by('surname,name,patronymic')
-                                ->get()
-                                ->result();
-        return $extra;
+        return $this->db->from(TABLE_PUBLICATION_AUTHORS)->where('publicationid', $id)->count_all_results();
     }
 
     /**
-     * Получить информацию о публикации из POST-запроса
-     * @return публикация
+	 * Получить информацию обо всех авторах публикации
+	 * @param int $id идентификатор публикации
+	 * @return array массив пользователей
+	 */
+	public function get_authors($id)
+	{
+		$this->db
+            ->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
+            ->from(TABLE_PUBLICATION_AUTHORS)
+            ->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PUBLICATION_AUTHORS . '.userid')
+            ->where('publicationid = ' . $id);
+        return $this->db->get()->result();
+	}
+
+    /**
+     * Провести валидацию данных в POST-запросе на странице редактирования
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если нет ошибок валидации, иначе - FALSE
      */
-    function get_from_post()
+    public function validate()
+    {
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+        $flag = $this->form_validation->run('admin/publications');
+        if ($flag == FALSE)
+        {
+            $this->admin_message = 'Введены недопустимые данные';
+        }
+        return $flag;
+    }
+
+    /**
+     * Сформировать запись из полей, полученных методом POST
+     * @return mixed объект записи или FALSE
+     */
+    public function get_from_post()
     {
         $fields = array(
             'name_ru'     => 'publication_name_ru',
@@ -76,8 +81,7 @@ class Publication_model extends Super_model
             'abstract_en' => 'publication_abstract_en',
             'year'        => 'publication_year',
             'info_ru'     => 'publication_info_ru',
-            'info_en'     => 'publication_info_en',
-            'authors'      => 'publication_authors'
+            'info_en'     => 'publication_info_en'
         );
         $nulled_fields = array(
             'name_ru'     => 'publication_name_ru',
@@ -89,96 +93,99 @@ class Publication_model extends Super_model
             'info_ru'     => '',
             'info_en'     => ''
         );
-        return $this->_get_from_post('publication', $fields, $nulled_fields);
+        return parent::create_record_object('publication', $fields, $nulled_fields);
     }
 
     /**
-     * Обновить список авторов публикации
-     *
-     * @param type $id идентификатор публикации
-     * @param $members массив идентификаторов авторов
+     * Добавить запись в БД, параметры которой переданы через POST-запросы
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если запись была успешно добавлена, иначе - FALSE
      */
-    function update_publication_authors($id, $members)
+    public function add_from_post()
     {
-        $this->_update_connected_users(TABLE_PUBLICATION_AUTHORS,
-                'publicationid',
-                $id,
-                $members);
+        return parent::add(TABLE_PUBLICATIONS, $this->get_from_post());
     }
 
     /**
-     * Добавить публикацию, получаемую через POST-запрос
-     * @return int id - идентификатор добавленной записи | FALSE
+     * Проверить, существует ли запись в БД
+     * @param int $id идентифиактор искомой записи
+     * @return boolean TRUE, если запись существует, иначе - FALSE
      */
-    function add_from_post()
-    {   $publication = $this->get_from_post();
-        unset($publication->authors);
-
-        if ($id = $this->_add(TABLE_PUBLICATIONS, $publication))
-        {
-            $this->update_publication_authors($id, $this->input->post('publication_authors'));
-        }
-        return $id;
+    public function exists($id)
+    {
+        return parent::record_exists(TABLE_PUBLICATIONS, $id);
     }
 
     /**
-	 * Получить информацию о публикации из данных, полученных методом POST
-	 * @return объект, содержащий собранную информацию о публикации
-	 */
-    function edit_from_post() {
+     * Получить полные данные о записи
+     * @param int $id идентификатор записи
+     * @return mixed запись или FALSE, если запись не существует
+     */
+    public function get_record_for_admin_edit_view($id)
+    {
+        return parent::get(TABLE_PUBLICATIONS, $id);
+    }
+
+    /**
+     * Обновить запись в БД, параметры которой переданы через POST-запросы
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если запись была успешно обновлена, иначе - FALSE
+     */
+    public function edit_from_post()
+    {
         $publication = $this->get_from_post();
-        unset($publication->authors);
-        $result = $this->_edit(TABLE_PUBLICATIONS, $publication);
-        $this->update_publication_authors($publication->id, $this->input->post('publication_authors'));
-        return $result;
+        return parent::edit(TABLE_PUBLICATIONS, $publication);
     }
 
     /**
-     * Удалить публикацию из базы данных
-     *
-     * Удалеяет так же все упоминания о публикации из таблицы авторов
-     * @param int $id идентификатор публикации
-     * @return TRUE, если публикация удалена, иначе FALSE
+     * Удалить запись из БД
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @param int $id идентификатор удаляемой записи
+     * @return boolean TRUE, если запись существовала и была успешно удалена, иначе - FALSE
      */
-    function delete($id)
+    public function delete($id)
     {
-        $publications = $this->db
-                            ->select('fulltext_ru_file, fulltext_en_file, abstract_ru_file, abstract_en_file')
-                            ->get_where(TABLE_PUBLICATIONS, array('id' => $id))
-                            ->result();
-        if (count($publications) == 1)
-        {
-            $this->load->model(MODEL_FILE);
-            $this->{MODEL_FILE}->delete_file($publications[0]->fulltext_ru_file);
-            $this->{MODEL_FILE}->delete_file($publications[0]->fulltext_en_file);
-            $this->{MODEL_FILE}->delete_file($publications[0]->abstract_ru_file);
-            $this->{MODEL_FILE}->delete_file($publications[0]->abstract_en_file);
-        }
-        $result = $this->_delete(TABLE_PUBLICATIONS, $id);
-        $message = $this->message;
-        $cascade = $this->_delete(TABLE_PUBLICATION_AUTHORS, $id, 'publicationid');
-        $this->message = $message;
-        return $cascade && $result;
+        // Удаление файлов публикации
+        $this->load->model(MODEL_FILE);
+        $result = parent::get_fields(
+                TABLE_PUBLICATIONS,
+                array('fulltext_ru_file', 'fulltext_en_file', 'abstract_ru_file', 'abstract_en_file'),
+                NULL,
+                NULL,
+                $id);
+        $this->{MODEL_FILE}->delete_file($result->fulltext_ru_file);
+        $this->{MODEL_FILE}->delete_file($result->fulltext_en_file);
+        $this->{MODEL_FILE}->delete_file($result->abstract_ru_file);
+        $this->{MODEL_FILE}->delete_file($result->abstract_en_file);
+        // Удаление авторов публикации
+        parent::delete_record(TABLE_PUBLICATION_AUTHORS, $id, 'publicationid');
+        // Удаление записи
+        return parent::delete_record(TABLE_PUBLICATIONS, $id);
     }
 
     /**
-	 * Получить информацию обо всех авторах публикации
-	 * @param int $id идентификатор публикации
-	 * @return массив пользователей
-	 */
-	function get_authors($id)
-	{
-		$this->db
-				->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
-				->from(TABLE_PUBLICATION_AUTHORS)
-				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_PUBLICATION_AUTHORS . '.userid')
-				->where('publicationid = ' . $id);
-				return $this->db->get()->result();
-	}
+     * Получить путь к файлу публикации
+     * @param int $id идентификатор публикации
+     * @param string $field тип файла / поле таблицы, содержащее идентификатор файла
+     * @return mixed путь или NULL
+     */
+    public function get_file_path($id, $field)
+    {
+        $result = parent::get_fields(
+                TABLE_PUBLICATIONS,
+                array($field),
+                NULL,
+                NULL,
+                $id);
+        $this->load->model(MODEL_FILE);
+        if ($result)
+            $result->$field = $this->{MODEL_FILE}->get_file_path($result->$field);
+        return $result->$field;
+    }
 
     /**
      * Получить все года, в которых есть публикации на указанном языке
-     * @return упорядоченный по убыванию массив лет
+     * @return array упорядоченный по убыванию массив лет
      */
     function get_years()
     {
@@ -197,49 +204,40 @@ class Publication_model extends Super_model
         }
         return $years;
     }
+
+    /**
+     * Получить все публикации в указанный год
+     * @param int $year год
+     * @return array публикации
+     */
     function get_by_year($year)
     {
-        $result = $this->db
-					->select('id, name_'.lang().' as name, fulltext_ru, fulltext_en, abstract_ru, abstract_en, info_'.lang().' as info')
-                    ->from(TABLE_PUBLICATIONS)
-					->where('name_'.lang().' IS NOT NULL AND name_'.lang().' != ""'.
-                            ' AND year = ' . $year)
-					->order_by('id DESC')
-                    ->get()
-					->result();
+        $result = parent::get_fields(
+                TABLE_PUBLICATIONS,
+                array(
+                    'id',
+                    'name_'.lang().' as name',
+                    'fulltext_ru',
+                    'fulltext_en',
+                    'abstract_ru',
+                    'abstract_en',
+                    'info_'.lang().' as info'
+                ),
+                'id DESC',
+                'name_'.lang().' IS NOT NULL AND name_'.lang().' != "" AND year = ' . $year
+                );
         foreach($result as $record)
         {
             $record->authors = $this->get_authors($record->id);
             $record->year = $year;
-            $record->fulltext_ru_file = $this->get_file($record->id, 'fulltext_ru_file');
-            $record->fulltext_en_file = $this->get_file($record->id, 'fulltext_en_file');
-            $record->abstract_ru_file = $this->get_file($record->id, 'abstract_ru_file');
-            $record->abstract_en_file = $this->get_file($record->id, 'abstract_en_file');
+            $record->fulltext_ru_file = $this->get_file_path($record->id, 'fulltext_ru_file');
+            $record->fulltext_en_file = $this->get_file_path($record->id, 'fulltext_en_file');
+            $record->abstract_ru_file = $this->get_file_path($record->id, 'abstract_ru_file');
+            $record->abstract_en_file = $this->get_file_path($record->id, 'abstract_en_file');
         }
         return $result;
     }
-
-    function get_errors() {
-        $errors = null;
-        if ($this->input->post('publication_name_ru') == '')
-            $errors->nameforgotten = true;
-        if ($this->input->post('publication_year') == '')
-            $errors->yearforgotten = true;
-        return $errors;
-    }
-
-    function exists($id)
-    {
-        return $this->_record_exists(TABLE_PUBLICATIONS, $id);
-    }
-    function get_file($id, $column)
-    {
-        $files = $this->db->select($column)->get_where(TABLE_PUBLICATIONS, array('id'=>$id))->result();
-        $this->load->model(MODEL_FILE);
-        if (count($files) == 1)
-            return $this->{MODEL_FILE}->get_file_path($files[0]->$column);
-        else
-            return null;
-    }
 }
-?>
+
+/* End of file publication_model.php */
+/* Location: ./application/models/publication_model.php */
