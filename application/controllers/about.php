@@ -26,8 +26,8 @@ class About extends CI_Controller{
 
     /**
      * Вывести список студентов
-     * @param $form форма обучения студента (бакалавр, магистр...)
-     * @param $year год обучения
+     * @param string $form форма обучения студента (бакалавр, магистр...)
+     * @param int $year год обучения
      */
     function students($form = 'bachelor', $year = null)
     {
@@ -38,7 +38,9 @@ class About extends CI_Controller{
         if (!is_numeric($year))
             $year = null;
         $this->load->model(MODEL_COURSE);
+        $data['breadcrumbs'] = $breadcrumbs;
         $data['form'] = $form;
+        $data['breadcrumbs']['/about/students/'.$form] = $this->lang->line('page_'.$form.'s');
         $data['years'] = $this->{MODEL_COURSE}->get_years_by_form($form);
         if ($year == null)
             if(count($data['years']) > 0)
@@ -50,13 +52,16 @@ class About extends CI_Controller{
                 $data['currentyear'] = '';
         else
             $data['currentyear'] = $year;
+
+        if ($data['currentyear'] != '')
+            $data['breadcrumbs']['/about/students/'.$form.'/'.$data['currentyear']] = $data['currentyear'];
+        
 		$data['content'] = $this->load->view('about/student_form', $data, TRUE);
         $user_cards = $this->{MODEL_COURSE}->get_user_cards($form, $year);
         foreach($user_cards as $user_card)
             $data['content'] .= $this->load->view('templates/user_card', (array)$user_card, TRUE);
         $data['title'] = $this->lang->line('page_students');
         $data['active'] = 'page_about';
-        $data['breadcrumbs'] = $breadcrumbs;
 		$this->load->view('templates/main_view', $data);
     }
 
