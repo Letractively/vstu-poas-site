@@ -135,6 +135,17 @@ class Ajax extends CI_Controller {
                 $field = 'image';
                 $table = TABLE_PARTNERS;
                 break;
+            case 'direction':
+                // Изображение партнера
+                $config['upload_path'] = './uploads/directions/';
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']	= '1000';
+                $config['max_width']  = '2048';
+                $config['max_height']  = '1280';
+
+                $field = 'image';
+                $table = TABLE_DIRECTIONS;
+                break;
             case 'publication_fulltext_ru':
                 $config['upload_path'] = './uploads/publications/';
                 $config['allowed_types'] = 'pdf|doc|docx|odt|rtf|txt';
@@ -230,6 +241,11 @@ class Ajax extends CI_Controller {
                 $url = $this->{MODEL_PARTNER}->get_image_path($id);
                 break;
 
+            case 'direction':
+                $this->load->model(MODEL_DIRECTION);
+                $url = $this->{MODEL_DIRECTION}->get_image_path($id);
+                break;
+
             case 'publication_fulltext_ru':
                 $this->load->model(MODEL_PUBLICATION);
                 $url = $this->{MODEL_PUBLICATION}->get_file_path($id, 'fulltext_ru_file');
@@ -254,10 +270,6 @@ class Ajax extends CI_Controller {
         if ($url != NULL)
             $url = $this->config->item('base_url') . $url;
         echo $url;
-
-        $f = fopen('log2.txt', 'w');
-        fputs($f, $url);
-
     }
 
     function adv_delete_file()
@@ -271,6 +283,10 @@ class Ajax extends CI_Controller {
                 case 'partner':
                     $field = 'image';
                     $table = TABLE_PARTNERS;
+                    break;
+                case 'direction':
+                    $field = 'image';
+                    $table = TABLE_DIRECTIONS;
                     break;
                 case 'publication_fulltext_ru':
                     $field = 'fulltext_ru_file';

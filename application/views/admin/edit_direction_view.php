@@ -25,7 +25,7 @@ if (!isset($direction->full_en))            {	$direction->full_en = ''; };
 
 
 
-echo form_open('admin/directions/'.$action.'/action');
+echo form_open('admin/directions/'.$action.'/action', array('class' => 'gray_form'));
 
 // Ввод русского названия направления (обязательный параметр)
 echo form_label('Название направления (русское)*', 'direction_name_ru', array('class' => 'inline-block'));

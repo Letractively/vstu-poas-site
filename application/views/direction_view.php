@@ -7,13 +7,16 @@ echo heading($direction->name, 3);
 echo br(2);
 
 // Вывод изображения проекта или его заглушки 'noimage.jpg'
-if (!isset($image) || $image === null)
-        $image = NOIMAGE;
-echo div('image').anchor('/about/scientific/directions/'.$direction->id, img($image)).'</div>';
+if (!isset($direction->image) || $direction->image === null)
+        $direction->image = NOIMAGE;
+echo div('image').anchor('/about/scientific/directions/'.$direction->id, img($direction->image)).'</div>';
 
 // Вывод краткого описания направления
 echo $direction->short;
 echo br(2);
+// Вывод подробноо описания направления
+echo $direction->full;
+echo br();
 
 
 if (count($members) > 0)
@@ -50,9 +53,6 @@ if (count($members) > 0)
 	echo $others;
 }
 
-// Вывод подробного описания направления
-echo $direction->full;
-echo br(2);
 echo '</div>';
 echo '</div>';
 ?>

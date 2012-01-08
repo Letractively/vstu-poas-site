@@ -1,5 +1,6 @@
 <?php
-echo anchor('/admin/partners/add', 'Добавить партнера');
+echo anchor('partners/', 'Страница партнеров на сайте');
+echo br(2).anchor('/admin/partners/add', 'Добавить партнера');
 echo br(2);
 $data['rows'] = array();
 $data['headers'] = array('id', 'Название', '', '');

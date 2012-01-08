@@ -566,7 +566,7 @@ function advFileLoader(name, id) {
     html += '<img id="loading" src="/images/load/round.gif" style="display:none;">';
     html += '<br>';
     var file_url = ajaxGetFileURL(name, id);
-    if (name == 'partner')
+    if (name == 'partner' || name == 'direction' || name == 'project' || name == 'user')
     {
         html += '<img id="file_preview" class= "minipic" alt="Ваше изображение" src="' + file_url + '">';
     }
