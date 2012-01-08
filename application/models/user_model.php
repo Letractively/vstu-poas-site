@@ -4,42 +4,95 @@
  * Модель пользователей.
  * Все пользователи поделены на группы - от гостей до администраторов (смотрите константы группы USER_GROUP)
  */
-require_once('super_model.php');
-class User_model extends Super_model {
+require_once('super.php');
+class User_model extends Super{
 
-	/**
-	 * Получить основную информацию о всех пользователях (или об одном пользователе)
-	 *
-	 * @param [in] $id - id пользователя, необязательный параметр
-	 * @return array(int[0..n] => User)|FALSE
-	*/
-	function get_short($id = null)
-	{
-        // Родительский метод не годится, он опирается на язык
-		if (isset($id))
-		{
-			$records = $this->db
-							 ->select('id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
-							 ->get_where(TABLE_USERS, array('id' => $id), 1)
-							 ->result();
-			if( !$records)
-			{
-				return FALSE;
-			}
-            $record[0]->groups = $this->ion_auth->get_users_groups($id);
-			return $records[0];
-		}
-
+    /**
+     * Получить список записей для панели администратора
+     * @param int $page страница
+     * @param int $amount_on_page количество записей на странице
+     * @return array массив записей
+     */
+    public function get_records_for_admin_view($page = 1, $amount_on_page = 20)
+    {
 		return $this->db
-					->select(TABLE_USERS.'.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic, group_id')
+					->select(TABLE_USERS.'.id, name_ru as name, surname_ru as surname, patronymic_ru as patronymic, group_id')
                     ->from(TABLE_USERS)
                     ->join(TABLE_USERS_GROUPS, TABLE_USERS.'.id = '.TABLE_USERS_GROUPS.'.user_id', 'LEFT')
 					->order_by('group_id DESC,surname, name_'.lang(),', patronymic')
 					->get()
 					->result();
-	}
+    }
 
-	/**
+    /**
+     * Проверить, существует ли запись в БД
+     * @param int $id идентифиактор искомой записи
+     * @return boolean TRUE, если запись существует, иначе - FALSE
+     */
+    public function exists($id)
+    {
+        return parent::record_exists(TABLE_USERS, $id);
+    }
+
+    /**
+     * Получить полные данные о записи
+     * @param int $id идентификатор записи
+     * @return mixed запись или FALSE, если запись не существует
+     */
+    public function get_record_for_admin_edit_view($id)
+    {
+        return parent::get(TABLE_USERS, $id);
+    }
+
+    /**
+     * Провести валидацию данных в POST-запросе на странице редактирования
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если нет ошибок валидации, иначе - FALSE
+     */
+    public function validate($mode)
+    {
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+        $flag = $this->form_validation->run('admin/users/'.$mode);
+        if ($flag == FALSE)
+        {
+            $this->admin_message = 'Введены недопустимые данные';
+        }
+        return $flag;
+    }
+
+    /**
+     * Добавить запись в БД, параметры которой переданы через POST-запросы
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если запись была успешно добавлена, иначе - FALSE
+     */
+    public function add_from_post()
+    {
+        $user = $this->get_from_post();
+        $username = $user->username;
+        $password = $user->password;
+        $email = $user->email;
+        unset($user->username);
+        unset($user->password);
+        unset($user->email);
+        $id = $this->ion_auth->register(
+            $username,
+            $password,
+            $email,
+            (array)$user,
+            array($this->input->post('user_group')));
+        if ($id !== FALSE)
+        {
+            $this->admin_message = 'Запись была успешно внесена в базу данных';
+            $this->add_interests_from_post($id);
+        }
+        else
+        {
+            $this->admin_message = 'Ошибка! Запись не удалось добавить';
+        }
+        return $id;
+    }
+
+    /**
 	 * Получить данные о пользователе из базы для просмотра на сайте
 	 *
 	 * @param $id идентификатор пользователя
@@ -70,7 +123,7 @@ class User_model extends Super_model {
 				count($records) == 1 ? $data = $records[0] : FALSE;
                 foreach($records as $record)
                 {
-                    $record->photo = $this->get_photo($id);
+                    $record->photo = $this->get_image_path($id);
                     $record->groups = $this->get_user_groups($id);
                 }
 				break;
@@ -170,6 +223,11 @@ class User_model extends Super_model {
 		return $data;
 	}
 
+    /**
+     * Получить публикации пользователя
+     * @param int $id идентификатор пользователя
+     * @return array публикации или FALSE
+     */
     function get_user_publications($id)
     {
         $select = 'publicationid,'.
@@ -192,6 +250,7 @@ class User_model extends Super_model {
 						 ->result();
 		return count($data) > 0 ? $data : FALSE;
     }
+
     function get_user_interests($id)
     {
         $data = $this->db->select(TABLE_INTERESTS.'.short, '.TABLE_INTERESTS.'.full')
@@ -202,6 +261,7 @@ class User_model extends Super_model {
 						 ->result();
 		return count($data) > 0 ? $data : FALSE;
     }
+
     function get_user_directions($id)
     {
         $data = $this->db->select('directionid,' . TABLE_DIRECTIONS . '.name_ru,' . TABLE_DIRECTIONS . '.name_en, ishead')
@@ -228,37 +288,6 @@ class User_model extends Super_model {
 						 ->get()
 						 ->result();
 		return count($data) > 0 ? $data : FALSE;
-	}
-
-    /**
-	 * Добавить нового пользователя, используя данные, отправленные методом POST
-	 * @return int id - идентификатор добавленого пользователя | FALSE
-	 */
-	function add_from_post()
-	{
-        $user = $this->get_from_post();
-        $username = $user->username;
-        $password = $user->password;
-        $email = $user->email;
-        unset($user->username);
-        unset($user->password);
-        unset($user->email);
-        $id = $this->ion_auth->register(
-                $username,
-                $password,
-                $email,
-                (array)$user,
-                array($this->input->post('user_group')));
-        if ($id !== FALSE)
-        {
-            $this->message = 'Запись была успешно внесена в базу данных';
-            $this->add_interests_from_post($id);
-        }
-        else
-        {
-            $this->message = 'Ошибка! Запись не удалось добавить';
-        }
-        return $id;
 	}
 
     function add_interests_from_post($id)
@@ -322,31 +351,23 @@ class User_model extends Super_model {
 	}
 
     /**
-     * Получить идентификатор пользователя по логину
-     * @param $username логин
-     * @return id или -1
+     * Получить путь к фотографии пользователя
+     * @param int $id идентификатор пользователя
+     * @return mixed путь или NULL
      */
-    function get_id_by_username($username)
+    public function get_image_path($id)
     {
-        $records = $this->db
-                        ->select('id')
-                        ->get_where(TABLE_USERS,array('username' => $username))
-                        ->result();
-        if ($records)
-            return $records[0]->id;
-        else
-            return '-1';
+        $result = parent::get_fields(
+                TABLE_USERS,
+                array('photo'),
+                NULL,
+                NULL,
+                $id);
+        $this->load->model(MODEL_FILE);
+        if ($result)
+            $result->photo = $this->{MODEL_FILE}->get_file_path($result->photo);
+        return $result->photo;
     }
-
-	/**
-	 * Проверить, есть ли пользователь с таким адресом почты в базе данных
-	 * @param string $email
-	 */
-	function is_email_exist( $email )
-	{
-		$this->db->from(TABLE_USERS)->where('email', $email);
-		return $this->db->count_all_results();
-	}
 
 	/**
 	 * Определить, к какой самой правомочной группе принадлежит текущий пользователь
@@ -364,59 +385,51 @@ class User_model extends Super_model {
 	 * Удалить пользователя по его идентификатору
      *
      * Удаляет пользователя из проектов, направлений, публикаций.
-	 * @param $id - идентификатор удаляемого пользователя
+	 * @param int $id - идентификатор удаляемого пользователя
 	 */
     function delete($id)
     {
-        $result = $this->_delete(TABLE_USERS, $id);
-        $message = $this->message;
+        $this->load->model(MODEL_FILE);
+        $record = parent::get_fields(
+                TABLE_USERS,
+                array('photo'),
+                NULL,
+                NULL,
+                $id);
+        $this->{MODEL_FILE}->delete_file($record->photo);
+        $result = parent::delete_record(TABLE_USERS, $id);
+        $message = $this->admin_message;
 
-        $groups = $projects = $this->_delete(TABLE_USERS_GROUPS, $id, 'user_id');
-        $projects = $this->_delete(TABLE_PROJECT_MEMBERS, $id, 'userid');
-        $directions = $this->_delete(TABLE_DIRECTION_MEMBERS, $id, 'userid');
-        $publications = $this->_delete(TABLE_PUBLICATION_AUTHORS, $id, 'userid');
-        $interests = $this->_delete(TABLE_INTERESTS, $id, 'userid');
-        $this->message = $message;
-        //@todo удалять файлы
-        return $result && $projects && $directions && $publications && $interests;
+        $groups = parent::delete_record(TABLE_USERS_GROUPS, $id, 'user_id');
+        $projects = parent::delete_record(TABLE_PROJECT_MEMBERS, $id, 'userid');
+        $directions = parent::delete_record(TABLE_DIRECTION_MEMBERS, $id, 'userid');
+        $publications = parent::delete_record(TABLE_PUBLICATION_AUTHORS, $id, 'userid');
+        $interests = parent::delete_record(TABLE_INTERESTS, $id, 'userid');
+        $this->admin_message = $message;
+
+        return $result && $groups && $projects && $directions && $publications && $interests;
     }
     function edit_from_post()
     {
         $user = $this->get_from_post();
+
         // При редактировании записи создается новый пароль
         // только если пароль изменился
-        $record = $this->_get_record($user->id, TABLE_USERS);
+        $record = parent::get(TABLE_USERS,$user->id);
         $password = $user->password;
         $this->add_interests_from_post($user->id);
         $this->update_group($user->id);
         unset($user->password);
-        $result = $this->_edit(TABLE_USERS, $user);
+        $result = parent::edit(TABLE_USERS, $user);
         // Обновить пароль пользователя, если он был изменен
         if ($record->password != $password)
         {
             $this->force_change_password($user->id, $password);
         }
-        $this->message .= '. '.$this->ion_auth->messages();
+        $this->admin_message .= '. '.$this->ion_auth->messages();
         return $result;
     }
-    function get_user($id){
-        $record = $this->db
-                            ->select(TABLE_USERS.'.*, '.TABLE_FILES.'.name as photo_name')
-                            ->from(TABLE_USERS)
-                            ->join(TABLE_FILES, TABLE_USERS.'.photo='.TABLE_FILES.'.id','left')
-                            ->where(TABLE_USERS.'.id', $id)
-                            ->get()
-                            ->result();
-		if (!$record)
-		{
-			return NULL;
-		}
-        $record[0]->interests = $this->get_user_interests($id);
-        $record[0]->groups = $this->get_user_groups($id);
-		return $record[0];
-    }
-    function get_detailed($id)
-    {}
+
     function get_user_groups($id)
     {
         // В нашей системе пользователь может быть только в одной группе
@@ -496,32 +509,8 @@ class User_model extends Super_model {
             'teaching_ru' => '',
             'teaching_en' => ''
         );
-        $result = $this->_get_from_post('user', $fields, $nulled_fields);
+        $result = parent::create_record_object('user', $fields, $nulled_fields);
         return $result;
-    }
-
-    function exists($id)
-    {
-        return $this->_record_exists(TABLE_USERS, $id);
-    }
-
-    function get_photo($id)
-    {
-        $record = $this->db
-                        ->select(TABLE_FILES.'.name as photo_name')
-                        ->from(TABLE_USERS)
-                        ->join(TABLE_FILES, TABLE_USERS.'.photo='.TABLE_FILES.'.id','left')
-                        ->where(TABLE_USERS.'.id', $id)
-                        ->get()
-                        ->result();
-        if (!$record)
-            return null;
-        return $record[0]->photo_name;
-//        if ($user = $this->get_user($id))
-//        {
-//            return $user->photo_name;
-//        }
-//        return null;
     }
 
     public function force_change_password($id, $new)
@@ -564,7 +553,7 @@ class User_model extends Super_model {
 	}
 
     /**
-     * Вернуть массив данных преподавателей для карточки
+     * Получить массив данных преподавателей для карточки
      * @return массив преподавателей
      */
     function get_staff_cards()
@@ -603,7 +592,7 @@ class User_model extends Super_model {
                 }
                 else
                     $user->interests = array();
-                $user->photo = $this->get_photo($user->id);
+                $user->photo = $this->get_image_path($user->id);
             }
             return $users;
         }

@@ -218,7 +218,7 @@ class Course_model extends Super{
                 }
                 else
                     $user->interests = array();
-                $user->photo = $this->{MODEL_USER}->get_photo($user->id);
+                $user->photo = $this->{MODEL_USER}->get_image_path($user->id);
             }
             return ($users);
         }

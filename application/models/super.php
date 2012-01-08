@@ -72,9 +72,10 @@ class Super extends CI_Model
     /**
      * Провести валидацию данных в POST-запросе на странице редактирования
      * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @param string mode режим (у сущности может быть несколько различных валидаций)
      * @return boolean TRUE, если нет ошибок валидации, иначе - FALSE
      */
-    public function validate()
+    public function validate($mode = NULL)
     {
         return FALSE;
     }

@@ -202,107 +202,7 @@ class Admin extends CI_Controller {
 	 */
 	function users()
 	{
-        //$this->_page('users', 'user', MODEL_USER);
-        $data = NULL;
-		$this->load->model(MODEL_USER);
-        $this->load->model(MODEL_FILE);
-        $this->lang->load('site', 'russian');
-		$this->load->library('form_validation');
-		switch($this->uri->segment(3)) {
-			case 'add':
-                if($this->uri->segment(4) == 'action')
-                {
-                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-                    if ($this->form_validation->run('admin/users/add') == FALSE)
-                    {
-                        $data['extra'] = $this->{MODEL_USER}->get_view_extra();
-                        $data['content'] = $this->load->view('admin/edit_user_view', $data, TRUE);
-                        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('user_a');
-                        $this->load->view('/templates/admin_view', $data);
-                    }
-                    else
-                    {
-                        $this->{MODEL_USER}->add_from_post();
-                        $this->_view_page_list('users', MODEL_USER, $this->{MODEL_USER}->message);
-                    }
-                }
-                else
-                {
-                    // загрузить необходимые виду данные
-                    $data['extra'] = $this->{MODEL_USER}->get_view_extra();
-                    $data['content'] = $this->load->view('/admin/edit_user_view', $data, TRUE);
-                    $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line('user_a');
-                    $this->load->view('/templates/admin_view', $data);
-                }
-				break;
-			case 'edit':
-                if($this->uri->segment(4) == 'action')
-                {
-                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-                    if ($this->form_validation->run('admin/users/edit') == FALSE)
-                    {
-                        $data['extra'] = $this->{MODEL_USER}->get_view_extra();
-                        $data['user'] = $this->{MODEL_USER}->get_from_post();
-                        $data['content'] = $this->load->view('admin/edit_user_view', $data, TRUE);
-                        $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('user_a');
-                        $this->load->view('/templates/admin_view', $data);
-                    }
-                    else
-                    {
-                        $this->{MODEL_USER}->edit_from_post();
-                        $this->_view_page_list('users', MODEL_USER, $this->{MODEL_USER}->message);
-                    }
-                }
-                else
-                {
-                    if (!$this->{MODEL_USER}->exists($this->uri->segment(4)))
-                    {
-                        $this->_view_page_list('users', MODEL_USER, 'Пользователь не существует');
-                        return;
-                    }
-                    // загрузить необходимые виду данные
-                    $data['extra'] = $this->{MODEL_USER}->get_view_extra();
-                    $data['user'] = $this->{MODEL_USER}->get_user($this->uri->segment(4));
-                    $data['content'] = $this->load->view('/admin/edit_user_view', $data, TRUE);
-                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('user_a');
-                    $this->load->view('/templates/admin_view', $data);
-                }
-				break;
-			case 'delete':
-                if (!$this->{MODEL_USER}->exists($this->uri->segment(4)))
-                {
-                    $this->_view_page_list('users', MODEL_USER, 'Пользователь не существует');
-                    return;
-                }
-				$this->{MODEL_USER}->delete($this->uri->segment(4));
-                $this->_view_page_list('users', MODEL_USER, $this->{MODEL_USER}->message);
-				break;
-            case 'edit_photo':
-                if (!$this->{MODEL_USER}->exists($this->uri->segment(4)))
-                {
-                    $this->_view_page_list('users', MODEL_USER, 'Пользователь не существует');
-                    return;
-                }
-                $data['record_id'] = $this->uri->segment(4);
-                $data['table_name'] = TABLE_USERS;
-                $data['field_name'] = 'photo';
-                $data['file_url'] = $this->{MODEL_USER}->get_photo($this->uri->segment(4));
-                $data['upload_path'] = './uploads/users/';
-                $data['max_width'] = '800';
-                $data['max_height'] = '600';
-                $data['content'] = $this->load->view('upload_file', $data, TRUE);
-                $data['content'] .= '<br><br><a href="admin/users"> К списку пользователей </a>';
-                $user = $this->{MODEL_USER}->get_short($this->uri->segment(4));
-                $data['title'] = 'Редактирование фотографии пользователя <br>"' . $user->surname . ' ' . $user->name . ' ' . $user->patronymic . '"';
-                $this->load->view('/templates/admin_view', $data);
-				break;
-			case '':
-			default:
-				// по адресу "/admin/$name": список всех
-				// он же при несуществующем методе
-				$this->_view_page_list('users', MODEL_USER);
-				break;
-		}
+        $this->_show_admin_page('user', 'users', MODEL_USER);
     }
 
 	/**
@@ -357,7 +257,7 @@ class Admin extends CI_Controller {
                 }
                 else
                 {
-                    if ($this->{$model}->validate())
+                    if ($this->{$model}->validate('add'))
                     {
                         // Добавить запись
                         $this->{$model}->add_from_post();
@@ -392,7 +292,7 @@ class Admin extends CI_Controller {
                 }
                 else
                 {
-                    if ($this->{$model}->validate())
+                    if ($this->{$model}->validate('edit'))
                     {
                         // Добавить запись
                         $this->{$model}->edit_from_post();
@@ -490,119 +390,6 @@ class Admin extends CI_Controller {
                 $this->_show_records_list('courses', MODEL_COURSE);
                 break;
         }
-    }
-
-    /**
-     * Управляющая страницами функция.
-     * @param $name название страницы (напр. users)
-     * @param $singlename название страницы в единственном числе (напр user)
-     * @param $model модель, используемая на странице
-     */
-    function _page($name, $singlename, $model)
-	{
-		$data = NULL;
-		$this->load->model($model);
-        $this->lang->load('site', 'russian');
-
-		switch($this->uri->segment(3)) {
-			case 'add':
-                // по адресу "/admin/$name/add" происходит операция добавления
-				if ($this->uri->segment(4) == 'action')
-				{
-                    if ($errors = $this->$model->get_errors())
-                    {
-                        // Если на форме ввода есть ошибки - вернуться к форме
-                        $data['errors'] = $errors;
-                        $data[$singlename] = $this->$model->get_from_post();
-                        $data['extra'] = $this->$model->get_view_extra();
-                        $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-                        $data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line($singlename.'_a');
-                        $this->load->view('/templates/admin_view', $data);
-                    }
-                    else
-                    {
-                        // Если все данные введены верно - добавить запись в базу данных
-                        $this->$model->add_from_post();
-                        $this->_view_page_list($name, $model, $this->$model->message);
-                    }
-				}
-				else
-				{
-                    // загрузить необходимые виду данные
-                    $data['extra'] = $this->$model->get_view_extra();
-                    // вызвать вид (форму ввода данных)
-					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-					$data['title'] = $this->lang->line('creatingnew') . ' ' . $this->lang->line($singlename.'_a');
-					$this->load->view('/templates/admin_view', $data);
-				}
-				break;
-			case 'edit':
-                // по адресу "/admin/$name/add" происходит операция изменения
-				if ($this->uri->segment(4) == 'action')
-				{
-                    // Если на форме ввода есть ошибки - вернуться к ним
-                    if ($errors = $this->$model->get_errors())
-                    {
-                        $data['errors'] = $errors;
-                        $data[$singlename] = $this->$model->get_from_post();
-                        $data['extra'] = $this->$model->get_view_extra();
-                        $data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-                        $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line($singlename.'_a');
-                        $this->load->view('/templates/admin_view', $data);
-                    }
-                    else
-                    {
-                        // Если ошибок нет
-                        $this->$model->edit_from_post();
-                        $this->_view_page_list($name, $model, $this->$model->message);
-                    }
-				}
-				else
-				{
-					// по адресу "/admin/$name/edit/{id}": редактирование
-					$id = $this->uri->segment(4);
-                    // проверить, а есть ли запись
-                    if (!$this->$model->exists($id))
-                    {
-                        $this->_view_page_list($name, $model, 'Запись не существует');
-                        return;
-                    }
-
-					$data = array();
-                    $methodname = 'get_' . $singlename;
-					$data[$singlename] = $this->$model->$methodname($id);
-                    $data['extra'] = $this->$model->get_view_extra();
-					$data['content'] = $this->load->view('/admin/edit_' . $singlename . '_view', $data, TRUE);
-					//$data['title'] = 'Изменение ' . $singlename;
-                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line($singlename.'_a');
-					$this->load->view('/templates/admin_view', $data);
-				}
-				break;
-			case 'delete':
-				// по адресу "/admin/$name/delete": удаление
-				$this->$model->delete( $this->uri->segment(4) );
-
-				$this->_view_page_list($name, $model, $this->$model->message);
-				break;
-			case '':
-			default:
-				// по адресу "/admin/$name": список всех
-				// он же при несуществующем методе
-				$this->_view_page_list($name, $model);
-				break;
-		}
-	}
-
-    function _view_page_list($name, $model, $message = null)
-    {
-        $data[$name] = $this->$model->get_short();
-		$data['content'] = $this->load->view('admin/' . $name . '_view', $data, TRUE);
-		$data['title'] = $this->lang->line($name);
-		if($message != null)
-		{
-			$data['message'] = $message;
-		}
-		$this->load->view('/templates/admin_view', $data);
     }
 }
 

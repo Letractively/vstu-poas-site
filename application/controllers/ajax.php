@@ -135,6 +135,17 @@ class Ajax extends CI_Controller {
                 $field = 'image';
                 $table = TABLE_PARTNERS;
                 break;
+            case 'user':
+                // Изображение партнера
+                $config['upload_path'] = './uploads/users/';
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']	= '1000';
+                $config['max_width']  = '2048';
+                $config['max_height']  = '1280';
+
+                $field = 'photo';
+                $table = TABLE_USERS;
+                break;
             case 'direction':
                 // Изображение направления
                 $config['upload_path'] = './uploads/directions/';
@@ -252,6 +263,11 @@ class Ajax extends CI_Controller {
                 $url = $this->{MODEL_PARTNER}->get_image_path($id);
                 break;
 
+            case 'user':
+                $this->load->model(MODEL_USER);
+                $url = $this->{MODEL_USER}->get_image_path($id);
+                break;
+
             case 'direction':
                 $this->load->model(MODEL_DIRECTION);
                 $url = $this->{MODEL_DIRECTION}->get_image_path($id);
@@ -299,6 +315,10 @@ class Ajax extends CI_Controller {
                 case 'partner':
                     $field = 'image';
                     $table = TABLE_PARTNERS;
+                    break;
+                case 'user':
+                    $field = 'photo';
+                    $table = TABLE_USERS;
                     break;
                 case 'direction':
                     $field = 'image';

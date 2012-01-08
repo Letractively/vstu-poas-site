@@ -103,7 +103,7 @@ define('USER_GROUP_LECTURER', 3);
 
 
 define('NOIMAGE', '/images/site/no-image_2.jpg');          /// Картика, которая выводится, если нет изображения
-define('NOPHOTO', '/images/site/nophoto.jpg');          /// Картинка, которая выводится, если нет фотографии
+define('NOPHOTO', '/images/site/nophoto-2.png');          /// Картинка, которая выводится, если нет фотографии
 
 
 /*
