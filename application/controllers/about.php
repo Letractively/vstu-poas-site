@@ -110,8 +110,8 @@ class About extends CI_Controller{
                 $data['title'] = $this->lang->line('page_scientific_index');
                 break;
             case 'publications':
-                $this->load->model(MODEL_PUBLICATION);
-                $data['years'] = $this->{MODEL_PUBLICATION}->get_years();
+                $this->load->model('publication_model_2');
+                $data['years'] = $this->{'publication_model_2'}->get_years();
                 $data['title'] = $this->lang->line('page_scientific_publications');
 
                 if (($param == null || !is_numeric($param)) && count($data['years']) > 0)
@@ -124,7 +124,7 @@ class About extends CI_Controller{
                 }
                 if ($data['currentyear'])
                 {
-                    $data['publications'] = $this->{MODEL_PUBLICATION}->get_by_year($data['currentyear']);
+                    $data['publications'] = $this->{'publication_model_2'}->get_by_year($data['currentyear']);
                 }
                 $data['content'] .= $this->load->view('publications_view', $data, TRUE);
                 break;
