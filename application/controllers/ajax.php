@@ -136,7 +136,7 @@ class Ajax extends CI_Controller {
                 $table = TABLE_PARTNERS;
                 break;
             case 'direction':
-                // Изображение партнера
+                // Изображение направления
                 $config['upload_path'] = './uploads/directions/';
                 $config['allowed_types'] = 'gif|jpg|png|jpeg';
                 $config['max_size']	= '1000';
@@ -145,6 +145,17 @@ class Ajax extends CI_Controller {
 
                 $field = 'image';
                 $table = TABLE_DIRECTIONS;
+                break;
+            case 'project':
+                // Изображение проекта
+                $config['upload_path'] = './uploads/projects/';
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']	= '1000';
+                $config['max_width']  = '2048';
+                $config['max_height']  = '1280';
+
+                $field = 'image';
+                $table = TABLE_PROJECTS;
                 break;
             case 'publication_fulltext_ru':
                 $config['upload_path'] = './uploads/publications/';
@@ -246,6 +257,11 @@ class Ajax extends CI_Controller {
                 $url = $this->{MODEL_DIRECTION}->get_image_path($id);
                 break;
 
+             case 'project':
+                $this->load->model(MODEL_PROJECT);
+                $url = $this->{MODEL_PROJECT}->get_image_path($id);
+                break;
+
             case 'publication_fulltext_ru':
                 $this->load->model(MODEL_PUBLICATION);
                 $url = $this->{MODEL_PUBLICATION}->get_file_path($id, 'fulltext_ru_file');
@@ -287,6 +303,10 @@ class Ajax extends CI_Controller {
                 case 'direction':
                     $field = 'image';
                     $table = TABLE_DIRECTIONS;
+                    break;
+                case 'project':
+                    $field = 'image';
+                    $table = TABLE_PROJECTS;
                     break;
                 case 'publication_fulltext_ru':
                     $field = 'fulltext_ru_file';
