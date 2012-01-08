@@ -7,7 +7,7 @@ class Super extends CI_Model
 {
 
     // Сообщение в панели администратора
-    private $admin_message = FALSE;
+    protected $admin_message = FALSE;
 
     /**
      * Получить сообщение для панели администратора

@@ -197,44 +197,7 @@ class Admin extends CI_Controller {
         }
     }
 
-    function _validate_photo($file)
-    {
-        $config['upload_path'] = './uploads/users/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']	= '1000';
-		$config['max_width']  = '1024';
-		$config['max_height']  = '768';
-
-		$this->load->library('upload', $config);
-
-        if ( ! $this->upload->do_upload('user_photo'))
-		{
-            // Если при добавлении файла произошла ошибка - закончить операцию
-            $errors = $this->upload->display_errors('','');
-            if ($errors != $this->lang->line('upload_no_file_selected'))
-            {
-                $this->form_validation->set_message('_validate_photo', $this->upload->display_errors('',''));
-                return FALSE;
-            }
-            else
-            {
-                return TRUE;
-            }
-		}
-		else
-		{
-            // Получаем корректный путь к файлу
-            $upload_data = $this->upload->data();
-            $segments = explode('/',$upload_data['full_path']);
-            $segments = array_reverse($segments);
-
-            $record->name = $segments[2].'/'.$segments[1].'/'.$segments[0];
-            if($this->db->insert(TABLE_FILES, $record)){
-                $_POST['user_photo'] = $this->db->insert_id();
-            }
-		}
-    }
-	/**
+    /**
 	 * Работа с пользователями
 	 */
 	function users()
@@ -503,44 +466,30 @@ class Admin extends CI_Controller {
 
     function courses()
     {
-        $data = NULL;
-		$this->load->model(MODEL_COURSE);
-        $this->lang->load('site', 'russian');
-
-        switch($this->uri->segment(3)) {
+        $this->load->model(MODEL_COURSE);
+        switch($this->uri->segment(3))
+        {
             case 'add':
-                $this->{MODEL_COURSE}->add_from_post();
-                $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSE}->message);
-                break;
-            case 'edit':
-                if ($this->uri->segment(4) == 'action')
+                if ($this->{MODEL_COURSE}->add_from_post() == FALSE)
                 {
-                    $this->{MODEL_COURSE}->edit_from_post();
-                    $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSE}->message);
+                    $this->session->set_flashdata('admin_message', $this->{MODEL_COURSE}->get_message());
                 }
-                else
-                {
-                    // проверить, а есть ли запись
-                    if (!$this->{MODEL_COURSE}->exists($this->uri->segment(4)))
-                    {
-                        $this->_view_page_list('courses', MODEL_COURSE, 'Запись не существует');
-                        return;
-                    }
-                    $data['course'] = $this->{MODEL_COURSE}->get_course($this->uri->segment(4));
-                    $data['extra'] = $this->{MODEL_COURSE}->get_view_extra();
-                    $data['content'] = $this->load->view('/admin/edit_course_view', $data, TRUE);
-                    $data['title'] = $this->lang->line('changing') . ' ' . $this->lang->line('course_a');
-                    $this->load->view('/templates/admin_view', $data);
-                }
+                redirect('admin/courses');
                 break;
             case 'delete':
-                $this->{MODEL_COURSE}->delete($this->uri->segment(4));
-                $this->_view_page_list('courses', MODEL_COURSE, $this->{MODEL_COURSE}->message);
-                break;
+                if (is_numeric($this->uri->segment(4)) && $this->{MODEL_COURSE}->exists($this->uri->segment(4)))
+                {
+                    // Удалить запись
+                    $this->{MODEL_COURSE}->delete($this->uri->segment(4));
+                }
+                $this->session->set_flashdata('admin_message', $this->{MODEL_COURSE}->get_message());
+                redirect('admin/courses');
+				break;
             default:
-                $this->_view_page_list('courses',MODEL_COURSE);
+                // Вывести список сущностей
+                $this->_show_records_list('courses', MODEL_COURSE);
+                break;
         }
-
     }
 
     /**

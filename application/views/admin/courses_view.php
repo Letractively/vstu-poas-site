@@ -27,10 +27,11 @@ function add_form($coursesnames){
     $html .= form_close();
     return $html;
 }
+echo anchor('about/students/', 'Страница студентов на сайте').br(2);
 echo add_form($coursesnames);
 $data['rows'] = array();
-$data['classes'] = array('course','year','count','edit','delete');
-$data['headers'] = array('Курс','Год','Cтудентов','','');
+$data['classes'] = array('','course','year','count','edit','delete');
+$data['headers'] = array('id','Курс','Год','Cтудентов','','');
 foreach($courses as $course)
 {
     $tablerow = array();
@@ -46,6 +47,7 @@ foreach($courses as $course)
                     'title' => 'Редактировать состав курса',
                     'onclick' => 'usersSelector(\'Cостав курса\', \'' . TABLE_USER_COURSES . '\',\'userid\', \'courseid\', \''.$course->id.'\')')
 	);
+    $tablerow[] = $course->id;
     $tablerow[] = $coursesnames[$course->course];
     $tablerow[] = $course->year;
     $tablerow[] = $course->studentscount;

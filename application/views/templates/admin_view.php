@@ -45,6 +45,7 @@
             <li><a href="/">На сайт</a></li>
 			<li><a href="/admin">Главная</a></li>
             <li><a href="/admin/news">Новости</a></li>
+            <li><a href="/admin/conferences">Конференции</a></li>
 			<li><a href="/admin/users">Пользователи</a></li>
             <li><a href="/admin/courses">Курсы</a></li>
 			<li><a href="/admin/projects">Проекты</a></li>
