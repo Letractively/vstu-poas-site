@@ -120,10 +120,12 @@
                             $anchored_breadcrumbs = array();
                             foreach ($breadcrumbs as $link => $name)
                             {
-                                if ($name != 'page_about')
-                                    $anchored_breadcrumbs []= anchor($link, $name);
+                                if ($link != '/about')
+                                    $anchored_breadcrumbs[] = anchor($link, $name);
+                                else
+                                    $anchored_breadcrumbs[] = $name;
                             }
-                            echo implode('<span class="delimiter"> / </span>',$anchored_breadcrumbs);
+                            echo '// ' . implode('<span class="delimiter"> // </span>', $anchored_breadcrumbs);
                             echo '</div>';
                         }
                     ?>

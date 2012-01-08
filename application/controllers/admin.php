@@ -655,38 +655,6 @@ class Admin extends CI_Controller {
 		}
 		$this->load->view('/templates/admin_view', $data);
     }
-
-    function _add_file($file)
-    {
-        $config['upload_path'] = './uploads/projects/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']	= '1000';
-		$config['max_width']  = '1024';
-		$config['max_height']  = '768';
-
-		$this->load->library('upload', $config);
-
-        if ( ! $this->upload->do_upload('project_image'))
-		{
-            // Если при добавлении файла произошла ошибка - закончить операцию
-            $this->form_validation->set_message('_add_file', $this->upload->display_errors('',''));
-            return FALSE;
-		}
-		else
-		{
-            // Если ошибок не возникло - запомнить путь к файлу в POST переменной
-            //echo 'no errors';
-
-            // Получаем корректный путь к файлу
-            $upload_data = $this->upload->data();
-            $segments = explode('/',$upload_data['full_path']);
-            $segments = array_reverse($segments);
-
-            $_POST['project_image'] = $segments[2].'/'.$segments[1].'/'.$segments[0];
-
-            return TRUE;
-		}
-    }
 }
 
 /* End of file admin.php */
