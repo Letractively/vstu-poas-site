@@ -107,3 +107,6 @@ $lang['publication_fulltext_file_ru'] = 'скачать с сайта(ru)';
 $lang['publication_fulltext_link_en'] = 'ссылка(en)';
 $lang['publication_fulltext_file_en'] = 'скачать с сайта(en)';
 $lang['attached_files'] = 'Прикреплённые файлы';
+$lang['page_cabinet'] = 'Личный кабинет';
+$lang['page_admin'] = 'Панель администратора';
+$lang['page_logout'] = 'Выйти';

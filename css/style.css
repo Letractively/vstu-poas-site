@@ -177,6 +177,7 @@ font-weight: normal;
 
 ul#navigation li a:hover {
 text-decoration: underline;
+color: #D0F500;
 }
 
 li#house {
@@ -370,7 +371,7 @@ font-weight: normal;
 #header #logo {
     float:left;
     max-height: 100px;
-    padding-top: 49px;
+    margin-top: 49px;
     margin-right: 20px;
 }
 h2 a:hover,
@@ -400,6 +401,22 @@ margin-right: 16px;
 #contacts-image img {max-width: 300px; max-height: 300px; float: left; padding-right:20px;}
 #contacts-info {font-size:90%; height:300px;}
 
+span.cabinet {
+	color:white;
+	left:0;
+	top:7px;
+	position:absolute;
+}
+span.cabinet a {
+	font-size:0.9em;
+	font-weight:normal;
+	color:white;
+	text-decoration:none;
+}
+span.cabinet a:hover {
+	text-decoration:underline;
+	color: #D0F500;
+}
 /* Стили для меню*/
 #menu, #menu ul {
   list-style: none;
