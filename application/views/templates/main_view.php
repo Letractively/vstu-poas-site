@@ -34,13 +34,30 @@
 	<!-- Header -->
 	<div id="header">
 		<div id="header-in">
-            <ul id="navigation">
-                <li id="house"><?php menu_item('page_main', '/');?>|</li>
-                <li id="rss"><?php echo anchor('/rss', 'RSS');?>|</li>
-                <li id="sitemap"><?php menu_item('sitemap', '/sitemap');?>|</li>
-                <li id="envelope"><a href="#"><?php echo $this->lang->line('contactus');?></a>|</li>
-                <li id="lang"><?php  echo link_to_translate();?></li>
-            </ul>
+			<div class="top-line">
+				<span class="cabinet">
+					<?php 
+						if ($this->ion_auth->logged_in())
+						{
+							$links = array();
+							$links[] =  anchor('/cabinet', $this->lang->line('cabinet'));
+							if ($this->ion_auth->is_admin())
+								$links[] =  anchor('/admin', $this->lang->line('page_admin'));
+							$links[] =  anchor('/logout', $this->lang->line('page_logout'));
+							echo implode(' | ', $links);
+						}
+						else
+							echo anchor('/admin', $this->lang->line('authorization'),array('id'=>'authorization'));
+					?>
+				</span>
+				<ul id="navigation">
+					<li id="house"><?php menu_item('page_main', '/');?>|</li>
+					<li id="rss"><?php echo anchor('/rss', 'RSS');?>|</li>
+					<li id="sitemap"><?php menu_item('sitemap', '/sitemap');?>|</li>
+					<li id="envelope"><a href="#"><?php echo $this->lang->line('contactus');?></a>|</li>
+					<li id="lang"><?php  echo link_to_translate();?></li>
+				</ul>
+			</div>
             <?php echo anchor('/','<img id="logo" src="/images/site/design/logo.jpg">');?>
             <!-- Your website name  -->
             <h1><?php echo anchor('/', $this->lang->line('department_acronim'));?></h1>
