@@ -41,7 +41,7 @@
                 <li id="envelope"><a href="#"><?php echo $this->lang->line('contactus');?></a>|</li>
                 <li id="lang"><?php  echo link_to_translate();?></li>
             </ul>
-            <a href="/"><img id="logo" src="/images/site/design/logo.jpg"></a>
+            <?php echo anchor('/','<img id="logo" src="/images/site/design/logo.jpg">');?>
             <!-- Your website name  -->
             <h1><?php echo anchor('/', $this->lang->line('department_acronim'));?></h1>
             <!-- Your website name end -->
