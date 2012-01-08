@@ -13,9 +13,11 @@ class About extends CI_Controller{
      */
     function history()
     {
-        // Загрузка нужного словаря -
-        // необходимо для корректной работы $this->lang->line()
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $breadcrumbs['/about'] = $this->lang->line('page_about');
+        $breadcrumbs['/about/history'] = $this->lang->line('page_history');
 
+        $data['breadcrumbs'] = $breadcrumbs;
         $data['active'] = 'page_about';
         $data['title'] = $this->lang->line('page_history');
 		$data['content'] = $this->load->view('static/about_history_'.lang(), '', TRUE);
@@ -29,6 +31,10 @@ class About extends CI_Controller{
      */
     function students($form = 'bachelor', $year = null)
     {
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $breadcrumbs['/about'] = $this->lang->line('page_about');
+        $breadcrumbs['/about/students'] = $this->lang->line('page_students');
+
         if (!is_numeric($year))
             $year = null;
         $this->load->model(MODEL_COURSE);
@@ -50,11 +56,16 @@ class About extends CI_Controller{
             $data['content'] .= $this->load->view('templates/user_card', (array)$user_card, TRUE);
         $data['title'] = $this->lang->line('page_students');
         $data['active'] = 'page_about';
+        $data['breadcrumbs'] = $breadcrumbs;
 		$this->load->view('templates/main_view', $data);
     }
 
     function staff()
     {
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $breadcrumbs['/about'] = $this->lang->line('page_about');
+        $breadcrumbs['/about/staff'] = $this->lang->line('page_staff');
+
         $this->load->model(MODEL_USER);
         $user_cards = $this->{MODEL_USER}->get_staff_cards();
         $data['content'] = '';
@@ -62,31 +73,45 @@ class About extends CI_Controller{
             $data['content'] .= $this->load->view('templates/user_card', (array)$user_card, TRUE);
         $data['title'] = $this->lang->line('page_staff');
         $data['active'] = 'page_about';
+        $data['breadcrumbs'] = $breadcrumbs;
 		$this->load->view('templates/main_view', $data);
     }
 
+    /**
+     * Страница учебной деятельности кафедры
+     * @param string $section подраздел
+     */
     function education($section = 'index')
     {
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $breadcrumbs['/about'] = $this->lang->line('page_about');
+        $breadcrumbs['/about/education'] = $this->lang->line('page_education_index');
+
         $data['active'] = 'page_about';
         $data['section'] = $section;
         $data['content'] = $this->load->view('about/education_submenu', $data, TRUE);
+        $data['breadcrumbs'] = $breadcrumbs;
         switch ($section)
         {
             case 'index':
                 $data['content'] .= $this->load->view('static/education_index_'.lang(), '', TRUE);
-                $data['title'] = $this->lang->line('page_education_index');
+                $data['title'] = $this->lang->line('page_education_general');
+                $data['breadcrumbs']['/about/education/index'] = $this->lang->line('page_education_general');
                 break;
             case 'bachelor':
                 $data['content'] .= $this->load->view('static/education_bachelor_'.lang(), '', TRUE);
                 $data['title'] = $this->lang->line('page_education_bachelor');
+                $data['breadcrumbs']['/about/education/bachelor'] = $this->lang->line('page_education_bachelor');
                 break;
             case 'magistracy':
                 $data['content'] .= $this->load->view('static/education_magistracy_'.lang(), '', TRUE);
                 $data['title'] = $this->lang->line('page_education_magistracy');
+                $data['breadcrumbs']['/about/education/magistracy'] = $this->lang->line('page_education_magistracy');
                 break;
             case 'pgdoc':
                 $data['content'] .= $this->load->view('static/education_pgdoc_'.lang(), '', TRUE);
                 $data['title'] = $this->lang->line('page_education_pgdoc');
+                $data['breadcrumbs']['/about/education/pgdoc'] = $this->lang->line('page_education_pgdoc');
                 break;
         }
         $this->load->view('templates/main_view', $data);
@@ -94,25 +119,32 @@ class About extends CI_Controller{
 
     /**
      * Раздел "научная деятельность"
-     * @param type $section
-     * @param type $param
-     * @return type
+     * @param string $section подраздел
+     * @param string $param дополнительный параметр
      */
     function scientific($section = 'index', $param = null)
     {
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $breadcrumbs['/about'] = $this->lang->line('page_about');
+        $breadcrumbs['/about/scientific'] = $this->lang->line('page_scientific_index');
+
         $data['active'] = 'page_about';
         $data['section'] = $section;
         $data['content'] = $this->load->view('about/scientific_submenu', $data, TRUE);
+        $data['breadcrumbs'] = $breadcrumbs;
+
         switch ($section)
         {
             case 'index':
                 $data['content'] .= $this->load->view('static/scientific_index_'.lang(), '', TRUE);
-                $data['title'] = $this->lang->line('page_scientific_index');
+                $data['title'] = $this->lang->line('page_scientific_general');
+                $data['breadcrumbs']['/about/scientific/index'] = $this->lang->line('page_scientific_general');
                 break;
             case 'publications':
                 $this->load->model(MODEL_PUBLICATION);
                 $data['years'] = $this->{MODEL_PUBLICATION}->get_years();
                 $data['title'] = $this->lang->line('page_scientific_publications');
+                $data['breadcrumbs']['/about/scientific/publications'] = $this->lang->line('page_scientific_publications');
 
                 if (($param == null || !is_numeric($param)) && count($data['years']) > 0)
                 {
@@ -125,12 +157,14 @@ class About extends CI_Controller{
                 if ($data['currentyear'])
                 {
                     $data['publications'] = $this->{MODEL_PUBLICATION}->get_by_year($data['currentyear']);
+                    $data['breadcrumbs']['/about/scientific/publications/'.$data['currentyear']] = $data['currentyear'];
                 }
                 $data['content'] .= $this->load->view('publications_view', $data, TRUE);
                 break;
             case 'projects':
                 $this->load->model(MODEL_PROJECT);
                 $data['title'] = $this->lang->line('page_scientific_projects');
+                $data['breadcrumbs']['/about/scientific/projects'] = $this->lang->line('page_scientific_projects');
                 if (is_numeric($param))
                 {
                     $data['project'] = $this->{MODEL_PROJECT}->get_card($param);
@@ -143,6 +177,7 @@ class About extends CI_Controller{
                     {
                         $data['members'] = $this->{MODEL_PROJECT}->get_members($param);
                         $data['content'] = $this->load->view('project_view', $data, TRUE);
+                        $data['breadcrumbs']['/about/scientific/projects/'.$param] = $data['project']->name;
                         $this->load->view('templates/main_view', $data);
                     }
                     return;
@@ -156,6 +191,7 @@ class About extends CI_Controller{
             case 'directions':
                 $this->load->model(MODEL_DIRECTION);
                 $data['title'] = $this->lang->line('page_scientific_directions');
+                $data['breadcrumbs']['/about/scientific/directions'] = $this->lang->line('page_scientific_directions');
                 if (is_numeric($param))
                 {
                     $data['direction'] = $this->{MODEL_DIRECTION}->get_card($param);
@@ -168,6 +204,7 @@ class About extends CI_Controller{
                     {
                         $data['members'] = $this->direction_model->get_members($param);
                         $data['content'] = $this->load->view('direction_view', $data, TRUE);
+                        $data['breadcrumbs']['/about/scientific/directions/'.$param] = $data['direction']->name;
                         $this->load->view('templates/main_view', $data);
                     }
                     return;
@@ -182,17 +219,14 @@ class About extends CI_Controller{
 
     function international()
     {
+        $breadcrumbs['/'] = $this->lang->line('page_main');
+        $breadcrumbs['/about'] = $this->lang->line('page_about');
+        $breadcrumbs['/about/international'] = $this->lang->line('page_international');
+
+        $data['breadcrumbs'] = $breadcrumbs;
         $data['content'] = 'Нет инфомации';
         $data['active'] = 'page_about';
         $data['title'] = $this->lang->line('page_international');
         $this->load->view('templates/main_view', $data);
-    }
-
-    function get_breadcrumbs()
-    {
-        $breadcrumbs = array();
-        $breadcrumbs['/'] = $this->lang->line('page_main');
-        $breadcrumbs['/about'] = $this->lang->line('page_about');
-        return $breadcrumbs;
     }
 }

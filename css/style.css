@@ -448,6 +448,15 @@ font-size: 1.1em;
   display: block;
 }
 
+/* Хлебные крошки*/
+.breadcrumbs {
+    margin-left:10px;
+    margin-top: 10px;
+    color: #005ac1;
+    font-weight: bold;
+    font-size: 10px;
+}
+
 .read_more_button {
   display: inline-block;
   margin-left: 10px;
@@ -530,8 +539,6 @@ div.education-submenu .selected {font-weight: bold;}
 .student-form-select .current {font-weight: bold;}
 .student-form-select .year-select {text-align: left;}
 
-
-
 /*Стили для страниц научной деятельности*/
 div.scientific-submenu a {font-weight: normal;}
 div.scientific-submenu .selected {font-weight: bold;}
@@ -552,3 +559,9 @@ ol.publications {list-style: none;}
 
 #time {text-align: center; font-family: monospace; font-size: 14px; }
 #time img {padding-left:1px;}
+
+/* Стили для страницы новостей*/
+
+div.news-short div{
+    padding-bottom: 30px;
+}
