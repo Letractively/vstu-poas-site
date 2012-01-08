@@ -4,133 +4,78 @@
  * Модель направлений.
  */
 
-require_once('super_model.php');
-class Direction_model extends Super_model
+require_once('super.php');
+class Direction_model extends Super
 {
     /**
-     * Получить краткую информацию о направлении
-     * @param int $id идентификатор направления
-     * @return направление
+     * Получить список записей для панели администратора
+     * @param int $page страница
+     * @param int $amount_on_page количество записей на странице
+     * @return array массив записей
      */
-    function get_short($id = null)
+    public function get_records_for_admin_view($page = 1, $amount_on_page = 20)
     {
-        $result = $this->_get_short(TABLE_DIRECTIONS,
-                                 null,
-                                 'name_' . lang() . ', name_ru, id',
-                                 $id);
-        if (is_array($result)) {
-            foreach($result as $record){
-                //$this->db->distinct('userid')->from(TABLE_DIRECTION_MEMBERS)->where('directionid', $record->id);
-                //$record->memberscount = $this->db->count_all_results();
-                $record->memberscount =
-                        $this->db->query('select count(distinct userid) as count from '
+        $records = $this->db
+                ->select('id, name_ru as name')
+                ->get(TABLE_DIRECTIONS, $amount_on_page, ($page - 1) * $amount_on_page)
+                ->result();
+        if (is_array($records)) {
+            foreach($records as $record){
+                $record->memberscount = $this->get_members_count($record->id);
+            }
+        }
+        return $records;
+    }
+
+    /**
+     * Получить число участников направления
+     * @param int $id идетификатор публикации
+     * @return int число авторов публикации
+     */
+    public function get_members_count($id)
+    {
+        return $this->db->query('select count(distinct userid) as count from '
                                          .TABLE_DIRECTION_MEMBERS
                                          .' where directionid='
-                                         .$record->id)->row()->count;
-            }
-        }
-        return $result;
+                                         .$id)->row()->count;
     }
 
     /**
-     * Получить информацию о направлении для представления
-     * @param int $id идентификатор направления
-     * @return направление
-     */
-    function get_detailed($id) {
-        $select1 = 'short_' . lang() . ' as short, full_'.lang().' as full';
-        $select2 = 'short_ru as short, full_ru as full';
-        return $this->_get_detailed($id, TABLE_DIRECTIONS, $select1, $select2);
-    }
+	 * Получить информацию обо всех участниках направления
+	 * @param int $id идентификатор направления
+	 * @return массив пользователей
+	 */
+	function get_members($id)
+	{
+		$this->db
+            ->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic, ishead')
+            ->from(TABLE_DIRECTION_MEMBERS)
+            ->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_DIRECTION_MEMBERS . '.userid')
+            ->where('directionid = ' . $id);
+        return $this->db->get()->result();
+	}
 
     /**
-     * Получить полную информацию о направлении
-     * @param int $id идентификатор направления
-     * @return направление
+     * Провести валидацию данных в POST-запросе на странице редактирования
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если нет ошибок валидации, иначе - FALSE
      */
-    function get_direction($id)
+    public function validate()
     {
-        $direction = $this->_get_record($id, TABLE_DIRECTIONS);
-        $direction->members = $this->get_members($id);
-        return $direction;
-    }
-
-    function get_view_extra() {
-        $extra = null;
-        $extra->users = $this->db
-                                ->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
-                                ->from(TABLE_USERS)
-                                ->order_by('surname,name,patronymic')
-                                ->get()
-                                ->result();
-        return $extra;
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+        $flag = $this->form_validation->run('admin/directions');
+        if ($flag == FALSE)
+        {
+            $this->admin_message = 'Введены недопустимые данные';
+        }
+        return $flag;
     }
 
     /**
-     * Обновить список участников направления
-     *
-     * @param type $id идентификатор направления
-     * @param $members массив идентификаторов участников направления
+     * Сформировать запись из полей, полученных методом POST
+     * @return mixed объект записи или FALSE
      */
-    function update_direction_members($id, $members, $ishead)
-    {
-        // Метод родителя не пойдет, здесь два типа участников
-
-        // Если никого вообще нет - удалить по id проекта
-        if (!$members)
-        {
-            $this->db->delete(TABLE_DIRECTION_MEMBERS,
-                    array(  'directionid' => $id,
-                            'ishead' => $ishead));
-            return;
-        }
-        $records = $this->db
-                                ->select('userid')
-                                ->get_where(TABLE_DIRECTION_MEMBERS,
-                                            array('directionid' => $id,
-                                                'ishead' => $ishead))
-                                ->result();
-        $old_members = array();
-        foreach ($records as $record)
-        {
-            $old_members[] = $record->userid;
-        }
-        // удалить устаревшие записи (тех, кто был записан в проект, а теперь
-        // его в списке нет
-            foreach($old_members as $old_member)
-            {
-                // Если старого нет среди новых - удалить его
-                if (array_search($old_member, $members) === FALSE)
-                {
-                    $this->db->delete(TABLE_DIRECTION_MEMBERS, array(
-                        'userid' => $old_member,
-                        'directionid' => $id,
-                        'ishead' => $ishead));
-                    unset($old_member);
-                }
-            }
-        // добавить в базу новых участников
-        if ($members)
-            foreach($members as $member)
-            {
-                // Если нового нет среди старых
-                if (array_search($member, $old_members) === FALSE)
-                {
-                    $record = new stdClass();
-                    $record->directionid = $id;
-                    $record->userid = $member;
-                    $record->ishead = $ishead;
-                    $this->db->insert(TABLE_DIRECTION_MEMBERS, $record);
-                    unset($member);
-                }
-            }
-    }
-
-    /**
-     * Получить информацию о направлении из POST-запроса
-     * @return направление
-     */
-    function get_from_post()
+    public function get_from_post()
     {
         $fields = array(
             'name_ru' => 'direction_name_ru',
@@ -146,118 +91,155 @@ class Direction_model extends Super_model
             'full_en' => '',
             'full_ru' => ''
         );
-        return $this->_get_from_post('direction', $fields, $nulled_fields);
+        return parent::create_record_object('direction', $fields, $nulled_fields);
     }
 
     /**
-     * Добавить направление, получаемое через POST-запрос
-     * @return int id - идентификатор добавленной записи | FALSE
+     * Добавить запись в БД, параметры которой переданы через POST-запросы
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если запись была успешно добавлена, иначе - FALSE
      */
-    function add_from_post()
+    public function add_from_post()
     {
-        $direction = $this->get_from_post();
-        $id = $this->_add(TABLE_DIRECTIONS, $direction);
-        /*unset($direction->heads);
-        unset($direction->not_heads);
-        if($id = $this->_add(TABLE_DIRECTIONS, $direction))
-        {
-            $this->update_direction_members($id, $this->input->post('direction_members'), FALSE);
-            $this->update_direction_members($id, $this->input->post('direction_heads'), TRUE);
-            $this->clean_members_dup($id,
-                    $this->input->post('direction_members'),
-                    $this->input->post('direction_heads'));
-        }*/
-        return $id;
+        return parent::add(TABLE_DIRECTIONS, $this->get_from_post());
     }
 
     /**
-	 * Получить информацию о направлени из данных, полученных методом POST
-	 * @return объект, содержащий собранную информацию о направлении
-	 */
-    function edit_from_post() {
-        $direction = $this->get_from_post();
-        //$this->update_direction_members($direction->id, $this->input->post('direction_members'), FALSE);
-        //$this->update_direction_members($direction->id, $this->input->post('direction_heads'), TRUE);
-        //$this->clean_members_dup($direction->id,
-        //        $this->input->post('direction_members'),
-        //        $this->input->post('direction_heads'));
-        //unset($direction->heads);
-        //unset($direction->not_heads);
-        return $this->_edit(TABLE_DIRECTIONS, $direction);
-    }
-
-    /**
-     * Удалить направление из базы данных
-     * @param int $id идентификатор направления
-     * @return TRUE, если направление удалено, иначе FALSE
+     * Проверить, существует ли запись в БД
+     * @param int $id идентифиактор искомой записи
+     * @return boolean TRUE, если запись существует, иначе - FALSE
      */
-    function delete($id)
+    public function exists($id)
     {
-        $result = $this->_delete(TABLE_DIRECTIONS, $id);
-        $message = $this->message;
-        $cascade = $this->_delete(TABLE_DIRECTION_MEMBERS, $id, 'directionid');
-        $this->message = $message;
-        return $cascade && $result;
+        return parent::record_exists(TABLE_DIRECTIONS, $id);
     }
 
     /**
-	 * Получить информацию обо всех участниках направления
-	 * @param int $id идентификатор направления
-	 * @return массив пользователей
-	 */
-	function get_members($id)
-	{
-		$this->db
-				->select(TABLE_USERS . '.id, name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic, ishead')
-				->from(TABLE_DIRECTION_MEMBERS)
-				->join(TABLE_USERS, TABLE_USERS.'.id = ' . TABLE_DIRECTION_MEMBERS . '.userid')
-				->where('directionid = ' . $id);
-				return $this->db->get()->result();
-	}
-
-    /**
-     * Проверить название направления (заполнено ли)
-     * @return object Объект ошибок
+     * Получить полные данные о записи
+     * @param int $id идентификатор записи
+     * @return mixed запись или FALSE, если запись не существует
      */
-    function get_errors()
+    public function get_record_for_admin_edit_view($id)
     {
-        // Тут проще проверить все самому, а не использовать $this->_get_errors($rus, $eng);
-        $errors = null;
-        if ($this->input->post('direction_name_ru') === '')
-            $errors->nameruforgotten = true;
-        if (    $this->input->post('direction_description_en') !== '' &&
-                $this->input->post('direction_name_en') === '')
-        {
-            $errors->nameenforgotten = true;
-        }
-
-        return $errors;
+        return parent::get(TABLE_DIRECTIONS, $id);
     }
 
-    function exists($id)
+    /**
+     * Обновить запись в БД, параметры которой переданы через POST-запросы
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @return boolean TRUE, если запись была успешно обновлена, иначе - FALSE
+     */
+    public function edit_from_post()
     {
-        return $this->_record_exists(TABLE_DIRECTIONS, $id);
+        $partner = $this->get_from_post();
+        return parent::edit(TABLE_DIRECTIONS, $partner);
     }
 
-    function get_image($id)
+    /**
+     * Удалить запись из БД
+     * В случае возникновения ошибок, сообщение заносится в поле $admin_message
+     * @param int $id идентификатор удаляемой записи
+     * @return boolean TRUE, если запись существовала и была успешно удалена, иначе - FALSE
+     */
+    public function delete($id)
     {
-        $direction = $this->get_direction($id);
         $this->load->model(MODEL_FILE);
-        return $this->{MODEL_FILE}->get_file_path($direction->image);
+        $result = parent::get_fields(
+                TABLE_DIRECTIONS,
+                array('image'),
+                NULL,
+                NULL,
+                $id);
+        $this->{MODEL_FILE}->delete_file($result->image);
+        // Удаление участников направления
+        parent::delete_record(TABLE_DIRECTION_MEMBERS, $id, 'directionid');
+
+        return parent::delete_record(TABLE_DIRECTIONS, $id);
     }
 
-    function get_cards()
+    /**
+     * Получить информацию о направлениях для страницы направлений
+     * @return array направления
+     */
+    public function get_cards()
     {
-        $result = $this->_get_short(TABLE_DIRECTIONS,
-                                 '',
-                                 'name_' . lang() . ',name_ru, id',
-                                 null);
+        $result = parent::get_fields(
+                TABLE_DIRECTIONS,
+                array(
+                    'id',
+                    'name_'.lang().' as name',
+                    'short_'.lang().' as short'
+                    ),
+                NULL,
+                'name_'.lang().' IS NOT NULL AND short_'.lang().' IS NOT NULL'
+                );
         if (is_array($result)) {
             foreach($result as $record){
-                $record->image = $this->get_image($record->id);
+                $record->image = $this->get_image_path($record->id);
             }
         }
         return $result;
     }
+
+    /**
+     * Получить путь к изображению направления
+     * @param int $id идентификатор направления
+     * @return mixed путь или NULL
+     */
+    public function get_image_path($id)
+    {
+        $result = parent::get_fields(
+                TABLE_DIRECTIONS,
+                array('image'),
+                NULL,
+                NULL,
+                $id);
+        $this->load->model(MODEL_FILE);
+        if ($result)
+            $result->image = $this->{MODEL_FILE}->get_file_path($result->image);
+        return $result->image;
+    }
+
+    /**
+     * Получить данные о направлении для страницы направлений на сайте
+     * @param int $id идентификатор направления
+     * @return object объект записи
+     */
+    public function get_card($id)
+    {
+        $result = parent::get_fields(
+                TABLE_DIRECTIONS,
+                array(
+                    'id',
+                    'name_'.lang().' as name',
+                    'short_'.lang().' as short',
+                    'full_'.lang().' as full',
+                    'image'
+                ),
+                NULL,
+                NULL,
+                $id);
+        if ($result->name == NULL)
+        {
+            $result = parent::get_fields(
+                TABLE_DIRECTIONS,
+                array(
+                    'id',
+                    'name_ru as name',
+                    'short_ru as short',
+                    'full_ru as full',
+                    'image'
+                ),
+                NULL,
+                NULL,
+                $id);
+        }
+        $this->load->model(MODEL_FILE);
+        if ($result)
+            $result->image = $this->{MODEL_FILE}->get_file_path($result->image);
+        return $result;
+    }
 }
-?>
+
+/* End of file direction_model.php */
+/* Location: ./application/models/direction_model.php */

@@ -11,6 +11,7 @@ foreach ($directions as $direction)
     echo div('image').anchor('/about/scientific/directions/'.$direction->id, img($direction->image)).'</div>';
 
 	echo heading(anchor('/about/scientific/directions/'.$direction->id, $direction->name), 3);
+    echo $direction->short;
 	echo '</div>';
     echo br();
 }

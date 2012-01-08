@@ -1,5 +1,6 @@
 <?php
-echo anchor('/admin/publications/add', 'Добавить публикацию');
+echo anchor('about/scientific/publications/', 'Страница публикаций на сайте');
+echo br(2).anchor('/admin/publications/add', 'Добавить публикацию');
 echo br(2);
 
 if (count($publications) > 0)
@@ -7,21 +8,6 @@ if (count($publications) > 0)
     $data['rows'] = array();
     $data['classes'] = array('','publication', 'count','','','','','','delete');
     $data['headers'] = array('id','Публикация', 'Авторов', '','Рус. текст','Рус. аннотац.','Анг. текст','Анг. аннотац.','');
-//    $args = '';
-//    // upload_path
-//    $args .= "'./uploads/publications/',";
-//    // allowed_types
-//    $args .= "'pdf|doc|docx|odt|rtf|txt',";
-//    // max_size
-//    $args .= "'10000',";
-//    // max_width
-//    $args .= "'1024',";
-//    // max_height
-//    $args .= "'800',";
-//    //table_name
-//    $args .= "'" . TABLE_PUBLICATIONS . "',";
-    //field_name
-    ////$args .= "'image',";
     foreach($publications as $publication)
     {
         $tablerow = array();
