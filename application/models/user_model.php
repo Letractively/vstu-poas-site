@@ -354,7 +354,7 @@ class User_model extends Super_model {
 	 */
 	function logged_max_group()
 	{
-		$logged_max_group = $this->session->userdata('user_max_group'); 
+		$logged_max_group = $this->session->userdata('user_max_group');
 
 		if( !isset($logged_max_group) ) return FALSE;
 		return $logged_max_group;
@@ -428,7 +428,7 @@ class User_model extends Super_model {
                             ->result();
         return $result ? $result[0] : FALSE;
     }
-    
+
     /**
      * Получить идентификатор группы, к которой
      * принадлежит пользователь с данным id,
@@ -447,7 +447,7 @@ class User_model extends Super_model {
                             ->result();
         return $result ? $result[0]->group_id : FALSE;
     }
-    
+
     function get_from_post()
     {
         $fields = array(
@@ -609,7 +609,7 @@ class User_model extends Super_model {
         }
 
     }
-    
+
     /**
      * Если пользователь администратор - ничего не делать, иначе отобразить поля ввода пароля и ничего больше.
      * Enter description here ...
@@ -644,5 +644,22 @@ class User_model extends Super_model {
                 return FALSE;
             }
         }
+    }
+
+    /**
+     * Получить ФИО пользователя
+     * @param int $id идентификатор пользователя
+     * @return object объект записи пользователя
+     */
+    public function get_fio($id)
+    {
+        $records = $this->db
+                ->select('name_'.lang().' as name, surname_'.lang().' as surname, patronymic_'.lang().' as patronymic')
+                ->get_where(TABLE_USERS, array('id' => $id), 1)
+                ->result();
+        if (count($records) == 1)
+            return $records[0];
+        else
+            return NULL;
     }
 }
