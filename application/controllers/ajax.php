@@ -231,27 +231,25 @@ class Ajax extends CI_Controller {
                 break;
 
             case 'publication_fulltext_ru':
-                $this->load->model('publication_model_2');
-                $url = $this->{'publication_model_2'}->get_file_path($id, 'fulltext_ru_file');
+                $this->load->model(MODEL_PUBLICATION);
+                $url = $this->{MODEL_PUBLICATION}->get_file_path($id, 'fulltext_ru_file');
                 break;
 
             case 'publication_fulltext_en':
-                $this->load->model('publication_model_2');
-                $url = $this->{'publication_model_2'}->get_file_path($id, 'fulltext_en_file');
+                $this->load->model(MODEL_PUBLICATION);
+                $url = $this->{MODEL_PUBLICATION}->get_file_path($id, 'fulltext_en_file');
                 break;
 
             case 'publication_abstract_ru':
-                $this->load->model('publication_model_2');
-                $url = $this->{'publication_model_2'}->get_file_path($id, 'abstract_ru_file');
+                $this->load->model(MODEL_PUBLICATION);
+                $url = $this->{MODEL_PUBLICATION}->get_file_path($id, 'abstract_ru_file');
                 break;
 
             case 'publication_abstract_en':
-                $this->load->model('publication_model_2');
-                $url = $this->{'publication_model_2'}->get_file_path($id, 'abstract_en_file');
+                $this->load->model(MODEL_PUBLICATION);
+                $url = $this->{MODEL_PUBLICATION}->get_file_path($id, 'abstract_en_file');
                 break;
-
         }
-
 
         if ($url != NULL)
             $url = $this->config->item('base_url') . $url;
