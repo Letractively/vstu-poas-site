@@ -48,6 +48,10 @@
 	function link_to_translate()
 	{
 		$url = $_SERVER['REQUEST_URI'];
+        if( substr($url,0,3) == '/en' && strlen($url) == 3 )
+        {
+            return '<a href="/"><img src="/images/site/ru.png" title="Переключится на русский"></a>';
+        }
 		if( substr($url,0,3) == '/en' && ( !isset($url[3]) || $url[3] == '/' ) )
 		{
 			return '<a href="'.substr($url, 3 ).'"><img src="/images/site/ru.png" title="Переключится на русский"></a>';
