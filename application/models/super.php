@@ -164,7 +164,7 @@ class Super extends CI_Model
 		if($this->db->insert($table, $record))
 		{
             $id = $this->db->insert_id();
-			$this->admin_message = 'Запись была успешно внесена в базу данных, ('.$table.', id=' . $id.')';
+			$this->admin_message = 'Запись была успешно внесена в базу данных ('.$table.', id=' . $id.')';
 			return $id;
 		}
 		else

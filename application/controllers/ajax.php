@@ -116,6 +116,8 @@ class Ajax extends CI_Controller {
     function advUpload()
     {
         $error = '';
+        $path = '';
+        $file_id = -1;
         $name = $this->input->post('name', TRUE);
         $id = $this->input->post('id', TRUE);
 
@@ -132,6 +134,38 @@ class Ajax extends CI_Controller {
 
                 $field = 'image';
                 $table = TABLE_PARTNERS;
+                break;
+            case 'publication_fulltext_ru':
+                $config['upload_path'] = './uploads/publications/';
+                $config['allowed_types'] = 'pdf|doc|docx|odt|rtf|txt';
+                $config['max_size']	= '10000';
+
+                $field = 'fulltext_ru_file';
+                $table = TABLE_PUBLICATIONS;
+                break;
+            case 'publication_fulltext_en':
+                $config['upload_path'] = './uploads/publications/';
+                $config['allowed_types'] = 'pdf|doc|docx|odt|rtf|txt';
+                $config['max_size']	= '10000';
+
+                $field = 'fulltext_en_file';
+                $table = TABLE_PUBLICATIONS;
+                break;
+            case 'publication_abstract_ru':
+                $config['upload_path'] = './uploads/publications/';
+                $config['allowed_types'] = 'pdf|doc|docx|odt|rtf|txt';
+                $config['max_size']	= '10000';
+
+                $field = 'abstract_ru_file';
+                $table = TABLE_PUBLICATIONS;
+                break;
+            case 'publication_abstract_en':
+                $config['upload_path'] = './uploads/publications/';
+                $config['allowed_types'] = 'pdf|doc|docx|odt|rtf|txt';
+                $config['max_size']	= '10000';
+
+                $field = 'abstract_en_file';
+                $table = TABLE_PUBLICATIONS;
                 break;
         }
 
@@ -194,13 +228,37 @@ class Ajax extends CI_Controller {
             case 'partner':
                 $this->load->model(MODEL_PARTNER);
                 $url = $this->{MODEL_PARTNER}->get_image_path($id);
+                break;
+
+            case 'publication_fulltext_ru':
+                $this->load->model('publication_model_2');
+                $url = $this->{'publication_model_2'}->get_file_path($id, 'fulltext_ru_file');
+                break;
+
+            case 'publication_fulltext_en':
+                $this->load->model('publication_model_2');
+                $url = $this->{'publication_model_2'}->get_file_path($id, 'fulltext_en_file');
+                break;
+
+            case 'publication_abstract_ru':
+                $this->load->model('publication_model_2');
+                $url = $this->{'publication_model_2'}->get_file_path($id, 'abstract_ru_file');
+                break;
+
+            case 'publication_abstract_en':
+                $this->load->model('publication_model_2');
+                $url = $this->{'publication_model_2'}->get_file_path($id, 'abstract_en_file');
+                break;
+
         }
 
 
-        echo $this->config->item('base_url') . $url;
+        if ($url != NULL)
+            $url = $this->config->item('base_url') . $url;
+        echo $url;
 
         $f = fopen('log2.txt', 'w');
-        fputs($f, $this->config->item('base_url') . $url);
+        fputs($f, $url);
 
     }
 
@@ -215,6 +273,22 @@ class Ajax extends CI_Controller {
                 case 'partner':
                     $field = 'image';
                     $table = TABLE_PARTNERS;
+                    break;
+                case 'publication_fulltext_ru':
+                    $field = 'fulltext_ru_file';
+                    $table = TABLE_PUBLICATIONS;
+                    break;
+                case 'publication_fulltext_en':
+                    $field = 'fulltext_en_file';
+                    $table = TABLE_PUBLICATIONS;
+                    break;
+                case 'publication_abstract_ru':
+                    $field = 'abstract_ru_file';
+                    $table = TABLE_PUBLICATIONS;
+                    break;
+                case 'publication_abstract_en':
+                    $field = 'abstract_en_file';
+                    $table = TABLE_PUBLICATIONS;
                     break;
             }
             $res = $this->db

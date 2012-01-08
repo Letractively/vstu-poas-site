@@ -5,8 +5,8 @@ echo br(2);
 if (count($publications) > 0)
 {
     $data['rows'] = array();
-    $data['classes'] = array('publication', 'count','','','','','','delete');
-    $data['headers'] = array('Публикация', 'Авторов', '','Рус. текст','Рус. аннотац.','Анг. текст','Анг. аннотац.','');
+    $data['classes'] = array('','publication', 'count','','','','','','delete');
+    $data['headers'] = array('id','Публикация', 'Авторов', '','Рус. текст','Рус. аннотац.','Анг. текст','Анг. аннотац.','');
 //    $args = '';
 //    // upload_path
 //    $args .= "'./uploads/publications/',";
@@ -39,71 +39,40 @@ if (count($publications) > 0)
                                      . TABLE_PUBLICATION_AUTHORS
                                      . '\',\'userid\', \'publicationid\', \''.$publication->id.'\')')
         );
-//        $text_ru = anchor('#',
-//            img( '/images/admin/buttons/document.png'),
-//            array(	'class' => 'button_edit_file',
-//                    'title' => 'Изменить файл русской публикации '.$publication->id,
-//                    'onclick' => 'fileLoader(' .
-//                                    $args .
-//                                    "'fulltext_ru_file'," .
-//                                    "'" .
-//                                    $publication->id .
-//                                    "','" .
-//                                    $this->config->item('base_url') .
-//                                    $this->{MODEL_PUBLICATION}->get_file($publication->id,'fulltext_ru_file') .
-//                                    "')"
-//                 )
-//        );
-//        $abstract_ru = anchor('#',
-//            img( '/images/admin/buttons/document.png'),
-//            array(	'class' => 'button_edit_file',
-//                    'title' => 'Изменить файл русской аннотации '.$publication->id,
-//                    'onclick' => 'fileLoader(' .
-//                                    $args .
-//                                    "'abstract_ru_file'," .
-//                                    "'" .
-//                                    $publication->id .
-//                                    "','" .
-//                                    $this->config->item('base_url') .
-//                                    $this->{MODEL_PUBLICATION}->get_file($publication->id,'abstract_ru_file') .
-//                                    "')"
-//                 )
-//        );
-//        $text_en = anchor('#',
-//            img( '/images/admin/buttons/document.png'),
-//            array(	'class' => 'button_edit_file',
-//                    'title' => 'Изменить файл английской публикации '.$publication->id,
-//                    'onclick' => 'fileLoader(' .
-//                                    $args .
-//                                    "'fulltext_en_file'," .
-//                                    "'" .
-//                                    $publication->id .
-//                                    "','" .
-//                                    $this->config->item('base_url') .
-//                                    $this->{MODEL_PUBLICATION}->get_file($publication->id,'fulltext_en_file') .
-//                                    "')"
-//                 )
-//        );
-//        $abstract_en = anchor('#',
-//            img( '/images/admin/buttons/document.png'),
-//            array(	'class' => 'button_edit_file',
-//                    'title' => 'Изменить файл русской аннотации '.$publication->id,
-//                    'onclick' => 'fileLoader(' .
-//                                    $args .
-//                                    "'abstract_en_file'," .
-//                                    "'" .
-//                                    $publication->id .
-//                                    "','" .
-//                                    $this->config->item('base_url') .
-//                                    $this->{MODEL_PUBLICATION}->get_file($publication->id,'abstract_en_file') .
-//                                    "')"
-//                 )
-//        );
-        $text_ru = 'text_ru';
-        $text_en = 'text_en';
-        $abstract_ru = 'abstract_ru';
-        $abstract_en = 'abstract_en';
-        $tablerow[] = anchor('admin/publications/edit/' . $publication->id,$publication->name);
+        $text_ru = anchor('#',
+            img( '/images/admin/buttons/document.png'),
+            array(	'class' => 'button_edit_file',
+                    'title' => 'Изменить файл русской публикации '.$publication->id,
+                    'onclick' => "advFileLoader('publication_fulltext_ru', '$publication->id')"
+                 )
+        );
+        $abstract_ru = anchor('#',
+            img( '/images/admin/buttons/document.png'),
+            array(	'class' => 'button_edit_file',
+                    'title' => 'Изменить файл русской аннотации '.$publication->id,
+                    'onclick' => "advFileLoader('publication_abstract_ru', '$publication->id')"
+                 )
+        );
+        $text_en = anchor('#',
+            img( '/images/admin/buttons/document.png'),
+            array(	'class' => 'button_edit_file',
+                    'title' => 'Изменить файл английской публикации '.$publication->id,
+                    'onclick' => "advFileLoader('publication_fulltext_en', '$publication->id')"
+                 )
+        );
+        $abstract_en = anchor('#',
+            img( '/images/admin/buttons/document.png'),
+            array(	'class' => 'button_edit_file',
+                    'title' => 'Изменить файл русской аннотации '.$publication->id,
+                    'onclick' => "advFileLoader('publication_abstract_en', '$publication->id')"
+                 )
+        );
+        $text_ru = $text_ru;
+        $text_en = $text_en;
+        $abstract_ru = $abstract_ru;
+        $abstract_en = $abstract_en;
+        $tablerow[] = $publication->id;
+        $tablerow[] = anchor('admin/publications/edit/' . $publication->id ,$publication->name);
         $tablerow[] = $publication->authorscount;
         $tablerow[] = $button_users;
         $tablerow[] = $text_ru;

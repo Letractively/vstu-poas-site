@@ -262,12 +262,12 @@ function ajaxFileUpload(
 
 /**
  * Отображает и отвечает за функционирование окна выбора пользователей
- * title - заголовок окна
- * table - таблица связи пользователей с прочими сущностями
+ * @param title - заголовок окна
+ * @param table - таблица связи пользователей с прочими сущностями
  * (напр. пользователь-проект, пользователь-курс, пользователь-направление)
- * userfield - название поля, которое содержит id пользователя
- * fkfield - название поля, которое содержит id второй сущности
- * fk - id второй сущности
+ * @param userfield - название поля, которое содержит id пользователя
+ * @param fkfield - название поля, которое содержит id второй сущности
+ * @param fk - id второй сущности
  */
 function usersSelector(
     title,
@@ -568,7 +568,7 @@ function advFileLoader(name, id) {
     var file_url = ajaxGetFileURL(name, id);
     if (name == 'partner')
     {
-        html += '<img id="file_preview" class= "minipic" alt="Ваш файл" src="' + file_url + '">';
+        html += '<img id="file_preview" class= "minipic" alt="Ваше изображение" src="' + file_url + '">';
     }
     else
     {
@@ -581,7 +581,7 @@ function advFileLoader(name, id) {
     $('#dialog_ui').dialog({
         modal: true,
         position: ["center","center"],
-        title: 'Загрузить изображение',
+        title: 'Загрузить файл',
         buttons:
         {
             "Загрузить": function()
@@ -693,11 +693,43 @@ function ajaxGetFileURL(name, id)
             type:'POST',
             url:'/ajax/get_file_url/',
             success:function(data){
-                $('#file_preview').attr('src', data);
+                if (data == '')
+                {
+                    if ($('#file_preview').get(0).tagName == 'A' ||
+                        $('#file_preview').get(0).tagName == 'a')
+                    {
+                        $('#file_preview').html('Файл отсутствует');
+                    }
+                    else
+                    {
+                        $('#file_preview').attr('alt', 'Изображение отсутствует');
+                    }
+                }
+                else
+                {
+                    if ($('#file_preview').get(0).tagName == 'IMG' ||
+                            $('#file_preview').get(0).tagName == 'img')
+                    {
+                        $('#file_preview').attr('src', data);
+                    }
+                    else
+                    {
+                        $('#file_preview').attr('href', data);
+                        $('#file_preview').html(data);
+                    }
+                }
                 return data;
             },
             error:function(data){
-                $('#file_preview').attr('src', '');
+                if ($('#file_preview').get(0).tagName == 'A' ||
+                        $('#file_preview').get(0).tagName == 'a')
+                {
+                    $('#file_preview').html('Ошибка');
+                }
+                else
+                {
+                    $('#file_preview').attr('alt', 'Ошибка');
+                }
                 return null;
             }
     });
