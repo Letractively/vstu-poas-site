@@ -161,19 +161,16 @@
 			<!-- Right column -->
 			<div id="content-box-in-right">
 				<div id="content-box-in-right-in">
-					<h3><?php echo $this->lang->line('news');?></h3>
+					<h3><?php echo anchor('/news',$this->lang->line('news'));?></h3>
 						<?
-						$ci = get_instance();
-						echo $ci->load->view('/news/last_news_view', NULL, TRUE);
+                            $ci = get_instance();
+                            echo $ci->load->view('/news/last_news_view', NULL, TRUE);
 						?>
-                    <h3><?php echo $this->lang->line('conferences');?></h3>
-                        <dl>
-							<dt>8 ноября, 2011</dt>
-								<dd>XVI Региональная конференция молодых исследователей Волгоградской области</dd>
-                            <dt>1 апреля, 2011</dt>
-								<dd>MVIII Межгалактическая конференция нанопрограммистов Волгоградской системы</dd>
-						</dl>
-
+                    <h3><?php echo anchor('/conferences',$this->lang->line('conferences'));?></h3>
+                        <?php
+                            $ci = get_instance();
+                            echo $ci->load->view('/conferences/last_conferences_view', NULL, TRUE);
+                        ?>
 			</div>
 			</div>
 			<div class="cleaner">&nbsp;</div>
