@@ -36,18 +36,21 @@
 		<div id="header-in">
 			<div class="top-line">
 				<span class="cabinet">
-					<?php 
-						if ($this->ion_auth->logged_in())
-						{
-							$links = array();
-							$links[] =  anchor('/cabinet', $this->lang->line('cabinet'));
-							if ($this->ion_auth->is_admin())
-								$links[] =  anchor('/admin', $this->lang->line('page_admin'));
-							$links[] =  anchor('/logout', $this->lang->line('page_logout'));
-							echo implode(' | ', $links);
-						}
-						else
-							echo anchor('/admin', $this->lang->line('authorization'),array('id'=>'authorization'));
+					<?php
+                        if (isset($this->ion_auth))
+                        {
+                            if ($this->ion_auth->logged_in())
+                            {
+                                $links = array();
+                                $links[] =  anchor('/cabinet', $this->lang->line('cabinet'));
+                                if ($this->ion_auth->is_admin())
+                                    $links[] =  anchor('/admin', $this->lang->line('page_admin'));
+                                $links[] =  anchor('/logout', $this->lang->line('page_logout'));
+                                echo implode(' | ', $links);
+                            }
+                            else
+                                echo anchor('/admin', $this->lang->line('authorization'),array('id'=>'authorization'));
+                        }
 					?>
 				</span>
 				<ul id="navigation">

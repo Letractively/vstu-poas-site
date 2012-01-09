@@ -6,6 +6,7 @@ class Conferences extends CI_Controller{
         lang();
         if (has_to_show_debug())
             $this->output->enable_profiler(TRUE);
+        $this->load->model(MODEL_CONFERENCE);
 	}
 
     /**
@@ -13,11 +14,34 @@ class Conferences extends CI_Controller{
      */
     function index()
     {
+
+        $data['conferences'] = $this->{MODEL_CONFERENCE}->get_cards();
+		$data['content'] = $this->load->view('conferences_view', $data, TRUE);
+
         $data['title'] = $this->lang->line('page_conferences');
         $data['active'] = 'page_conferences';
-		$data['content'] = 'Конференции';
         $data['breadcrumbs'] = $this->get_breadcrumbs();
 		$this->load->view('templates/main_view', $data);
+    }
+
+    function show($id)
+    {
+
+        $data['breadcrumbs'] = $this->get_breadcrumbs();
+        if (!is_numeric($id) || !$this->{MODEL_CONFERENCE}->exists($id))
+        {
+            $data['content'] = $this->lang->line('conference_doesnt_exist');
+        }
+        else
+        {
+            $data['conference'] = $this->{MODEL_CONFERENCE}->get_card($id);
+            $data['breadcrumbs']['/conferences/'.$id] = $data['conference']->name;
+            $data['content'] = $this->load->view('conference_view', $data, TRUE);
+        }
+        $data['title'] = $this->lang->line('page_conferences');
+        $data['active'] = 'page_conferences';
+        $this->load->view('templates/main_view', $data);
+
     }
 
     /**

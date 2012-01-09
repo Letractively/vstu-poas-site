@@ -59,6 +59,8 @@ jQuery(document).ready(function($)
     $('.hideble').css('display','none');
     $('.hideble .error').parent('.hideble').css('display','block');
     $('.hideble .error').parent('.hideble').parent('div').children('a').addClass('wrong-data');
+
+    $('.date').datepicker({dateFormat: 'yy-mm-dd'});
 });
 
 /**

@@ -596,3 +596,12 @@ ol.publications {list-style: none;}
 div.news-short div{
     padding-bottom: 30px;
 }
+
+/* Стили для страницы конференций*/
+.conference-card {
+    padding-bottom: 20px;
+}
+
+.conference-personal h4 {
+    padding-bottom: 20px;
+}

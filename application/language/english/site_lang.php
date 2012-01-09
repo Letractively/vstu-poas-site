@@ -110,3 +110,4 @@ $lang['attached_files'] = 'Attached files';
 $lang['page_cabinet'] = 'Cabinet';
 $lang['page_admin'] = 'Admin panel';
 $lang['page_logout'] = 'Logout';
+$lang['page_404'] = 'Page not found';

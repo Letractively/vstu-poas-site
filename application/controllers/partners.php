@@ -29,7 +29,7 @@ class Partners extends CI_Controller {
 		$data['title'] = $this->lang->line('page_partners');
         $data['active'] = 'page_partners';
         $data['breadcrumbs'] = $this->get_breadcrumbs();
-        if (!is_numeric($id))
+        if (!is_numeric($id) || !$this->{MODEL_PARTNER}->exists($id))
         {
             $data['content'] = $this->lang->line('partner_doesnt_exist');
         }
@@ -43,7 +43,7 @@ class Partners extends CI_Controller {
             else
             {
                 $data['content'] = $this->load->view('partner_view', $data, TRUE);
-                $data['breadcrumbs'] ['/partners/'.$id] = $data['partner']->name;
+                $data['breadcrumbs']['/partners/'.$id] = $data['partner']->name;
             }
         }
         $this->load->view('templates/main_view', $data);

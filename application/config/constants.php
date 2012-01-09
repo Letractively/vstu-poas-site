@@ -42,6 +42,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 |--------------------------------------------------------------------------
 */
 define('TABLE_NEWS', 'news');
+define('TABLE_CONFERENCES', 'conferences');
 define('TABLE_USERS', 'users');
 define('TABLE_PROJECTS', 'projects');
 define('TABLE_PROJECT_MEMBERS', 'project_members');
@@ -79,6 +80,7 @@ define('OBJ_TYPE_NEWS', 1);		// При связывании чего либо с
 | Доступные модели
 */
 define('MODEL_NEWS', 		'news_model');				/// новости
+define('MODEL_CONFERENCE',  'conferences_model');		/// конференции
 define('MODEL_USER', 		'user_model');				/// пользователи
 define('MODEL_PROJECT', 	'project_model');			/// проекты
 define('MODEL_DIRECTION',	'direction_model');			/// научные направления

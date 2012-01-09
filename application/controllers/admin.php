@@ -176,7 +176,7 @@ class Admin extends CI_Controller {
     }
 
     /**
-     * Проверить заполненность полей для английской версии проекта.
+     * Проверить заполненность полей для английской версии партнера.
      * @param $string
      * @return TRUE, если заполнены все поля или ни одно из полей
      */
@@ -195,6 +195,34 @@ class Admin extends CI_Controller {
             $this->form_validation->set_message('_partner_en', 'Необходимо заполнить все поля для английской версии');
             return FALSE;
         }
+    }
+
+    /**
+     * Проверить заполненность полей для английской версии конференции.
+     * @param string $string значение поля
+     * @return TRUE, если заполнены все поля или ни одно из полей
+     */
+    function _conference_en($string)
+    {
+        $name = $this->input->post('conference_name_en');
+        $info = $this->input->post('conference_info_en');
+        if ( $name == '' && $info == '' || $name != '' && $info != '')
+        {
+            return TRUE;
+        }
+        else
+        {
+            $this->form_validation->set_message('_conference_en', 'Необходимо заполнить все поля для английской версии');
+            return FALSE;
+        }
+    }
+
+    /**
+	 * Работа с конференциями
+	 */
+	function conferences()
+	{
+        $this->_show_admin_page('conference', 'conferences', MODEL_CONFERENCE);
     }
 
     /**

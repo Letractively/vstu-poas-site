@@ -356,4 +356,41 @@ $config['admin/publications'] = array(
         'rules' => 'trim'
     )
 );
+$config['admin/conferences'] = array(
+    array(
+        'field' => 'conference_name_ru',
+        'label' => 'Название конференции (русское)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'conference_info_ru',
+        'label' => 'Информация о конференции (русская)',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'conference_begin',
+        'label' => 'Дата открытия конференции',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'conference_end',
+        'label' => 'Дата закрытия конференции',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'conference_url',
+        'label' => 'Ссылка с дополнительной информацией',
+        'rules' => 'trim'
+    ),
+    array(
+        'field' => 'conference_name_en',
+        'label' => 'Название конференции (английское)',
+        'rules' => 'trim|callback__conference_en'
+    ),
+    array(
+        'field' => 'conference_info_en',
+        'label' => 'Информация о конференции (английская)',
+        'rules' => 'trim|callback__conference_en'
+    )
+);
 ?>
