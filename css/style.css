@@ -614,3 +614,7 @@ div.news-short div{
     text-decoration: none;
     font-weight: normal;
 }
+
+#codeigniter_profiler {
+	text-align: start;
+}
