@@ -58,6 +58,9 @@ $route['users/(:num)/(:any)'] = "users/show/$1/$2";
 $route['en/publications/(:num)'] = "publications/index/$1";
 $route['publications/(:num)'] = "publications/index/$1";
 
+$route['en/conferences/(:num)'] = "conferences/show/$1";
+$route['conferences/(:num)'] = "conferences/show/$1";
+
 //$route['en/about/(:any)'] = "about/$1";
 // @todo переделать, если кто придумает как
 

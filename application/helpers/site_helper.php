@@ -161,3 +161,40 @@
     {
         return TRUE;
     }
+
+    /**
+     * Форматирует дату из mysql-вида (YYYY-MM-DD)
+     * в "День Месяц, Год"
+     * @param string $mysqldate дата в формате MySQL
+     * @return string дата в удобном виде
+     */
+    function format_date($mysqldate)
+    {
+        if (lang() == 'en')
+        {
+            return date('d F, Y',strtotime($mysqldate));
+        }
+        else
+        {
+            $months = array(
+                '????',
+                'января',
+                'февраля',
+                'марта',
+                'апреля',
+                'мая',
+                'июня',
+                'июля',
+                'августа',
+                'сентября',
+                'октября',
+                'ноября',
+                'декабря'
+            );
+            $date =
+                date('d ',strtotime($mysqldate)).
+                $months[intval(date('m',strtotime($mysqldate)))].
+                date(', Y',strtotime($mysqldate));
+            return $date;
+        }
+    }

@@ -110,3 +110,4 @@ $lang['attached_files'] = 'Прикреплённые файлы';
 $lang['page_cabinet'] = 'Личный кабинет';
 $lang['page_admin'] = 'Панель администратора';
 $lang['page_logout'] = 'Выйти';
+$lang['page_404'] = 'Страница не найдена';

@@ -309,3 +309,19 @@ CREATE TABLE IF NOT EXISTS `user_courses` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--
+-- Структура таблицы `conferences`
+--
+
+CREATE TABLE IF NOT EXISTS `conferences` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_ru` varchar(300) NOT NULL,
+  `name_en` varchar(300) DEFAULT NULL,
+  `info_ru` text NOT NULL,
+  `info_en` text,
+  `begin` date NOT NULL,
+  `end` date NOT NULL,
+  `url` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

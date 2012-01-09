@@ -419,3 +419,19 @@ INSERT INTO `user_courses` (`id`, `userid`, `courseid`) VALUES
 (13, 12, 2),
 (14, 13, 2),
 (15, 12, 1);
+
+--
+-- Структура таблицы `conferences`
+--
+
+CREATE TABLE IF NOT EXISTS `conferences` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_ru` varchar(300) NOT NULL,
+  `name_en` varchar(300) DEFAULT NULL,
+  `info_ru` text NOT NULL,
+  `info_en` text,
+  `begin` date NOT NULL,
+  `end` date NOT NULL,
+  `url` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
