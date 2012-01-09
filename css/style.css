@@ -487,6 +487,9 @@ font-size: 1.1em;
     color:#D0F500;
     text-decoration: underline;
 }
+.breadcrumbs .disabled {
+    color:#AAA;
+}
 
 .read_more_button {
   display: inline-block;

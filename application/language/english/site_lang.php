@@ -111,3 +111,7 @@ $lang['page_cabinet'] = 'Cabinet';
 $lang['page_admin'] = 'Admin panel';
 $lang['page_logout'] = 'Logout';
 $lang['page_404'] = 'Page not found';
+$lang['partner_doesnt_exist'] = "Partner doesn't exist";
+$lang['conference_doesnt_exist'] = "Conference doesn't exist";
+$lang['news_doesnt_exist'] = "News doesn't exist";
+$lang['user_doesnt_exist'] = "User doesn't exist";

@@ -41,12 +41,23 @@ class News extends CI_Controller {
 	 */
 	function show( $url_of_news )
 	{
-		$data['title'] = "Новости - Сайт кафедры ПОАС";
+
+        $data['breadcrumbs'] = $this->get_breadcrumbs();
+		$data['title'] = $this->lang->line('page_news');
         $data['active'] = 'page_news';
 		$data['news'] = $this->{MODEL_NEWS}->get_by_url($url_of_news);
-		$data['content'] = $this->load->view('news_view', $data, TRUE);
-        $data['breadcrumbs'] = $this->get_breadcrumbs();
-        $data['breadcrumbs'] ['/partners/'.$url_of_news] = $data['news']->name;
+
+        if (!$data['news'])
+        {
+            $data['content'] = $this->lang->line('news_doesnt_exist');
+        }
+        else
+        {
+            $data['content'] = $this->load->view('news_view', $data, TRUE);
+            $data['breadcrumbs']['/partners/'.$url_of_news] = $data['news']->name;
+            $data['title'] .= ' - '.$data['news']->name;
+        }
+
 		$this->load->view('templates/main_view', $data);
 	}
 

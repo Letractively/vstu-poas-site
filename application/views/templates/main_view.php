@@ -142,7 +142,7 @@
                                 if ($link != '/about')
                                     $anchored_breadcrumbs[] = anchor($link, $name);
                                 else
-                                    $anchored_breadcrumbs[] = $name;
+                                    $anchored_breadcrumbs[] = '<span class="disabled">'.$name.'</span>';
                             }
                             $anchored_breadcrumbs[count($anchored_breadcrumbs)-1]
                                 = '<span class="last">'.$anchored_breadcrumbs[count($anchored_breadcrumbs)-1].'</span>';

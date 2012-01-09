@@ -55,7 +55,7 @@ class About extends CI_Controller{
 
         if ($data['currentyear'] != '')
             $data['breadcrumbs']['/about/students/'.$form.'/'.$data['currentyear']] = $data['currentyear'];
-        
+
 		$data['content'] = $this->load->view('about/student_form', $data, TRUE);
         $user_cards = $this->{MODEL_COURSE}->get_user_cards($form, $year);
         foreach($user_cards as $user_card)
@@ -172,17 +172,18 @@ class About extends CI_Controller{
                 $data['breadcrumbs']['/about/scientific/projects'] = $this->lang->line('page_scientific_projects');
                 if (is_numeric($param))
                 {
-                    $data['project'] = $this->{MODEL_PROJECT}->get_card($param);
-                    if (!$data['project'])
+                    if (!$this->{MODEL_PROJECT}->exists($param))
                     {
                         $data['content'] = $this->lang->line('project_doesnt_exist');
                         $this->load->view('templates/main_view', $data);
                     }
                     else
                     {
+                        $data['project'] = $this->{MODEL_PROJECT}->get_card($param);
                         $data['members'] = $this->{MODEL_PROJECT}->get_members($param);
                         $data['content'] = $this->load->view('project_view', $data, TRUE);
                         $data['breadcrumbs']['/about/scientific/projects/'.$param] = $data['project']->name;
+                        $data['title'] .= ' - '.$data['project']->name;
                         $this->load->view('templates/main_view', $data);
                     }
                     return;
@@ -199,17 +200,19 @@ class About extends CI_Controller{
                 $data['breadcrumbs']['/about/scientific/directions'] = $this->lang->line('page_scientific_directions');
                 if (is_numeric($param))
                 {
-                    $data['direction'] = $this->{MODEL_DIRECTION}->get_card($param);
-                    if (!$data['direction'])
+
+                    if (!$this->{MODEL_DIRECTION}->exists($param))
                     {
                         $data['content'] = $this->lang->line('direction_doesnt_exist');
                         $this->load->view('templates/main_view', $data);
                     }
                     else
                     {
+                        $data['direction'] = $this->{MODEL_DIRECTION}->get_card($param);
                         $data['members'] = $this->direction_model->get_members($param);
                         $data['content'] = $this->load->view('direction_view', $data, TRUE);
                         $data['breadcrumbs']['/about/scientific/directions/'.$param] = $data['direction']->name;
+                        $data['title'] .= ' - '.$data['direction']->name;
                         $this->load->view('templates/main_view', $data);
                     }
                     return;
