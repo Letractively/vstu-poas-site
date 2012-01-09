@@ -31,22 +31,38 @@ class Users extends CI_Controller {
 	function show ($id, $page = 'contacts')
 	{
         $fio = $this->{MODEL_USER}->get_fio($id);
-		$data['title'] = 'Пользователи - Сайт кафедры ПОАС';
+		$data['title'] = $this->lang->line('page_users');
         $data['active'] = 'page_about';
-		$data['id'] = $id;
-		$data['info'] = $this->{MODEL_USER}->get_user_info($id, $page);
-		$data['page'] = $page;
-		$data['content'] = $this->load->view('user_view', $data, TRUE);
 
         $data['breadcrumbs'] = $this->get_breadcrumbs();
         $data['breadcrumbs']['/about'] = $this->lang->line('page_about');
-        if ($this->{MODEL_USER}->get_user_groups($id)->group_id == ION_USER_LECTURER)
-            $data['breadcrumbs']['/about/staff'] = $this->lang->line('page_staff');
+        if ($this->{MODEL_USER}->exists($id))
+        {
+            $data['id'] = $id;
+            $data['info'] = $this->{MODEL_USER}->get_user_info($id, $page);
+            $data['page'] = $page;
+            $data['content'] = $this->load->view('user_view', $data, TRUE);
 
-        if ($this->{MODEL_USER}->get_user_groups($id)->group_id == ION_USER_STUDENT)
-            $data['breadcrumbs']['/about/students'] = $this->lang->line('page_students');
-        $data['breadcrumbs']['/users/'.$id] = $fio->surname.' '.$fio->name.' '.$fio->patronymic;
-        $data['breadcrumbs']['/users/'.$id.'/'. $page] = $this->lang->line($page);
+            if ($this->{MODEL_USER}->get_user_groups($id)->group_id == ION_USER_LECTURER)
+            {
+                $data['breadcrumbs']['/about/staff'] = $this->lang->line('page_staff');
+                $data['title'] = $this->lang->line('page_staff');
+                $data['title'] .= ' - '.$fio->surname.' '.$fio->name.' '.$fio->patronymic;
+            }
+
+            if ($this->{MODEL_USER}->get_user_groups($id)->group_id == ION_USER_STUDENT)
+            {
+                $data['breadcrumbs']['/about/students'] = $this->lang->line('page_students');
+                $data['title'] = $this->lang->line('page_students');
+                $data['title'] .= ' - '.$fio->surname.' '.$fio->name.' '.$fio->patronymic;
+            }
+            $data['breadcrumbs']['/users/'.$id] = $fio->surname.' '.$fio->name.' '.$fio->patronymic;
+            $data['breadcrumbs']['/users/'.$id.'/'. $page] = $this->lang->line($page);
+        }
+        else
+        {
+            $data['content'] = $this->lang->line('user_doesnt_exist');
+        }
 		$this->load->view('templates/main_view', $data);
 	}
 

@@ -111,3 +111,7 @@ $lang['page_cabinet'] = 'Личный кабинет';
 $lang['page_admin'] = 'Панель администратора';
 $lang['page_logout'] = 'Выйти';
 $lang['page_404'] = 'Страница не найдена';
+$lang['partner_doesnt_exist'] = 'Партнер не существует';
+$lang['conference_doesnt_exist'] = 'Конференция не существует';
+$lang['news_doesnt_exist'] = 'Новость не существует';
+$lang['user_doesnt_exist'] = "Пользователь не существует";

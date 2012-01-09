@@ -44,6 +44,7 @@ class Partners extends CI_Controller {
             {
                 $data['content'] = $this->load->view('partner_view', $data, TRUE);
                 $data['breadcrumbs']['/partners/'.$id] = $data['partner']->name;
+                $data['title'] .= ' - '.$data['partner']->name;
             }
         }
         $this->load->view('templates/main_view', $data);

@@ -28,6 +28,7 @@ class Conferences extends CI_Controller{
     {
 
         $data['breadcrumbs'] = $this->get_breadcrumbs();
+        $data['title'] = $this->lang->line('page_conferences');
         if (!is_numeric($id) || !$this->{MODEL_CONFERENCE}->exists($id))
         {
             $data['content'] = $this->lang->line('conference_doesnt_exist');
@@ -36,9 +37,9 @@ class Conferences extends CI_Controller{
         {
             $data['conference'] = $this->{MODEL_CONFERENCE}->get_card($id);
             $data['breadcrumbs']['/conferences/'.$id] = $data['conference']->name;
+            $data['title'] .= ' - '.$data['conference']->name;
             $data['content'] = $this->load->view('conference_view', $data, TRUE);
         }
-        $data['title'] = $this->lang->line('page_conferences');
         $data['active'] = 'page_conferences';
         $this->load->view('templates/main_view', $data);
 
