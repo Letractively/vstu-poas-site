@@ -130,7 +130,7 @@ class Conferences_model extends Super
                     'begin',
                     'end'
                 ),
-                'begin DESC',
+                'begin DESC, end',
                 'name_'.lang().' IS NOT NULL'
                 );
         return $result;
@@ -167,6 +167,29 @@ class Conferences_model extends Super
                 NULL,
                 $id);
         }
+        return $result;
+    }
+
+    /**
+     * Получить определенное количество последних конференций
+     * @param int $count требуемое число конференций
+     * @return array конференции
+     */
+    public function get_last($count)
+    {
+        $result = $this->db
+                ->select(array(
+                    'id',
+                    'name_'.lang().' as name',
+                    'begin'
+                ))
+                ->from(TABLE_CONFERENCES)
+                ->where('name_'.lang().' IS NOT NULL')
+                ->order_by('begin DESC, end')
+                ->limit($count)
+                ->get()
+                ->result();
+        
         return $result;
     }
 }
