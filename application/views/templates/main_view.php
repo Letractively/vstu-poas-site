@@ -14,17 +14,21 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
 <!-- CSS -->
 <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection, tv" />
 <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/css/style-ie.css" media="screen, projection, tv" /><![endif]-->
 <link rel="stylesheet" href="/css/style-print.css" type="text/css" media="print" />
 
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<!--jquery, jquery-ui, jquery-ui-css и прочий JS-->
+<link type="text/css" href="/js/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <script src="/js/jquery-ui/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+<script src="/js/jquery-ui/js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
 <!-- Заменить в релизе локальный вариант на этот! <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"  type="text/javascript"></script>-->
 <script src="/js/site.js" type="text/javascript"></script>
-<script src="/js/ajaxfileupload.js" type="text/javascript"></script>
-<script src="/js/jquery/crypt.js" type="text/javascript"></script>
+<!--<script src="/js/ajaxfileupload.js" type="text/javascript"></script>
+<script src="/js/jquery/crypt.js" type="text/javascript"></script>-->
 <title><?php if (isset($title)) echo $title . '. ' . $this->lang->line('site_name'); else echo $this->lang->line('site_name');?></title>
 </head>
 
@@ -180,7 +184,7 @@
 	</div>
 
 <hr class="noscreen" />
-
+    <div id="dialog_ui"></div>
 	<!-- Footer -->
 	<div id="footer">
 		<div id="footer-in">

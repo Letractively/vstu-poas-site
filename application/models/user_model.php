@@ -611,6 +611,12 @@ class User_model extends Super{
             $data['content'] = $this->load->view('/login_view', NULL, TRUE);
             $data['active'] = 'none';
             $data['title'] = 'Авторизация пользователя';
+
+            $breadcrumbs = array(
+                '/' => $this->lang->line('page_main'),
+                '/admin' => $this->lang->line('page_admin')
+            );
+            $data['breadcrumbs'] = $breadcrumbs;
 			echo $this->load->view('templates/main_view', $data, TRUE);
             die();
             return FALSE;
