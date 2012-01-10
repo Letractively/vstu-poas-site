@@ -676,3 +676,15 @@ div.news-short div{
 .personal-cabinet input[type=submit] {
 	margin-left: 200px;
 }
+
+/* JS-форма авторизации */
+.auth-js label {
+    width:100px;
+    display: inline-block;
+}
+.auth-js input {
+    margin-bottom: 5px;
+}
+.auth-js #dialog_error_login_admin {
+    color:red;
+}

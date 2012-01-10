@@ -11,6 +11,58 @@ jQuery(document).ready( function($)
         return false;
     });
 
+    $('#authorization').click(function() {
+        var html = '';
+        html += '<div class="auth-js">';
+        html += '<p>Пожалуйста, представьтесь</p>';
+        html += '<label for="dialog_login">Логин</label>';
+        html += '<input type="text" name="dialog_login"/><br>';
+        html += '<label for="dialog_password">Пароль</label>';
+        html += '<input type="password" name="dialog_password"/><br>';
+        html += '<span id="dialog_error_login_admin"></span>';
+        html += '</div>';
+        $('#dialog_ui').html(html);
+        $("#dialog_ui").dialog({
+            modal: true,
+            position: ["center","center"],
+            title: 'Авторизация',
+            buttons:
+            {
+                "Авторизация": function()
+                {
+                    $.ajax({
+                        data: {
+                            form_login_username: $('[name="dialog_login"]').val(),
+                            form_login_password: $('[name="dialog_password"]').val()
+                        },
+                        dataType: "JSON",
+                        type:'POST',
+                        url:'/ajax/login/',
+                        success:function(data){
+                            if(data==1)
+                            {
+                                document.location.href='/cabinet';
+                            }
+                            else
+                            {
+                                $('#dialog_error_login_admin').html(data);
+                            }
+                            $(this).dialog("close");
+                        },
+                        error:function(data){
+                            $('#dialog_error_login_admin').html("Произошла ошибка при попытке авторизоваться");
+                        }
+                    });
+                },
+                "Отмена": function()
+                {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        return false;
+    });
+
 	// Попытка залогинится через форму авторизации (login_view.php)
 	$("#login_send_button").click( function()
 	{
