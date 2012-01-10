@@ -136,7 +136,7 @@ class Ajax extends CI_Controller {
                 $table = TABLE_PARTNERS;
                 break;
             case 'user':
-                // Изображение партнера
+                // Изображение пользователя
                 $config['upload_path'] = './uploads/users/';
                 $config['allowed_types'] = 'gif|jpg|png|jpeg';
                 $config['max_size']	= '1000';
@@ -631,6 +631,114 @@ class Ajax extends CI_Controller {
         fputs($f, 'clean_members_dup ');
         $this->load->model(MODEL_DIRECTION);
         $this->{MODEL_DIRECTION}->clean_members_dup($this->input->post('directinid'));
+    }
+
+    /**
+     * Загрузить получаемый файл пользователю
+     */
+    function upload_user_photo_for_user()
+    {
+        if (!$this->ion_auth->logged_in())
+        {
+            echo "{";
+            echo				"error: '" . $this->lang->line('errornotlogged'). "'\n";
+            echo "}";
+            return;
+        }
+        $error = '';
+        $path = '';
+        $id = '';
+         // Изображение пользователя
+        $config['upload_path'] = './uploads/users/';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        $config['max_size']	= '1000';
+        $config['max_width']  = '2048';
+        $config['max_height']  = '1280';
+
+        $field = 'photo';
+
+		$this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload('file_form'))
+		{
+            $error = $this->upload->display_errors('','');
+		}
+		else
+		{
+            // Получаем корректный путь к файлу
+            $upload_data = $this->upload->data();
+            $segments = explode('/',$upload_data['full_path']);
+            $segments = array_reverse($segments);
+            $file->name = $segments[2].'/'.$segments[1].'/'.$segments[0];
+
+            // добавление записи в таблицу файлов
+            $this->db->insert(TABLE_FILES, $file);
+            $id = $this->db->insert_id();
+            $path = $this->config->item('base_url') . $file->name;
+
+            $userid = $this->session->userdata('user_id');
+            $old = $this->db
+                            ->select('photo')
+                            ->get_where(TABLE_USERS, array('id' => $userid))
+                            ->result();
+
+            if ($old)
+            {
+                $this->load->model(MODEL_FILE);
+                $oldpath = $this->{MODEL_FILE}->delete_file($old[0]->photo);
+            }
+            // добавление нового
+
+            $record->photo = $id;
+            $this->db->where('id', $userid);
+            $this->db->update(TABLE_USERS, $record);
+		}
+        echo "{";
+        echo				"error: '" . $error. "',\n";
+        echo                "path:'" . $path . "',\n";
+        echo                "id:'" . $id . "'\n";
+        echo "}";
+    }
+
+    function delete_user_photo_for_user()
+    {
+        if (!$this->ion_auth->logged_in())
+        {
+            echo json_encode(array(
+                'error' => $this->lang->line('errornotlogged'),
+                'message' => '')
+            );
+            return;
+        }
+
+        $userid = $this->session->userdata('user_id');
+        $res = $this->db
+                    ->select('photo')
+                    ->from(TABLE_USERS)
+                    ->where('id', $userid)->get()->result();
+
+        if ($res)
+        {
+            $fileid = $res[0]->photo;
+            if ($fileid)
+            {
+                $this->load->model(MODEL_FILE);
+                $record->photo = null;
+
+                $this->db->where('id', $userid);
+                $this->db->update(TABLE_USERS, $record);
+                $this->{MODEL_FILE}->delete_file($fileid);
+                echo json_encode(array(
+                    'error' => '',
+                    'message' => 'Файл был успешно удален')
+                );
+                return;
+            }
+            echo json_encode(array(
+                'error' => '',
+                'message' => 'У пользователя нет изображения')
+            );
+            return;
+        }
     }
 }
 

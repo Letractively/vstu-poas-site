@@ -1,5 +1,14 @@
 <div class="personal-cabinet">
     <form action="/cabinet/update" class="profile">
+
+        <div class="photo">
+            <? if(!isset($user->photo)) $user->photo = NOPHOTO;?>
+            <img id ="user-photo" src="<?=$user->photo?>"/>
+            <br>
+            <a href="javascript:void(0)" id="change-photo" onclick="loadUserPhoto()"><?=$this->lang->line('change_photo')?></a>
+        </div>
+        <br>
+
         <label for="surname"><?=$this->lang->line('surname')?></label>
         <input type="text" name="surname" value="<?=$user->surname?>"/>
         <br>

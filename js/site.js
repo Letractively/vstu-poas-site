@@ -98,6 +98,104 @@ jQuery(document).ready( function($)
 		});
 	});
 });
+function loadUserPhoto()
+{
+    var html = '';
+    html += '<input type="file" id="file_form" value=" " name="file_form">';
+    html += '<p id="photo-load-message"></p>';
+    html += '<img id="loading" src="/images/load/round.gif" style="display:none;">';
+    $('#dialog_ui').html(html);
+    $("#dialog_ui").dialog({
+            modal: true,
+            position: ["center","center"],
+            title: 'Загрузка фотографии пользователя',
+            buttons:
+            {
+                "Загрузить": function()
+                {
+                    loadPhoto();
+                },
+                "Удалить": function()
+                {
+                    deletePhoto();
+                },
+                "Отмена": function()
+                {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    return false;
+}
+function loadPhoto()
+{
+    $("#loading").ajaxStart(function(){
+        $(this).show();
+    }).ajaxComplete(function(){
+        $(this).hide();
+    });
+
+    $.ajaxFileUpload
+    (
+        {
+            url:'/ajax/upload_user_photo_for_user',
+            secureuri:false,
+            dataType: 'json',
+            fileElementId:'file_form',
+            type:'POST',
+            success: function (data, status)
+            {
+                if (data.error != '')
+                {
+                    $('#photo-load-message').css('color', 'red');
+                    $('#photo-load-message').html(data.error);
+                }
+                else
+                {
+                    $('#photo-load-message').css('color', 'green');
+                    $('#photo-load-message').html('Фотография успешно загружена');
+                    $('#user-photo').attr('src', data.path);
+                }
+            },
+            error: function (data, status, e)
+            {
+                $('#photo-load-message').css('color', 'red');
+                $('#photo-load-message').html('Во время загрузки файла произошла неизвестная ошибка');
+            }
+        }
+    );
+}
+
+function deletePhoto()
+{
+    $("#loading").ajaxStart(function(){
+        $(this).show();
+    }).ajaxComplete(function(){
+        $(this).hide();
+    });
+
+    $.ajax({
+        dataType: "json",
+        url:'/ajax/delete_user_photo_for_user/',
+        success:function(data){
+            if (data.error != '')
+                {
+                    $('#photo-load-message').css('color', 'red');
+                    $('#photo-load-message').html(data.error);
+                }
+            else
+            {
+                $('#photo-load-message').css('color', 'green');
+                $('#photo-load-message').html(data.message);
+                $('#user-photo').attr('src', '/images/site/nophoto-2.png');
+            }
+        },
+        error:function(data){
+            $('#photo-load-message').css('color', 'red');
+            $('#photo-load-message').html('Во время удаления файла произошла неизвестная ошибка');
+        }
+    });
+}
 function startTime()
 {
     var tm=new Date();
