@@ -651,4 +651,31 @@ class User_model extends Super{
         else
             return NULL;
     }
+
+    public function get_info_for_cabinet($id)
+    {
+        $record = parent::get_fields(
+                TABLE_USERS,
+                array(
+                    'id',
+                    'name_'.lang().' as name',
+                    'surname_'.lang().' as surname',
+                    'patronymic_'.lang().' as patronymic',
+                    'username',
+                    'email',
+                    'photo',
+                    'cabinet',
+                    'skype',
+                    'phone',
+                    'url'
+                ),
+                NULL,
+                NULL,
+                $id
+                );
+        $this->load->model(MODEL_FILE);
+        if ($record)
+            $record->photo = $this->{MODEL_FILE}->get_file_path($record->photo);
+        return $record;
+    }
 }

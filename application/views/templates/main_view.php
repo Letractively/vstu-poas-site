@@ -49,7 +49,7 @@
                                 echo implode(' | ', $links);
                             }
                             else
-                                echo anchor('/admin', $this->lang->line('authorization'),array('id'=>'authorization'));
+                                echo anchor('/cabinet', $this->lang->line('authorization'),array('id'=>'authorization'));
                         }
 					?>
 				</span>
