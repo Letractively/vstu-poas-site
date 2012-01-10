@@ -11,16 +11,9 @@ class Users extends CI_Controller {
 		lang();
 	}
 
-	/// Главная страница сайта
 	function index()
 	{
-		$data['title'] = 'Пользователи - Сайт кафедры ПОАС';
-        $data['users'] = $this->{MODEL_USER}->get_short();
-        $data['active'] = 'none';
-		$data['content'] = $this->load->view('users_view', $data, TRUE);
-        $data['breadcrumbs'] = $this->get_breadcrumbs();
-        $data['breadcrumbs']['/users'] = $this->lang->line('users');
-		$this->load->view('templates/main_view', $data);
+        redirect('/about/students');
 	}
 
 	/**

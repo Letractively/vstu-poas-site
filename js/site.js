@@ -18,10 +18,9 @@ jQuery(document).ready( function($)
 		var displayModeOfButton = $('#login_send_button').css('display');
 		$('#login_send_button').css('display', 'none');
 		$('#login_send_button').after('<img id="image_load_login_send" src="/images/load/round.gif" />');
-
 		$.ajax({
-			data: {form_login_username: $('[name="login_username"]').val(),
-					form_login_password: $('[name="login_password"]').val()
+			data: {form_login_username: $('[name="login"]').val(),
+					form_login_password: $('[name="password"]').val()
 		 	},
 			dataType: "JSON",
 			type:'POST',

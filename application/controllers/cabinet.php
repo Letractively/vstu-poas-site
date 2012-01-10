@@ -18,12 +18,12 @@ class Cabinet extends CI_Controller {
 
         if ($this->ion_auth->logged_in())
         {
-            $fio = $this->{MODEL_USER}->get_fio($this->session->userdata('user_id'));
-            $data['content'] = 'Ваше ФИО : '.$fio->surname.' '.$fio->name.' '.$fio->patronymic;
+            $data['user'] = $this->{MODEL_USER}->get_info_for_cabinet($this->session->userdata('user_id'));
+            $data['content'] = $this->load->view('/cabinet_view', $data, TRUE);
         }
         else
         {
-            $data['content'] = 'Вы не авторизованы';
+            $data['content'] = $this->load->view('/login_view', NULL, TRUE);
         }
 		$this->load->view('templates/main_view', $data);
 	}
