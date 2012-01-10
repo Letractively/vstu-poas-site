@@ -350,6 +350,7 @@ function usersSelector(
                             });
                         },
                         error:function(data){
+                            alert('Ошибка');
                         }
                 });
 			},
@@ -444,10 +445,12 @@ function advancedUsersSelector(
                             });
                         },
                         error:function(data){
+                            alert('Ошибка!');
                         }
                 });
 			},
 			error:function(data){
+                alert('Ошибка!');
 			}
     });
 
