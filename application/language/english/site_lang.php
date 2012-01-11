@@ -127,3 +127,6 @@ $lang['change_photo'] = 'Change photo';
 $lang['errornotlogged'] = 'Error! You are not logged in';
 $lang['profiler_section_show'] = 'Show profiler section';
 $lang['profiler_section_hide'] = 'Hide profiler section';
+$lang['illegal_data'] = 'Illegal data';
+$lang['your_account_successfully_changed'] = 'Your account was successfully changed';
+$lang['me_on_users_page'] = 'My profile';

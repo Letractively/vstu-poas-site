@@ -687,6 +687,30 @@ div.news-short div{
     max-height: 300px;
     max-width: 300px;
 }
+.personal-cabinet div.error {
+    color:red;
+    font-weight: bold;
+    margin-left: 200px;
+    margin-bottom: 10px;
+}
+.personal-cabinet .me-link {
+    margin-bottom: 5px;
+}
+.personal-cabinet .edit-ok {
+    color:green;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+.personal-cabinet div img.attention {
+    margin-left: 5px;
+}
+.personal-cabinet .cabinet-message {
+    text-align: center;
+}
+.personal-cabinet .long {
+    width:200px;
+}
 
 /* JS-форма авторизации */
 .auth-js label {

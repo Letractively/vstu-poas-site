@@ -1,6 +1,7 @@
 <div id="form_edit">
     <?php
-    if(!isset($partner->id)){
+    if(!isset($partner->id))
+    {
         $action = 'add';
         $submit = 'Добавить запись';
 
@@ -9,7 +10,8 @@
         $partner->full_ru      = '';
         $en_version_started = false;
     }
-    else {
+    else
+    {
         $action = 'edit';
         $submit = 'Применить изменения';
         // Заполнено ли хотя бы одно поле английской версии
@@ -31,7 +33,7 @@
 
 // Ввод русского имени партнера (обязательный параметр)
     echo form_label('Имя партнера (русское)*', 'partner_name_ru', array('class' => 'inline-block'));
-    echo form_input('partner_name_ru', set_value('partner_name_ru', $partner->name_ru), 'maxlength="300"');
+    echo form_input('partner_name_ru', set_value('partner_name_ru', $partner->name_ru), 'maxlength="300" class="long"');
     echo form_error('partner_name_ru');
     echo br(2);
 
@@ -49,7 +51,7 @@
 
 // Ввод ссылки на сайт партнера
     echo form_label('Ссылка на сайт партнера', 'partner_url', array('class' => 'inline-block'));
-    echo form_input('partner_url', set_value('partner_url', $partner->url), 'maxlength="300"');
+    echo form_input('partner_url', set_value('partner_url', $partner->url), 'maxlength="300" class="long"');
     echo form_error('partner_url');
     echo br(2);
 
@@ -63,7 +65,7 @@ echo '<hr>';
 
 // Ввод английского имени партнера
     echo form_label('Имя партнера (английское)', 'partner_name_en', array('class' => 'inline-block'));
-    echo form_input('partner_name_en', set_value('partner_name_en', $partner->name_en), 'maxlength="300"');
+    echo form_input('partner_name_en', set_value('partner_name_en', $partner->name_en), 'maxlength="300" class="long"');
     echo form_error('partner_name_en');
     echo br(2);
 

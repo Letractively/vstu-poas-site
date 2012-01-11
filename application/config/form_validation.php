@@ -202,6 +202,30 @@ $admin_users_edit[0] = array(
 );
 $config['admin/users/edit'] = $admin_users_edit;
 
+/* Валиация данных, измененных через личный кабинет*/
+$config['user/edit'] = array(
+    array(
+        'field' => 'surname',
+        'label' => get_instance()->lang->line('surname'),
+        'rules' => 'trim|required|max_length[30]'
+    ),
+    array(
+        'field' => 'name',
+        'label' => get_instance()->lang->line('name'),
+        'rules' => 'trim|required|max_length[30]'
+    ),
+    array(
+        'field' => 'patronymic',
+        'label' => get_instance()->lang->line('patronymic'),
+        'rules' => 'trim|required|max_length[30]'
+    ),
+    array(
+        'field' => 'email',
+        'label' => get_instance()->lang->line('email'),
+        'rules' => 'trim|valid_email'
+    )
+);
+
 $config['admin/partners'] = array(
     array(
         'field' => 'partner_name_ru',

@@ -11,6 +11,9 @@ jQuery(document).ready( function($)
         return false;
     });
 
+    // Отметить поле с ошибочными данными в личном кабинете
+    $('.personal-cabinet div.error').siblings('input').after('<img class="attention" alt="!" src="/images/attention.png">');
+
     $('#authorization').click(function() {
         var html = '';
         html += '<div class="auth-js">';

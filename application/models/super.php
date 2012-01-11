@@ -179,7 +179,7 @@ class Super extends CI_Model
 	 * Добавить новую запись в базу данных
      * @param $table - имя таблицы базы даных
      * @param $record - запись
-	 * @return mixed идентификатор добавленной записи | FALSE
+	 * @return mixed идентификатор записи | FALSE
 	 */
 	protected final function edit($table, $record)
 	{

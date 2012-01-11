@@ -127,3 +127,6 @@ $lang['change_photo'] = 'Изменить фотографию';
 $lang['errornotlogged'] = 'Ошибка! Вы не авторизованы';
 $lang['profiler_section_show'] = 'Показать профилировщик';
 $lang['profiler_section_hide'] = 'Скрыть профилировщик';
+$lang['illegal_data'] = 'Введены недопустимые данные';
+$lang['your_account_successfully_changed'] = 'Ваши данные успешно изменены';
+$lang['me_on_users_page'] = 'Как видят меня пользователи?';

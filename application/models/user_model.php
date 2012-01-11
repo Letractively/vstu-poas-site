@@ -7,6 +7,8 @@
 require_once('super.php');
 class User_model extends Super{
 
+    /// Сообщение для личного кабинета пользователя
+    public $cabinet_message = '';
     /**
      * Получить список записей для панели администратора
      * @param int $page страница
@@ -57,6 +59,21 @@ class User_model extends Super{
         {
             $this->admin_message = 'Введены недопустимые данные';
         }
+        return $flag;
+    }
+
+    /**
+     * Проверить данные пользователя, изменяемые через личный кабинет
+     *
+     * @access public
+     * @return boolean TRUE, если нет ошибок валидации, иначе - FALSE
+     */
+    public function cabinet_validate()
+    {
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+        $flag = $this->form_validation->run('user/edit');
+        if (!$flag)
+            $this->cabinet_message = $this->lang->line('illegal_data');
         return $flag;
     }
 
@@ -430,6 +447,18 @@ class User_model extends Super{
         return $result;
     }
 
+    /**
+     * Изменить данные учетной записи пользователя по его желанию (из личного кабинета)
+     *
+     * @access public
+     * @return boolean TRUE в случае успешного изменения
+     */
+    public function cabinet_edit_from_post()
+    {
+        $user = $this->cabinet_get_from_post();
+        return parent::edit(TABLE_USERS, $user);
+    }
+
     function get_user_groups($id)
     {
         // В нашей системе пользователь может быть только в одной группе
@@ -508,6 +537,28 @@ class User_model extends Super{
             'info_en' => '',
             'teaching_ru' => '',
             'teaching_en' => ''
+        );
+        $result = parent::create_record_object('user', $fields, $nulled_fields);
+        return $result;
+    }
+
+    /**
+     * Создать объект записи на основе POST-данных, переданных из личного кабинета
+     *
+     * @access public
+     * @return object запись
+     */
+    public function cabinet_get_from_post()
+    {
+        $fields = array(
+            'surname_'.lang() => 'surname',
+            'name_'.lang() => 'name',
+            'patronymic_'.lang() => 'patronymic',
+            'email' => 'email',
+            'id' => 'id'
+        );
+        $nulled_fields = array(
+            'email' => '',
         );
         $result = parent::create_record_object('user', $fields, $nulled_fields);
         return $result;
