@@ -1,0 +1,92 @@
+.jqueryslidemenu{
+font: bold 12px Verdana;
+background: #426D10; /* Фоновый цвет всего меню  */
+width: 950px;
+margin: 0 auto;
+}
+
+/* Убираем поля , отступы и маркеры для основного списка  */
+.jqueryslidemenu ul{
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+
+/*Выстраиваем элементы списка горизонтально*/
+.jqueryslidemenu ul li{
+position: relative;
+display: inline;
+float: left;
+}
+
+/*Стили ссылок пунктов списка верхнего уровня*/
+.jqueryslidemenu ul li a{
+display: block;
+background: #4A4A4A url('/images/site/design/menu-bg.gif') repeat-x 0 0;
+padding:8px 16px;
+border-right: 1px solid #000; /*Стиль перегородки между ячейками*/
+text-decoration: none;
+}
+
+* html .jqueryslidemenu ul li a{ /*Хак специально для IE6, чтобы достичь корректного отображения*/
+display: inline-block;
+}
+
+.jqueryslidemenu ul li a:link, .jqueryslidemenu ul li a:visited{
+color: white;
+}
+
+.jqueryslidemenu ul li a:hover, .jqueryslidemenu ul li a.active{
+color: #fffff0;/* Цвет текста меню при наведении*/
+background: black url('/images/site/design/menu-bg-hover.png') repeat-x 0 0;
+}
+	
+
+.jqueryslidemenu ul li ul{
+position: absolute;
+left: 0;
+display: block;
+visibility: hidden;
+margin:0;
+}
+
+
+.jqueryslidemenu ul li ul li{
+display: list-item;
+float: none;
+}
+
+
+.jqueryslidemenu ul li ul li ul{
+top: 0;
+}
+
+/* Стили для подменю */
+.jqueryslidemenu ul li ul li a{
+background:#444444;  /* фоновый цвет подменю в обычном состоянии */
+font: normal 12px Verdana;  /* стиль шрифта элементов подменю */
+width: 140px; /*ширина подменю*/
+padding: 6px; /*отступы*/
+margin: 0;
+border-top-width: 0;   
+border-bottom: 1px solid gray;   /*  стиль перегородки между пунктами подменю */
+}
+
+.jqueryslidemenu ul li ul li a:hover{ 
+background: black; /* фоновый цвет подменю при наведении */
+color: #D0F500;  /* цвет текста подменю при наведении */
+}
+
+/* ######### Стили для изображений (стрелочки вниз и вправо) ######### */
+
+.downarrowclass{
+position: absolute;
+top: 12px;
+right: 7px;
+}
+
+.rightarrowclass{
+position: absolute;
+top: 7px;
+right: 5px;
+}
