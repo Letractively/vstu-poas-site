@@ -97,7 +97,14 @@
 		<div id="myslidemenu" class="jqueryslidemenu">
 		<ul>
             <?php if (!isset($active)) $active = 'none'; ?>
-            <li><a href="/"><img style="padding-top: 3px;" src="/images/site/design/house.gif" /></a></li>
+            <li>
+				<?php if ($active == 'page_main') :?>
+            		<a href="/" class="active submenu"><img style="padding-top:3px;" src="/images/site/design/house.gif" /></a>
+            	<?php else :?>
+            		<a href="/"><img style="padding-top:3px;" src="/images/site/design/house.gif" /></a>
+            	<?php endif;?>
+            	
+           </li>
             <li>
 				<?php menu_item('page_about', '#', $active == 'page_about' ? 'class=active submenu':'class=submenu')?>
 				<ul>
