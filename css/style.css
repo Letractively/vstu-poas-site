@@ -606,8 +606,15 @@ div.scientific-submenu .selected {font-weight: bold;}
 ol.publications {list-style: none;}
 .extra {display: none;}
 
-#time {text-align: center; font-family: monospace; font-size: 14px; }
-#time img {padding-left:1px;}
+#time {
+	font-family: monospace;
+	font-size: 14px;
+	position: absolute;
+	left: 50%;
+	margin-left: -90px;
+	top: 12px;
+}
+#time img {padding-left:1px; height: 20px;}
 
 /* Стили для страницы новостей*/
 
