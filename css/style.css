@@ -417,64 +417,19 @@ span.cabinet a:hover {
 	text-decoration:underline;
 	color: #D0F500;
 }
-/* Стили для меню*/
-#menu, #menu ul {
-  list-style: none;
-  padding: 0;
-  background: #4A4A4A url('../images/site/design/menu-bg.gif') repeat-x 0 0;
-  width: 950px;
-  margin: 0 auto;
-}
-#menu li {
-  float: left;
-  position: relative;
-  background: #515151;
-  back\ground: none;
-}
-#menu li ul {
-  display: none;
-  position: absolute;
-  width: 250px;
-  text-align: left;
-  padding-left: 10px;
-}
-#menu a {
-color: #fff;
-text-decoration: none;
-display: block;
-padding: 0.9em 1.4em 0.7em 1.4em;
-white-space:nowrap;
-font-weight: bold;
-font-size: 1.1em;
-}
-#menu a:hover,
-#menu .active {
-  color: #000;
-  background: #D0F500;
-}
-#menu li li a {
-  background: none;
-  margin-left:0;
-/*  width: 300px;*/
-  padding:0.9em 0;
-}
-#menu li:hover li {
-  float: none;
-}
-#menu li:hover ul {
-  display: block;
-}
+
 
 /* Хлебные крошки*/
 .breadcrumbs {
-    padding-top: 2px;
+    padding-top: 5px;
     padding-left: 10px;
-    padding-bottom: 2px;
+    padding-bottom: 4px;
     margin-bottom: 10px;
     color: white;
     font-weight: bold;
     font-size: 10px;
-    background-color: #252525;
+    width: 940px;
+    background-color: #353535;
 }
 .breadcrumbs a {
     color:white;
@@ -604,10 +559,6 @@ div.user_profile div.cv {
     color: #003B69;
     font-size: 130%;
 }
-/*Стили для страниц учебной деятельности*/
-div.education-submenu,
-div.scientific-submenu {text-align: center; margin-bottom: 20px;}
-div.education-submenu .selected {font-weight: bold;}
 
 .project img {max-height: 200px; max-width: 200px;}
 

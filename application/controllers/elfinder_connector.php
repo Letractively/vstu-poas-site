@@ -5,10 +5,10 @@
  * Для записи результатов работы с менеджером файлов служит модель "elfinder_sql_logger_model"
  * */
 error_reporting(0); // Set E_ALL for debuging
-include_once '/js/elfinder2/php/elFinderConnector.class.php';
-include_once '/js/elfinder2/php/elFinder.class.php';
-include_once '/js/elfinder2/php/elFinderVolumeDriver.class.php';
-include_once '/js/elfinder2/php/elFinderVolumeLocalFileSystem.class.php';
+include_once './js/elfinder2/php/elFinderConnector.class.php';
+include_once './js/elfinder2/php/elFinder.class.php';
+include_once './js/elfinder2/php/elFinderVolumeDriver.class.php';
+include_once './js/elfinder2/php/elFinderVolumeLocalFileSystem.class.php';
 
 class Elfinder_connector extends CI_Controller {
 	
@@ -17,7 +17,6 @@ class Elfinder_connector extends CI_Controller {
 		parent::__construct();
 		$this->load->database('default');
 		$this->load->model('elfinder_sql_logger_model');
-		//$this->user_model->check_admin();	// Запрос логина и пароля, если пользователь не администратор
 	}	
 	
 	function index()
@@ -49,7 +48,7 @@ class Elfinder_connector extends CI_Controller {
 				array(
 					'driver'        => 'LocalFileSystem',	// driver for accessing file system (REQUIRED)
 					'path'          => 'uploads/'.$dir,		// path to files (REQUIRED)
-					'URL'           => '/uploads/'.$dir,		//dirname($_SERVER['PHP_SELF']) . '', // URL to files (REQUIRED)
+					'URL'           => './uploads/'.$dir,		//dirname($_SERVER['PHP_SELF']) . '', // URL to files (REQUIRED)
 					'accessControl' => 'access'				// disable and hide dot starting files (OPTIONAL)
 				)
 			)

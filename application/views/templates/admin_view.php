@@ -65,7 +65,7 @@
 			<div class="post">
 
 				<h2><?php if(isset($title)) echo $title; else echo 'Здесь пока что нет полезной информации';?></h2>
-                <?php $message = $this->session->flashdata('admin_message'); ?>
+                <?php if(!isset($message)) $message = $this->session->flashdata('admin_message'); ?>
 				<p class="posted attention"><?php if(isset($message)) echo $message; else echo $this->input->post('message');?></p>
 
 				<div class="entry">
