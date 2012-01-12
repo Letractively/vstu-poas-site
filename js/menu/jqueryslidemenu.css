@@ -3,6 +3,7 @@ font: bold 12px Verdana;
 width: 950px;
 margin: 0 auto;
 background: #4A4A4A url('/images/site/design/menu-bg.gif') repeat-x 0 0;
+text-align: left;
 }
 
 /* ”бираем пол€ , отступы и маркеры дл€ основного списка  */
