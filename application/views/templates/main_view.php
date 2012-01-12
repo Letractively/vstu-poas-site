@@ -62,7 +62,7 @@
 					<li id="house"><?php menu_item('page_main', '/');?>|</li>
 					<li id="rss"><?php echo anchor('/rss', 'RSS');?>|</li>
 					<li id="sitemap"><?php menu_item('sitemap', '/sitemap');?>|</li>
-					<li id="envelope"><a href="#"><?php echo $this->lang->line('contactus');?></a>|</li>
+					<li id="envelope"><?=anchor('/feedback', $this->lang->line('feedback'), array('id' => 'feedback', 'onclick' => 'feedbackForm()'))?>|</li>
 					<li id="lang"><?php  echo link_to_translate();?></li>
 				</ul>
 			</div>

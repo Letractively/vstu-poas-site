@@ -130,3 +130,4 @@ $lang['profiler_section_hide'] = 'Hide profiler section';
 $lang['illegal_data'] = 'Illegal data';
 $lang['your_account_successfully_changed'] = 'Your account was successfully changed';
 $lang['me_on_users_page'] = 'My profile';
+$lang['feedback'] = 'Feedback';

@@ -199,6 +199,7 @@ function deletePhoto()
         }
     });
 }
+
 function startTime()
 {
     var tm=new Date();
