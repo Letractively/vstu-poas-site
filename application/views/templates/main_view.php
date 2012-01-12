@@ -30,6 +30,8 @@
 <script src="/js/site.js" type="text/javascript"></script>
 <!--<script src="/js/ajaxfileupload.js" type="text/javascript"></script>
 <script src="/js/jquery/crypt.js" type="text/javascript"></script>-->
+<script type="text/javascript" src="/js/menu/jqueryslidemenu.js"></script>
+<link type="text/css" href="/js/menu/jqueryslidemenu.css" rel="stylesheet" />
 <title><?php if (isset($title)) echo $title . '. ' . $this->lang->line('site_name'); else echo $this->lang->line('site_name');?></title>
 </head>
 
@@ -92,37 +94,30 @@
 	<!-- Menu -->
 	<div id="menu-box" class="cleaning-box">
 	<a href="#skip-menu" class="hidden">Skip menu</a>
-		<ul id="menu">
+		<div id="myslidemenu" class="jqueryslidemenu">
+		<ul>
             <?php if (!isset($active)) $active = 'none'; ?>
-<!--			<li class="first"><?php menu_item('page_main', '/', $active == 'page_main' ? 'class=active':'');?></li>-->
+            <li><a href="/"><img style="padding-top:3px;" src="/images/site/design/house.gif" /></a></li>
             <li>
 				<?php menu_item('page_about', '#', $active == 'page_about' ? 'class=active submenu':'class=submenu')?>
 				<ul>
-					<li>
-						<?php menu_item('page_history', '/about/history')?>
+					<li><?php menu_item('page_history', '/about/history')?></li>
+					<li><?php menu_item('activity', '#')?>
+						<ul>
+							<li><?php menu_item('education', '/about/education')?></li>
+							<li><?php menu_item('scientific', '/about/scientific')?></li>
+							<li><?php menu_item('international', '/about/international')?></li>
+						</ul>
 					</li>
-					<li>
-						<?php menu_item('page_education', '/about/education')?>
-					</li>
-					<li>
-						<?php menu_item('page_scientific', '/about/scientific')?>
-					</li>
-					<li>
-						<?php menu_item('page_international', '/about/international')?>
-					</li>
-					<li>
-						<?php menu_item('page_staff', '/about/staff')?>
-					</li>
-                    <li>
-						<?php menu_item('page_students', '/about/students')?>
-					</li>
+					<li><?php menu_item('page_staff', '/about/staff')?></li>
+                    <li><?php menu_item('page_students', '/about/students')?></li>
 				</ul>
 			</li>
 			<li><?php menu_item('page_news', '/news', $active == 'page_news' ? 'class=active':'');?></li>
 			<li><?php menu_item('page_conferences', '/conferences', $active == 'page_conferences' ? 'class=active':'')?></li>
 			<li><?php menu_item('page_partners', '/partners', $active == 'page_partners' ? 'class=active':'')?></li>
 			<li><?php menu_item('page_contacts', '/contacts', $active == 'page_contacts' ? 'class=active':'')?></li>
-		</ul>
+		</ul></div>
 	</div>
 	<!-- Menu end -->
 
@@ -134,27 +129,26 @@
 
 		<!-- Content box with white background and gray border -->
 		<div id="content-box">
-
-			<!-- Left column -->
-			<div id="content-box-in-left">
-                <div class="breadcrumbs">
-                    <?php
-                        if(isset($breadcrumbs))
-                        {
-                            $anchored_breadcrumbs = array();
-                            foreach ($breadcrumbs as $link => $name)
-                            {
-                                if ($link != '/about')
+			<div class="breadcrumbs">
+			<?php
+				if(isset($breadcrumbs))
+				{
+					$anchored_breadcrumbs = array();
+					foreach ($breadcrumbs as $link => $name)
+					{
+						if ($link != '/about')
                                     $anchored_breadcrumbs[] = anchor($link, $name);
                                 else
                                     $anchored_breadcrumbs[] = '<span class="disabled">'.$name.'</span>';
                             }
                             $anchored_breadcrumbs[count($anchored_breadcrumbs)-1]
                                 = '<span class="last">'.$anchored_breadcrumbs[count($anchored_breadcrumbs)-1].'</span>';
-                            echo '// ' . implode('<span class="delimiter"> // </span>', $anchored_breadcrumbs);
+                            echo '▶ ' . implode('<span class="delimiter"> ➔ </span>', $anchored_breadcrumbs);
                         }
                     ?>
-                </div>
+             </div>
+			<!-- Left column -->
+			<div id="content-box-in-left">
 				<div id="content-box-in-left-in">
 					<?php if(isset($content)) echo $content; ?>
 				</div>
