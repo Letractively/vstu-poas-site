@@ -1,8 +1,8 @@
 .jqueryslidemenu{
 font: bold 12px Verdana;
-background: #426D10; /* Фоновый цвет всего меню  */
 width: 950px;
 margin: 0 auto;
+background: #4A4A4A url('/images/site/design/menu-bg.gif') repeat-x 0 0;
 }
 
 /* Убираем поля , отступы и маркеры для основного списка  */
@@ -10,6 +10,7 @@ margin: 0 auto;
 margin: 0;
 padding: 0;
 list-style-type: none;
+background: #4A4A4A url('/images/site/design/menu-bg.gif') repeat-x 0 0;
 }
 
 /*Выстраиваем элементы списка горизонтально*/
@@ -40,7 +41,6 @@ color: white;
 color: #fffff0;/* Цвет текста меню при наведении*/
 background: black url('/images/site/design/menu-bg-hover.png') repeat-x 0 0;
 }
-	
 
 .jqueryslidemenu ul li ul{
 position: absolute;

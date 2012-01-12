@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="<?=lang();?>?>">
 <head>
 
@@ -68,7 +68,7 @@
 					<li id="lang"><?php  echo link_to_translate();?></li>
 				</ul>
 			</div>
-            <?php echo anchor('/','<img id="logo" src="/images/site/design/logo.jpg">');?>
+            <?php echo anchor('/','<img id="logo" src="/images/site/design/logo.jpg" />');?>
             <!-- Your website name  -->
             <h1><?php echo anchor('/', $this->lang->line('department_acronim'));?></h1>
             <!-- Your website name end -->
@@ -97,7 +97,7 @@
 		<div id="myslidemenu" class="jqueryslidemenu">
 		<ul>
             <?php if (!isset($active)) $active = 'none'; ?>
-            <li><a href="/"><img style="padding-top:3px;" src="/images/site/design/house.gif" /></a></li>
+            <li><a href="/"><img style="padding-top: 3px;" src="/images/site/design/house.gif" /></a></li>
             <li>
 				<?php menu_item('page_about', '#', $active == 'page_about' ? 'class=active submenu':'class=submenu')?>
 				<ul>
