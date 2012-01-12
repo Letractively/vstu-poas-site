@@ -69,7 +69,6 @@ clear: both;
 height: 0;
 font-size: 0;
 visibility: hidden;
-content: ' ';
 }
 
 .cleaning-box {
@@ -297,7 +296,8 @@ margin: 0 1em 7em 1.8em;
 #content-box-in-right {
 width: 29%;
 float: right;
-background-color: #FFFFFF;
+background-color: #ffffff;
+margin-top: -10px;
 }
 
 #content-box-in-right h3 {
@@ -702,7 +702,8 @@ div.news-short div{
     color:red;
 }
 
-#content-box-in-left-in
+#content-box-in-left-in p,
+#content-box-in-left-in ul
 {
 	text-indent: 1.5em;
     text-align: justify;

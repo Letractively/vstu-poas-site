@@ -177,9 +177,9 @@
                             $ci = get_instance();
                             echo $ci->load->view('/conferences/last_conferences_view', NULL, TRUE);
                         ?>
+				</div>
 			</div>
-			</div>
-			<div class="cleaner">&nbsp;</div>
+			<div class="cleaner"></div>
 			<!-- Right column end -->
 		</div>
 		<!-- Content box with white background and gray border end -->
