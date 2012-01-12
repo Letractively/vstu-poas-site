@@ -156,7 +156,7 @@ class News_model extends CI_Model {
 	 */
 	protected function get_files($id_news)
 	{
-		return $this->db->select('filename')->get_where(TABLE_FILES_ELFINDER, array('mime !=' => 'image', 'obj_type' => OBJ_TYPE_NEWS, 'obj_id' => $id_news))->result();
+		return $this->db->select('filename, size')->get_where(TABLE_FILES_ELFINDER, array('mime !=' => 'image', 'obj_type' => OBJ_TYPE_NEWS, 'obj_id' => $id_news))->result();
 	}
 	
 	/**
