@@ -193,7 +193,7 @@ class News_model extends CI_Model {
 		else 
 		{
 			// Удалим все файлы, привязанные к новости
-			$this->db->where(array('obj_type' => OBJ_TYPE_NEWS, 'obj_id' => $news_id))->delete(TABLE_NEWS);
+			$this->db->where(array('obj_type' => OBJ_TYPE_NEWS, 'obj_id' => $news_id))->delete(TABLE_FILES_ELFINDER);
 			
 			$this->message = 'Новость удалена успешно (id был равен '.$news_id.').';
 		}
