@@ -102,14 +102,12 @@ overflow: hidden;
 /* Paragraphs, headings, ... */
 
 p {
+line-height: 170%;
 margin-bottom: 10px;
+color: #003B69;
 }
 
-p, li, h4, h5, h6
-{
-color: #1c2f3f; /* #120447 #003B69;*/
-line-height: 160%;
-}
+
 
 h1 {
 font-size: 2.8em;
@@ -746,4 +744,14 @@ div.news-short div{
 	font-weight: bolder;
 	font-family: Georgia;
 	letter-spacing: 1px;
+}
+
+#content-box-in-left-in p,
+#content-box-in-left-in li,
+#content-box-in-left-in h4,
+#content-box-in-left-in h5,
+#content-box-in-left-in h6
+{
+color: #1c2f3f; /* #120447 #003B69;*/
+line-height: 160%;
 }
