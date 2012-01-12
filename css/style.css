@@ -102,9 +102,13 @@ overflow: hidden;
 /* Paragraphs, headings, ... */
 
 p {
-line-height: 170%;
 margin-bottom: 10px;
-color: #003B69;
+}
+
+p, li, h4, h5, h6
+{
+color: #1c2f3f; /* #120447 #003B69;*/
+line-height: 160%;
 }
 
 h1 {
@@ -691,4 +695,55 @@ div.news-short div{
 }
 .auth-js #dialog_error_login_admin {
     color:red;
+}
+
+#content-box-in-left-in
+{
+	text-indent: 1.5em;
+    text-align: justify;
+    color: black;
+}
+
+#content-box-in-left-in h1,
+#content-box-in-left-in h2,
+#content-box-in-left-in h3,
+#content-box-in-left-in h4,
+#content-box-in-left-in h5
+{
+	text-indent: 0;
+	margin-top: 7px;
+	margin-bottom: 10px;
+	font-size: 1.5em;
+}
+
+#content-box-in-left-in img
+{
+	margin: 10px;
+}
+
+#content-box-in-left-in ul
+{
+	list-style: disc inside;
+	margin-left: 12px;
+}
+#content-box-in-left-in li+li
+{
+	margin-top: 5px;
+}
+
+#content-box-in-left-in h4
+{
+	font-size: 13px;
+	font-weight: bolder;
+	font-family: Georgia;
+	letter-spacing: 1px;
+}
+
+#content-box-in-left-in h5,
+#content-box-in-left-in h6
+{
+	font-size: 12px;
+	font-weight: bolder;
+	font-family: Georgia;
+	letter-spacing: 1px;
 }
