@@ -1,3 +1,4 @@
+<div class="news_content">
 <?php // Полный вывод одной новости
 	echo '<h3>'.$news->name.'</h3>';
 	echo '<p>'.$news->text.'</p>';
@@ -19,9 +20,11 @@
 		{
 			$_name = explode('/', $_file->filename);
 			$_name = $_name[count($_name)-1];
-			echo '<li><a href="/'.$_file->filename.'">'.$_name.'</a></li>';
+			echo '<li><a href="/'.$_file->filename.'">'.$_name.'</a> ('.(int)($_file->size/1024).'КБ)</li>';
 		}
 		echo "</ul></div>";
 	}
 	
 	echo br().'<p style="float:right">'.$news->format_time.'</p>'.br();
+?>
+</div>

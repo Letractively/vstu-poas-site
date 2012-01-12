@@ -159,7 +159,7 @@
      */
     function has_to_show_debug()
     {
-        return TRUE;
+        return FALSE;
     }
 
     /**
