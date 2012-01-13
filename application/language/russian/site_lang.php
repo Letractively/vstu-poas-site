@@ -133,3 +133,4 @@ $lang['activity'] = 'Деятельность';
 $lang['your_account_successfully_changed'] = 'Ваши данные успешно изменены';
 $lang['me_on_users_page'] = 'Как видят меня пользователи?';
 $lang['feedback'] = 'Обратная связь';
+$lang['page_sitemap'] = 'Карта сайта';
