@@ -194,7 +194,7 @@
      */
     function has_to_show_news_rss()
     {
-    	return TRUE;
+    	return FALSE;
     }
 
     /**
