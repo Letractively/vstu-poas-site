@@ -613,12 +613,10 @@ div.user_profile div.cv {
 /* Стили для страниц учебной деятельности */
 .education-submenu {
 	text-align:center;
-	padding-bottom:10px;
 }
 /*Стили для страниц научной деятельности*/
 .scientific-submenu {
 	text-align:center;
-	padding-bottom:10px;
 }
 div.scientific-submenu a {font-weight: normal;}
 div.scientific-submenu .selected {font-weight: bold;}
