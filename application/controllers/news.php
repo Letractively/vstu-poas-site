@@ -13,11 +13,11 @@ class News extends CI_Controller {
 
 	function index()
 	{
-		$data['title'] = "Сайт кафедры ПОАС";
+		$data['title'] = $this->lang->line('page_news');
         $data['active'] = 'page_news';
 		$data['news'] = $this->news_model->get_short(1, 4);
 		$data['content'] = $this->load->view('news/news_last_view', $data, TRUE);
-        $data['breadcrumbs'] = $this->get_breadcrumbs();
+        $data['breadcrumbs'] = $this->_get_breadcrumbs();
 		$this->load->view('templates/main_view', $data);
 	}
 
@@ -42,7 +42,7 @@ class News extends CI_Controller {
 	function show( $url_of_news )
 	{
 
-        $data['breadcrumbs'] = $this->get_breadcrumbs();
+        $data['breadcrumbs'] = $this->_get_breadcrumbs();
 		$data['title'] = $this->lang->line('page_news');
         $data['active'] = 'page_news';
 		$data['news'] = $this->{MODEL_NEWS}->get_by_url($url_of_news);
@@ -65,7 +65,7 @@ class News extends CI_Controller {
      * Сформировать хлебные крошки для страницы
      * @return array массив элементов навигации
      */
-    public function get_breadcrumbs()
+    private function _get_breadcrumbs()
     {
         $breadcrumbs = array();
         $breadcrumbs['/'] = $this->lang->line('page_main');
@@ -89,7 +89,11 @@ class News extends CI_Controller {
     	}
     	else
     	{
-    		echo 'RSS-лента новостей временно отключена';
+    		$data['content'] = 'RSS-лента новостей временно отключена';
+    		$data['breadcrumbs'] = $this->_get_breadcrumbs();
+    		$data['breadcrumbs']['/news/rss'] = 'RSS';
+    		$data['title'] = $this->lang->line('page_news');
+    		$this->load->view('templates/main_view', $data);
     	}
     }
 }
