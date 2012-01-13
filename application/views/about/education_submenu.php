@@ -1,24 +1,17 @@
 <div class="education-submenu">
     <?php
         lang();
-        if ($section == 'index')
-            echo anchor('/about/education/index',$this->lang->line('page_education_general'),'class=selected'). ' ';
-        else
-            echo anchor('/about/education/index',$this->lang->line('page_education_general')). ' ';
-
-        if ($section == 'bachelor')
-            echo anchor('/about/education/bachelor',$this->lang->line('page_education_bachelor'),'class=selected'). ' ';
-        else
-            echo anchor('/about/education/bachelor',$this->lang->line('page_education_bachelor')). ' ';
-
-        if ($section == 'magistracy')
-            echo anchor('/about/education/magistracy',$this->lang->line('page_education_magistracy'),'class=selected'). ' ';
-        else
-            echo anchor('/about/education/magistracy',$this->lang->line('page_education_magistracy')). ' ';
-
-        if ($section == 'pgdoc')
-            echo anchor('/about/education/pgdoc',$this->lang->line('page_education_pgdoc'),'class=selected'). ' ';
-        else
-            echo anchor('/about/education/pgdoc',$this->lang->line('page_education_pgdoc')). ' ';
+        
+        $section == 'index' ? $func = 'menu_item_wii_off' : $func = 'menu_item_wii';
+        $func('page_education_general', '/about/education/index', 'class="button"');
+        
+        $section == 'bachelor' ? $func = 'menu_item_wii_off' : $func = 'menu_item_wii';
+        $func('page_education_bachelor', '/about/education/bachelor', 'class="button"');
+        
+        $section == 'magistracy' ? $func = 'menu_item_wii_off' : $func = 'menu_item_wii';
+        $func('page_education_magistracy', '/about/education/magistracy', 'class="button"');
+        
+        $section == 'pgdoc' ? $func = 'menu_item_wii_off' : $func = 'menu_item_wii';
+        $func('page_education_pgdoc', '/about/education/pgdoc', 'class="button"');
     ?>
 </div>
