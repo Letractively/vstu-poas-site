@@ -73,10 +73,24 @@ class News extends CI_Controller {
         return $breadcrumbs;
     }
     
+    /**
+     * RSS-лента новостей
+     * 
+     * @access public
+     */
     public function rss()
     {
-    	$data['news'] = $this->{MODEL_NEWS}->get_for_rss();
-    	echo $this->load->view('news/rss_view', $data);
+    	if (has_to_show_news_rss())
+    	{
+	    	header("Content-Type: application/rss+xml");
+	    	$this->load->helper('xml');
+	    	$data['news'] = $this->{MODEL_NEWS}->get_for_rss();
+	    	echo $this->load->view('news/rss_view', $data);
+    	}
+    	else
+    	{
+    		echo 'RSS-лента новостей временно отключена';
+    	}
     }
 }
 

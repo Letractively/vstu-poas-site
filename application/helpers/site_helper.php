@@ -187,6 +187,15 @@
     {
         return FALSE;
     }
+    
+    /**
+     * Определяет, нужно ли создавать RSS-поток для новостей     
+     * @return boolean
+     */
+    function has_to_show_news_rss()
+    {
+    	return TRUE;
+    }
 
     /**
      * Форматирует дату из mysql-вида (YYYY-MM-DD)

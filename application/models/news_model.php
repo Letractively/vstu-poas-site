@@ -291,7 +291,14 @@ class News_model extends CI_Model {
 	 */
 	public function get_for_rss()
 	{
-		return $this->db->select('url, name_ru, notice_ru, time')->get_where(TABLE_NEWS, array('category' => 'Все'))->result();
+		return $this->db
+			->select('url, name_ru, notice_ru, time')
+			->from(TABLE_NEWS)
+			->where('category', 'Все')
+			->order_by('time', 'desc')
+			->limit(10)
+			->get()	
+			->result();
 	}
 }
 

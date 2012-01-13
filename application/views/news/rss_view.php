@@ -8,10 +8,10 @@
 		
 		<? foreach($news as $news_item):?>
 			<item>
-				<title><?=$news_item->name_ru?></title>
+				<title><?=xml_convert($news_item->name_ru)?></title>
 				<link><?=$this->config->item('base_url').'news/show/'.$news_item->url?></link>
-				<description><?=$news_item->notice_ru?></description>
-				<pubDate><?=$news_item->time?></pubDate>
+				<description><?=xml_convert($news_item->notice_ru)?></description>
+				<pubDate><?=date('r', strtotime($news_item->time))?></pubDate>
 			</item>
 		<? endforeach;?>
 	</channel>
