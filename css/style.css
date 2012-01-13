@@ -798,3 +798,8 @@ line-height: 160%;
 	margin: 8px 0 12px 0;
 	font-weight: normal;
 }
+
+/* Стили для карты сайта */
+#sitemap-page ul {
+	margin-left:20px;
+}
