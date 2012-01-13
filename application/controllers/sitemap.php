@@ -36,3 +36,6 @@ class Sitemap extends CI_Controller{
 
     }
 }
+
+/* End of file sitemap.php */
+/* Location: ./application/controllers/sitemap.php */

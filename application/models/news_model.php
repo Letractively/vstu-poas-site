@@ -281,6 +281,18 @@ class News_model extends CI_Model {
 		$this->db->where('id', $news->id);
 		return $this->db->update(TABLE_NEWS, $news);
 	}
+	
+	/**
+	 * Получить данные о последних 10 новостях для
+	 * RSS-ленты
+	 * 
+	 * @access public
+	 * @return array записи БД
+	 */
+	public function get_for_rss()
+	{
+		return $this->db->select('url, name_ru, notice_ru, time')->get_where(TABLE_NEWS, array('category' => 'Все'))->result();
+	}
 }
 
 /* End of file news_model.php */

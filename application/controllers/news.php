@@ -16,7 +16,7 @@ class News extends CI_Controller {
 		$data['title'] = "Сайт кафедры ПОАС";
         $data['active'] = 'page_news';
 		$data['news'] = $this->news_model->get_short(1, 4);
-		$data['content'] = $this->load->view('news_last_view', $data, TRUE);
+		$data['content'] = $this->load->view('news/news_last_view', $data, TRUE);
         $data['breadcrumbs'] = $this->get_breadcrumbs();
 		$this->load->view('templates/main_view', $data);
 	}
@@ -53,7 +53,7 @@ class News extends CI_Controller {
         }
         else
         {
-            $data['content'] = $this->load->view('news_view', $data, TRUE);
+            $data['content'] = $this->load->view('news/news_view', $data, TRUE);
             $data['breadcrumbs']['/partners/'.$url_of_news] = $data['news']->name;
             $data['title'] .= ' - '.$data['news']->name;
         }
@@ -71,6 +71,12 @@ class News extends CI_Controller {
         $breadcrumbs['/'] = $this->lang->line('page_main');
         $breadcrumbs['/news'] = $this->lang->line('page_news');
         return $breadcrumbs;
+    }
+    
+    public function rss()
+    {
+    	$data['news'] = $this->{MODEL_NEWS}->get_for_rss();
+    	echo $this->load->view('news/rss_view', $data);
     }
 }
 
