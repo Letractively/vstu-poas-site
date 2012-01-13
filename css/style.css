@@ -118,18 +118,33 @@ padding: 49px 0 0 0;
 }
 
 h1 a:link, h1 a:visited {
-font-weight: normal;
+font-weight: bolder;
 text-decoration: none;
-color: #FFFFFF;
+font-family: arial;
+color: #fff;
+text-shadow: 3px 2px 3px #252525;
+-webkit-text-shadow: 3px 2px 3px #252525;
+-moz-text-shadow: 3px 2px 3px #252525;
+letter-spacing: 4px;
+}
+
+h1 a:hover {
+text-shadow: 3px 3px 4px #000000;
+letter-spacing: 4px;
 }
 
 h2 {
 font-size: 1.6em;
-font-family: Georgia, "Times New Roman", Times, serif;
+font-family: arial, Georgia, "Times New Roman", Times, serif;
 font-weight: normal;
+text-shadow: 1px 1px 1px #252525;
 color: #FFFFFF;
 text-align: left;
 margin: 3px 0 0 2px;
+}
+
+h2 a:hover {
+text-shadow: 2px 3px 4px #000000;
 }
 
 h3 {
@@ -300,13 +315,20 @@ background-color: #ffffff;
 margin-top: -10px;
 }
 
-#content-box-in-right h3 {
+#content-box-in-right-in h3 {
 border: 0;
 background-color: #252525;
 color: #D0F500;
 padding: 3px 0 4px 10px;
-font-size: 1.3em;
+font-size: 1.15em;
+font-family: tahoma;
+font-weight: bold;
 }
+
+#content-box-in-right-in h3 > a{
+	font-weight: bold;
+}
+
 
 #content-box-in-right-in {
 margin: 1.8em 0 7em 1.5em;
@@ -634,7 +656,6 @@ div.news-short div{
 #content-box-in-right h3 a{
     color:#D0F500;
     text-decoration: none;
-    font-weight: normal;
 }
 
 #codeigniter_profiler {
@@ -702,11 +723,12 @@ div.news-short div{
     color:red;
 }
 
-#content-box-in-left-in p,
-#content-box-in-left-in ul
+.news_content p,
+.news_content ul,
+.news_content span
 {
 	text-indent: 1.5em;
-    text-align: justify;
+	text-align: justify;
     color: black;
 }
 
@@ -762,4 +784,10 @@ div.news-short div{
 {
 color: #1c2f3f; /* #120447 #003B69;*/
 line-height: 160%;
+}
+
+.top-menu
+{
+	margin: 8px 0 12px 0;
+	font-weight: normal;
 }

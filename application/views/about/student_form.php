@@ -1,21 +1,24 @@
 <div class="student-form-select">
+<div class="top-menu">
     <?php
-        $form == 'bachelor' ? $attr = 'class="current"' : $attr = '';
-        menu_item('page_bachelors', '/about/students/bachelor', $attr);
+    	$attr = 'class="button"';
+        $form == 'bachelor' ? $func = 'menu_item_wii_off' : $func = 'menu_item_wii';
+        $func('page_bachelors', '/about/students/bachelor', $attr);
     ?>
     <?php
-        $form == 'master' ? $attr = 'class="current"' : $attr = '';
-        menu_item('page_masters', '/about/students/master', $attr);
+        $form == 'master' ? $func = 'menu_item_wii_off' : $func = 'menu_item_wii';
+        $func('page_masters', '/about/students/master', $attr);
     ?>
     <?php
-        $form == 'pg' ? $attr = 'class="current"' : $attr = '';
-        menu_item('page_pgs', '/about/students/pg', $attr);
+        $form == 'pg' ? $func = 'menu_item_wii_off' : $func = 'menu_item_wii';
+        $func('page_pgs', '/about/students/pg', $attr);
     ?>
     <?php
-        $form == 'doc' ? $attr = 'class="current"' : $attr = '';
-        menu_item('page_docs', '/about/students/doc', $attr);
+        $form == 'doc' ? $func = 'menu_item_wii_off' : $func = 'menu_item_wii';
+        $func('page_docs', '/about/students/doc', $attr);
     ?>
-    <hr>
+</div>
+
     <div class="year-select">
         <?php
             foreach($years as $year)

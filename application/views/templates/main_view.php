@@ -32,6 +32,7 @@
 <script src="/js/jquery/crypt.js" type="text/javascript"></script>-->
 <script type="text/javascript" src="/js/menu/jqueryslidemenu.js"></script>
 <link type="text/css" href="/js/menu/jqueryslidemenu.css" rel="stylesheet" />
+<link type="text/css" href="/css/button_wii/round-button.css" rel="stylesheet" />
 <title><?php if (isset($title)) echo $title . '. ' . $this->lang->line('site_name'); else echo $this->lang->line('site_name');?></title>
 </head>
 

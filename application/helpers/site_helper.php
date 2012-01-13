@@ -123,6 +123,32 @@
         else
             echo '<a href="/en' . $path . '" ' . $attrs . ' >'.$ci->lang->line($name) . '</a>';
     }
+    /**
+     * Тоже, что и menu_item, но в виде красивой кнопке
+     * Работает только в если указать специальной класс (см. в папке css кнопка wii)
+     */
+    function menu_item_wii($name, $path, $attrs = '')
+    {
+        $ci = & get_instance();
+        $ci->lang->load('site');
+        if (lang() == 'ru')
+            echo '<a href="' . $path . '" ' . $attrs . ' ><span>'.$ci->lang->line($name) . '</span></a>';
+        else
+            echo '<a href="/en' . $path . '" ' . $attrs . ' ><span>'.$ci->lang->line($name) . '</span></a>';
+    }
+    /**
+     * Тоже, что и menu_item_wii, но в виде отключённой кнопки
+     * Работает только в если указать специальной класс (см. в папке css кнопка wii)
+    */
+    function menu_item_wii_off($name, $path, $attrs = '')
+    {
+        $ci = & get_instance();
+        $ci->lang->load('site');
+        if (lang() == 'ru')
+            echo '<del ' . $attrs . ' ><span>'.$ci->lang->line($name) . '</span></del>';
+        else
+            echo '<del ' . $attrs . ' ><span>'.$ci->lang->line($name) . '</span></del>';
+    }
 
     /**
      * Возвращает строку вида <div class="$class">
